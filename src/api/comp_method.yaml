@@ -1,0 +1,28 @@
+namespace: "methods"
+info:
+  type: method
+  type_info:
+    label: Method
+    summary: A method.
+    description: |
+      A method to predict the task effects.
+arguments:
+  - name: --input_train
+    __merge__: file_train_h5ad.yaml
+    required: true
+    direction: input
+  - name: "--input_test"
+    __merge__: file_test_h5ad.yaml
+    direction: input
+    required: true
+  - name: --output
+    __merge__: file_prediction.yaml
+    required: true
+    direction: output
+test_resources:
+  - type: python_script
+    path: /common/component_tests/run_and_check_output.py
+  - type: python_script
+    path: /common/component_tests/check_config.py
+  - path: /resources_test/task_template/pancreas
+    dest: resources_test/task_template/pancreas
