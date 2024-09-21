@@ -1,28 +1,28 @@
-namespace: "metrics"
+namespace: metrics
 info:
   type: metric
   type_info:
     label: Metric
-    summary: A task template metric.
+    summary: A metric for evaluating batch integration methods.
     description: |
-      A metric for evaluating method predictions.
+      A metric for evaluating batch integration methods.
 arguments:
-  - name: "--input_solution"
+  - name: --input_integrated
+    __merge__: file_integrated_full.yaml
+    direction: input
+    required: true
+  - name: --input_solution
     __merge__: file_solution.yaml
     direction: input
     required: true
-  - name: "--input_prediction"
-    __merge__: file_prediction.yaml
-    direction: input
-    required: true
-  - name: "--output"
+  - name: --output
     __merge__: file_score.yaml
     direction: output
     required: true
 test_resources:
   - type: python_script
-    path: /common/component_tests/run_and_check_output.py
-  - type: python_script
     path: /common/component_tests/check_config.py
-  - path: /resources_test/task_template/pancreas
-    dest: resources_test/task_template/pancreas
+  - type: python_script
+    path: /common/component_tests/run_and_check_output.py
+  - path: /resources_test/task_batch_integration/cxg_mouse_pancreas_atlas
+    dest: resources_test/task_batch_integration/cxg_mouse_pancreas_atlas

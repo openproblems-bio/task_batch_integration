@@ -28,3 +28,4 @@ properties:
           - $ref: "schema_openproblems_definitions.yaml#/definitions/CSVFormat"
           - $ref: "schema_openproblems_definitions.yaml#/definitions/TSVFormat"
           - $ref: "schema_openproblems_definitions.yaml#/definitions/ParquetFormat"
+          - $ref: "schema_openproblems_definitions.yaml#/definitions/SpatialDataZarrFormat"

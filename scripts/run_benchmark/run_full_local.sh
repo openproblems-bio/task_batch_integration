@@ -13,7 +13,7 @@ cd "$REPO_ROOT"
 
 # remove this when you have implemented the script
 echo "TODO: once the 'run_benchmark' workflow has been implemented, update this script to use it."
-echo "  Step 1: replace 'task_template' with the name of the task in the following command."
+echo "  Step 1: replace 'task_batch_integration' with the name of the task in the following command."
 echo "  Step 2: replace the rename keys parameters to fit your run_benchmark inputs"
 echo "  Step 3: replace the settings parameter to fit your run_benchmark outputs"
 echo "  Step 4: remove this message"
@@ -37,7 +37,7 @@ publish_dir: "$publish_dir"
 HERE
 
 # run the benchmark
-nextflow run openproblems-bio/task_template \
+nextflow run openproblems-bio/task_batch_integration \
   --revision build/main \
   -main-script target/nextflow/workflows/run_benchmark/main.nf \
   -profile docker \

@@ -1,0 +1,22 @@
+namespace: transformers
+info:
+  type: transformer
+  type_info:
+    label: Transform
+    summary: Transform batch integration outputs where necessary
+    description: |
+      Transform corrected feature output to an embedding, and an embedding to a graph output.
+arguments:
+  - name: --input
+    __merge__: file_integrated.yaml
+    direction: input
+    required: true
+  - name: --output
+    __merge__: file_integrated_full.yaml
+    direction: output
+    required: true
+test_resources:
+  - type: python_script
+    path: /common/component_tests/run_and_check_output.py
+  - path: /resources_test/task_batch_integration/cxg_mouse_pancreas_atlas
+    dest: resources_test/task_batch_integration/cxg_mouse_pancreas_atlas

@@ -39,10 +39,23 @@ argument_groups:
           name: "hvg_score"
           description: "A ranking of the features by hvg."
           required: true
+        - type: "string"
+          name: "feature_name"
+          description: "A human-readable name for the feature, usually a gene symbol."
+          required: true
         obsm:
         - type: "double"
           name: "X_pca"
           description: "The resulting PCA embedding."
+          required: true
+        obsp:
+        - type: "double"
+          name: "knn_distances"
+          description: "K nearest neighbors distance matrix."
+          required: true
+        - type: "double"
+          name: "knn_connectivities"
+          description: "K nearest neighbors connectivities matrix."
           required: true
         uns:
         - type: "string"
@@ -77,8 +90,12 @@ argument_groups:
           name: "normalization_id"
           description: "Which normalization was used"
           required: true
+        - type: "object"
+          name: "knn"
+          description: "Supplementary K nearest neighbors data."
+          required: false
     example:
-    - "resources_test/common/pancreas/dataset.h5ad"
+    - "resources_test/common/cxg_mouse_pancreas_atlas/dataset.h5ad"
     must_exist: true
     create_parent: true
     required: true
@@ -86,9 +103,9 @@ argument_groups:
     multiple: false
     multiple_sep: ";"
   - type: "file"
-    name: "--output_train"
-    label: "Training data"
-    summary: "The training data in h5ad format"
+    name: "--output_dataset"
+    label: "Dataset"
+    summary: "Unintegrated AnnData HDF5 file."
     info:
       format:
         type: "h5ad"
@@ -99,16 +116,16 @@ argument_groups:
           required: true
         - type: "double"
           name: "normalized"
-          description: "Normalized counts"
+          description: "Normalized expression values"
           required: true
         obs:
+        - type: "string"
+          name: "batch"
+          description: "Batch information"
+          required: true
         - type: "string"
           name: "label"
-          description: "Ground truth cell type labels"
-          required: true
-        - type: "string"
-          name: "batch"
-          description: "Batch information"
+          description: "label information"
           required: true
         var:
         - type: "boolean"
@@ -120,10 +137,23 @@ argument_groups:
           name: "hvg_score"
           description: "A ranking of the features by hvg."
           required: true
+        - type: "string"
+          name: "feature_name"
+          description: "A human-readable name for the feature, usually a gene symbol."
+          required: true
         obsm:
         - type: "double"
           name: "X_pca"
           description: "The resulting PCA embedding."
+          required: true
+        obsp:
+        - type: "double"
+          name: "knn_distances"
+          description: "K nearest neighbors distance matrix."
+          required: true
+        - type: "double"
+          name: "knn_connectivities"
+          description: "K nearest neighbors connectivities matrix."
           required: true
         uns:
         - type: "string"
@@ -134,61 +164,16 @@ argument_groups:
           name: "normalization_id"
           description: "Which normalization was used"
           required: true
-    example:
-    - "resources_test/task_template/pancreas/train.h5ad"
-    must_exist: true
-    create_parent: true
-    required: true
-    direction: "output"
-    multiple: false
-    multiple_sep: ";"
-  - type: "file"
-    name: "--output_test"
-    label: "Test data"
-    summary: "The subset of molecules used for the test dataset"
-    info:
-      format:
-        type: "h5ad"
-        layers:
-        - type: "integer"
-          name: "counts"
-          description: "Raw counts"
-          required: true
-        - type: "double"
-          name: "normalized"
-          description: "Normalized counts"
-          required: true
-        obs:
-        - type: "string"
-          name: "batch"
-          description: "Batch information"
-          required: true
-        var:
-        - type: "boolean"
-          name: "hvg"
-          description: "Whether or not the feature is considered to be a 'highly variable\
-            \ gene'"
-          required: true
-        - type: "double"
-          name: "hvg_score"
-          description: "A ranking of the features by hvg."
-          required: true
-        obsm:
-        - type: "double"
-          name: "X_pca"
-          description: "The resulting PCA embedding."
-          required: true
-        uns:
-        - type: "string"
-          name: "dataset_id"
-          description: "A unique identifier for the dataset"
-          required: true
-        - type: "string"
-          name: "normalization_id"
-          description: "Which normalization was used"
+        - name: "dataset_organism"
+          type: "string"
+          description: "The organism of the sample in the dataset."
+          required: false
+        - type: "object"
+          name: "knn"
+          description: "Supplementary K nearest neighbors data."
           required: true
     example:
-    - "resources_test/task_template/pancreas/test.h5ad"
+    - "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/dataset.h5ad"
     must_exist: true
     create_parent: true
     required: true
@@ -198,7 +183,7 @@ argument_groups:
   - type: "file"
     name: "--output_solution"
     label: "Solution"
-    summary: "The solution for the test data"
+    summary: "Uncensored dataset containing the true labels."
     info:
       format:
         type: "h5ad"
@@ -209,16 +194,16 @@ argument_groups:
           required: true
         - type: "double"
           name: "normalized"
-          description: "Normalized counts"
+          description: "Normalized expression values"
           required: true
         obs:
         - type: "string"
-          name: "label"
-          description: "Ground truth cell type labels"
-          required: true
-        - type: "string"
           name: "batch"
           description: "Batch information"
+          required: true
+        - type: "string"
+          name: "label"
+          description: "label information"
           required: true
         var:
         - type: "boolean"
@@ -230,10 +215,23 @@ argument_groups:
           name: "hvg_score"
           description: "A ranking of the features by hvg."
           required: true
+        - type: "string"
+          name: "feature_name"
+          description: "A human-readable name for the feature, usually a gene symbol."
+          required: true
         obsm:
         - type: "double"
           name: "X_pca"
           description: "The resulting PCA embedding."
+          required: true
+        obsp:
+        - type: "double"
+          name: "knn_distances"
+          description: "K nearest neighbors distance matrix."
+          required: true
+        - type: "double"
+          name: "knn_connectivities"
+          description: "K nearest neighbors connectivities matrix."
           required: true
         uns:
         - type: "string"
@@ -268,25 +266,16 @@ argument_groups:
           name: "normalization_id"
           description: "Which normalization was used"
           required: true
+        - type: "object"
+          name: "knn"
+          description: "Supplementary K nearest neighbors data."
+          required: true
     example:
-    - "resources_test/task_template/pancreas/solution.h5ad"
+    - "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/solution.h5ad"
     must_exist: true
     create_parent: true
     required: true
     direction: "output"
-    multiple: false
-    multiple_sep: ";"
-  - type: "string"
-    name: "--method"
-    description: "The process method to assign train/test."
-    info: null
-    default:
-    - "batch"
-    required: false
-    choices:
-    - "batch"
-    - "random"
-    direction: "input"
     multiple: false
     multiple_sep: ";"
   - type: "string"
@@ -310,11 +299,21 @@ argument_groups:
     multiple: false
     multiple_sep: ";"
   - type: "integer"
-    name: "--seed"
-    description: "A seed for the subsampling."
+    name: "--hvgs"
+    description: "Number of highly variable genes"
     info: null
-    example:
-    - 123
+    default:
+    - 2000
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ";"
+  - type: "boolean"
+    name: "--subset_hvg"
+    description: "Whether to subset to highly variable genes"
+    info: null
+    default:
+    - false
     required: false
     direction: "input"
     multiple: false
@@ -325,18 +324,19 @@ resources:
   is_executable: true
 - type: "file"
   path: "subset_h5ad_by_format.py"
+description: "Preprocess adata object for data integration"
 test_resources:
 - type: "file"
-  path: "resources_test/common/pancreas"
-  dest: "resources_test/common/pancreas"
+  path: "resources_test/common/cxg_mouse_pancreas_atlas/"
+  dest: "resources_test/common/cxg_mouse_pancreas_atlas/"
 - type: "python_script"
   path: "run_and_check_output.py"
   is_executable: true
 info:
-  type: "data_processor"
+  type: "process_dataset"
   type_info:
     label: "Data processor"
-    summary: "A data processor."
+    summary: "A label projection dataset processor."
     description: "A component for processing a Common Dataset into a task-specific\
       \ dataset.\n"
 status: "enabled"
@@ -348,7 +348,7 @@ repositories:
   path: "viash/core"
 license: "MIT"
 links:
-  repository: "https://github.com/openproblems-bio/task_template"
+  repository: "https://github.com/openproblems-bio/task_batch_integration"
   docker_registry: "ghcr.io"
 runners:
 - type: "executable"
@@ -386,6 +386,12 @@ engines:
   id: "docker"
   image: "openproblems/base_python:1.0.0"
   namespace_separator: "/"
+  setup:
+  - type: "python"
+    user: false
+    pypi:
+    - "scib==1.1.5"
+    upgrade: true
   entrypoint: []
   cmd: null
 build_info:
@@ -395,32 +401,47 @@ build_info:
   output: "target/executable/data_processors/process_dataset"
   executable: "target/executable/data_processors/process_dataset/process_dataset"
   viash_version: "0.9.0"
-  git_commit: "5ac2ae87372d44c2a072846d1682779c200c01af"
+  git_commit: "16ddbbec6273dac7923024e9de3ddc0e43d4cb2e"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
 package_config:
-  name: "task_template"
+  name: "task_batch_integration"
   version: "build_main"
-  label: "Template"
-  summary: "A one sentence summary of purpose and methodology. Used for creating an\
-    \ overview tables."
-  description: "Provide a clear and concise description of your task, detailing the\
-    \ specific problem it aims\nto solve. Outline the input data types, the expected\
-    \ output, and any assumptions or constraints.\nBe sure to explain any terminology\
-    \ or concepts that are essential for understanding the task.\n\nExplain the motivation\
-    \ behind your proposed task. Describe the biological or computational \nproblem\
-    \ you aim to address and why it's important. Discuss the current state of research\
-    \ in\nthis area and any gaps or challenges that your task could help address.\
-    \ This section \nshould convince readers of the significance and relevance of\
-    \ your task.\n"
+  label: "Batch Integration"
+  summary: "Remove unwanted batch effects from scRNA-seq data while retaining biologically\
+    \ meaningful variation."
+  description: "As single-cell technologies advance, single-cell datasets are growing\
+    \ both in size and complexity.\nEspecially in consortia such as the Human Cell\
+    \ Atlas, individual studies combine data from multiple labs, each sequencing multiple\
+    \ individuals possibly with different technologies.\nThis gives rise to complex\
+    \ batch effects in the data that must be computationally removed to perform a\
+    \ joint analysis.\nThese batch integration methods must remove the batch effect\
+    \ while not removing relevant biological information.\nCurrently, over 200 tools\
+    \ exist that aim to remove batch effects scRNA-seq datasets [@zappia2018exploring].\n\
+    These methods balance the removal of batch effects with the conservation of nuanced\
+    \ biological information in different ways.\nThis abundance of tools has complicated\
+    \ batch integration method choice, leading to several benchmarks on this topic\
+    \ [@luecken2020benchmarking; @tran2020benchmark; @chazarragil2021flexible; @mereu2020benchmarking].\n\
+    Yet, benchmarks use different metrics, method implementations and datasets. Here\
+    \ we build a living benchmarking task for batch integration methods with the vision\
+    \ of improving the consistency of method evaluation.\n\nIn this task we evaluate\
+    \ batch integration methods on their ability to remove batch effects in the data\
+    \ while conserving variation attributed to biological effects.\nAs input, methods\
+    \ require either normalised or unnormalised data with multiple batches and consistent\
+    \ cell type labels.\nThe batch integrated output can be a feature matrix, a low\
+    \ dimensional embedding and/or a neighbourhood graph.\nThe respective batch-integrated\
+    \ representation is then evaluated using sets of metrics that capture how well\
+    \ batch effects are removed and whether biological variance is conserved.\nWe\
+    \ have based this particular task on the latest, and most extensive benchmark\
+    \ of single-cell data integration methods.\n"
   info:
-    image: "The name of the image file to use for the component on the website."
+    image: "thumbnail.svg"
     test_resources:
     - type: "s3"
-      path: "s3://openproblems-data/resources_test/task_template/"
-      dest: "resources_test/task_template"
+      path: "s3://openproblems-data/resources_test/common/cxg_mouse_pancreas_atlas/"
+      dest: "resources_test/common/cxg_mouse_pancreas_atlas"
     - type: "s3"
-      path: "s3://openproblems-data/resources_test/common/"
-      dest: "resources_test/common"
+      path: "s3://openproblems-data/resources_test/task_batch_integration/"
+      dest: "resources_test/task_batch_integration"
   repositories:
   - type: "github"
     name: "core"
@@ -437,26 +458,58 @@ package_config:
     , midtime : \"time = 4.h\", hightime : \"time = 8.h\", veryhightime : \"time =\
     \ 24.h\" }\n"
   authors:
-  - name: "John Doe"
+  - name: "Michaela Mueller"
+    roles:
+    - "maintainer"
+    - "author"
+    info:
+      github: "mumichae"
+      orcid: "0000-0002-1401-1785"
+  - name: "Malte Luecken"
     roles:
     - "author"
-    - "maintainer"
     info:
-      github: "johndoe"
-      orcid: "0000-0000-0000-0000"
-      email: "john@doe.me"
-      twitter: "johndoe"
-      linkedin: "johndoe"
+      github: "LuckyMD"
+      orcid: "0000-0001-7464-7921"
+  - name: "Daniel Strobl"
+    roles:
+    - "author"
+    info:
+      github: "danielStrobl"
+      orcid: "0000-0002-5516-7057"
+  - name: "Robrecht Cannoodt"
+    roles:
+    - "contributor"
+    info:
+      github: "rcannood"
+      orcid: "0000-0003-3641-729X"
+  - name: "Scott Gigante"
+    roles:
+    - "contributor"
+    info:
+      github: "scottgigante"
+      orcid: "0000-0002-4544-2764"
+  - name: "Kai Waldrant"
+    roles:
+    - "contributor"
+    info:
+      github: "KaiWaldrant"
+      orcid: "0009-0003-8555-1361"
+  - name: "Nartin Kim"
+    roles:
+    - "contributor"
+    info:
+      github: "martinkim0"
+      orcid: "0009-0003-8555-1361"
   keywords:
-  - "single-cell"
-  - "openproblems"
-  - "benchmark"
+  - "batch integration"
+  - "scRNA-seq"
   license: "MIT"
   organization: "openproblems-bio"
   references:
     doi:
-    - "10.21203/rs.3.rs-4181617/v1"
+    - "10.1038/s41592-021-01336-8"
   links:
-    repository: "https://github.com/openproblems-bio/task_template"
+    repository: "https://github.com/openproblems-bio/task_batch_integration"
     docker_registry: "ghcr.io"
-    issue_tracker: "https://github.com/openproblems-bio/task_template/issues"
+    issue_tracker: "https://github.com/openproblems-bio/task_batch_integration/issues"

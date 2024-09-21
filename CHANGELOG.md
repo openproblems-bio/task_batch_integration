@@ -1,4 +1,4 @@
-# task_template x.y.z
+# task_batch_integration x.y.z
 
 ## BREAKING CHANGES
 

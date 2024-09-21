@@ -1,0 +1,19 @@
+__merge__: /src/api/comp_control_method.yaml
+name: shuffle_integration_by_batch
+label: Shuffle integration by batch
+summary: Integrations are randomly permuted within each batch
+description: Integrations are randomly permuted within each batch
+info:
+  preferred_normalization: log_cp10k
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/control_methods/utils.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, lowmem, lowcpu]

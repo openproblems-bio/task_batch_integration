@@ -8,7 +8,7 @@ cd "$REPO_ROOT"
 
 # remove this when you have implemented the script
 echo "TODO: once the 'run_benchmark' workflow has been implemented, update this script to use it."
-echo "  Step 1: replace 'task_template' with the name of the task in the following command."
+echo "  Step 1: replace 'task_batch_integration' with the name of the task in the following command."
 echo "  Step 2: replace the rename keys parameters to fit your run_benchmark inputs"
 echo "  Step 3: replace the settings parameter to fit your run_benchmark outputs"
 echo "  Step 4: remove this message"
@@ -18,13 +18,13 @@ set -e
 
 # write the parameters to file
 cat > /tmp/params.yaml << 'HERE'
-input_states: s3://openproblems-data/resources_test/task_template/**/state.yaml
+input_states: s3://openproblems-data/resources_test/task_batch_integration/**/state.yaml
 rename_keys: 'input_train:output_train;input_test:output_test;input_solution:output_solution'
 output_state: "state.yaml"
-publish_dir: s3://openproblems-nextflow/temp/task_template/
+publish_dir: s3://openproblems-nextflow/temp/task_batch_integration/
 HERE
 
-tw launch https://github.com/openproblems-bio/task_template.git \
+tw launch https://github.com/openproblems-bio/task_batch_integration.git \
   --revision build/main \
   --pull-latest \
   --main-script target/nextflow/workflows/run_benchmark/main.nf \
@@ -33,4 +33,4 @@ tw launch https://github.com/openproblems-bio/task_template.git \
   --params-file /tmp/params.yaml \
   --entry-name auto \
   --config common/nextflow_helpers/labels_tw.config \
-  --labels task_template,test
+  --labels task_batch_integration,test

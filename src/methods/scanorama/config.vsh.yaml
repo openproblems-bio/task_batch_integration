@@ -1,0 +1,39 @@
+__merge__: /src/api/comp_method.yaml
+name: scanorama
+label: Scanorama
+summary: Efficient integration of heterogeneous single-cell transcriptomes using Scanorama
+description: |
+  "Scanorama is an extension of the MNN method. Other then MNN, it finds mutual nearest neighbours over all batches and embeds observations into a joint hyperplane."
+references:
+  doi: 10.1038/s41587-019-0113-3
+links:
+  repository: https://github.com/brianhie/scanorama
+  documentation: https://github.com/brianhie/scanorama#readme
+info:
+  method_types: [feature, embedding]
+  preferred_normalization: log_cp10k
+  variants:
+    scanorama_full_unscaled:
+    scanorama_full_scaled:
+      preferred_normalization: log_cp10k_scaled
+arguments:
+  - name: --n_hvg
+    type: integer
+    default: 2000
+    description: Number of highly variable genes to use.
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - scanorama
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, lowcpu]

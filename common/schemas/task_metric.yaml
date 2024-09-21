@@ -29,8 +29,6 @@ properties:
     properties:
       preferred_normalization: 
         "$ref": "schema_openproblems_definitions.yaml#/definitions/PreferredNormalization"
-      v1:
-        "$ref": "schema_openproblems_definitions.yaml#/definitions/MigrationV1"
       metrics:
         type: array
         minItems: 1
@@ -65,8 +63,6 @@ properties:
             maximize:
               type: boolean
               description: Whether a higher metric value is better.
-            v1:
-              "$ref": "schema_openproblems_definitions.yaml#/definitions/MigrationV1"
   arguments:
     type: array
     description: Component-specific parameters.

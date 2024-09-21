@@ -2859,6 +2859,12 @@ meta = [
                   "name" : "hvg_score",
                   "description" : "A ranking of the features by hvg.",
                   "required" : true
+                },
+                {
+                  "type" : "string",
+                  "name" : "feature_name",
+                  "description" : "A human-readable name for the feature, usually a gene symbol.",
+                  "required" : true
                 }
               ],
               "obsm" : [
@@ -2866,6 +2872,20 @@ meta = [
                   "type" : "double",
                   "name" : "X_pca",
                   "description" : "The resulting PCA embedding.",
+                  "required" : true
+                }
+              ],
+              "obsp" : [
+                {
+                  "type" : "double",
+                  "name" : "knn_distances",
+                  "description" : "K nearest neighbors distance matrix.",
+                  "required" : true
+                },
+                {
+                  "type" : "double",
+                  "name" : "knn_connectivities",
+                  "description" : "K nearest neighbors connectivities matrix.",
                   "required" : true
                 }
               ],
@@ -2917,12 +2937,18 @@ meta = [
                   "name" : "normalization_id",
                   "description" : "Which normalization was used",
                   "required" : true
+                },
+                {
+                  "type" : "object",
+                  "name" : "knn",
+                  "description" : "Supplementary K nearest neighbors data.",
+                  "required" : false
                 }
               ]
             }
           },
           "example" : [
-            "resources_test/common/pancreas/dataset.h5ad"
+            "resources_test/common/cxg_mouse_pancreas_atlas/dataset.h5ad"
           ],
           "must_exist" : true,
           "create_parent" : true,
@@ -2933,9 +2959,9 @@ meta = [
         },
         {
           "type" : "file",
-          "name" : "--output_train",
-          "label" : "Training data",
-          "summary" : "The training data in h5ad format",
+          "name" : "--output_dataset",
+          "label" : "Dataset",
+          "summary" : "Unintegrated AnnData HDF5 file.",
           "info" : {
             "format" : {
               "type" : "h5ad",
@@ -2949,21 +2975,21 @@ meta = [
                 {
                   "type" : "double",
                   "name" : "normalized",
-                  "description" : "Normalized counts",
+                  "description" : "Normalized expression values",
                   "required" : true
                 }
               ],
               "obs" : [
+                {
+                  "type" : "string",
+                  "name" : "batch",
+                  "description" : "Batch information",
+                  "required" : true
+                },
                 {
                   "type" : "string",
                   "name" : "label",
-                  "description" : "Ground truth cell type labels",
-                  "required" : true
-                },
-                {
-                  "type" : "string",
-                  "name" : "batch",
-                  "description" : "Batch information",
+                  "description" : "label information",
                   "required" : true
                 }
               ],
@@ -2979,6 +3005,12 @@ meta = [
                   "name" : "hvg_score",
                   "description" : "A ranking of the features by hvg.",
                   "required" : true
+                },
+                {
+                  "type" : "string",
+                  "name" : "feature_name",
+                  "description" : "A human-readable name for the feature, usually a gene symbol.",
+                  "required" : true
                 }
               ],
               "obsm" : [
@@ -2986,6 +3018,20 @@ meta = [
                   "type" : "double",
                   "name" : "X_pca",
                   "description" : "The resulting PCA embedding.",
+                  "required" : true
+                }
+              ],
+              "obsp" : [
+                {
+                  "type" : "double",
+                  "name" : "knn_distances",
+                  "description" : "K nearest neighbors distance matrix.",
+                  "required" : true
+                },
+                {
+                  "type" : "double",
+                  "name" : "knn_connectivities",
+                  "description" : "K nearest neighbors connectivities matrix.",
                   "required" : true
                 }
               ],
@@ -3001,90 +3047,24 @@ meta = [
                   "name" : "normalization_id",
                   "description" : "Which normalization was used",
                   "required" : true
-                }
-              ]
-            }
-          },
-          "example" : [
-            "resources_test/task_template/pancreas/train.h5ad"
-          ],
-          "must_exist" : true,
-          "create_parent" : true,
-          "required" : true,
-          "direction" : "output",
-          "multiple" : false,
-          "multiple_sep" : ";"
-        },
-        {
-          "type" : "file",
-          "name" : "--output_test",
-          "label" : "Test data",
-          "summary" : "The subset of molecules used for the test dataset",
-          "info" : {
-            "format" : {
-              "type" : "h5ad",
-              "layers" : [
-                {
-                  "type" : "integer",
-                  "name" : "counts",
-                  "description" : "Raw counts",
-                  "required" : true
                 },
                 {
-                  "type" : "double",
-                  "name" : "normalized",
-                  "description" : "Normalized counts",
-                  "required" : true
-                }
-              ],
-              "obs" : [
-                {
+                  "name" : "dataset_organism",
                   "type" : "string",
-                  "name" : "batch",
-                  "description" : "Batch information",
-                  "required" : true
-                }
-              ],
-              "var" : [
-                {
-                  "type" : "boolean",
-                  "name" : "hvg",
-                  "description" : "Whether or not the feature is considered to be a 'highly variable gene'",
-                  "required" : true
+                  "description" : "The organism of the sample in the dataset.",
+                  "required" : false
                 },
                 {
-                  "type" : "double",
-                  "name" : "hvg_score",
-                  "description" : "A ranking of the features by hvg.",
-                  "required" : true
-                }
-              ],
-              "obsm" : [
-                {
-                  "type" : "double",
-                  "name" : "X_pca",
-                  "description" : "The resulting PCA embedding.",
-                  "required" : true
-                }
-              ],
-              "uns" : [
-                {
-                  "type" : "string",
-                  "name" : "dataset_id",
-                  "description" : "A unique identifier for the dataset",
-                  "required" : true
-                },
-                {
-                  "type" : "string",
-                  "name" : "normalization_id",
-                  "description" : "Which normalization was used",
+                  "type" : "object",
+                  "name" : "knn",
+                  "description" : "Supplementary K nearest neighbors data.",
                   "required" : true
                 }
               ]
             }
           },
           "example" : [
-            "resources_test/task_template/pancreas/test.h5ad"
+            "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/dataset.h5ad"
           ],
           "must_exist" : true,
           "create_parent" : true,
@@ -3097,7 +3077,7 @@ meta = [
           "type" : "file",
           "name" : "--output_solution",
           "label" : "Solution",
-          "summary" : "The solution for the test data",
+          "summary" : "Uncensored dataset containing the true labels.",
           "info" : {
             "format" : {
               "type" : "h5ad",
@@ -3111,21 +3091,21 @@ meta = [
                 {
                   "type" : "double",
                   "name" : "normalized",
-                  "description" : "Normalized counts",
+                  "description" : "Normalized expression values",
                   "required" : true
                 }
               ],
               "obs" : [
                 {
                   "type" : "string",
-                  "name" : "label",
-                  "description" : "Ground truth cell type labels",
+                  "name" : "batch",
+                  "description" : "Batch information",
                   "required" : true
                 },
                 {
                   "type" : "string",
-                  "name" : "batch",
-                  "description" : "Batch information",
+                  "name" : "label",
+                  "description" : "label information",
                   "required" : true
                 }
               ],
@@ -3141,6 +3121,12 @@ meta = [
                   "name" : "hvg_score",
                   "description" : "A ranking of the features by hvg.",
                   "required" : true
+                },
+                {
+                  "type" : "string",
+                  "name" : "feature_name",
+                  "description" : "A human-readable name for the feature, usually a gene symbol.",
+                  "required" : true
                 }
               ],
               "obsm" : [
@@ -3148,6 +3134,20 @@ meta = [
                   "type" : "double",
                   "name" : "X_pca",
                   "description" : "The resulting PCA embedding.",
+                  "required" : true
+                }
+              ],
+              "obsp" : [
+                {
+                  "type" : "double",
+                  "name" : "knn_distances",
+                  "description" : "K nearest neighbors distance matrix.",
+                  "required" : true
+                },
+                {
+                  "type" : "double",
+                  "name" : "knn_connectivities",
+                  "description" : "K nearest neighbors connectivities matrix.",
                   "required" : true
                 }
               ],
@@ -3199,33 +3199,23 @@ meta = [
                   "name" : "normalization_id",
                   "description" : "Which normalization was used",
                   "required" : true
+                },
+                {
+                  "type" : "object",
+                  "name" : "knn",
+                  "description" : "Supplementary K nearest neighbors data.",
+                  "required" : true
                 }
               ]
             }
           },
           "example" : [
-            "resources_test/task_template/pancreas/solution.h5ad"
+            "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/solution.h5ad"
           ],
           "must_exist" : true,
           "create_parent" : true,
           "required" : true,
           "direction" : "output",
-          "multiple" : false,
-          "multiple_sep" : ";"
-        },
-        {
-          "type" : "string",
-          "name" : "--method",
-          "description" : "The process method to assign train/test.",
-          "default" : [
-            "batch"
-          ],
-          "required" : false,
-          "choices" : [
-            "batch",
-            "random"
-          ],
-          "direction" : "input",
           "multiple" : false,
           "multiple_sep" : ";"
         },
@@ -3255,10 +3245,22 @@ meta = [
         },
         {
           "type" : "integer",
-          "name" : "--seed",
-          "description" : "A seed for the subsampling.",
-          "example" : [
-            123
+          "name" : "--hvgs",
+          "description" : "Number of highly variable genes",
+          "default" : [
+            2000
+          ],
+          "required" : false,
+          "direction" : "input",
+          "multiple" : false,
+          "multiple_sep" : ";"
+        },
+        {
+          "type" : "boolean",
+          "name" : "--subset_hvg",
+          "description" : "Whether to subset to highly variable genes",
+          "default" : [
+            false
           ],
           "required" : false,
           "direction" : "input",
@@ -3279,11 +3281,12 @@ meta = [
       "path" : "/common/helper_functions/subset_h5ad_by_format.py"
     }
   ],
+  "description" : "Preprocess adata object for data integration",
   "test_resources" : [
     {
       "type" : "file",
-      "path" : "/resources_test/common/pancreas",
-      "dest" : "resources_test/common/pancreas"
+      "path" : "/resources_test/common/cxg_mouse_pancreas_atlas/",
+      "dest" : "resources_test/common/cxg_mouse_pancreas_atlas/"
     },
     {
       "type" : "python_script",
@@ -3292,10 +3295,10 @@ meta = [
     }
   ],
   "info" : {
-    "type" : "data_processor",
+    "type" : "process_dataset",
     "type_info" : {
       "label" : "Data processor",
-      "summary" : "A data processor.",
+      "summary" : "A label projection dataset processor.",
       "description" : "A component for processing a Common Dataset into a task-specific dataset.\n"
     }
   },
@@ -3311,7 +3314,7 @@ meta = [
   ],
   "license" : "MIT",
   "links" : {
-    "repository" : "https://github.com/openproblems-bio/task_template",
+    "repository" : "https://github.com/openproblems-bio/task_batch_integration",
     "docker_registry" : "ghcr.io"
   },
   "runners" : [
@@ -3360,7 +3363,17 @@ meta = [
       "type" : "docker",
       "id" : "docker",
       "image" : "openproblems/base_python:1.0.0",
-      "namespace_separator" : "/"
+      "namespace_separator" : "/",
+      "setup" : [
+        {
+          "type" : "python",
+          "user" : false,
+          "pypi" : [
+            "scib==1.1.5"
+          ],
+          "upgrade" : true
+        }
+      ]
     }
   ],
   "build_info" : {
@@ -3369,27 +3382,27 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/data_processors/process_dataset",
     "viash_version" : "0.9.0",
-    "git_commit" : "5ac2ae87372d44c2a072846d1682779c200c01af",
+    "git_commit" : "16ddbbec6273dac7923024e9de3ddc0e43d4cb2e",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
-    "name" : "task_template",
+    "name" : "task_batch_integration",
     "version" : "build_main",
-    "label" : "Template",
-    "summary" : "A one sentence summary of purpose and methodology. Used for creating an overview tables.",
-    "description" : "Provide a clear and concise description of your task, detailing the specific problem it aims\nto solve. Outline the input data types, the expected output, and any assumptions or constraints.\nBe sure to explain any terminology or concepts that are essential for understanding the task.\n\nExplain the motivation behind your proposed task. Describe the biological or computational \nproblem you aim to address and why it's important. Discuss the current state of research in\nthis area and any gaps or challenges that your task could help address. This section \nshould convince readers of the significance and relevance of your task.\n",
+    "label" : "Batch Integration",
+    "summary" : "Remove unwanted batch effects from scRNA-seq data while retaining biologically meaningful variation.",
+    "description" : "As single-cell technologies advance, single-cell datasets are growing both in size and complexity.\nEspecially in consortia such as the Human Cell Atlas, individual studies combine data from multiple labs, each sequencing multiple individuals possibly with different technologies.\nThis gives rise to complex batch effects in the data that must be computationally removed to perform a joint analysis.\nThese batch integration methods must remove the batch effect while not removing relevant biological information.\nCurrently, over 200 tools exist that aim to remove batch effects scRNA-seq datasets [@zappia2018exploring].\nThese methods balance the removal of batch effects with the conservation of nuanced biological information in different ways.\nThis abundance of tools has complicated batch integration method choice, leading to several benchmarks on this topic [@luecken2020benchmarking; @tran2020benchmark; @chazarragil2021flexible; @mereu2020benchmarking].\nYet, benchmarks use different metrics, method implementations and datasets. Here we build a living benchmarking task for batch integration methods with the vision of improving the consistency of method evaluation.\n\nIn this task we evaluate batch integration methods on their ability to remove batch effects in the data while conserving variation attributed to biological effects.\nAs input, methods require either normalised or unnormalised data with multiple batches and consistent cell type labels.\nThe batch integrated output can be a feature matrix, a low dimensional embedding and/or a neighbourhood graph.\nThe respective batch-integrated representation is then evaluated using sets of metrics that capture how well batch effects are removed and whether biological variance is conserved.\nWe have based this particular task on the latest, and most extensive benchmark of single-cell data integration methods.\n",
     "info" : {
-      "image" : "The name of the image file to use for the component on the website.",
+      "image" : "thumbnail.svg",
       "test_resources" : [
         {
           "type" : "s3",
-          "path" : "s3://openproblems-data/resources_test/task_template/",
-          "dest" : "resources_test/task_template"
+          "path" : "s3://openproblems-data/resources_test/common/cxg_mouse_pancreas_atlas/",
+          "dest" : "resources_test/common/cxg_mouse_pancreas_atlas"
         },
         {
           "type" : "s3",
-          "path" : "s3://openproblems-data/resources_test/common/",
-          "dest" : "resources_test/common"
+          "path" : "s3://openproblems-data/resources_test/task_batch_integration/",
+          "dest" : "resources_test/task_batch_integration"
         }
       ]
     },
@@ -3410,36 +3423,92 @@ meta = [
     ],
     "authors" : [
       {
-        "name" : "John Doe",
+        "name" : "Michaela Mueller",
         "roles" : [
-          "author",
-          "maintainer"
+          "maintainer",
+          "author"
         ],
         "info" : {
-          "github" : "johndoe",
-          "orcid" : "0000-0000-0000-0000",
-          "email" : "john@doe.me",
-          "twitter" : "johndoe",
-          "linkedin" : "johndoe"
+          "github" : "mumichae",
+          "orcid" : "0000-0002-1401-1785"
+        }
+      },
+      {
+        "name" : "Malte Luecken",
+        "roles" : [
+          "author"
+        ],
+        "info" : {
+          "github" : "LuckyMD",
+          "orcid" : "0000-0001-7464-7921"
+        }
+      },
+      {
+        "name" : "Daniel Strobl",
+        "roles" : [
+          "author"
+        ],
+        "info" : {
+          "github" : "danielStrobl",
+          "orcid" : "0000-0002-5516-7057"
+        }
+      },
+      {
+        "name" : "Robrecht Cannoodt",
+        "roles" : [
+          "contributor"
+        ],
+        "info" : {
+          "github" : "rcannood",
+          "orcid" : "0000-0003-3641-729X"
+        }
+      },
+      {
+        "name" : "Scott Gigante",
+        "roles" : [
+          "contributor"
+        ],
+        "info" : {
+          "github" : "scottgigante",
+          "orcid" : "0000-0002-4544-2764"
+        }
+      },
+      {
+        "name" : "Kai Waldrant",
+        "roles" : [
+          "contributor"
+        ],
+        "info" : {
+          "github" : "KaiWaldrant",
+          "orcid" : "0009-0003-8555-1361"
+        }
+      },
+      {
+        "name" : "Nartin Kim",
+        "roles" : [
+          "contributor"
+        ],
+        "info" : {
+          "github" : "martinkim0",
+          "orcid" : "0009-0003-8555-1361"
         }
       }
     ],
     "keywords" : [
-      "single-cell",
-      "openproblems",
-      "benchmark"
+      "batch integration",
+      "scRNA-seq"
     ],
     "license" : "MIT",
     "organization" : "openproblems-bio",
     "references" : {
       "doi" : [
-        "10.21203/rs.3.rs-4181617/v1"
+        "10.1038/s41592-021-01336-8"
       ]
     },
     "links" : {
-      "repository" : "https://github.com/openproblems-bio/task_template",
+      "repository" : "https://github.com/openproblems-bio/task_batch_integration",
       "docker_registry" : "ghcr.io",
-      "issue_tracker" : "https://github.com/openproblems-bio/task_template/issues"
+      "issue_tracker" : "https://github.com/openproblems-bio/task_batch_integration/issues"
     }
   }
 }'''))
@@ -3455,8 +3524,6 @@ def innerWorkflowFactory(args) {
 tempscript=".viash_script.sh"
 cat > "$tempscript" << VIASHMAIN
 import sys
-import random
-import numpy as np
 import anndata as ad
 import openproblems as op
 
@@ -3464,13 +3531,12 @@ import openproblems as op
 # The following code has been auto-generated by Viash.
 par = {
   'input': $( if [ ! -z ${VIASH_PAR_INPUT+x} ]; then echo "r'${VIASH_PAR_INPUT//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
-  'output_train': $( if [ ! -z ${VIASH_PAR_OUTPUT_TRAIN+x} ]; then echo "r'${VIASH_PAR_OUTPUT_TRAIN//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
-  'output_test': $( if [ ! -z ${VIASH_PAR_OUTPUT_TEST+x} ]; then echo "r'${VIASH_PAR_OUTPUT_TEST//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
+  'output_dataset': $( if [ ! -z ${VIASH_PAR_OUTPUT_DATASET+x} ]; then echo "r'${VIASH_PAR_OUTPUT_DATASET//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
   'output_solution': $( if [ ! -z ${VIASH_PAR_OUTPUT_SOLUTION+x} ]; then echo "r'${VIASH_PAR_OUTPUT_SOLUTION//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
-  'method': $( if [ ! -z ${VIASH_PAR_METHOD+x} ]; then echo "r'${VIASH_PAR_METHOD//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
   'obs_label': $( if [ ! -z ${VIASH_PAR_OBS_LABEL+x} ]; then echo "r'${VIASH_PAR_OBS_LABEL//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
   'obs_batch': $( if [ ! -z ${VIASH_PAR_OBS_BATCH+x} ]; then echo "r'${VIASH_PAR_OBS_BATCH//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
-  'seed': $( if [ ! -z ${VIASH_PAR_SEED+x} ]; then echo "int(r'${VIASH_PAR_SEED//\\'/\\'\\"\\'\\"r\\'}')"; else echo None; fi )
+  'hvgs': $( if [ ! -z ${VIASH_PAR_HVGS+x} ]; then echo "int(r'${VIASH_PAR_HVGS//\\'/\\'\\"\\'\\"r\\'}')"; else echo None; fi ),
+  'subset_hvg': $( if [ ! -z ${VIASH_PAR_SUBSET_HVG+x} ]; then echo "r'${VIASH_PAR_SUBSET_HVG//\\'/\\'\\"\\'\\"r\\'}'.lower() == 'true'"; else echo None; fi )
 }
 meta = {
   'name': $( if [ ! -z ${VIASH_META_NAME+x} ]; then echo "r'${VIASH_META_NAME//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
@@ -3502,29 +3568,36 @@ dep = {
 sys.path.append(meta['resources_dir'])
 from subset_h5ad_by_format import subset_h5ad_by_format
 
+print(">> Load config", flush=True)
 config = op.project.read_viash_config(meta["config"])
 
-# set seed if need be
-if par["seed"]:
-    print(f">> Setting seed to {par['seed']}")
-    random.seed(par["seed"])
+print('Read input', flush=True)
+input = ad.read_h5ad(par['input'])
 
-print(">> Load data", flush=True)
-adata = ad.read_h5ad(par["input"])
-print("input:", adata)
+def compute_batched_hvg(adata, n_hvgs):
+    if n_hvgs > adata.n_vars or n_hvgs <= 0:
+        hvg_list = adata.var_names.tolist()
+    else:
+        import scib
+        scib_adata = adata.copy()
+        scib_adata.X = scib_adata.layers['normalized'].copy()
+        hvg_list = scib.pp.hvg_batch(
+            scib_adata,
+            batch_key='batch',
+            target_genes=n_hvgs,
+            adataOut=False
+        )
+    adata.var['hvg'] = adata.var_names.isin(hvg_list)
+    return adata
 
-print(f">> Process data using {par['method']} method")
-if par["method"] == "batch":
-    batch_info = adata.obs[par["obs_batch"]]
-    batch_categories = batch_info.dtype.categories
-    test_batches = random.sample(list(batch_categories), 1)
-    is_test = [ x in test_batches for x in batch_info ]
-elif par["method"] == "random":
-    train_ix = np.random.choice(adata.n_obs, round(adata.n_obs * 0.8), replace=False)
-    is_test = [ not x in train_ix for x in range(0, adata.n_obs) ]
+print(f'Select {par["hvgs"]} highly variable genes', flush=True)
+adata_with_hvg = compute_batched_hvg(input, n_hvgs=par['hvgs'])
 
-# subset the different adatas
-print(">> Figuring which data needs to be copied to which output file", flush=True)
+if par['subset_hvg']:
+    print('Subsetting to HVG dimensions', flush=True)
+    adata_with_hvg = adata_with_hvg[:, adata_with_hvg.var['hvg']].copy()
+
+print(">> Figuring out which data needs to be copied to which output file", flush=True)
 # use par arguments to look for label and batch value in different slots
 slot_mapping = {
     "obs": {
@@ -3532,35 +3605,23 @@ slot_mapping = {
         "batch": par["obs_batch"],
     }
 }
-
-print(">> Creating train data", flush=True)
-output_train = subset_h5ad_by_format(
-    adata[[not x for x in is_test]],
+print(">> Create output object", flush=True)
+output_dataset = subset_h5ad_by_format(
+    adata_with_hvg,
     config,
-    "output_train",
+    "output_dataset",
     slot_mapping
 )
-
-print(">> Creating test data", flush=True)
-output_test = subset_h5ad_by_format(
-    adata[is_test],
-    config,
-    "output_test",
-    slot_mapping
-)
-
-print(">> Creating solution data", flush=True)
 output_solution = subset_h5ad_by_format(
-    adata[is_test],
+    adata_with_hvg,
     config,
     "output_solution",
     slot_mapping
 )
 
-print(">> Writing data", flush=True)
-output_train.write_h5ad(par["output_train"])
-output_test.write_h5ad(par["output_test"])
-output_solution.write_h5ad(par["output_solution"])
+print('Writing adatas to file', flush=True)
+output_dataset.write_h5ad(par['output_dataset'], compression='gzip')
+output_solution.write_h5ad(par['output_solution'], compression='gzip')
 VIASHMAIN
 python -B "$tempscript"
 '''
@@ -3921,7 +3982,7 @@ meta["defaults"] = [
   directives: readJsonBlob('''{
   "container" : {
     "registry" : "ghcr.io",
-    "image" : "openproblems-bio/task_template/data_processors/process_dataset",
+    "image" : "openproblems-bio/task_batch_integration/data_processors/process_dataset",
     "tag" : "build_main"
   },
   "label" : [

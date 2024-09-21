@@ -1,28 +1,24 @@
-namespace: "methods"
+namespace: methods
 info:
   type: method
   type_info:
     label: Method
-    summary: A method.
+    summary: A method for the batch integration task.
     description: |
-      A method to predict the task effects.
+      A batch integration method which integrates multiple datasets.
 arguments:
-  - name: --input_train
-    __merge__: file_train_h5ad.yaml
-    required: true
-    direction: input
-  - name: "--input_test"
-    __merge__: file_test_h5ad.yaml
+  - name: --input
+    __merge__: file_dataset.yaml
     direction: input
     required: true
   - name: --output
-    __merge__: file_prediction.yaml
-    required: true
+    __merge__: file_integrated.yaml
     direction: output
+    required: true
 test_resources:
   - type: python_script
-    path: /common/component_tests/run_and_check_output.py
-  - type: python_script
     path: /common/component_tests/check_config.py
-  - path: /resources_test/task_template/pancreas
-    dest: resources_test/task_template/pancreas
+  - type: python_script
+    path: /common/component_tests/run_and_check_output.py
+  - path: /resources_test/task_batch_integration/cxg_mouse_pancreas_atlas
+    dest: resources_test/task_batch_integration/cxg_mouse_pancreas_atlas

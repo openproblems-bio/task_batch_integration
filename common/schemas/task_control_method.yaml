@@ -32,8 +32,6 @@ properties:
     properties:
       preferred_normalization: 
         "$ref": "schema_openproblems_definitions.yaml#/definitions/PreferredNormalization"
-      v1:
-        "$ref": "schema_openproblems_definitions.yaml#/definitions/MigrationV1"
       variants:
         "$ref": "schema_openproblems_definitions.yaml#/definitions/MethodVariants"
   arguments:

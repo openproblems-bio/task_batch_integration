@@ -130,26 +130,6 @@ definitions:
     format: uri
     pattern: "^https://"
     description: The url to the repository of the used software library.
-  MigrationV1:
-    type: object
-    required: [path, commit]
-    properties:
-      additionalProperties: false
-      path:
-        type: string
-        description: |
-          If this component was migrated from the OpenProblems v1 repository, this value 
-          represents the location of the Python file relative to the root of the repository.
-      commit:
-        type: string
-        description: |
-          If this component was migrated from the OpenProblems v1 repository, this value
-          is the Git commit SHA of the v1 repository corresponding to when this component
-          was last updated.
-      note:
-        type: string
-        description: |
-          An optional note on any changes made during the migration.
   MethodVariants:
     type: object
     description: Alternative parameter sets which should be evaluated in the benchmark.
@@ -190,14 +170,8 @@ definitions:
         type: boolean
     required: [name, __merge__, direction, required]
     #additionalProperties: false
-  H5ADFormat:
-    type: object
-    required: [type]
-    additionalProperties: false
+  AnnDataObject:
     properties:
-      type:
-        const: h5ad
-        description: The file format.
       X:
         $ref: "#/definitions/DataTypeSpec"
       layers:
@@ -234,6 +208,34 @@ definitions:
           anyOf:
             - $ref: "#/definitions/DataTypeSpec"
             - $ref: "#/definitions/DataTypeObject"
+  H5ADFormat:
+    type: object
+    properties:
+      type:
+        const: h5ad
+        description: The file format.
+      X:
+        type: object
+      layers:
+        type: array
+      obs:
+        type: array
+      obsm:
+        type: array
+      obsp:
+        type: array
+      var:
+        type: array
+      varm:
+        type: array
+      varp:
+        type: array
+      uns:
+        type: array
+    required: [type]
+    additionalProperties: false
+    allOf: 
+      - $ref: "#/definitions/AnnDataObject"
   CSVFormat:
     type: object
     required: [type]
@@ -269,11 +271,117 @@ definitions:
       columns:
         type: array
         items:
-          $ref: "#/definitions/DataTypeSpec"
+          $ref: "#/definitions/MoreDataTypeSpec"
+  SpatialDataZarrFormat:
+    type: object
+    required: [type]
+    additionalProperties: false
+    properties:
+      type:
+        const: spatialdata_zarr
+        description: The file format.
+      images:
+        type: array
+        items:
+          $ref: "#/definitions/DataTypeObject"
+      labels:
+        type: array
+        items:
+          $ref: "#/definitions/DataTypeObject"
+      points:
+        type: array
+        items:
+          type: object
+          properties:
+            type:
+              const: dataframe
+            name:
+              type: string
+            description:
+              type: string
+            required:
+              type: boolean
+            columns:
+              type: array
+              items:
+                $ref: "#/definitions/MoreDataTypeSpec"
+          required: [type, name, description, required]
+          additionalProperties: false
+      shapes:
+        type: array
+        items:
+          type: object
+          properties:
+            type:
+              const: dataframe
+            name:
+              type: string
+            description:
+              type: string
+            required:
+              type: boolean
+            columns:
+              type: array
+              items:
+                $ref: "#/definitions/MoreDataTypeSpec"
+          required: [type, name, description, required]
+          additionalProperties: false
+      tables:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            type:
+              const: anndata
+            description:
+              type: string
+            required:
+              type: boolean
+            X:
+              type: object
+            layers:
+              type: array
+            obs:
+              type: array
+            obsm:
+              type: array
+            obsp:
+              type: array
+            var:
+              type: array
+            varm:
+              type: array
+            varp:
+              type: array
+            uns:
+              type: array
+          required: [type, name, description, required]
+          additionalProperties: false
+          allOf: 
+            - $ref: "#/definitions/AnnDataObject"
+      coordinate_systems:
+        type: array
+        items:
+          $ref: "#/definitions/DataTypeObject"
   DataTypeSpec:
     properties:
       type:
         enum: [integer, double, string, boolean]
+      name:
+        type: string
+        description: A unique identifier.
+        pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$"
+      description:
+        type: string
+      required:
+        type: boolean
+    required: [type, name, description, required]
+  MoreDataTypeSpec:
+    properties:
+      type:
+        enum: [integer, long, float, double, string, categorical, boolean, object]
       name:
         type: string
         description: A unique identifier.

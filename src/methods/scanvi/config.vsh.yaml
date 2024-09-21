@@ -1,0 +1,60 @@
+__merge__: /src/api/comp_method.yaml
+name: scanvi
+label: scANVI
+summary: scANVI is a deep learning method that considers cell type labels.
+description: |
+  scANVI (single-cell ANnotation using Variational Inference; Python class SCANVI) is a semi-supervised model for single-cell transcriptomics data. In a sense, it can be seen as a scVI extension that can leverage the cell type knowledge for a subset of the cells present in the data sets to infer the states of the rest of the cells.
+references:
+  doi: 10.1038/s41592-018-0229-2
+links:
+  repository: https://github.com/scverse/scvi-tools
+  documentation: https://docs.scvi-tools.org/en/stable/user_guide/models/scanvi.html
+info:
+  method_types: [embedding]
+  preferred_normalization: counts
+  variants:
+    scanvi_full_unscaled:
+arguments:
+  - name: --n_hvg
+    type: integer
+    default: 2000
+    description: Number of highly variable genes to use.
+  - name: --n_latent
+    type: integer
+    default: 30
+    description: Number of latent dimensions.
+  - name: --n_hidden
+    type: integer
+    default: 128
+    description: Number of hidden units.
+  - name: --n_layers
+    type: integer
+    default: 2
+    description: Number of layers.
+  - name: --max_epochs_scvi
+    type: integer
+    example: 400
+    description: Maximum number of training epochs for scVI.
+  - name: --max_epochs_scanvi
+    type: integer
+    example: 10
+    description: Maximum number of training epochs for scANVI.
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - scvi-tools>=1.1.0
+      - type: docker
+        run: |
+          pip install -U "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, lowmem, lowcpu, gpu]

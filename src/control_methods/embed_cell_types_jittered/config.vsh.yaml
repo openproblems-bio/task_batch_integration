@@ -1,0 +1,27 @@
+__merge__: /src/api/comp_control_method.yaml
+name: embed_cell_types_jittered
+label: Perfect embedding by celltype with jitter
+summary: Cells are embedded as a one-hot encoding of celltype labels, with a small
+  amount of random noise added to the embedding
+description: Cells are embedded as a one-hot encoding of celltype labels, with a small
+  amount of random noise added to the embedding
+
+info:
+  preferred_normalization: log_cp10k
+arguments:
+  - name: --jitter
+    type: double
+    default: 0.01
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+  - path: /src/control_methods/utils.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, lowmem, lowcpu]

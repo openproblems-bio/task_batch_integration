@@ -1,32 +1,17 @@
-__merge__: ../../api/comp_data_processor.yaml
+__merge__: /src/api/comp_process_dataset.yaml
 name: process_dataset
-arguments:
-  - name: "--method"
-    type: "string"
-    description: "The process method to assign train/test."
-    choices: ["batch", "random"]
-    default: "batch"
-  - name: "--obs_label"
-    type: "string"
-    description: "Which .obs slot to use as label."
-    default: "cell_type"
-  - name: "--obs_batch"
-    type: "string"
-    description: "Which .obs slot to use as batch covariate."
-    default: "batch"
-  - name: "--seed"
-    type: "integer"
-    description: "A seed for the subsampling."
-    example: 123
+description: Preprocess adata object for data integration
 resources:
   - type: python_script
     path: script.py
   - path: /common/helper_functions/subset_h5ad_by_format.py
-
 engines:
   - type: docker
     image: openproblems/base_python:1.0.0
-
+    setup:
+      - type: python
+        pypi:
+          - scib==1.1.5
 runners:
   - type: executable
   - type: nextflow

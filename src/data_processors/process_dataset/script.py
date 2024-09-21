@@ -1,23 +1,19 @@
 import sys
-import random
-import numpy as np
 import anndata as ad
 import openproblems as op
 
 ## VIASH START
 par = {
     'input': 'resources_test/common/pancreas/dataset.h5ad',
-    'method': 'batch',
-    'seed': None,
-    'obs_batch': 'batch',
+    'hvgs': 2000,
     'obs_label': 'cell_type',
-    'output_train': 'train.h5ad',
-    'output_test': 'test.h5ad',
-    'output_solution': 'solution.h5ad'
+    'obs_batch': 'batch',
+    'subset_hvg': False,
+    'output': 'output.h5ad'
 }
 meta = {
-    'resources_dir': 'target/executable/data_processors/process_dataset',
-    'config': 'target/executable/data_processors/process_dataset/.config.vsh.yaml'
+    "config": "target/nextflow/batch_integration/process_dataset/.config.vsh.yaml",
+    "resources_dir": "src/common/helper_functions"
 }
 ## VIASH END
 
@@ -25,29 +21,36 @@ meta = {
 sys.path.append(meta['resources_dir'])
 from subset_h5ad_by_format import subset_h5ad_by_format
 
+print(">> Load config", flush=True)
 config = op.project.read_viash_config(meta["config"])
 
-# set seed if need be
-if par["seed"]:
-    print(f">> Setting seed to {par['seed']}")
-    random.seed(par["seed"])
+print('Read input', flush=True)
+input = ad.read_h5ad(par['input'])
 
-print(">> Load data", flush=True)
-adata = ad.read_h5ad(par["input"])
-print("input:", adata)
+def compute_batched_hvg(adata, n_hvgs):
+    if n_hvgs > adata.n_vars or n_hvgs <= 0:
+        hvg_list = adata.var_names.tolist()
+    else:
+        import scib
+        scib_adata = adata.copy()
+        scib_adata.X = scib_adata.layers['normalized'].copy()
+        hvg_list = scib.pp.hvg_batch(
+            scib_adata,
+            batch_key='batch',
+            target_genes=n_hvgs,
+            adataOut=False
+        )
+    adata.var['hvg'] = adata.var_names.isin(hvg_list)
+    return adata
 
-print(f">> Process data using {par['method']} method")
-if par["method"] == "batch":
-    batch_info = adata.obs[par["obs_batch"]]
-    batch_categories = batch_info.dtype.categories
-    test_batches = random.sample(list(batch_categories), 1)
-    is_test = [ x in test_batches for x in batch_info ]
-elif par["method"] == "random":
-    train_ix = np.random.choice(adata.n_obs, round(adata.n_obs * 0.8), replace=False)
-    is_test = [ not x in train_ix for x in range(0, adata.n_obs) ]
+print(f'Select {par["hvgs"]} highly variable genes', flush=True)
+adata_with_hvg = compute_batched_hvg(input, n_hvgs=par['hvgs'])
 
-# subset the different adatas
-print(">> Figuring which data needs to be copied to which output file", flush=True)
+if par['subset_hvg']:
+    print('Subsetting to HVG dimensions', flush=True)
+    adata_with_hvg = adata_with_hvg[:, adata_with_hvg.var['hvg']].copy()
+
+print(">> Figuring out which data needs to be copied to which output file", flush=True)
 # use par arguments to look for label and batch value in different slots
 slot_mapping = {
     "obs": {
@@ -55,32 +58,20 @@ slot_mapping = {
         "batch": par["obs_batch"],
     }
 }
-
-print(">> Creating train data", flush=True)
-output_train = subset_h5ad_by_format(
-    adata[[not x for x in is_test]],
+print(">> Create output object", flush=True)
+output_dataset = subset_h5ad_by_format(
+    adata_with_hvg,
     config,
-    "output_train",
+    "output_dataset",
     slot_mapping
 )
-
-print(">> Creating test data", flush=True)
-output_test = subset_h5ad_by_format(
-    adata[is_test],
-    config,
-    "output_test",
-    slot_mapping
-)
-
-print(">> Creating solution data", flush=True)
 output_solution = subset_h5ad_by_format(
-    adata[is_test],
+    adata_with_hvg,
     config,
     "output_solution",
     slot_mapping
 )
 
-print(">> Writing data", flush=True)
-output_train.write_h5ad(par["output_train"])
-output_test.write_h5ad(par["output_test"])
-output_solution.write_h5ad(par["output_solution"])
+print('Writing adatas to file', flush=True)
+output_dataset.write_h5ad(par['output_dataset'], compression='gzip')
+output_solution.write_h5ad(par['output_solution'], compression='gzip')
