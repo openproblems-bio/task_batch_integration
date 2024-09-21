@@ -1,0 +1,49 @@
+__merge__: /src/api/comp_metric.yaml
+name: graph_connectivity
+info:
+  metrics:
+    - name: graph_connectivity
+      label: Graph Connectivity
+      summary: Connectivity of the subgraph per cell type label
+      # TODO: transform into more readable markdown with proper formulae formatting
+      description: |
+        The graph connectivity metric assesses whether the kNN graph representation,
+        G, of the integrated data directly connects all cells with the same cell
+        identity label. For each cell identity label c, we created the subset kNN
+        graph G(Nc;Ec) to contain only cells from a given label. Using these subset
+        kNN graphs, we computed the graph connectivity score using the equation:
+
+        gc =1/|C| Σc∈C |LCC(G(Nc;Ec))|/|Nc|.
+
+        Here, C represents the set of cell identity labels, |LCC()| is the number
+        of nodes in the largest connected component of the graph, and |Nc| is the
+        number of nodes with cell identity c. The resultant score has a range
+        of (0;1], where 1 indicates that all cells with the same cell identity
+        are connected in the integrated kNN graph, and the lowest possible score
+        indicates a graph where no cell is connected. As this score is computed
+        on the kNN graph, it can be used to evaluate all integration outputs.
+      references:
+        doi: 10.1038/s41592-021-01336-8
+      links:
+        homepage: https://scib.readthedocs.io/en/latest/
+        documentation: https://scib.readthedocs.io/en/latest/api/scib.metrics.silhouette_batch.html
+        repository: https://github.com/theislab/scib
+      min: 0
+      max: 1
+      maximize: true
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - scib==1.1.5
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, lowcpu]

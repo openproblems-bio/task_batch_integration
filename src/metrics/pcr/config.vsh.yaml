@@ -1,0 +1,46 @@
+__merge__: /src/api/comp_metric.yaml
+name: pcr
+info:
+  metrics:
+    - name: pcr
+      label: PCR
+      summary: Compare explained variance by batch before and after integration
+      # TODO: transform into more readable markdown with proper formulae formatting
+      description: |
+        Principal component regression, derived from PCA, has previously been used to quantify
+        batch removal. Briefly, the R2 was calculated from a linear regression of the
+        covariate of interest (for example, the batch variable B) onto each principal component.
+        The variance contribution of the batch effect per principal component was then
+        calculated as the product of the variance explained by the ith principal component (PC)
+        and the corresponding R2(PCi|B). The sum across all variance contributions by the batch
+        effects in all principal components gives the total variance explained by the batch
+        variable as follows:
+        Var(𝐶|𝐵)=∑𝑖=1𝐺Var(𝐶|PC𝑖)×𝑅2(PC𝑖|𝐵),
+
+        where Var(C|PCi) is the variance of the data matrix C explained by the ith principal
+        component.
+      references:
+        doi: 10.1038/s41592-021-01336-8
+      links:
+        homepage: https://scib.readthedocs.io/en/latest/
+        documentation: https://scib.readthedocs.io/en/latest/api/scib.metrics.silhouette_batch.html
+        repository: https://github.com/theislab/scib
+      min: 0
+      max: 1
+      maximize: true
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - scib==1.1.5
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, lowcpu]

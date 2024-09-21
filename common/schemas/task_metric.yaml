@@ -5,7 +5,7 @@ description: |
   compared to the control methods and other methods to determine the best
   approach for the task depending on the type of dataset.
 type: object
-required: [__merge__, name, info, resources, references, links, runners]
+required: [__merge__, name, info, resources, runners]
 properties:
   __merge__:
     "$ref": "schema_openproblems_definitions.yaml#/definitions/CompAPIMerge"
@@ -19,10 +19,6 @@ properties:
     "$ref": "schema_openproblems_definitions.yaml#/definitions/Summary"
   description:
     "$ref": "schema_openproblems_definitions.yaml#/definitions/Description"
-  references:
-    "$ref": "schema_viash.yaml#/definitions/References"
-  links:
-    "$ref": "schema_viash.yaml#/definitions/Links"
   info:
     type: object
     description: Metadata of the component.

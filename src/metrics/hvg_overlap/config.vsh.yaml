@@ -1,0 +1,48 @@
+__merge__: /src/api/comp_metric.yaml
+name: hvg_overlap
+info:
+  metrics:
+    - name: hvg_overlap
+      label: HVG overlap
+      summary: Overlap of highly variable genes per batch before and after integration.
+      # TODO: transform into more readable markdown with proper formulae formatting
+      description: |
+        The HVG conservation score is a proxy for the preservation of
+        the biological signal. If the data integration method returned
+        a corrected data matrix, we computed the number of HVGs before
+        and after correction for each batch via Scanpy's
+        highly_variable_genes function (using the 'cell ranger' flavor).
+        If available, we computed 500 HVGs per batch. If fewer than 500
+        genes were present in the integrated object for a batch,
+        the number of HVGs was set to half the total genes in that batch.
+        The overlap coefficient is as follows:
+        overlap(𝑋,𝑌)=|𝑋∩𝑌|/min(|𝑋|,|𝑌|),
+
+        where X and Y denote the fraction of preserved informative genes.
+        The overall HVG score is the mean of the per-batch HVG overlap
+        coefficients.
+      references:
+        doi: 10.1038/s41592-021-01336-8
+      links:
+        homepage: https://scib.readthedocs.io/en/latest/
+        documentation: https://scib.readthedocs.io/en/latest/api/scib.metrics.silhouette_batch.html
+        repository: https://github.com/theislab/scib
+      min: 0
+      max: 1
+      maximize: true
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - scib==1.1.5
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, lowcpu]
