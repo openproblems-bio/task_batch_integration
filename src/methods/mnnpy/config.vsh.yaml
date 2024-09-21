@@ -42,6 +42,11 @@ engines:
           - pyyaml
           - requests
           - jsonschema
+      - type: python
+        pypi:
+          - git+https://github.com/openproblems-bio/core#subdirectory=packages/python/openproblems
+          - --ignore-requires-python
+      - type: python
         github:
           - chriscainx/mnnpy
 runners:
