@@ -34,6 +34,8 @@ output <- anndata::AnnData(
     normalization_id = adata$uns[["normalization_id"]],
     method_id = meta$name
   ),
+  obs = adata$obs[, c()],
+  var = adata$var[, c()],
   layers = list(
     corrected_counts = as(t(layer), "sparseMatrix")
   ),

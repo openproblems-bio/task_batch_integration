@@ -35,6 +35,8 @@ output <- anndata::AnnData(
   layers = list(
     corrected_counts = t(layer)
   ),
+  obs = adata$obs[, c()],
+  var = adata$var[, c()],
   obsm = list(
     X_emb = obsm
   ),

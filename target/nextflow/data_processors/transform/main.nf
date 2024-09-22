@@ -3225,7 +3225,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/data_processors/transform",
     "viash_version" : "0.9.0",
-    "git_commit" : "505b4588fd86e8bc2c03dee9a0a2720a79a6e4f7",
+    "git_commit" : "961e3e6bbae999894f694772628910f5fcc0d557",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3412,7 +3412,6 @@ print(f"Format of dataset: {dataset}", flush=True)
 
 print("Checking shapes", flush=True)
 assert integrated.shape[0] == dataset.shape[0], "Number of cells do not match"
-assert integrated.shape[1] == dataset.shape[1], "Number of genes do not match"
 
 print("Checking index", flush=True)
 if not integrated.obs.index.equals(dataset.obs.index):
@@ -3420,11 +3419,13 @@ if not integrated.obs.index.equals(dataset.obs.index):
     print("Reordering cells", flush=True)
     integrated = integrated[dataset.obs.index]
 
-if "corrected_counts" in integrated.layers.keys() and \\\\
-    not integrated.var.index.equals(dataset.var.index):
-    assert integrated.var.index.sort_values().equals(dataset.var.index.sort_values()), "Gene names do not match"
-    print("Reordering genes", flush=True)
-    integrated = integrated[:, dataset.var.index]
+if "corrected_counts" in integrated.layers.keys():
+    assert integrated.shape[1] == dataset.shape[1], "Number of genes do not match"
+    
+    if not integrated.var.index.equals(dataset.var.index):
+        assert integrated.var.index.sort_values().equals(dataset.var.index.sort_values()), "Gene names do not match"
+        print("Reordering genes", flush=True)
+        integrated = integrated[:, dataset.var.index]
 
 print("Checking method output based on type", flush=True)
 if "feature" in par["expected_method_types"]:

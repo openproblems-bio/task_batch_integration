@@ -98,6 +98,7 @@ output <- anndata::AnnData(
     normalization_id = adata$uns[["normalization_id"]],
     method_id = meta$name
   ),
+  obs = adata$obs[, c()],
   obsm = list(
     X_emb = lobj@H.norm[rownames(adata), , drop = FALSE]
   ),

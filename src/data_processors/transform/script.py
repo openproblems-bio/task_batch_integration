@@ -19,7 +19,6 @@ print(f"Format of dataset: {dataset}", flush=True)
 
 print("Checking shapes", flush=True)
 assert integrated.shape[0] == dataset.shape[0], "Number of cells do not match"
-assert integrated.shape[1] == dataset.shape[1], "Number of genes do not match"
 
 print("Checking index", flush=True)
 if not integrated.obs.index.equals(dataset.obs.index):
@@ -27,11 +26,13 @@ if not integrated.obs.index.equals(dataset.obs.index):
     print("Reordering cells", flush=True)
     integrated = integrated[dataset.obs.index]
 
-if "corrected_counts" in integrated.layers.keys() and \
-    not integrated.var.index.equals(dataset.var.index):
-    assert integrated.var.index.sort_values().equals(dataset.var.index.sort_values()), "Gene names do not match"
-    print("Reordering genes", flush=True)
-    integrated = integrated[:, dataset.var.index]
+if "corrected_counts" in integrated.layers.keys():
+    assert integrated.shape[1] == dataset.shape[1], "Number of genes do not match"
+    
+    if not integrated.var.index.equals(dataset.var.index):
+        assert integrated.var.index.sort_values().equals(dataset.var.index.sort_values()), "Gene names do not match"
+        print("Reordering genes", flush=True)
+        integrated = integrated[:, dataset.var.index]
 
 print("Checking method output based on type", flush=True)
 if "feature" in par["expected_method_types"]:

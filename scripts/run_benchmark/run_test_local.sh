@@ -17,7 +17,7 @@ publish_dir="resources/results/${RUN_ID}"
 
 # write the parameters to file
 cat > /tmp/params.yaml << HERE
-input_states: s3://openproblems-data/resources_test/task_batch_integration/**/state.yaml
+input_states: resources_test/task_batch_integration/**/state.yaml
 rename_keys: 'input_dataset:output_dataset;input_solution:output_solution'
 output_state: "state.yaml"
 publish_dir: "$publish_dir"

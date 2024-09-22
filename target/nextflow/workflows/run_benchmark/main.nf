@@ -3422,7 +3422,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "505b4588fd86e8bc2c03dee9a0a2720a79a6e4f7",
+    "git_commit" : "961e3e6bbae999894f694772628910f5fcc0d557",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3687,7 +3687,7 @@ workflow run_wf {
 
       // use 'fromState' to fetch the arguments the component requires from the overall state
       fromState: { id, state, comp ->
-        def new_args = []
+        def new_args = [:]
         if (comp.config.info.type == "method") {
           new_args.input = state.input_dataset
         } else if (comp.config.info.type == "control_method") {
@@ -3708,8 +3708,12 @@ workflow run_wf {
     )
 
     | transform.run(
-      fromState: [input: "method_output"],
-      toState: { id, state, output ->
+      fromState: [
+        input_integrated: "method_output",
+        input_dataset: "input_dataset",
+        expected_method_types: "method_types"
+      ],
+      toState: { id, output, state ->
         def method_types_cleaned = []
         if ("feature" in state.method_types) {
           method_types_cleaned += ["feature", "embedding", "graph"]
@@ -3724,7 +3728,7 @@ workflow run_wf {
           method_types_cleaned: method_types_cleaned
         ]
 
-        [id, new_state]
+        new_state
       }
     )
 
@@ -3735,7 +3739,7 @@ workflow run_wf {
         id + "." + comp.config.name
       },
       filter: { id, state, comp ->
-        comp.info.metric_type in state.method_types_cleaned
+        comp.config.info.metric_type in state.method_types_cleaned
       },
       // use 'fromState' to fetch the arguments the component requires from the overall state
       fromState: [

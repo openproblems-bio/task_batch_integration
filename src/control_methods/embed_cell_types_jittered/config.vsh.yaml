@@ -5,8 +5,8 @@ summary: Cells are embedded as a one-hot encoding of celltype labels, with a sma
   amount of random noise added to the embedding
 description: Cells are embedded as a one-hot encoding of celltype labels, with a small
   amount of random noise added to the embedding
-
 info:
+  method_types: [embedding]
   preferred_normalization: log_cp10k
 arguments:
   - name: --jitter

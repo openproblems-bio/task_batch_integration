@@ -482,9 +482,9 @@ RUN Rscript -e 'if (!requireNamespace("BiocManager", quietly = TRUE)) install.pa
   Rscript -e 'if (!requireNamespace("batchelor", quietly = TRUE)) BiocManager::install("batchelor")'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods fastmnn"
-LABEL org.opencontainers.image.created="2024-09-22T07:02:27Z"
+LABEL org.opencontainers.image.created="2024-09-22T20:11:15Z"
 LABEL org.opencontainers.image.source="https://code.bioconductor.org/browse/batchelor/"
-LABEL org.opencontainers.image.revision="505b4588fd86e8bc2c03dee9a0a2720a79a6e4f7"
+LABEL org.opencontainers.image.revision="961e3e6bbae999894f694772628910f5fcc0d557"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1080,6 +1080,8 @@ output <- anndata::AnnData(
   layers = list(
     corrected_counts = t(layer)
   ),
+  obs = adata\$obs[, c()],
+  var = adata\$var[, c()],
   obsm = list(
     X_emb = obsm
   ),
