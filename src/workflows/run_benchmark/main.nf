@@ -109,7 +109,7 @@ workflow run_wf {
       toState: { id, output, state, comp ->
         state + [
           method_id: comp.config.name,
-          method_types: comp.config.info.method_types
+          method_types: comp.config.info.method_types,
           method_output: output.output
         ]
       }

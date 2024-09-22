@@ -3133,6 +3133,11 @@ meta = [
     }
   ],
   "info" : {
+    "test_setup" : {
+      "default" : {
+        "expected_method_types" : "feature"
+      }
+    },
     "type" : "transformer",
     "type_info" : {
       "label" : "Transform",
@@ -3220,7 +3225,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/data_processors/transform",
     "viash_version" : "0.9.0",
-    "git_commit" : "fbb0ebc3b5896b721dde8ca8fd7370c58f5e1b82",
+    "git_commit" : "505b4588fd86e8bc2c03dee9a0a2720a79a6e4f7",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

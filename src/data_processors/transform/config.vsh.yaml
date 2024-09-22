@@ -9,6 +9,10 @@ description: |
     - Reorder the integrated dataset to match the input dataset if needed.
     - Transform the corrected feature output to an embedding.
     - Transform an embedding to a graph output.
+info:
+  test_setup:
+    default:
+      expected_method_types: feature
 resources:
   - type: python_script
     path: script.py
