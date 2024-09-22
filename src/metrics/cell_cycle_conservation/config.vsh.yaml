@@ -1,6 +1,7 @@
 __merge__: /src/api/comp_metric.yaml
 name: cell_cycle_conservation
 info:
+  metric_type: embedding
   metrics:
     - name: cell_cycle_conservation
       label: Cell Cycle Conservation

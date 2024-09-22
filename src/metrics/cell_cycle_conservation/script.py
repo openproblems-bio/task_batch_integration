@@ -32,26 +32,28 @@ adata_integrated = read_anndata(
     uns='uns'
 )
 
+print("Copy batch information", flush=True)
+adata_integrated.obs['batch'] = adata_solution.obs['batch']
+
 print('Use gene symbols for features', flush=True)
 adata_solution.var_names = adata_solution.var['feature_name']
 
+dataset_organism = adata_solution.uns['dataset_organism']
 translator = {
     "homo_sapiens": "human",
     "mus_musculus": "mouse",
 }
+assert dataset_organism in translator, \
+    f"dataset organism ({dataset_organism}) not in translator!"
 
 print('Compute score', flush=True)
-if adata_solution.uns['dataset_organism'] not in translator:
-    score = np.nan
-else:
-    organism = translator[adata_solution.uns['dataset_organism']]
-    score = cell_cycle(
-        adata_solution,
-        adata_integrated,
-        batch_key='batch',
-        embed='X_emb',
-        organism=organism,
-    )
+score = cell_cycle(
+    adata_solution,
+    adata_integrated,
+    batch_key='batch',
+    embed='X_emb',
+    organism=translator[dataset_organism],
+)
 
 print('Create output AnnData object', flush=True)
 output = ad.AnnData(

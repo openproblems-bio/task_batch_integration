@@ -1,0 +1,25 @@
+__merge__: /src/api/comp_transformer.yaml
+name: transform
+label: Transform
+summary: Check the output and transform to create additional output types
+description: |
+  This component will:
+  
+    - Assert whether the input dataset and integrated dataset have the same shape.
+    - Reorder the integrated dataset to match the input dataset if needed.
+    - Transform the corrected feature output to an embedding.
+    - Transform an embedding to a graph output.
+resources:
+  - type: python_script
+    path: script.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        pypi: scanpy
+runners:
+  - type: executable
+  - type: nextflow
+    directives: 
+      label: [midtime, midmem, lowcpu]

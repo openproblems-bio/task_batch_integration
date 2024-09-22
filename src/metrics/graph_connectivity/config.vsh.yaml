@@ -1,6 +1,7 @@
 __merge__: /src/api/comp_metric.yaml
 name: graph_connectivity
 info:
+  metric_type: graph
   metrics:
     - name: graph_connectivity
       label: Graph Connectivity

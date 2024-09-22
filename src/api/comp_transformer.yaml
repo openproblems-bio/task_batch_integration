@@ -1,16 +1,33 @@
-namespace: transformers
+namespace: data_processors
 info:
   type: transformer
   type_info:
     label: Transform
-    summary: Transform batch integration outputs where necessary
+    summary: Check the output and transform to create additional output types
     description: |
-      Transform corrected feature output to an embedding, and an embedding to a graph output.
+      This component will:
+      
+        - Assert whether the input dataset and integrated dataset have the same shape.
+        - Reorder the integrated dataset to match the input dataset if needed.
+        - Transform the corrected feature output to an embedding.
+        - Transform an embedding to a graph output.
 arguments:
-  - name: --input
+  - name: --input_integrated
     __merge__: file_integrated.yaml
     direction: input
     required: true
+  - name: --input_dataset
+    __merge__: file_dataset.yaml
+    direction: input
+    required: true
+  - name: --expected_method_types
+    type: string
+    direction: input
+    required: true
+    multiple: true
+    description: |
+      The expected output types of the batch integration method. 
+    choices: [ feature, embedding, graph ]
   - name: --output
     __merge__: file_integrated_full.yaml
     direction: output

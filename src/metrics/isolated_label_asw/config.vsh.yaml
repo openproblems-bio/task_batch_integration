@@ -1,6 +1,7 @@
 __merge__: /src/api/comp_metric.yaml
 name: isolated_label_asw
 info:
+  metric_type: embedding
   metrics:
     - name: isolated_label_asw
       label: Isolated label ASW

@@ -34,6 +34,9 @@ adata_integrated = read_anndata(
     uns='uns'
 )
 
+print("Copy batch information", flush=True)
+adata_integrated.obs['batch'] = adata_solution.obs['batch']
+
 print('compute score', flush=True)
 score = pcr_comparison(
     adata_solution,

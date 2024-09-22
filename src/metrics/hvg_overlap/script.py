@@ -17,7 +17,6 @@ meta = {
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
 
-
 print('Read input', flush=True)
 adata_solution = read_anndata(
     par['input_solution'],
@@ -34,7 +33,10 @@ adata_integrated = read_anndata(
     uns='uns'
 )
 
-print('compute score', flush=True)
+print("Copy batch information", flush=True)
+adata_integrated.obs['batch'] = adata_solution.obs['batch']
+
+print('Compute score', flush=True)
 score = hvg_overlap(
     adata_solution,
     adata_integrated,

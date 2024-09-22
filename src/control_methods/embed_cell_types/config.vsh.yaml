@@ -1,5 +1,5 @@
 __merge__: /src/api/comp_control_method.yaml
-name: embed_by_cell_type
+name: embed_cell_types
 label: Embed cell types
 summary: Cells are embedded as a one-hot encoding of celltype labels
 description: Cells are embedded as a one-hot encoding of celltype labels

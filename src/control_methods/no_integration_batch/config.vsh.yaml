@@ -1,5 +1,5 @@
 __merge__: /src/api/comp_control_method.yaml
-name: batch_embed
+name: no_integration_batch
 label: No integration by Batch
 summary: Cells are embedded by computing PCA independently on each batch
 description: Cells are embedded by computing PCA independently on each batch

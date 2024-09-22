@@ -1,7 +1,7 @@
 __merge__: /src/api/comp_metric.yaml
 name: lisi
-status: disabled
 info:
+  metric_type: graph
   metrics:
     - name: ilisi
       label: iLISI

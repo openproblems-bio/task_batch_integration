@@ -1,6 +1,7 @@
 __merge__: /src/api/comp_metric.yaml
 name: pcr
 info:
+  metric_type: embedding
   metrics:
     - name: pcr
       label: PCR

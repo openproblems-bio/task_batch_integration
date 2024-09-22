@@ -3126,6 +3126,7 @@ meta = [
     }
   ],
   "info" : {
+    "metric_type" : "feature",
     "metrics" : [
       {
         "name" : "hvg_overlap",
@@ -3232,7 +3233,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/hvg_overlap",
     "viash_version" : "0.9.0",
-    "git_commit" : "4e078046bb1c49ec70cc20697d043cae8b158561",
+    "git_commit" : "fbb0ebc3b5896b721dde8ca8fd7370c58f5e1b82",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3413,7 +3414,6 @@ dep = {
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
 
-
 print('Read input', flush=True)
 adata_solution = read_anndata(
     par['input_solution'],
@@ -3430,7 +3430,10 @@ adata_integrated = read_anndata(
     uns='uns'
 )
 
-print('compute score', flush=True)
+print("Copy batch information", flush=True)
+adata_integrated.obs['batch'] = adata_solution.obs['batch']
+
+print('Compute score', flush=True)
 score = hvg_overlap(
     adata_solution,
     adata_integrated,

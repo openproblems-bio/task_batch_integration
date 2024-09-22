@@ -1,6 +1,7 @@
 __merge__: /src/api/comp_metric.yaml
 name: isolated_label_f1
 info:
+  metric_type: graph
   metrics:
     - name: isolated_label_f1
       label: Isolated label F1 score

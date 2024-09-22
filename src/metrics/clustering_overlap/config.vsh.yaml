@@ -1,6 +1,7 @@
 __merge__: /src/api/comp_metric.yaml
 name: clustering_overlap
 info:
+  metric_type: graph
   metrics:
     - name: ari
       label: ARI

@@ -1,26 +1,19 @@
 name: run_benchmark
 namespace: workflows
 
-status: disabled
-
 argument_groups:
   - name: Inputs
     arguments:
-      # - name: "--input_train"
-      #   __merge__: /src/api/file_train_h5ad.yaml
-      #   type: file
-      #   direction: input
-      #   required: true
-      # - name: "--input_test"
-      #   __merge__: /src/api/file_test_h5ad.yaml
-      #   type: file
-      #   direction: input
-      #   required: true
-      # - name: "--input_solution"
-      #   __merge__: /src/api/file_solution.yaml
-      #   type: file
-      #   direction: input
-      #   required: true
+      - name: "--input_dataset"
+        __merge__: /src/api/file_dataset.yaml
+        type: file
+        direction: input
+        required: true
+      - name: "--input_solution"
+        __merge__: /src/api/file_solution.yaml
+        type: file
+        direction: input
+        required: true
   - name: Outputs
     arguments:
       - name: "--output_scores"
@@ -66,9 +59,36 @@ resources:
 dependencies:
   - name: h5ad/extract_uns_metadata
     repository: core
-  - name: control_methods/true_labels
-  - name: methods/logistic_regression
-  - name: metrics/accuracy
+  - name: control_methods/embed_cell_types
+  - name: control_methods/embed_cell_types_jittered
+  - name: control_methods/no_integration
+  - name: control_methods/no_integration_batch
+  - name: control_methods/shuffle_integration
+  - name: control_methods/shuffle_integration_by_batch
+  - name: control_methods/shuffle_integration_by_cell_type
+  - name: methods/bbknn
+  - name: methods/combat
+  - name: methods/fastmnn
+  - name: methods/liger
+  - name: methods/mnn_correct
+  - name: methods/mnnpy
+  - name: methods/pyliger
+  - name: methods/scalex
+  - name: methods/scanorama
+  - name: methods/scanvi
+  - name: methods/scvi
+  - name: metrics/asw_batch
+  - name: metrics/asw_label
+  - name: metrics/cell_cycle_conservation
+  - name: metrics/clustering_overlap
+  - name: metrics/graph_connectivity
+  - name: metrics/hvg_overlap
+  - name: metrics/isolated_label_asw
+  - name: metrics/isolated_label_f1
+  - name: metrics/kbet
+  - name: metrics/lisi
+  - name: metrics/pcr
+  - name: data_processors/transform
 
 runners:
   - type: nextflow

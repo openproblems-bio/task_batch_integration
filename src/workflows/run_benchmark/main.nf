@@ -7,13 +7,39 @@ workflow auto {
 
 // construct list of methods and control methods
 methods = [
-  true_labels,
-  logistic_regression
+  embed_cell_types,
+  embed_cell_types_jittered,
+  no_integration,
+  no_integration_batch,
+  shuffle_integration,
+  shuffle_integration_by_batch,
+  shuffle_integration_by_cell_type,
+  bbknn,
+  combat,
+  fastmnn,
+  liger,
+  mnn_correct,
+  mnnpy,
+  pyliger,
+  scalex,
+  scanorama,
+  scanvi,
+  scvi
 ]
 
 // construct list of metrics
 metrics = [
-  accuracy
+  asw_batch,
+  asw_label,
+  cell_cycle_conservation,
+  clustering_overlap,
+  graph_connectivity,
+  hvg_overlap,
+  isolated_label_asw,
+  isolated_label_f1,
+  kbet,
+  lisi,
+  pcr
 ]
 
 workflow run_wf {
@@ -69,11 +95,11 @@ workflow run_wf {
 
       // use 'fromState' to fetch the arguments the component requires from the overall state
       fromState: { id, state, comp ->
-        def new_args = [
-          input_train: state.input_train,
-          input_test: state.input_test
-        ]
-        if (comp.config.info.type == "control_method") {
+        def new_args = []
+        if (comp.config.info.type == "method") {
+          new_args.input = state.input_dataset
+        } else if (comp.config.info.type == "control_method") {
+          new_args.input_dataset = state.input_dataset
           new_args.input_solution = state.input_solution
         }
         new_args
@@ -83,8 +109,30 @@ workflow run_wf {
       toState: { id, output, state, comp ->
         state + [
           method_id: comp.config.name,
+          method_types: comp.config.info.method_types
           method_output: output.output
         ]
+      }
+    )
+
+    | transform.run(
+      fromState: [input: "method_output"],
+      toState: { id, state, output ->
+        def method_types_cleaned = []
+        if ("feature" in state.method_types) {
+          method_types_cleaned += ["feature", "embedding", "graph"]
+        } else if ("embedding" in state.method_types) {
+          method_types_cleaned += ["embedding", "graph"]
+        } else if ("graph" in state.method_types) {
+          method_types_cleaned += ["graph"]
+        }
+
+        def new_state = state + [
+          method_output_cleaned: output.output,
+          method_types_cleaned: method_types_cleaned
+        ]
+
+        [id, new_state]
       }
     )
 
@@ -94,10 +142,13 @@ workflow run_wf {
       id: { id, state, comp ->
         id + "." + comp.config.name
       },
+      filter: { id, state, comp ->
+        comp.info.metric_type in state.method_types_cleaned
+      },
       // use 'fromState' to fetch the arguments the component requires from the overall state
       fromState: [
         input_solution: "input_solution", 
-        input_prediction: "method_output"
+        input_integrated: "method_output_cleaned"
       ],
       // use 'toState' to publish that component's outputs to the overall state
       toState: { id, output, state, comp ->
@@ -108,6 +159,26 @@ workflow run_wf {
       }
     )
 
+    // extract the scores
+    | extract_uns_metadata.run(
+      key: "extract_scores",
+      fromState: [input: "metric_output"],
+      toState: { id, output, state ->
+        state + [
+          score_uns: readYaml(output.output).uns
+        ]
+      }
+    )
+
+    | joinStates { ids, states ->
+      // store the scores in a file
+      def score_uns = states.collect{it.score_uns}
+      def score_uns_yaml_blob = toYamlBlob(score_uns)
+      def score_uns_file = tempFile("score_uns.yaml")
+      score_uns_file.write(score_uns_yaml_blob)
+
+      ["output", [output_scores: score_uns_file]]
+    }
 
   /******************************
    * GENERATE OUTPUT YAML FILES *
@@ -115,7 +186,7 @@ workflow run_wf {
   // TODO: can we store everything below in a separate helper function?
 
   // extract the dataset metadata
-  dataset_meta_ch = dataset_ch
+  meta_ch = dataset_ch
     // only keep one of the normalization methods
     | filter{ id, state ->
       state.dataset_uns.normalization_id == "log_cp10k"
@@ -131,23 +202,6 @@ workflow run_wf {
       def dataset_uns_file = tempFile("dataset_uns.yaml")
       dataset_uns_file.write(dataset_uns_yaml_blob)
 
-      ["output", [output_dataset_info: dataset_uns_file]]
-    }
-
-  output_ch = score_ch
-
-    // extract the scores
-    | extract_metadata.run(
-      key: "extract_scores",
-      fromState: [input: "metric_output"],
-      toState: { id, output, state ->
-        state + [
-          score_uns: readYaml(output.output).uns
-        ]
-      }
-    )
-
-    | joinStates { ids, states ->
       // store the method configs in a file
       def method_configs = methods.collect{it.config}
       def method_configs_yaml_blob = toYamlBlob(method_configs)
@@ -160,30 +214,24 @@ workflow run_wf {
       def metric_configs_file = tempFile("metric_configs.yaml")
       metric_configs_file.write(metric_configs_yaml_blob)
 
+      // store the task info in a file
       def viash_file = meta.resources_dir.resolve("_viash.yaml")
-      def viash_file_content = toYamlBlob(readYaml(viash_file).info)
-      def task_info_file = tempFile("task_info.yaml")
-      task_info_file.write(viash_file_content)
 
-      // store the scores in a file
-      def score_uns = states.collect{it.score_uns}
-      def score_uns_yaml_blob = toYamlBlob(score_uns)
-      def score_uns_file = tempFile("score_uns.yaml")
-      score_uns_file.write(score_uns_yaml_blob)
-
+      // create output state
       def new_state = [
+        output_dataset_info: dataset_uns_file,
         output_method_configs: method_configs_file,
         output_metric_configs: metric_configs_file,
-        output_task_info: task_info_file,
-        output_scores: score_uns_file,
+        output_task_info: viash_file,
         _meta: states[0]._meta
       ]
 
       ["output", new_state]
     }
 
-    // merge all of the output data 
-    | mix(dataset_meta_ch)
+  // merge all of the output data
+  output_ch = score_ch
+    | mix(meta_ch)
     | joinStates{ ids, states ->
       def mergedStates = states.inject([:]) { acc, m -> acc + m }
       [ids[0], mergedStates]

@@ -1,6 +1,7 @@
 __merge__: /src/api/comp_metric.yaml
 name: hvg_overlap
 info:
+  metric_type: feature
   metrics:
     - name: hvg_overlap
       label: HVG overlap

@@ -1,6 +1,7 @@
 __merge__: /src/api/comp_metric.yaml
 name: asw_batch
 info:
+  metric_type: embedding
   metrics:
     - name: asw_batch
       label: ASW batch
