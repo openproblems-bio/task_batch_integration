@@ -3422,7 +3422,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "87f55d9543ddb2f739abed2385ad648f131c0d9e",
+    "git_commit" : "8c0a0e8fe28b8a657be3e819b11677435283dbdc",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

@@ -60,17 +60,17 @@ extensive benchmark of single-cell data integration methods.
 
 ``` mermaid
 flowchart LR
-  file_common_dataset("<a href='#file-type-file-common-dataset'>file_common_dataset</a>")
-  comp_process_dataset[/"<a href='#component-type-comp-process-dataset'>comp_process_dataset</a>"/]
-  file_dataset("<a href='#file-type-file-dataset'>file_dataset</a>")
-  file_solution("<a href='#file-type-file-solution'>file_solution</a>")
-  comp_control_method[/"<a href='#component-type-comp-control-method'>comp_control_method</a>"/]
-  comp_method[/"<a href='#component-type-comp-method'>comp_method</a>"/]
-  comp_transformer[/"<a href='#component-type-comp-transformer'>comp_transformer</a>"/]
-  comp_metric[/"<a href='#component-type-comp-metric'>comp_metric</a>"/]
-  file_integrated("<a href='#file-type-file-integrated'>file_integrated</a>")
-  file_integrated_full("<a href='#file-type-file-integrated-full'>file_integrated_full</a>")
-  file_score("<a href='#file-type-file-score'>file_score</a>")
+  file_common_dataset("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-common-dataset'>Common Dataset</a>")
+  comp_process_dataset[/"<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-common-dataset'>Common Dataset</a>"/]
+  file_dataset("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-common-dataset'>Common Dataset</a>")
+  file_solution("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-common-dataset'>Common Dataset</a>")
+  comp_control_method[/"<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-common-dataset'>Common Dataset</a>"/]
+  comp_method[/"<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-common-dataset'>Common Dataset</a>"/]
+  comp_transformer[/"<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-common-dataset'>Common Dataset</a>"/]
+  comp_metric[/"<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-common-dataset'>Common Dataset</a>"/]
+  file_integrated("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-common-dataset'>Common Dataset</a>")
+  file_integrated_full("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-common-dataset'>Common Dataset</a>")
+  file_score("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-common-dataset'>Common Dataset</a>")
   file_common_dataset---comp_process_dataset
   comp_process_dataset-->file_dataset
   comp_process_dataset-->file_solution
@@ -436,4 +436,3 @@ Data structure:
 | `uns["metric_values"]` | `double` | The metric values obtained for the given prediction. Must be of same length as ‘metric_ids’. |
 
 </div>
-
