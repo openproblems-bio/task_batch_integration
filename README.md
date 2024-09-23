@@ -60,29 +60,30 @@ extensive benchmark of single-cell data integration methods.
 
 ``` mermaid
 flowchart LR
-  file_common_dataset("Common Dataset")
-  comp_process_dataset[/"Data processor"/]
-  file_dataset("Dataset")
-  file_solution("Solution")
-  comp_control_method[/"Control method"/]
-  comp_method[/"Method"/]
-  comp_metric[/"Metric"/]
-  file_integrated("Integration")
-  file_score("Score")
-  comp_transformer[/"Transform"/]
-  file_integrated_full("Transformed integration")
+  file_common_dataset("<a href='#file-type-file-common-dataset'>file_common_dataset</a>")
+  comp_process_dataset[/"<a href='#component-type-comp-process-dataset'>comp_process_dataset</a>"/]
+  file_dataset("<a href='#file-type-file-dataset'>file_dataset</a>")
+  file_solution("<a href='#file-type-file-solution'>file_solution</a>")
+  comp_control_method[/"<a href='#component-type-comp-control-method'>comp_control_method</a>"/]
+  comp_method[/"<a href='#component-type-comp-method'>comp_method</a>"/]
+  comp_transformer[/"<a href='#component-type-comp-transformer'>comp_transformer</a>"/]
+  comp_metric[/"<a href='#component-type-comp-metric'>comp_metric</a>"/]
+  file_integrated("<a href='#file-type-file-integrated'>file_integrated</a>")
+  file_integrated_full("<a href='#file-type-file-integrated-full'>file_integrated_full</a>")
+  file_score("<a href='#file-type-file-score'>file_score</a>")
   file_common_dataset---comp_process_dataset
   comp_process_dataset-->file_dataset
   comp_process_dataset-->file_solution
   file_dataset---comp_control_method
   file_dataset---comp_method
+  file_dataset---comp_transformer
   file_solution---comp_control_method
   file_solution---comp_metric
   comp_control_method-->file_integrated
   comp_method-->file_integrated
+  comp_transformer-->file_integrated_full
   comp_metric-->file_score
   file_integrated---comp_transformer
-  comp_transformer-->file_integrated_full
   file_integrated_full---comp_metric
 ```
 
@@ -279,6 +280,25 @@ Arguments:
 
 </div>
 
+## Component type: Transform
+
+Check the output and transform to create additional output types
+
+Arguments:
+
+<div class="small">
+
+| Name | Type | Description |
+|:---|:---|:---|
+| `--input_integrated` | `file` | An integrated AnnData dataset. |
+| `--input_dataset` | `file` | Unintegrated AnnData HDF5 file. |
+| `--expected_method_types` | `string` | NA. |
+| `--expected_method_types` | `string` | NA. |
+| `--expected_method_types` | `string` | NA. |
+| `--output` | `file` | (*Output*) An integrated AnnData dataset with additional outputs. |
+
+</div>
+
 ## Component type: Metric
 
 A metric for evaluating batch integration methods.
@@ -340,50 +360,6 @@ Data structure:
 
 </div>
 
-## File format: Score
-
-Metric score file
-
-Example file: `score.h5ad`
-
-Format:
-
-<div class="small">
-
-    AnnData object
-     uns: 'dataset_id', 'normalization_id', 'method_id', 'metric_ids', 'metric_values'
-
-</div>
-
-Data structure:
-
-<div class="small">
-
-| Slot | Type | Description |
-|:---|:---|:---|
-| `uns["dataset_id"]` | `string` | A unique identifier for the dataset. |
-| `uns["normalization_id"]` | `string` | Which normalization was used. |
-| `uns["method_id"]` | `string` | A unique identifier for the method. |
-| `uns["metric_ids"]` | `string` | One or more unique metric identifiers. |
-| `uns["metric_values"]` | `double` | The metric values obtained for the given prediction. Must be of same length as ‘metric_ids’. |
-
-</div>
-
-## Component type: Transform
-
-Transform batch integration outputs where necessary
-
-Arguments:
-
-<div class="small">
-
-| Name | Type | Description |
-|:---|:---|:---|
-| `--input` | `file` | An integrated AnnData dataset. |
-| `--output` | `file` | (*Output*) An integrated AnnData dataset with additional outputs. |
-
-</div>
-
 ## File format: Transformed integration
 
 An integrated AnnData dataset with additional outputs.
@@ -429,6 +405,35 @@ Data structure:
 | `uns["dataset_organism"]` | `string` | (*Optional*) The organism of the sample in the dataset. |
 | `uns["method_id"]` | `string` | A unique identifier for the method. |
 | `uns["neighbors"]` | `object` | Supplementary K nearest neighbors data. |
+
+</div>
+
+## File format: Score
+
+Metric score file
+
+Example file: `score.h5ad`
+
+Format:
+
+<div class="small">
+
+    AnnData object
+     uns: 'dataset_id', 'normalization_id', 'method_id', 'metric_ids', 'metric_values'
+
+</div>
+
+Data structure:
+
+<div class="small">
+
+| Slot | Type | Description |
+|:---|:---|:---|
+| `uns["dataset_id"]` | `string` | A unique identifier for the dataset. |
+| `uns["normalization_id"]` | `string` | Which normalization was used. |
+| `uns["method_id"]` | `string` | A unique identifier for the method. |
+| `uns["metric_ids"]` | `string` | One or more unique metric identifiers. |
+| `uns["metric_values"]` | `double` | The metric values obtained for the given prediction. Must be of same length as ‘metric_ids’. |
 
 </div>
 

@@ -475,9 +475,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "umap-learn[plot]" "pyliger" "dask-expr"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods pyliger"
-LABEL org.opencontainers.image.created="2024-09-22T20:11:15Z"
+LABEL org.opencontainers.image.created="2024-09-23T07:34:13Z"
 LABEL org.opencontainers.image.source="https://github.com/welch-lab/pyliger"
-LABEL org.opencontainers.image.revision="961e3e6bbae999894f694772628910f5fcc0d557"
+LABEL org.opencontainers.image.revision="87f55d9543ddb2f739abed2385ad648f131c0d9e"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

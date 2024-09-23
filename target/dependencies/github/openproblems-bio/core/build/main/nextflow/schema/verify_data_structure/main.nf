@@ -3001,7 +3001,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/schema/verify_data_structure",
     "viash_version" : "0.9.0",
-    "git_commit" : "3ada76624ec63cd1e751041f186605e9de600456",
+    "git_commit" : "5e2d27178b2590ef028dac199b16bd49035972c8",
     "git_remote" : "https://github.com/openproblems-bio/core"
   },
   "package_config" : {
