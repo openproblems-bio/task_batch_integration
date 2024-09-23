@@ -3233,7 +3233,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/cell_cycle_conservation",
     "viash_version" : "0.9.0",
-    "git_commit" : "d2fb19e4f8f3b32c85955985745b78dffa0c7b9b",
+    "git_commit" : "dca0aae9d9b8319e2a4dc69efbce6b9eb6ea0b2a",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

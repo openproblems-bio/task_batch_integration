@@ -60,17 +60,17 @@ extensive benchmark of single-cell data integration methods.
 
 ``` mermaid
 flowchart TB
-  file_common_dataset("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-common-dataset'>Common Dataset</a>")
-  comp_process_dataset[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-comp-process-dataset'>Data processor</a>"/]
-  file_dataset("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-dataset'>Dataset</a>")
-  file_solution("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-solution'>Solution</a>")
-  comp_control_method[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-comp-control-method'>Control method</a>"/]
-  comp_method[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-comp-method'>Method</a>"/]
-  comp_transformer[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-comp-transformer'>Transform</a>"/]
-  comp_metric[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-comp-metric'>Metric</a>"/]
-  file_integrated("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-integrated'>Integration</a>")
-  file_integrated_full("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-integrated-full'>Transformed integration</a>")
-  file_score("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-score'>Score</a>")
+  file_common_dataset("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-common-dataset'>Common Dataset</a>")
+  comp_process_dataset[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-data-processor'>Data processor</a>"/]
+  file_dataset("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-dataset'>Dataset</a>")
+  file_solution("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-solution'>Solution</a>")
+  comp_control_method[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-control-method'>Control method</a>"/]
+  comp_method[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-method'>Method</a>"/]
+  comp_transformer[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-transform'>Transform</a>"/]
+  comp_metric[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-metric'>Metric</a>"/]
+  file_integrated("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-integration'>Integration</a>")
+  file_integrated_full("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-transformed-integration'>Transformed integration</a>")
+  file_score("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-score'>Score</a>")
   file_common_dataset---comp_process_dataset
   comp_process_dataset-->file_dataset
   comp_process_dataset-->file_solution
