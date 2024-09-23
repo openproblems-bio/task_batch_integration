@@ -3272,7 +3272,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/control_methods/shuffle_integration",
     "viash_version" : "0.9.0",
-    "git_commit" : "8c0a0e8fe28b8a657be3e819b11677435283dbdc",
+    "git_commit" : "dd143f3f45237b9bbd990d21f26ba75499aacf1c",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
