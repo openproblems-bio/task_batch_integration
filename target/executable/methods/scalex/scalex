@@ -478,9 +478,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scalex" "numpy<1.24" "torch<2.1"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scalex"
-LABEL org.opencontainers.image.created="2024-09-23T08:03:01Z"
+LABEL org.opencontainers.image.created="2024-09-23T08:04:37Z"
 LABEL org.opencontainers.image.source="https://github.com/jsxlei/SCALEX"
-LABEL org.opencontainers.image.revision="dd143f3f45237b9bbd990d21f26ba75499aacf1c"
+LABEL org.opencontainers.image.revision="d2fb19e4f8f3b32c85955985745b78dffa0c7b9b"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

@@ -59,7 +59,7 @@ extensive benchmark of single-cell data integration methods.
 ## API
 
 ``` mermaid
-flowchart LR
+flowchart TB
   file_common_dataset("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-common-dataset'>Common Dataset</a>")
   comp_process_dataset[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-comp-process-dataset'>Data processor</a>"/]
   file_dataset("<a href='https://github.com/openproblems-bio/task_batch_integration#file-type-file-dataset'>Dataset</a>")

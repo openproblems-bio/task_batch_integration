@@ -3256,7 +3256,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/clustering_overlap",
     "viash_version" : "0.9.0",
-    "git_commit" : "dd143f3f45237b9bbd990d21f26ba75499aacf1c",
+    "git_commit" : "d2fb19e4f8f3b32c85955985745b78dffa0c7b9b",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
