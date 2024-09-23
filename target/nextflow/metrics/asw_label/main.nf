@@ -3233,7 +3233,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/asw_label",
     "viash_version" : "0.9.0",
-    "git_commit" : "dca0aae9d9b8319e2a4dc69efbce6b9eb6ea0b2a",
+    "git_commit" : "c76ae4795a88cac39be8eac7a03246b81c09d51e",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
