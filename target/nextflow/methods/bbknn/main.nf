@@ -2836,14 +2836,14 @@ meta = [
               "obs" : [
                 {
                   "type" : "string",
-                  "name" : "batch",
-                  "description" : "Batch information",
+                  "name" : "cell_type",
+                  "description" : "Cell type information",
                   "required" : true
                 },
                 {
                   "type" : "string",
-                  "name" : "label",
-                  "description" : "label information",
+                  "name" : "batch",
+                  "description" : "Batch information",
                   "required" : true
                 }
               ],
@@ -3183,7 +3183,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/bbknn",
     "viash_version" : "0.9.0",
-    "git_commit" : "ea97606424fa47aeed60c18528798f9a5036d845",
+    "git_commit" : "457589084237fe07837729c51f0dbe423ed69468",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3366,7 +3366,6 @@ dep = {
 
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
-
 
 print('Read input', flush=True)
 adata = read_anndata(

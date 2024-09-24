@@ -488,9 +488,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "bbknn"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods bbknn"
-LABEL org.opencontainers.image.created="2024-09-24T03:44:49Z"
+LABEL org.opencontainers.image.created="2024-09-24T19:22:37Z"
 LABEL org.opencontainers.image.source="https://github.com/Teichlab/bbknn"
-LABEL org.opencontainers.image.revision="ea97606424fa47aeed60c18528798f9a5036d845"
+LABEL org.opencontainers.image.revision="457589084237fe07837729c51f0dbe423ed69468"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1123,7 +1123,6 @@ dep = {
 
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
-
 
 print('Read input', flush=True)
 adata = read_anndata(

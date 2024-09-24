@@ -6,7 +6,6 @@ import scalex
 par = {
     'input': 'resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/dataset.h5ad',
     'output': 'output.h5ad',
-    'hvg': True,
 }
 meta = {
     'name' : 'foo',
@@ -26,12 +25,6 @@ adata = read_anndata(
     var='var',
     uns='uns'
 )
-
-
-if par['n_hvg']:
-    print(f"Select top {par['n_hvg']} high variable genes", flush=True)
-    idx = adata.var['hvg_score'].to_numpy().argsort()[::-1][:par['n_hvg']]
-    adata = adata[:, idx].copy()
 
 print('Run SCALEX', flush=True)
 adata = scalex.SCALEX(

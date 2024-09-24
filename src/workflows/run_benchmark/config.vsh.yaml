@@ -66,11 +66,11 @@ dependencies:
   - name: control_methods/shuffle_integration
   - name: control_methods/shuffle_integration_by_batch
   - name: control_methods/shuffle_integration_by_cell_type
+  - name: methods/batchelor_fastmnn
+  - name: methods/batchelor_mnn_correct
   - name: methods/bbknn
   - name: methods/combat
-  - name: methods/fastmnn
   - name: methods/liger
-  - name: methods/mnn_correct
   - name: methods/mnnpy
   - name: methods/pyliger
   - name: methods/scalex

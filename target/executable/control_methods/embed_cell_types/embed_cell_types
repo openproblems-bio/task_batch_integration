@@ -472,9 +472,9 @@ function ViashDockerfile {
 FROM openproblems/base_python:1.0.0
 ENTRYPOINT []
 LABEL org.opencontainers.image.description="Companion container for running component control_methods embed_cell_types"
-LABEL org.opencontainers.image.created="2024-09-24T03:44:50Z"
+LABEL org.opencontainers.image.created="2024-09-24T19:22:37Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="ea97606424fa47aeed60c18528798f9a5036d845"
+LABEL org.opencontainers.image.revision="457589084237fe07837729c51f0dbe423ed69468"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1073,7 +1073,7 @@ adata = read_anndata(
 )
 
 print('Process data...', flush=True)
-adata.obsm["X_emb"] = _perfect_embedding(partition=adata.obs["label"])
+adata.obsm["X_emb"] = _perfect_embedding(partition=adata.obs["cell_type"])
 
 print("Store outputs", flush=True)
 adata.uns['method_id'] = meta['name']

@@ -30,7 +30,7 @@ adata = read_anndata(
 
 print('Process data...', flush=True)
 adata.obsm["X_emb"] = _perfect_embedding(
-    partition=adata.obs["label"],
+    partition=adata.obs["cell_type"],
     jitter=par["jitter"]
 )
 

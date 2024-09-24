@@ -25,7 +25,7 @@ adata.uns |= read_anndata(par['input_solution'], uns='uns').uns
 print('compute score', flush=True)
 score = silhouette(
     adata,
-    label_key='label',
+    label_key="cell_type",
     embed='X_emb'
 )
 

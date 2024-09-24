@@ -22,11 +22,6 @@ info:
     combat_full_unscaled:
     combat_full_scaled:
       preferred_normalization: log_cp10k_scaled
-arguments:
-  - name: --n_hvg
-    type: integer
-    default: 2000
-    description: Number of highly variable genes to use.
 resources:
   - type: python_script
     path: script.py

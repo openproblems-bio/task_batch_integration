@@ -2919,14 +2919,14 @@ meta = [
               "obs" : [
                 {
                   "type" : "string",
-                  "name" : "batch",
-                  "description" : "Batch information",
+                  "name" : "cell_type",
+                  "description" : "Cell type information",
                   "required" : true
                 },
                 {
                   "type" : "string",
-                  "name" : "label",
-                  "description" : "label information",
+                  "name" : "batch",
+                  "description" : "Batch information",
                   "required" : true
                 }
               ],
@@ -3233,7 +3233,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/isolated_label_asw",
     "viash_version" : "0.9.0",
-    "git_commit" : "ea97606424fa47aeed60c18528798f9a5036d845",
+    "git_commit" : "457589084237fe07837729c51f0dbe423ed69468",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3424,7 +3424,7 @@ print('compute score', flush=True)
 
 score = isolated_labels_asw(
     adata,
-    label_key='label',
+    label_key="cell_type",
     batch_key='batch',
     embed='X_emb',
     iso_threshold=None,

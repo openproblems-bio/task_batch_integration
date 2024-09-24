@@ -25,7 +25,7 @@ print('compute score', flush=True)
 score = silhouette_batch(
     adata,
     batch_key='batch',
-    label_key='label',
+    label_key="cell_type",
     embed='X_emb',
 )
 

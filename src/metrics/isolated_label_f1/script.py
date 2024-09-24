@@ -25,7 +25,7 @@ adata.uns |= read_anndata(par['input_solution'], uns='uns').uns
 print('compute score', flush=True)
 score = isolated_labels_f1(
     adata,
-    label_key='label',
+    label_key="cell_type",
     batch_key='batch',
     embed=None,
     iso_threshold=None,

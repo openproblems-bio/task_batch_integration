@@ -477,9 +477,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scib==1.1.5" "rpy2>=3" "anndata2ri" "scipy<=1.13"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics kbet"
-LABEL org.opencontainers.image.created="2024-09-24T03:44:49Z"
+LABEL org.opencontainers.image.created="2024-09-24T19:22:36Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="ea97606424fa47aeed60c18528798f9a5036d845"
+LABEL org.opencontainers.image.revision="457589084237fe07837729c51f0dbe423ed69468"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1081,7 +1081,7 @@ print('compute score', flush=True)
 score = kBET(
     adata,
     batch_key="batch",
-    label_key="label",
+    label_key="cell_type",
     type_="embed",
     embed="X_emb",
     scaled=True,

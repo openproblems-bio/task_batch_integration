@@ -1,7 +1,7 @@
 __merge__: /src/api/comp_method.yaml
-name: fastmnn
-label: fastMnn
-summary: A simpler version of the original mnnCorrect algorithm.
+name: batchelor_fastmnn
+label: batchelor fastMNN
+summary: Fast mutual nearest neighbors correction
 description: |
   The fastMNN() approach is much simpler than the original mnnCorrect() algorithm, and proceeds in several steps.
 
@@ -11,12 +11,16 @@ description: |
   4. Correct the cells in the target batch towards the reference, using locally weighted correction vectors.
   5. Merge the corrected target batch with the reference, and repeat with the next target batch.
 references:
+  # Haghverdi, L., Lun, A., Morgan, M. et al. 
+  # Batch effects in single-cell RNA-sequencing data are 
+  # corrected by matching mutual nearest neighbors. 
+  # Nat Biotechnol 36, 421–427 (2018). https://doi.org/10.1038/nbt.4091
   doi: 10.1038/nbt.4091
 links:
   repository: https://code.bioconductor.org/browse/batchelor/
   documentation: https://bioconductor.org/packages/batchelor/
 info:
-  method_types: [feature, embedding]
+  method_types: [embedding]
   preferred_normalization: log_cp10k
 resources:
   - type: r_script
@@ -31,4 +35,4 @@ runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [midtime, lowcpu, highmem]
+      label: [lowcpu, highmem, midtime]

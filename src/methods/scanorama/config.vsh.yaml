@@ -3,8 +3,15 @@ name: scanorama
 label: Scanorama
 summary: Efficient integration of heterogeneous single-cell transcriptomes using Scanorama
 description: |
-  "Scanorama is an extension of the MNN method. Other then MNN, it finds mutual nearest neighbours over all batches and embeds observations into a joint hyperplane."
+  Scanorama enables batch-correction and integration of heterogeneous scRNA-seq datasets.
+  It is designed to be used in scRNA-seq pipelines downstream of noise-reduction methods,
+  including those for imputation and highly-variable gene filtering. The results from
+  Scanorama integration and batch correction can then be used as input to other tools
+  for scRNA-seq clustering, visualization, and analysis.
 references:
+  # Hie, B., Bryson, B. & Berger, B. Efficient integration of heterogeneous single-cell
+  # transcriptomes using Scanorama. Nat Biotechnol 37, 685–691 (2019).
+  # https://doi.org/10.1038/s41587-019-0113-3
   doi: 10.1038/s41587-019-0113-3
 links:
   repository: https://github.com/brianhie/scanorama
@@ -12,15 +19,6 @@ links:
 info:
   method_types: [feature, embedding]
   preferred_normalization: log_cp10k
-  variants:
-    scanorama_full_unscaled:
-    scanorama_full_scaled:
-      preferred_normalization: log_cp10k_scaled
-arguments:
-  - name: --n_hvg
-    type: integer
-    default: 2000
-    description: Number of highly variable genes to use.
 resources:
   - type: python_script
     path: script.py
@@ -36,4 +34,4 @@ runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [midtime, midmem, lowcpu]
+      label: [midtime, highmem, lowcpu]

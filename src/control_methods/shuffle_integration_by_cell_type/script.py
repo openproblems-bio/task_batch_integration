@@ -21,7 +21,7 @@ adata = ad.read_h5ad(par['input_dataset'])
 print("Randomise", flush=True)
 corrected_counts = _randomize_features(
     adata.layers["normalized"],
-    partition=adata.obs["label"],
+    partition=adata.obs["cell_type"],
 )
 
 output = ad.AnnData(

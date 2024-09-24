@@ -53,7 +53,7 @@ vae.train(max_epochs=par["max_epochs_scvi"], train_size=1.0)
 print('Run SCANVI', flush=True)
 scanvae = SCANVI.from_scvi_model(
     scvi_model=vae,
-    labels_key="label",
+    labels_key="cell_type",
     unlabeled_category="UnknownUnknown", # pick anything definitely not in a dataset
 )
 scanvae.train(max_epochs=par["max_epochs_scanvi"], train_size=1.0)

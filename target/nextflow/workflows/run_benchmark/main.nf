@@ -2836,14 +2836,14 @@ meta = [
               "obs" : [
                 {
                   "type" : "string",
-                  "name" : "batch",
-                  "description" : "Batch information",
+                  "name" : "cell_type",
+                  "description" : "Cell type information",
                   "required" : true
                 },
                 {
                   "type" : "string",
-                  "name" : "label",
-                  "description" : "label information",
+                  "name" : "batch",
+                  "description" : "Batch information",
                   "required" : true
                 }
               ],
@@ -2952,14 +2952,14 @@ meta = [
               "obs" : [
                 {
                   "type" : "string",
-                  "name" : "batch",
-                  "description" : "Batch information",
+                  "name" : "cell_type",
+                  "description" : "Cell type information",
                   "required" : true
                 },
                 {
                   "type" : "string",
-                  "name" : "label",
-                  "description" : "label information",
+                  "name" : "batch",
+                  "description" : "Batch information",
                   "required" : true
                 }
               ],
@@ -3227,6 +3227,18 @@ meta = [
       }
     },
     {
+      "name" : "methods/batchelor_fastmnn",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
+      "name" : "methods/batchelor_mnn_correct",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/bbknn",
       "repository" : {
         "type" : "local"
@@ -3239,19 +3251,7 @@ meta = [
       }
     },
     {
-      "name" : "methods/fastmnn",
-      "repository" : {
-        "type" : "local"
-      }
-    },
-    {
       "name" : "methods/liger",
-      "repository" : {
-        "type" : "local"
-      }
-    },
-    {
-      "name" : "methods/mnn_correct",
       "repository" : {
         "type" : "local"
       }
@@ -3422,7 +3422,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "ea97606424fa47aeed60c18528798f9a5036d845",
+    "git_commit" : "457589084237fe07837729c51f0dbe423ed69468",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3564,11 +3564,11 @@ include { no_integration_batch } from "${meta.resources_dir}/../../../nextflow/c
 include { shuffle_integration } from "${meta.resources_dir}/../../../nextflow/control_methods/shuffle_integration/main.nf"
 include { shuffle_integration_by_batch } from "${meta.resources_dir}/../../../nextflow/control_methods/shuffle_integration_by_batch/main.nf"
 include { shuffle_integration_by_cell_type } from "${meta.resources_dir}/../../../nextflow/control_methods/shuffle_integration_by_cell_type/main.nf"
+include { batchelor_fastmnn } from "${meta.resources_dir}/../../../nextflow/methods/batchelor_fastmnn/main.nf"
+include { batchelor_mnn_correct } from "${meta.resources_dir}/../../../nextflow/methods/batchelor_mnn_correct/main.nf"
 include { bbknn } from "${meta.resources_dir}/../../../nextflow/methods/bbknn/main.nf"
 include { combat } from "${meta.resources_dir}/../../../nextflow/methods/combat/main.nf"
-include { fastmnn } from "${meta.resources_dir}/../../../nextflow/methods/fastmnn/main.nf"
 include { liger } from "${meta.resources_dir}/../../../nextflow/methods/liger/main.nf"
-include { mnn_correct } from "${meta.resources_dir}/../../../nextflow/methods/mnn_correct/main.nf"
 include { mnnpy } from "${meta.resources_dir}/../../../nextflow/methods/mnnpy/main.nf"
 include { pyliger } from "${meta.resources_dir}/../../../nextflow/methods/pyliger/main.nf"
 include { scalex } from "${meta.resources_dir}/../../../nextflow/methods/scalex/main.nf"
@@ -3606,11 +3606,11 @@ methods = [
   shuffle_integration,
   shuffle_integration_by_batch,
   shuffle_integration_by_cell_type,
+  batchelor_fastmnn,
+  batchelor_mnn_correct
   bbknn,
   combat,
-  fastmnn,
   liger,
-  mnn_correct,
   mnnpy,
   pyliger,
   scalex,

@@ -474,9 +474,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scib==1.1.5"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics graph_connectivity"
-LABEL org.opencontainers.image.created="2024-09-24T03:44:48Z"
+LABEL org.opencontainers.image.created="2024-09-24T19:22:37Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="ea97606424fa47aeed60c18528798f9a5036d845"
+LABEL org.opencontainers.image.revision="457589084237fe07837729c51f0dbe423ed69468"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1077,7 +1077,7 @@ adata.uns |= read_anndata(par['input_solution'], uns='uns').uns
 print('compute score', flush=True)
 score = scib.metrics.graph_connectivity(
     adata,
-    label_key='label'
+    label_key="cell_type"
 )
 
 print('Create output AnnData object', flush=True)

@@ -1,12 +1,14 @@
 __merge__: /src/api/comp_method.yaml
-name: mnn_correct
-label: mnnCorrect
-summary: Correct for batch effects in single-cell expression data using the mutual
-  nearest neighbors method.
+name: batchelor_mnn_correct
+label: batchelor mnnCorrect
+summary: Mutual nearest neighbors correction
 description: |
-  We present a strategy for batch correction based on the detection of mutual nearest neighbors (MNNs) in the high-dimensional expression space.
-  Our approach does not rely on predefined or equal population compositions across batches; instead, it requires only that a subset of the population be shared between batches.
+  Correct for batch effects in single-cell expression data using the mutual nearest neighbors method.
 references:
+  # Haghverdi, L., Lun, A., Morgan, M. et al. 
+  # Batch effects in single-cell RNA-sequencing data are 
+  # corrected by matching mutual nearest neighbors. 
+  # Nat Biotechnol 36, 421–427 (2018). https://doi.org/10.1038/nbt.4091
   doi: 10.1038/nbt.4091
 links:
   repository: https://code.bioconductor.org/browse/batchelor/
@@ -28,4 +30,4 @@ runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [midtime, lowcpu, highmem]
+      label: [lowcpu, highmem, midtime]

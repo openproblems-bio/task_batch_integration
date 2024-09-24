@@ -498,17 +498,15 @@ function ViashDockerfile {
 
   if [[ "$engine_id" == "docker" ]]; then
     cat << 'VIASHDOCKER'
-FROM openproblems/base_python:1.0.0
+FROM openproblems/base_pytorch_nvidia:1.0.0
 ENTRYPOINT []
 RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scvi-tools>=1.1.0"
 
-RUN pip install -U "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
-
 LABEL org.opencontainers.image.description="Companion container for running component methods scanvi"
-LABEL org.opencontainers.image.created="2024-09-24T03:44:47Z"
+LABEL org.opencontainers.image.created="2024-09-24T19:22:38Z"
 LABEL org.opencontainers.image.source="https://github.com/scverse/scvi-tools"
-LABEL org.opencontainers.image.revision="ea97606424fa47aeed60c18528798f9a5036d845"
+LABEL org.opencontainers.image.revision="457589084237fe07837729c51f0dbe423ed69468"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1230,7 +1228,7 @@ vae.train(max_epochs=par["max_epochs_scvi"], train_size=1.0)
 print('Run SCANVI', flush=True)
 scanvae = SCANVI.from_scvi_model(
     scvi_model=vae,
-    labels_key="label",
+    labels_key="cell_type",
     unlabeled_category="UnknownUnknown", # pick anything definitely not in a dataset
 )
 scanvae.train(max_epochs=par["max_epochs_scanvi"], train_size=1.0)

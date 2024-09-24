@@ -1,10 +1,11 @@
 cat("Loading dependencies\n")
+requireNamespace("anndata", quietly = TRUE)
+library(Matrix, warn.conflicts = FALSE)
+requireNamespace("batchelor", quietly = TRUE)
 suppressPackageStartupMessages({
-  requireNamespace("anndata", quietly = TRUE)
-  library(Matrix, warn.conflicts = FALSE)
-  requireNamespace("batchelor", quietly = TRUE)
   library(SingleCellExperiment, warn.conflicts = FALSE)
 })
+
 ## VIASH START
 par <- list(
   input = 'resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/dataset.h5ad',
@@ -18,28 +19,26 @@ meta <- list(
 cat("Read input\n")
 adata <- anndata::read_h5ad(par$input)
 
+# TODO: pass output of 'multiBatchNorm' to fastMNN
+
 cat("Run mnn\n")
-out <- suppressWarnings(batchelor::mnnCorrect(
+out <- batchelor::fastMNN(
   t(adata$layers[["normalized"]]),
   batch = adata$obs[["batch"]]
-))
+)
 
 cat("Reformat output\n")
-layer <- SummarizedExperiment::assay(out, "corrected")
-
-cat("Store outputs\n")
 output <- anndata::AnnData(
+  obs = adata$obs[, c()],
+  var = adata$var[, c()],
+  obsm = list(
+    X_emb = SingleCellExperiment::reducedDim(out, "corrected")
+  ),
   uns = list(
     dataset_id = adata$uns[["dataset_id"]],
     normalization_id = adata$uns[["normalization_id"]],
     method_id = meta$name
-  ),
-  obs = adata$obs[, c()],
-  var = adata$var[, c()],
-  layers = list(
-    corrected_counts = as(t(layer), "sparseMatrix")
-  ),
-  shape = adata$shape
+  )
 )
 
 cat("Write output to file\n")

@@ -1,4 +1,4 @@
-name: "fastmnn"
+name: "harmonypy"
 namespace: "methods"
 version: "build_main"
 argument_groups:
@@ -22,12 +22,12 @@ argument_groups:
           required: true
         obs:
         - type: "string"
-          name: "batch"
-          description: "Batch information"
+          name: "cell_type"
+          description: "Cell type information"
           required: true
         - type: "string"
-          name: "label"
-          description: "label information"
+          name: "batch"
+          description: "Batch information"
           required: true
         var:
         - type: "boolean"
@@ -141,19 +141,16 @@ argument_groups:
     multiple: false
     multiple_sep: ";"
 resources:
-- type: "r_script"
-  path: "script.R"
+- type: "python_script"
+  path: "script.py"
   is_executable: true
-label: "fastMnn"
-summary: "A simpler version of the original mnnCorrect algorithm."
-description: "The fastMNN() approach is much simpler than the original mnnCorrect()\
-  \ algorithm, and proceeds in several steps.\n\n1. Perform a multi-sample PCA on\
-  \ the (cosine-)normalized expression values to reduce dimensionality.\n2. Identify\
-  \ MNN pairs in the low-dimensional space between a reference batch and a target\
-  \ batch.\n3. Remove variation along the average batch vector in both reference and\
-  \ target batches.\n4. Correct the cells in the target batch towards the reference,\
-  \ using locally weighted correction vectors.\n5. Merge the corrected target batch\
-  \ with the reference, and repeat with the next target batch.\n"
+- type: "file"
+  path: "read_anndata_partial.py"
+label: "Harmonypy"
+summary: "harmonypy is a port of the harmony R package by Ilya Korsunsky."
+description: "Harmony is a general-purpose R package with an efficient algorithm for\
+  \ integrating multiple data sets. \nIt is especially useful for large single-cell\
+  \ datasets such as single-cell RNA-seq.\n"
 test_resources:
 - type: "python_script"
   path: "check_config.py"
@@ -166,7 +163,6 @@ test_resources:
   dest: "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas"
 info:
   method_types:
-  - "feature"
   - "embedding"
   preferred_normalization: "log_cp10k"
   type: "method"
@@ -184,11 +180,11 @@ repositories:
 license: "MIT"
 references:
   doi:
-  - "10.1038/nbt.4091"
+  - "10.1038/s41592-019-0619-0"
 links:
-  repository: "https://code.bioconductor.org/browse/batchelor/"
+  repository: "https://github.com/slowkow/harmonypy"
   docker_registry: "ghcr.io"
-  documentation: "https://bioconductor.org/packages/batchelor/"
+  documentation: "https://portals.broadinstitute.org/harmony"
 runners:
 - type: "executable"
   id: "executable"
@@ -197,9 +193,9 @@ runners:
   id: "nextflow"
   directives:
     label:
-    - "midtime"
     - "lowcpu"
     - "highmem"
+    - "midtime"
     tag: "$id"
   auto:
     simplifyInput: true
@@ -223,23 +219,24 @@ runners:
 engines:
 - type: "docker"
   id: "docker"
-  image: "openproblems/base_r:1.0.0"
+  image: "openproblems/base_python:1.0.0"
   namespace_separator: "/"
   setup:
-  - type: "r"
-    bioc:
-    - "batchelor"
-    bioc_force_install: false
+  - type: "python"
+    user: false
+    pypi:
+    - "harmonypy"
+    upgrade: true
   entrypoint: []
   cmd: null
 build_info:
-  config: "src/methods/fastmnn/config.vsh.yaml"
-  runner: "executable"
+  config: "src/methods/harmonypy/config.vsh.yaml"
+  runner: "nextflow"
   engine: "docker"
-  output: "target/executable/methods/fastmnn"
-  executable: "target/executable/methods/fastmnn/fastmnn"
+  output: "target/nextflow/methods/harmonypy"
+  executable: "target/nextflow/methods/harmonypy/main.nf"
   viash_version: "0.9.0"
-  git_commit: "ea97606424fa47aeed60c18528798f9a5036d845"
+  git_commit: "457589084237fe07837729c51f0dbe423ed69468"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
 package_config:
   name: "task_batch_integration"

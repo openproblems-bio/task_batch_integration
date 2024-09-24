@@ -9,7 +9,16 @@ description: |
 
   This project is a python implementation of the MNN correct algorithm which takes advantage of python's extendability and hackability. It seamlessly integrates with the scanpy framework and has multicore support in its bones.
 references:
-  doi: 10.1038/s41587-019-0113-3
+  bibtex: |
+    @misc{Kang2022,
+      author = {Kang, Chris},
+      title = {mnnpy},
+      year = {Kang2022},
+      publisher = {GitHub},
+      journal = {GitHub repository},
+      howpublished = {\url{https://github.com/chriscainx/mnnpy}},
+      commit = {2097dec30c193f036c5ed7e1c3d1e3a6270e102b}
+    }
 links:
   repository: https://github.com/chriscainx/mnnpy
   documentation: https://github.com/chriscainx/mnnpy#readme
@@ -20,11 +29,6 @@ info:
     mnn_full_unscaled:
     mnn_full_scaled:
       preferred_normalization: log_cp10k_scaled
-arguments:
-  - name: --n_hvg
-    type: integer
-    default: 2000
-    description: Number of highly variable genes to use.
 resources:
   - type: python_script
     path: script.py
@@ -53,4 +57,4 @@ runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [midtime, lowcpu, lowmem]
+      label: [midtime, lowcpu, highmem]

@@ -5,7 +5,6 @@ import mnnpy
 par = {
     'input': 'resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/dataset.h5ad',
     'output': 'output.h5ad',
-    'n_hvg': 2000,
 }
 meta = {
     'name': 'foo',
@@ -18,11 +17,6 @@ adata = ad.read_h5ad(par['input'])
 adata.X = adata.layers['normalized']
 del adata.layers['normalized']
 del adata.layers['counts']
-
-if par['n_hvg']:
-    print(f"Select top {par['n_hvg']} high variable genes", flush=True)
-    idx = adata.var['hvg_score'].to_numpy().argsort()[::-1][:par['n_hvg']]
-    adata = adata[:, idx].copy()
 
 print('Run mnn', flush=True)
 split = []

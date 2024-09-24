@@ -149,10 +149,7 @@ Arguments:
 | `--input` | `file` | A subset of the common dataset. |
 | `--output_dataset` | `file` | (*Output*) Unintegrated AnnData HDF5 file. |
 | `--output_solution` | `file` | (*Output*) Uncensored dataset containing the true labels. |
-| `--obs_label` | `string` | (*Optional*) NA. Default: `cell_type`. |
-| `--obs_batch` | `string` | (*Optional*) NA. Default: `batch`. |
 | `--hvgs` | `integer` | (*Optional*) NA. Default: `2000`. |
-| `--subset_hvg` | `boolean` | (*Optional*) NA. Default: `FALSE`. |
 
 </div>
 
@@ -168,7 +165,7 @@ Format:
 <div class="small">
 
     AnnData object
-     obs: 'batch', 'label'
+     obs: 'cell_type', 'batch'
      var: 'hvg', 'hvg_score', 'feature_name'
      obsm: 'X_pca'
      obsp: 'knn_distances', 'knn_connectivities'
@@ -183,8 +180,8 @@ Data structure:
 
 | Slot | Type | Description |
 |:---|:---|:---|
+| `obs["cell_type"]` | `string` | Cell type information. |
 | `obs["batch"]` | `string` | Batch information. |
-| `obs["label"]` | `string` | label information. |
 | `var["hvg"]` | `boolean` | Whether or not the feature is considered to be a ‘highly variable gene’. |
 | `var["hvg_score"]` | `double` | A ranking of the features by hvg. |
 | `var["feature_name"]` | `string` | A human-readable name for the feature, usually a gene symbol. |
@@ -212,7 +209,7 @@ Format:
 <div class="small">
 
     AnnData object
-     obs: 'batch', 'label'
+     obs: 'cell_type', 'batch'
      var: 'hvg', 'hvg_score', 'feature_name'
      obsm: 'X_pca'
      obsp: 'knn_distances', 'knn_connectivities'
@@ -227,8 +224,8 @@ Data structure:
 
 | Slot | Type | Description |
 |:---|:---|:---|
+| `obs["cell_type"]` | `string` | Cell type information. |
 | `obs["batch"]` | `string` | Batch information. |
-| `obs["label"]` | `string` | label information. |
 | `var["hvg"]` | `boolean` | Whether or not the feature is considered to be a ‘highly variable gene’. |
 | `var["hvg_score"]` | `double` | A ranking of the features by hvg. |
 | `var["feature_name"]` | `string` | A human-readable name for the feature, usually a gene symbol. |

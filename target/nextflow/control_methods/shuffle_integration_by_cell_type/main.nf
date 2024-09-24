@@ -2836,14 +2836,14 @@ meta = [
               "obs" : [
                 {
                   "type" : "string",
-                  "name" : "batch",
-                  "description" : "Batch information",
+                  "name" : "cell_type",
+                  "description" : "Cell type information",
                   "required" : true
                 },
                 {
                   "type" : "string",
-                  "name" : "label",
-                  "description" : "label information",
+                  "name" : "batch",
+                  "description" : "Batch information",
                   "required" : true
                 }
               ],
@@ -2952,14 +2952,14 @@ meta = [
               "obs" : [
                 {
                   "type" : "string",
-                  "name" : "batch",
-                  "description" : "Batch information",
+                  "name" : "cell_type",
+                  "description" : "Cell type information",
                   "required" : true
                 },
                 {
                   "type" : "string",
-                  "name" : "label",
-                  "description" : "label information",
+                  "name" : "batch",
+                  "description" : "Batch information",
                   "required" : true
                 }
               ],
@@ -3229,7 +3229,7 @@ meta = [
       "directives" : {
         "label" : [
           "midtime",
-          "lowmem",
+          "midmem",
           "lowcpu"
         ],
         "tag" : "$id"
@@ -3272,7 +3272,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/control_methods/shuffle_integration_by_cell_type",
     "viash_version" : "0.9.0",
-    "git_commit" : "ea97606424fa47aeed60c18528798f9a5036d845",
+    "git_commit" : "457589084237fe07837729c51f0dbe423ed69468",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3459,7 +3459,7 @@ adata = ad.read_h5ad(par['input_dataset'])
 print("Randomise", flush=True)
 corrected_counts = _randomize_features(
     adata.layers["normalized"],
-    partition=adata.obs["label"],
+    partition=adata.obs["cell_type"],
 )
 
 output = ad.AnnData(
@@ -3840,7 +3840,7 @@ meta["defaults"] = [
   },
   "label" : [
     "midtime",
-    "lowmem",
+    "midmem",
     "lowcpu"
   ],
   "tag" : "$id"

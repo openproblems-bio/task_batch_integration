@@ -24,7 +24,7 @@ adata.uns |= read_anndata(par['input_solution'], uns='uns').uns
 print('compute score', flush=True)
 score = scib.metrics.graph_connectivity(
     adata,
-    label_key='label'
+    label_key="cell_type"
 )
 
 print('Create output AnnData object', flush=True)

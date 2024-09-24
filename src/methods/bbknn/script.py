@@ -20,7 +20,6 @@ meta = {
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
 
-
 print('Read input', flush=True)
 adata = read_anndata(
     par['input'],

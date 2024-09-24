@@ -2832,6 +2832,18 @@ meta = [
           "direction" : "input",
           "multiple" : false,
           "multiple_sep" : ";"
+        },
+        {
+          "type" : "integer",
+          "name" : "--uns_length_cutoff",
+          "description" : "The maximum length of the .uns metadata to extract. If a value in uns is a list or a dictionary with more elements than the provided cutoff, it will not be extracted.",
+          "default" : [
+            10
+          ],
+          "required" : false,
+          "direction" : "input",
+          "multiple" : false,
+          "multiple_sep" : ";"
         }
       ]
     },
@@ -2983,7 +2995,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/h5ad/extract_uns_metadata",
     "viash_version" : "0.9.0",
-    "git_commit" : "f1b8ec3f1ae65bcc3f90a5c289ce72b519647013",
+    "git_commit" : "a938a52915b3b4af67e04c92f3dfd13a31963413",
     "git_remote" : "https://github.com/openproblems-bio/core"
   },
   "package_config" : {
@@ -3041,6 +3053,7 @@ import datetime
 par = {
   'input': $( if [ ! -z ${VIASH_PAR_INPUT+x} ]; then echo "r'${VIASH_PAR_INPUT//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
   'schema': $( if [ ! -z ${VIASH_PAR_SCHEMA+x} ]; then echo "r'${VIASH_PAR_SCHEMA//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
+  'uns_length_cutoff': $( if [ ! -z ${VIASH_PAR_UNS_LENGTH_CUTOFF+x} ]; then echo "int(r'${VIASH_PAR_UNS_LENGTH_CUTOFF//\\'/\\'\\"\\'\\"r\\'}')"; else echo None; fi ),
   'output': $( if [ ! -z ${VIASH_PAR_OUTPUT+x} ]; then echo "r'${VIASH_PAR_OUTPUT//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi )
 }
 meta = {
@@ -3251,9 +3264,9 @@ uns = {}
 for key, val in adata.uns.items():
   if is_atomic(val):
     uns[key] = to_atomic(val)
-  elif is_list_of_atomics(val) and len(val) <= 10:
+  elif is_list_of_atomics(val) and len(val) <= par["uns_length_cutoff"]:
     uns[key] = to_list_of_atomics(val)
-  elif is_dict_of_atomics(val) and len(val) <= 10:
+  elif is_dict_of_atomics(val) and len(val) <= par["uns_length_cutoff"]:
     uns[key] = to_dict_of_atomics(val)
 
 uns["file_size"] = get_file_size(par["input"])

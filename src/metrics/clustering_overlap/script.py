@@ -27,16 +27,16 @@ adata.uns |= read_anndata(par['input_solution'], uns='uns').uns
 print('Run optimal Leiden clustering', flush=True)
 cluster_optimal_resolution(
     adata=adata,
-    label_key='label',
+    label_key="cell_type",
     cluster_key='cluster',
     cluster_function=sc.tl.leiden,
 )
 
 print('Compute ARI score', flush=True)
-ari_score = ari(adata, cluster_key='cluster', label_key='label')
+ari_score = ari(adata, cluster_key='cluster', label_key="cell_type")
 
 print('Compute NMI score', flush=True)
-nmi_score = nmi(adata, cluster_key='cluster', label_key='label')
+nmi_score = nmi(adata, cluster_key='cluster', label_key="cell_type")
 
 print("Create output AnnData object", flush=True)
 output = ad.AnnData(

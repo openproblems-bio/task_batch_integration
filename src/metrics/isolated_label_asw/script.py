@@ -26,7 +26,7 @@ print('compute score', flush=True)
 
 score = isolated_labels_asw(
     adata,
-    label_key='label',
+    label_key="cell_type",
     batch_key='batch',
     embed='X_emb',
     iso_threshold=None,

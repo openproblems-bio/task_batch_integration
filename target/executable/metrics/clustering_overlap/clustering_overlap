@@ -474,9 +474,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scib==1.1.5"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics clustering_overlap"
-LABEL org.opencontainers.image.created="2024-09-24T03:44:47Z"
+LABEL org.opencontainers.image.created="2024-09-24T19:22:36Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="ea97606424fa47aeed60c18528798f9a5036d845"
+LABEL org.opencontainers.image.revision="457589084237fe07837729c51f0dbe423ed69468"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1079,16 +1079,16 @@ adata.uns |= read_anndata(par['input_solution'], uns='uns').uns
 print('Run optimal Leiden clustering', flush=True)
 cluster_optimal_resolution(
     adata=adata,
-    label_key='label',
+    label_key="cell_type",
     cluster_key='cluster',
     cluster_function=sc.tl.leiden,
 )
 
 print('Compute ARI score', flush=True)
-ari_score = ari(adata, cluster_key='cluster', label_key='label')
+ari_score = ari(adata, cluster_key='cluster', label_key="cell_type")
 
 print('Compute NMI score', flush=True)
-nmi_score = nmi(adata, cluster_key='cluster', label_key='label')
+nmi_score = nmi(adata, cluster_key='cluster', label_key="cell_type")
 
 print("Create output AnnData object", flush=True)
 output = ad.AnnData(

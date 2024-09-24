@@ -190,25 +190,10 @@ function ViashHelp {
   echo "        example:"
   echo "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/solution.h5ad"
   echo ""
-  echo "    --obs_label"
-  echo "        type: string"
-  echo "        default: cell_type"
-  echo "        Which .obs slot to use as label."
-  echo ""
-  echo "    --obs_batch"
-  echo "        type: string"
-  echo "        default: batch"
-  echo "        Which .obs slot to use as batch covariate."
-  echo ""
   echo "    --hvgs"
   echo "        type: integer"
   echo "        default: 2000"
-  echo "        Number of highly variable genes"
-  echo ""
-  echo "    --subset_hvg"
-  echo "        type: boolean"
-  echo "        default: false"
-  echo "        Whether to subset to highly variable genes"
+  echo "        Subset the count matrix to this number of HVGs"
 }
 
 # initialise variables
@@ -490,9 +475,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scib==1.1.5"
 
 LABEL org.opencontainers.image.description="Companion container for running component data_processors process_dataset"
-LABEL org.opencontainers.image.created="2024-09-24T03:44:48Z"
+LABEL org.opencontainers.image.created="2024-09-24T19:22:36Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="ea97606424fa47aeed60c18528798f9a5036d845"
+LABEL org.opencontainers.image.revision="457589084237fe07837729c51f0dbe423ed69468"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -665,28 +650,6 @@ while [[ $# -gt 0 ]]; do
             VIASH_PAR_OUTPUT_SOLUTION=$(ViashRemoveFlags "$1")
             shift 1
             ;;
-        --obs_label)
-            [ -n "$VIASH_PAR_OBS_LABEL" ] && ViashError Bad arguments for option \'--obs_label\': \'$VIASH_PAR_OBS_LABEL\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
-            VIASH_PAR_OBS_LABEL="$2"
-            [ $# -lt 2 ] && ViashError Not enough arguments passed to --obs_label. Use "--help" to get more information on the parameters. && exit 1
-            shift 2
-            ;;
-        --obs_label=*)
-            [ -n "$VIASH_PAR_OBS_LABEL" ] && ViashError Bad arguments for option \'--obs_label=*\': \'$VIASH_PAR_OBS_LABEL\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
-            VIASH_PAR_OBS_LABEL=$(ViashRemoveFlags "$1")
-            shift 1
-            ;;
-        --obs_batch)
-            [ -n "$VIASH_PAR_OBS_BATCH" ] && ViashError Bad arguments for option \'--obs_batch\': \'$VIASH_PAR_OBS_BATCH\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
-            VIASH_PAR_OBS_BATCH="$2"
-            [ $# -lt 2 ] && ViashError Not enough arguments passed to --obs_batch. Use "--help" to get more information on the parameters. && exit 1
-            shift 2
-            ;;
-        --obs_batch=*)
-            [ -n "$VIASH_PAR_OBS_BATCH" ] && ViashError Bad arguments for option \'--obs_batch=*\': \'$VIASH_PAR_OBS_BATCH\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
-            VIASH_PAR_OBS_BATCH=$(ViashRemoveFlags "$1")
-            shift 1
-            ;;
         --hvgs)
             [ -n "$VIASH_PAR_HVGS" ] && ViashError Bad arguments for option \'--hvgs\': \'$VIASH_PAR_HVGS\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
             VIASH_PAR_HVGS="$2"
@@ -696,17 +659,6 @@ while [[ $# -gt 0 ]]; do
         --hvgs=*)
             [ -n "$VIASH_PAR_HVGS" ] && ViashError Bad arguments for option \'--hvgs=*\': \'$VIASH_PAR_HVGS\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
             VIASH_PAR_HVGS=$(ViashRemoveFlags "$1")
-            shift 1
-            ;;
-        --subset_hvg)
-            [ -n "$VIASH_PAR_SUBSET_HVG" ] && ViashError Bad arguments for option \'--subset_hvg\': \'$VIASH_PAR_SUBSET_HVG\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
-            VIASH_PAR_SUBSET_HVG="$2"
-            [ $# -lt 2 ] && ViashError Not enough arguments passed to --subset_hvg. Use "--help" to get more information on the parameters. && exit 1
-            shift 2
-            ;;
-        --subset_hvg=*)
-            [ -n "$VIASH_PAR_SUBSET_HVG" ] && ViashError Bad arguments for option \'--subset_hvg=*\': \'$VIASH_PAR_SUBSET_HVG\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
-            VIASH_PAR_SUBSET_HVG=$(ViashRemoveFlags "$1")
             shift 1
             ;;
         ---engine)
@@ -917,17 +869,8 @@ if [ -z ${VIASH_META_TEMP_DIR+x} ]; then
 fi
 
 # filling in defaults
-if [ -z ${VIASH_PAR_OBS_LABEL+x} ]; then
-  VIASH_PAR_OBS_LABEL="cell_type"
-fi
-if [ -z ${VIASH_PAR_OBS_BATCH+x} ]; then
-  VIASH_PAR_OBS_BATCH="batch"
-fi
 if [ -z ${VIASH_PAR_HVGS+x} ]; then
   VIASH_PAR_HVGS="2000"
-fi
-if [ -z ${VIASH_PAR_SUBSET_HVG+x} ]; then
-  VIASH_PAR_SUBSET_HVG="false"
 fi
 
 # check whether required files exist
@@ -940,12 +883,6 @@ fi
 if [[ -n "$VIASH_PAR_HVGS" ]]; then
   if ! [[ "$VIASH_PAR_HVGS" =~ ^[-+]?[0-9]+$ ]]; then
     ViashError '--hvgs' has to be an integer. Use "--help" to get more information on the parameters.
-    exit 1
-  fi
-fi
-if [[ -n "$VIASH_PAR_SUBSET_HVG" ]]; then
-  if ! [[ "$VIASH_PAR_SUBSET_HVG" =~ ^(true|True|TRUE|false|False|FALSE|yes|Yes|YES|no|No|NO)$ ]]; then
-    ViashError '--subset_hvg' has to be a boolean. Use "--help" to get more information on the parameters.
     exit 1
   fi
 fi
@@ -1116,6 +1053,7 @@ trap interrupt INT SIGINT
 cat > "\$tempscript" << 'VIASHMAIN'
 import sys
 import anndata as ad
+import scanpy as sc
 import openproblems as op
 
 ## VIASH START
@@ -1124,10 +1062,7 @@ par = {
   'input': $( if [ ! -z ${VIASH_PAR_INPUT+x} ]; then echo "r'${VIASH_PAR_INPUT//\'/\'\"\'\"r\'}'"; else echo None; fi ),
   'output_dataset': $( if [ ! -z ${VIASH_PAR_OUTPUT_DATASET+x} ]; then echo "r'${VIASH_PAR_OUTPUT_DATASET//\'/\'\"\'\"r\'}'"; else echo None; fi ),
   'output_solution': $( if [ ! -z ${VIASH_PAR_OUTPUT_SOLUTION+x} ]; then echo "r'${VIASH_PAR_OUTPUT_SOLUTION//\'/\'\"\'\"r\'}'"; else echo None; fi ),
-  'obs_label': $( if [ ! -z ${VIASH_PAR_OBS_LABEL+x} ]; then echo "r'${VIASH_PAR_OBS_LABEL//\'/\'\"\'\"r\'}'"; else echo None; fi ),
-  'obs_batch': $( if [ ! -z ${VIASH_PAR_OBS_BATCH+x} ]; then echo "r'${VIASH_PAR_OBS_BATCH//\'/\'\"\'\"r\'}'"; else echo None; fi ),
-  'hvgs': $( if [ ! -z ${VIASH_PAR_HVGS+x} ]; then echo "int(r'${VIASH_PAR_HVGS//\'/\'\"\'\"r\'}')"; else echo None; fi ),
-  'subset_hvg': $( if [ ! -z ${VIASH_PAR_SUBSET_HVG+x} ]; then echo "r'${VIASH_PAR_SUBSET_HVG//\'/\'\"\'\"r\'}'.lower() == 'true'"; else echo None; fi )
+  'hvgs': $( if [ ! -z ${VIASH_PAR_HVGS+x} ]; then echo "int(r'${VIASH_PAR_HVGS//\'/\'\"\'\"r\'}')"; else echo None; fi )
 }
 meta = {
   'name': $( if [ ! -z ${VIASH_META_NAME+x} ]; then echo "r'${VIASH_META_NAME//\'/\'\"\'\"r\'}'"; else echo None; fi ),
@@ -1156,14 +1091,14 @@ dep = {
 ## VIASH END
 
 # import helper functions
-sys.path.append(meta['resources_dir'])
+sys.path.append(meta["resources_dir"])
 from subset_h5ad_by_format import subset_h5ad_by_format
 
 print(">> Load config", flush=True)
 config = op.project.read_viash_config(meta["config"])
 
-print('Read input', flush=True)
-input = ad.read_h5ad(par['input'])
+print("Read input", flush=True)
+adata = ad.read_h5ad(par["input"])
 
 def compute_batched_hvg(adata, n_hvgs):
     if n_hvgs > adata.n_vars or n_hvgs <= 0:
@@ -1171,48 +1106,68 @@ def compute_batched_hvg(adata, n_hvgs):
     else:
         import scib
         scib_adata = adata.copy()
-        scib_adata.X = scib_adata.layers['normalized'].copy()
+        del scib_adata.layers["counts"]
+        scib_adata.X = scib_adata.layers["normalized"].copy()
         hvg_list = scib.pp.hvg_batch(
             scib_adata,
-            batch_key='batch',
+            batch_key="batch",
             target_genes=n_hvgs,
             adataOut=False
         )
-    adata.var['hvg'] = adata.var_names.isin(hvg_list)
-    return adata
+    return hvg_list
 
-print(f'Select {par["hvgs"]} highly variable genes', flush=True)
-adata_with_hvg = compute_batched_hvg(input, n_hvgs=par['hvgs'])
+n_hvgs = par["hvgs"]
+n_components = adata.obsm["X_pca"].shape[1]
 
-if par['subset_hvg']:
-    print('Subsetting to HVG dimensions', flush=True)
-    adata_with_hvg = adata_with_hvg[:, adata_with_hvg.var['hvg']].copy()
+if adata.n_vars < n_hvgs:
+    n_hvgs = adata.n_vars
 
-print(">> Figuring out which data needs to be copied to which output file", flush=True)
-# use par arguments to look for label and batch value in different slots
-slot_mapping = {
-    "obs": {
-        "label": par["obs_label"],
-        "batch": par["obs_batch"],
-    }
+if adata.n_vars > n_hvgs:
+    print(f"Select {par['hvgs']} highly variable genes", flush=True)
+    hvg_list = compute_batched_hvg(adata, n_hvgs=n_hvgs)
+
+    print("Subsetting to HVG dimensions", flush=True)
+    adata = adata[:, adata.var_names.isin(hvg_list)].copy()
+
+print(">> Recompute HVG", flush=True)
+out = sc.pp.highly_variable_genes(
+  adata,
+  layer="normalized",
+  n_top_genes=n_hvgs,
+  flavor="cell_ranger",
+  inplace=False
+)
+adata.var["hvg"] = out["highly_variable"].values
+adata.var["hvg_score"] = out["dispersions_norm"].values
+
+print(">> Recompute PCA", flush=True)
+X_pca, loadings, variance, variance_ratio = sc.pp.pca(
+    adata.layers["normalized"], 
+    n_comps=n_components,
+    return_info=True
+)
+adata.obsm["X_pca"] = X_pca
+adata.varm["pca_loadings"] = loadings.T
+adata.uns["pca_variance"] = {
+    "variance": variance, 
+    "variance_ratio": variance_ratio
 }
+
 print(">> Create output object", flush=True)
 output_dataset = subset_h5ad_by_format(
-    adata_with_hvg,
+    adata,
     config,
-    "output_dataset",
-    slot_mapping
+    "output_dataset"
 )
 output_solution = subset_h5ad_by_format(
-    adata_with_hvg,
+    adata,
     config,
-    "output_solution",
-    slot_mapping
+    "output_solution"
 )
 
-print('Writing adatas to file', flush=True)
-output_dataset.write_h5ad(par['output_dataset'], compression='gzip')
-output_solution.write_h5ad(par['output_solution'], compression='gzip')
+print("Writing adatas to file", flush=True)
+output_dataset.write_h5ad(par["output_dataset"], compression="gzip")
+output_solution.write_h5ad(par["output_solution"], compression="gzip")
 VIASHMAIN
 python -B "\$tempscript" &
 wait "\$!"

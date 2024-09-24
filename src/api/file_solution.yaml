@@ -16,12 +16,12 @@ info:
         required: true
     obs:
       - type: string
-        name: batch
-        description: Batch information
+        name: cell_type
+        description: Cell type information
         required: true
       - type: string
-        name: label
-        description: label information
+        name: batch
+        description: Batch information
         required: true
     var:
       - type: boolean

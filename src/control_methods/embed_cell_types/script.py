@@ -24,7 +24,7 @@ adata = read_anndata(
 )
 
 print('Process data...', flush=True)
-adata.obsm["X_emb"] = _perfect_embedding(partition=adata.obs["label"])
+adata.obsm["X_emb"] = _perfect_embedding(partition=adata.obs["cell_type"])
 
 print("Store outputs", flush=True)
 adata.uns['method_id'] = meta['name']

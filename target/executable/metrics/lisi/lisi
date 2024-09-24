@@ -474,9 +474,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "git+https://github.com/theislab/scib.git@v1.1.5"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics lisi"
-LABEL org.opencontainers.image.created="2024-09-24T03:44:50Z"
+LABEL org.opencontainers.image.created="2024-09-24T19:22:39Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="ea97606424fa47aeed60c18528798f9a5036d845"
+LABEL org.opencontainers.image.revision="457589084237fe07837729c51f0dbe423ed69468"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1091,7 +1091,7 @@ ilisi = (ilisi - 1) / (adata.obs['batch'].nunique() - 1)
 print('compute cLISI scores...', flush=True)
 clisi_scores = lisi_graph_py(
     adata=adata,
-    obs_key='label',
+    obs_key="cell_type",
     n_neighbors=90,
     perplexity=None,
     subsample=None,
@@ -1099,7 +1099,7 @@ clisi_scores = lisi_graph_py(
     verbose=False,
 )
 clisi = np.nanmedian(clisi_scores)
-nlabs = adata.obs['label'].nunique()
+nlabs = adata.obs["cell_type"].nunique()
 clisi = (nlabs - clisi) / (nlabs - 1)
 
 print('Create output AnnData object', flush=True)

@@ -2919,14 +2919,14 @@ meta = [
               "obs" : [
                 {
                   "type" : "string",
-                  "name" : "batch",
-                  "description" : "Batch information",
+                  "name" : "cell_type",
+                  "description" : "Cell type information",
                   "required" : true
                 },
                 {
                   "type" : "string",
-                  "name" : "label",
-                  "description" : "label information",
+                  "name" : "batch",
+                  "description" : "Batch information",
                   "required" : true
                 }
               ],
@@ -3250,7 +3250,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/lisi",
     "viash_version" : "0.9.0",
-    "git_commit" : "ea97606424fa47aeed60c18528798f9a5036d845",
+    "git_commit" : "457589084237fe07837729c51f0dbe423ed69468",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3454,7 +3454,7 @@ ilisi = (ilisi - 1) / (adata.obs['batch'].nunique() - 1)
 print('compute cLISI scores...', flush=True)
 clisi_scores = lisi_graph_py(
     adata=adata,
-    obs_key='label',
+    obs_key="cell_type",
     n_neighbors=90,
     perplexity=None,
     subsample=None,
@@ -3462,7 +3462,7 @@ clisi_scores = lisi_graph_py(
     verbose=False,
 )
 clisi = np.nanmedian(clisi_scores)
-nlabs = adata.obs['label'].nunique()
+nlabs = adata.obs["cell_type"].nunique()
 clisi = (nlabs - clisi) / (nlabs - 1)
 
 print('Create output AnnData object', flush=True)

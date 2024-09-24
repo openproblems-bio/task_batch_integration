@@ -26,7 +26,7 @@ print('compute score', flush=True)
 score = kBET(
     adata,
     batch_key="batch",
-    label_key="label",
+    label_key="cell_type",
     type_="embed",
     embed="X_emb",
     scaled=True,
