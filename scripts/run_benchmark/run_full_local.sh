@@ -11,14 +11,6 @@ cd "$REPO_ROOT"
 # please refer to the nextflow information for more details:
 # https://www.nextflow.io/docs/latest/
 
-# remove this when you have implemented the script
-echo "TODO: once the 'run_benchmark' workflow has been implemented, update this script to use it."
-echo "  Step 1: replace 'task_batch_integration' with the name of the task in the following command."
-echo "  Step 2: replace the rename keys parameters to fit your run_benchmark inputs"
-echo "  Step 3: replace the settings parameter to fit your run_benchmark outputs"
-echo "  Step 4: remove this message"
-exit 1
-
 set -e
 
 echo "Running benchmark on test data"
@@ -31,7 +23,7 @@ publish_dir="resources/results/${RUN_ID}"
 # write the parameters to file
 cat > /tmp/params.yaml << HERE
 input_states: resources/datasets/**/state.yaml
-rename_keys: 'input_train:output_train;input_test:output_test;input_solution:output_solution'
+rename_keys: 'input_dataset:output_dataset;input_solution:output_solution'
 output_state: "state.yaml"
 publish_dir: "$publish_dir"
 HERE
