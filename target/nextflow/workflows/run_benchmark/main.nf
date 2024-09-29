@@ -3251,6 +3251,18 @@ meta = [
       }
     },
     {
+      "name" : "methods/harmony",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
+      "name" : "methods/harmonypy",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/liger",
       "repository" : {
         "type" : "local"
@@ -3422,7 +3434,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "457589084237fe07837729c51f0dbe423ed69468",
+    "git_commit" : "044e17aaaa378d2e5b03d48d05f04a576b60d2cf",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3568,6 +3580,8 @@ include { batchelor_fastmnn } from "${meta.resources_dir}/../../../nextflow/meth
 include { batchelor_mnn_correct } from "${meta.resources_dir}/../../../nextflow/methods/batchelor_mnn_correct/main.nf"
 include { bbknn } from "${meta.resources_dir}/../../../nextflow/methods/bbknn/main.nf"
 include { combat } from "${meta.resources_dir}/../../../nextflow/methods/combat/main.nf"
+include { harmony } from "${meta.resources_dir}/../../../nextflow/methods/harmony/main.nf"
+include { harmonypy } from "${meta.resources_dir}/../../../nextflow/methods/harmonypy/main.nf"
 include { liger } from "${meta.resources_dir}/../../../nextflow/methods/liger/main.nf"
 include { mnnpy } from "${meta.resources_dir}/../../../nextflow/methods/mnnpy/main.nf"
 include { pyliger } from "${meta.resources_dir}/../../../nextflow/methods/pyliger/main.nf"
@@ -3610,6 +3624,8 @@ methods = [
   batchelor_mnn_correct
   bbknn,
   combat,
+  harmony,
+  harmonypy,
   liger,
   mnnpy,
   pyliger,

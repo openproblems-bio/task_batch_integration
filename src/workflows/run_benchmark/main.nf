@@ -18,6 +18,8 @@ methods = [
   batchelor_mnn_correct
   bbknn,
   combat,
+  harmony,
+  harmonypy,
   liger,
   mnnpy,
   pyliger,

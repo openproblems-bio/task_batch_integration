@@ -59,6 +59,7 @@ resources:
 dependencies:
   - name: h5ad/extract_uns_metadata
     repository: core
+  # control methods
   - name: control_methods/embed_cell_types
   - name: control_methods/embed_cell_types_jittered
   - name: control_methods/no_integration
@@ -66,10 +67,13 @@ dependencies:
   - name: control_methods/shuffle_integration
   - name: control_methods/shuffle_integration_by_batch
   - name: control_methods/shuffle_integration_by_cell_type
+  # methods
   - name: methods/batchelor_fastmnn
   - name: methods/batchelor_mnn_correct
   - name: methods/bbknn
   - name: methods/combat
+  - name: methods/harmony
+  - name: methods/harmonypy
   - name: methods/liger
   - name: methods/mnnpy
   - name: methods/pyliger
@@ -77,6 +81,7 @@ dependencies:
   - name: methods/scanorama
   - name: methods/scanvi
   - name: methods/scvi
+  # metrics
   - name: metrics/asw_batch
   - name: metrics/asw_label
   - name: metrics/cell_cycle_conservation
