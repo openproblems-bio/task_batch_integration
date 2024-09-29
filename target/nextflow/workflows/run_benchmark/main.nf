@@ -3434,7 +3434,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "044e17aaaa378d2e5b03d48d05f04a576b60d2cf",
+    "git_commit" : "80a9a2fbff8cb0fa6cb452f6075f74b58254e788",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3621,7 +3621,7 @@ methods = [
   shuffle_integration_by_batch,
   shuffle_integration_by_cell_type,
   batchelor_fastmnn,
-  batchelor_mnn_correct
+  batchelor_mnn_correct,
   bbknn,
   combat,
   harmony,
