@@ -19,10 +19,19 @@ viash run src/data_processors/process_dataset/config.vsh.yaml -- \
   --output_dataset "$DATASET_DIR/cxg_mouse_pancreas_atlas/dataset.h5ad" \
   --output_solution "$DATASET_DIR/cxg_mouse_pancreas_atlas/solution.h5ad"
 
+viash run src/data_processors/process_dataset/config.vsh.yaml -- \
+  --input "$RAW_DATA/cxg_immune_cell_atlas/dataset.h5ad" \
+  --output_dataset "$DATASET_DIR/cxg_immune_cell_atlas/dataset.h5ad" \
+  --output_solution "$DATASET_DIR/cxg_immune_cell_atlas/solution.h5ad"
+
 # run one method
 viash run src/methods/combat/config.vsh.yaml -- \
   --input $DATASET_DIR/cxg_mouse_pancreas_atlas/dataset.h5ad \
   --output $DATASET_DIR/cxg_mouse_pancreas_atlas/integrated.h5ad
+
+viash run src/methods/combat/config.vsh.yaml -- \
+  --input $DATASET_DIR/cxg_immune_cell_atlas/dataset.h5ad \
+  --output $DATASET_DIR/cxg_immune_cell_atlas/integrated.h5ad
 
 # run transformer
 viash run src/data_processors/transform/config.vsh.yaml -- \
@@ -31,11 +40,22 @@ viash run src/data_processors/transform/config.vsh.yaml -- \
     --expected_method_types feature \
     --output $DATASET_DIR/cxg_mouse_pancreas_atlas/integrated_full.h5ad
 
+viash run src/data_processors/transform/config.vsh.yaml -- \
+    --input_integrated $DATASET_DIR/cxg_immune_cell_atlas/integrated.h5ad \
+    --input_dataset $DATASET_DIR/cxg_immune_cell_atlas/dataset.h5ad \
+    --expected_method_types feature \
+    --output $DATASET_DIR/cxg_immune_cell_atlas/integrated_full.h5ad
+
 # run one metric
 viash run src/metrics/graph_connectivity/config.vsh.yaml -- \
     --input_integrated $DATASET_DIR/cxg_mouse_pancreas_atlas/integrated_full.h5ad \
     --input_solution $DATASET_DIR/cxg_mouse_pancreas_atlas/solution.h5ad \
     --output $DATASET_DIR/cxg_mouse_pancreas_atlas/score.h5ad
+
+viash run src/metrics/graph_connectivity/config.vsh.yaml -- \
+    --input_integrated $DATASET_DIR/cxg_immune_cell_atlas/integrated_full.h5ad \
+    --input_solution $DATASET_DIR/cxg_immune_cell_atlas/solution.h5ad \
+    --output $DATASET_DIR/cxg_immune_cell_atlas/score.h5ad
 
 # write the state file
 cat > $DATASET_DIR/state.yaml << HERE
@@ -45,6 +65,12 @@ output_solution: !file solution.h5ad
 output_integrated: !file integrated.h5ad
 output_integrated_full: !file integrated_full.h5ad
 output_score: !file score.h5ad
+id: cxg_immune_cell_atlas
+output_dataset: !file dataset_mod1.h5ad
+output_solution: !file solution_mod1.h5ad
+output_integrated: !file integrated_mod1.h5ad
+output_integrated_full: !file integrated_full_mod1.h5ad
+output_score: !file score_mod1.h5ad
 HERE
 
 # only run this if you have access to the openproblems-data bucket

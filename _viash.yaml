@@ -31,10 +31,10 @@ description: |
 
 references:
   doi:
-    # Luecken, M.D., Büttner, M., Chaichoompu, K. et al. 
-    # Benchmarking atlas-level data integration in single-cell genomics. Nat Methods 19, 41–50 (2022). 
+    # Luecken, M.D., Büttner, M., Chaichoompu, K. et al.
+    # Benchmarking atlas-level data integration in single-cell genomics. Nat Methods 19, 41–50 (2022).
     - 10.1038/s41592-021-01336-8
-  
+
 info:
   image: thumbnail.svg
   test_resources:
@@ -42,10 +42,13 @@ info:
       path: s3://openproblems-data/resources_test/common/cxg_mouse_pancreas_atlas/
       dest: resources_test/common/cxg_mouse_pancreas_atlas
     - type: s3
+      path: s3://openproblems-data/resources_test/common/cxg_immune_cell_atlas/
+      dest: resources_test/common/cxg_immune_cell_atlas
+    - type: s3
       path: s3://openproblems-data/resources_test/task_batch_integration/
       dest: resources_test/task_batch_integration
 
-authors: 
+authors:
   - name: Michaela Mueller
     roles: [ maintainer, author ]
     info:
