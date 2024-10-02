@@ -26,6 +26,7 @@ methods = [
   scalex,
   scanorama,
   scanvi,
+  scimilarity,
   scvi
 ]
 
@@ -55,7 +56,7 @@ workflow run_wf {
    ****************************/
   dataset_ch = input_ch
     // store join id
-    | map{ id, state -> 
+    | map{ id, state ->
       [id, state + ["_meta": [join_id: id]]]
     }
 
@@ -153,7 +154,7 @@ workflow run_wf {
       },
       // use 'fromState' to fetch the arguments the component requires from the overall state
       fromState: [
-        input_solution: "input_solution", 
+        input_solution: "input_solution",
         input_integrated: "method_output_cleaned"
       ],
       // use 'toState' to publish that component's outputs to the overall state
