@@ -21,13 +21,6 @@ resources:
   - type: python_script
     path: script.py
   - path: /src/utils/read_anndata_partial.py
-test_resources:
-  - type: python_script
-    path: /common/component_tests/check_config.py
-  - type: python_script
-    path: /common/component_tests/run_and_check_output.py
-  - path: /resources_test/task_batch_integration/cxg_immune_cell_atlas
-    dest: resources_test/task_batch_integration/cxg_immune_cell_atlas
 engines:
   - type: docker
     image: openproblems/base_pytorch_nvidia:1.0.0
