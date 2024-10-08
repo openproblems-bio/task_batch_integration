@@ -1,6 +1,10 @@
 import sys
 import anndata as ad
 import scimilarity
+import os
+import zipfile
+import tempfile
+import tarfile
 
 ## VIASH START
 par = {
@@ -25,9 +29,28 @@ if adata.uns["dataset_organism"] != "homo_sapiens":
         f"(dataset_organism == \"{adata.uns['dataset_organism']}\")"
     )
 
+if os.path.isdir(par["model"]):
+    model_temp = None
+    model_dir = par["model"]
+else:
+    model_temp = tempfile.TemporaryDirectory()
+    model_dir = model_temp.name
+
+    if zipfile.is_zipfile(par["model"]):
+        print("Extract SCimilarity model from .zip", flush=True)
+        with zipfile.ZipFile(par["model"], 'r') as zip_file:
+            zip_file.extractall(model_dir)
+    elif tarfile.is_tarfile(par["model"]) and par["model"].endswith('.tar.gz'):
+        print("Extract SCimilarity model from .tar.gz", flush=True)
+        with tarfile.open(par["model"], 'r:gz') as tar_file:
+            tar_file.extractall(model_dir)
+            model_dir = os.path.join(model_dir, os.listdir(model_dir)[0])
+    else:
+        raise ValueError(f"The 'model' argument should be a directory a .zip file or a .tar.gz file")
+
 print("Load SCimilarity model", flush=True)
 scimilarity_embedding = scimilarity.cell_embedding.CellEmbedding(
-    model_path=par["model"]
+    model_path=model_dir
 )
 print("SCimilarity version:", scimilarity.__version__)
 
@@ -82,3 +105,7 @@ print(output)
 
 print("Write output to file", flush=True)
 output.write_h5ad(par["output"], compression="gzip")
+
+if model_temp is not None:
+    print("Cleanup model directory", flush=True)
+    model_temp.cleanup()

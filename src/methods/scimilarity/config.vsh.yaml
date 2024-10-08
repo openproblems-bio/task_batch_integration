@@ -15,7 +15,7 @@ info:
 arguments:
   - name: --model
     type: file
-    description: Path to the directory containing SCimilarity models
+    description: Path to the directory containing SCimilarity models or a .zip/.tar.gz archive
     required: true
 resources:
   - type: python_script
