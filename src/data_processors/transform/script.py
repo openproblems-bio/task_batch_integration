@@ -3,8 +3,8 @@ import scanpy as sc
 
 ## VIASH START
 par = {
-    "input_integrated": "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/integrated.h5ad",
-    "input_dataset": "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/dataset.h5ad",
+    "input_integrated": "resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated.h5ad",
+    "input_dataset": "resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad",
     "expected_method_types": ["feature"],
     "ouput": "output.h5ad"
 }
@@ -28,7 +28,7 @@ if not integrated.obs.index.equals(dataset.obs.index):
 
 if "corrected_counts" in integrated.layers.keys():
     assert integrated.shape[1] == dataset.shape[1], "Number of genes do not match"
-    
+
     if not integrated.var.index.equals(dataset.var.index):
         assert integrated.var.index.sort_values().equals(dataset.var.index.sort_values()), "Gene names do not match"
         print("Reordering genes", flush=True)

@@ -3,10 +3,10 @@ import anndata as ad
 
 ## VIASH START
 par = {
-    'input_dataset': 'resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/dataset.h5ad',
+    'input_dataset': 'resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad',
     'output': 'output.h5ad',
 }
-meta = { 
+meta = {
     "resources_dir": "src/tasks/batch_integration/control_methods/"
 }
 ## VIASH END

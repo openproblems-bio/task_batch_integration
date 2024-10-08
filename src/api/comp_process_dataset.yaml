@@ -25,7 +25,7 @@ arguments:
     default: 2000
     required: false
 test_resources:
-  - path: /resources_test/common/cxg_mouse_pancreas_atlas/
-    dest: resources_test/common/cxg_mouse_pancreas_atlas/
+  - path: /resources_test/common/cxg_immune_cell_atlas/
+    dest: resources_test/common/cxg_immune_cell_atlas/
   - type: python_script
     path: /common/component_tests/run_and_check_output.py

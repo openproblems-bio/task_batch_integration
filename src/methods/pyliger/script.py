@@ -5,7 +5,7 @@ import pyliger
 
 ## VIASH START
 par = {
-    'input': 'resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/dataset.h5ad',
+    'input': 'resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad',
     'output': 'output.h5ad'
 }
 meta = {
@@ -31,7 +31,7 @@ print('>> Prepare data', flush=True)
 adata_per_batch = []
 for batch in adata.obs['batch'].unique():
   adb = adata[adata.obs['batch'] == batch].copy()
-  
+
   # save row sum and sum of squares for further use
   norm_sum = np.ravel(np.sum(adb.layers["norm_data"], axis=0))
   norm_sum_sq = np.ravel(np.sum(adb.layers["norm_data"].power(2), axis=0))

@@ -39,9 +39,6 @@ info:
   image: thumbnail.svg
   test_resources:
     - type: s3
-      path: s3://openproblems-data/resources_test/common/cxg_mouse_pancreas_atlas/
-      dest: resources_test/common/cxg_mouse_pancreas_atlas
-    - type: s3
       path: s3://openproblems-data/resources_test/common/cxg_immune_cell_atlas/
       dest: resources_test/common/cxg_immune_cell_atlas
     - type: s3

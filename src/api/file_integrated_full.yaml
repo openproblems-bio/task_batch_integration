@@ -1,5 +1,5 @@
 type: file
-example: "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/integrated_full.h5ad"
+example: "resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_full.h5ad"
 label: Transformed integration
 summary: An integrated AnnData dataset with additional outputs.
 description: |
@@ -8,7 +8,7 @@ description: |
     - Feature: the corrected_counts layer
     - Embedding: the X_emb obsm
     - Graph: the connectivities and distances obsp
-  
+
   The Graph should always be present, but the Feature and Embedding are optional.
 info:
   format:

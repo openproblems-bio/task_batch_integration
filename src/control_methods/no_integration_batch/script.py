@@ -5,11 +5,11 @@ import numpy as np
 ## VIASH START
 
 par = {
-    'input_dataset': 'resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/dataset.h5ad',
+    'input_dataset': 'resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad',
     'output': 'output.h5ad',
 }
 
-meta = { 
+meta = {
     'functionality': 'foo',
     'config': 'bar'
 }
