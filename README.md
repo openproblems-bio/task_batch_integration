@@ -91,8 +91,7 @@ flowchart TB
 
 A subset of the common dataset.
 
-Example file:
-`resources_test/common/cxg_mouse_pancreas_atlas/dataset.h5ad`
+Example file: `resources_test/common/cxg_immune_cell_atlas/dataset.h5ad`
 
 Format:
 
@@ -158,7 +157,7 @@ Arguments:
 Unintegrated AnnData HDF5 file.
 
 Example file:
-`resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/dataset.h5ad`
+`resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad`
 
 Format:
 
@@ -202,7 +201,7 @@ Data structure:
 Uncensored dataset containing the true labels.
 
 Example file:
-`resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/solution.h5ad`
+`resources_test/task_batch_integration/cxg_immune_cell_atlas/solution.h5ad`
 
 Format:
 
@@ -317,7 +316,7 @@ Arguments:
 An integrated AnnData dataset.
 
 Example file:
-`resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/integrated.h5ad`
+`resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated.h5ad`
 
 Description:
 
@@ -362,7 +361,7 @@ Data structure:
 An integrated AnnData dataset with additional outputs.
 
 Example file:
-`resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/integrated_full.h5ad`
+`resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_full.h5ad`
 
 Description:
 

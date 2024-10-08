@@ -5,7 +5,7 @@ requireNamespace("harmony", quietly = TRUE)
 
 ## VIASH START
 par <- list(
-  input = 'resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/dataset.h5ad',
+  input = 'resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad',
   output = 'output.h5ad'
 )
 meta <- list(

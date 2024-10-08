@@ -6,7 +6,7 @@ from scib.metrics import ari, nmi
 
 ## VIASH START
 par = {
-    'adata_integrated': 'resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/integrated_full.h5ad',
+    'adata_integrated': 'resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_full.h5ad',
     'output': 'output.h5ad',
 }
 

@@ -1,24 +1,6 @@
-namespace: methods
-info:
-  type: method
-  type_info:
-    label: Method
-    summary: A method for the batch integration task.
-    description: |
-      A batch integration method which integrates multiple datasets.
-arguments:
-  - name: --input
-    __merge__: file_dataset.yaml
-    direction: input
-    required: true
-  - name: --output
-    __merge__: file_integrated.yaml
-    direction: output
-    required: true
+__merge__: base_method.yaml
 test_resources:
   - type: python_script
-    path: /common/component_tests/check_config.py
-  - type: python_script
     path: /common/component_tests/run_and_check_output.py
-  - path: /resources_test/task_batch_integration/cxg_mouse_pancreas_atlas
-    dest: resources_test/task_batch_integration/cxg_mouse_pancreas_atlas
+  - path: /resources_test/task_batch_integration/cxg_immune_cell_atlas
+    dest: resources_test/task_batch_integration/cxg_immune_cell_atlas
