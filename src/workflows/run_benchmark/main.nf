@@ -26,7 +26,9 @@ methods = [
   scalex,
   scanorama,
   scanvi,
-  scimilarity,
+  scimilarity.run(
+    args: [model: file("https://zenodo.org/records/10685499/files/model_v1.1.tar.gz")]
+  ),
   scvi
 ]
 
