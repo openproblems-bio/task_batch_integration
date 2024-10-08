@@ -1,10 +1,11 @@
+import os
 import sys
+import tempfile
+import zipfile
+import tarfile
+
 import anndata as ad
 import scimilarity
-import os
-import zipfile
-import tempfile
-import tarfile
 
 ## VIASH START
 par = {
@@ -38,20 +39,20 @@ else:
 
     if zipfile.is_zipfile(par["model"]):
         print("Extract SCimilarity model from .zip", flush=True)
-        with zipfile.ZipFile(par["model"], 'r') as zip_file:
+        with zipfile.ZipFile(par["model"], "r") as zip_file:
             zip_file.extractall(model_dir)
-    elif tarfile.is_tarfile(par["model"]) and par["model"].endswith('.tar.gz'):
+    elif tarfile.is_tarfile(par["model"]) and par["model"].endswith(".tar.gz"):
         print("Extract SCimilarity model from .tar.gz", flush=True)
-        with tarfile.open(par["model"], 'r:gz') as tar_file:
+        with tarfile.open(par["model"], "r:gz") as tar_file:
             tar_file.extractall(model_dir)
             model_dir = os.path.join(model_dir, os.listdir(model_dir)[0])
     else:
-        raise ValueError(f"The 'model' argument should be a directory a .zip file or a .tar.gz file")
+        raise ValueError(
+            f"The 'model' argument should be a directory a .zip file or a .tar.gz file"
+        )
 
 print("Load SCimilarity model", flush=True)
-scimilarity_embedding = scimilarity.cell_embedding.CellEmbedding(
-    model_path=model_dir
-)
+scimilarity_embedding = scimilarity.cell_embedding.CellEmbedding(model_path=model_dir)
 print("SCimilarity version:", scimilarity.__version__)
 
 print("Create input data", flush=True)
