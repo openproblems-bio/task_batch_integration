@@ -1,0 +1,40 @@
+__merge__: /src/api/comp_method.yaml
+name: pyliger
+label: pyliger
+summary: Python implementation of LIGER (Linked Inference of Genomic Experimental
+  Relationships
+description: |
+  LIGER (installed as rliger) is a package for integrating and analyzing multiple 
+  single-cell datasets, developed by the Macosko lab and maintained/extended by the 
+  Welch lab. It relies on integrative non-negative matrix factorization to identify 
+  shared and dataset-specific factors.
+references:
+  doi: 10.1016/j.cell.2019.05.006
+links:
+  repository: https://github.com/welch-lab/pyliger
+  documentation: https://github.com/welch-lab/pyliger
+info:
+  method_types: [embedding]
+  preferred_normalization: log_cp10k
+  variants:
+    liger_unscaled:
+    liger_scaled:
+      preferred_normalization: log_cp10k_scaled
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - umap-learn[plot]
+          - pyliger
+          - dask-expr
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [lowcpu, highmem, midtime]

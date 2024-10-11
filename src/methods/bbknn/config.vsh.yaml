@@ -1,0 +1,51 @@
+__merge__: /src/api/comp_method.yaml
+name: bbknn
+label: BBKNN
+summary: BBKNN creates k nearest neighbours graph by identifying neighbours within
+  batches, then combining and processing them with UMAP for visualization.
+description: |
+  "BBKNN or batch balanced k nearest neighbours graph is built for each cell by
+  identifying its k nearest neighbours within each defined batch separately,
+  creating independent neighbour sets for each cell in each batch. These sets
+  are then combined and processed with the UMAP algorithm for visualisation."
+references:
+  doi: 10.1093/bioinformatics/btz625
+links:
+  repository: https://github.com/Teichlab/bbknn
+  documentation: https://github.com/Teichlab/bbknn#readme
+info:
+  method_types: [graph]
+  preferred_normalization: log_cp10k
+  variants:
+    bbknn_full_unscaled:
+    bbknn_full_scaled:
+      preferred_normalization: log_cp10k_scaled
+arguments:
+  - name: --annoy_n_trees
+    type: integer
+    default: 10
+    description: Number of trees to use in the annoy forrest.
+  - name: --neighbors_within_batch
+    type: integer
+    default: 3
+    description: Number of neighbors to report within each batch.
+  - name: --n_hvg
+    type: integer
+    default: 2000
+    description: Number of highly variable genes to use.
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - bbknn
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, lowcpu]
