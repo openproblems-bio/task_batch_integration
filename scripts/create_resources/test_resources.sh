@@ -40,10 +40,10 @@ viash run src/metrics/graph_connectivity/config.vsh.yaml -- \
 # write the state file
 cat > $DATASET_DIR/cxg_immune_cell_atlas/state.yaml << HERE
 id: cxg_immune_cell_atlas
-output_dataset: !file dataset_mod1.h5ad
-output_solution: !file solution_mod1.h5ad
-output_integrated: !file integrated_mod1.h5ad
-output_integrated_full: !file integrated_full_mod1.h5ad
+output_dataset: !file dataset.h5ad
+output_solution: !file solution.h5ad
+output_integrated: !file integrated.h5ad
+output_integrated_full: !file integrated_full.h5ad
 output_score: !file score_mod1.h5ad
 HERE
 
