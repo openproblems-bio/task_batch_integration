@@ -80,6 +80,7 @@ dependencies:
   - name: methods/scalex
   - name: methods/scanorama
   - name: methods/scanvi
+  - name: methods/scimilarity
   - name: methods/scvi
   # metrics
   - name: metrics/asw_batch
