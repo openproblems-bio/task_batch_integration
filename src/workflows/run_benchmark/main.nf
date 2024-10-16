@@ -5,6 +5,28 @@ workflow auto {
     )
 }
 
+Boolean checkMethodAllowed(String method, List include, List exclude) {
+
+  // Throw and error if both include and exclude lists are provided
+  if (include != null && exclude != null) {
+      throw new Exception("Cannot have both include and exclude lists of method ids")
+  }
+
+  allowed = true
+
+  // If include list exists, check if method is in the list
+  if (include != null) {
+      allowed = include.contains(method)
+  }
+
+  // If exclude list exists, check if method is NOT in the list
+  if (exclude != null) {
+      allowed = !exclude.contains(method)
+  }
+
+  return allowed
+}
+
 // construct list of methods and control methods
 methods = [
   embed_cell_types,
@@ -55,7 +77,7 @@ workflow run_wf {
    ****************************/
   dataset_ch = input_ch
     // store join id
-    | map{ id, state -> 
+    | map{ id, state ->
       [id, state + ["_meta": [join_id: id]]]
     }
 
@@ -72,6 +94,7 @@ workflow run_wf {
   /***************************
    * RUN METHODS AND METRICS *
    ***************************/
+
   score_ch = dataset_ch
 
     // run all methods
@@ -85,7 +108,7 @@ workflow run_wf {
         // if the preferred normalisation is none at all,
         // we can pass whichever dataset we want
         def norm_check = (norm == "log_cp10k" && pref == "counts") || norm == pref
-        def method_check = !state.method_ids || state.method_ids.contains(comp.config.name)
+        def method_check = checkMethodAllowed(comp.config.name, state.methods_include, state.methods_exclude)
 
         method_check && norm_check
       },
@@ -153,7 +176,7 @@ workflow run_wf {
       },
       // use 'fromState' to fetch the arguments the component requires from the overall state
       fromState: [
-        input_solution: "input_solution", 
+        input_solution: "input_solution",
         input_integrated: "method_output_cleaned"
       ],
       // use 'toState' to publish that component's outputs to the overall state

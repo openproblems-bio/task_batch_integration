@@ -42,12 +42,24 @@ argument_groups:
         required: true
         direction: output
         default: task_info.yaml
-  - name: Methods
+  - name: Include methods
     arguments:
-      - name: "--method_ids"
+      - name: "--methods_include"
         type: string
         multiple: true
-        description: A list of method ids to run. If not specified, all methods will be run.
+        description: |
+          A list of method ids to include. If not specified, all methods except
+          those in '--methods_exclude' will be run. Can not be used with
+          '--methods_exclude'.
+  - name: Exclude methods
+    arguments:
+      - name: "--methods_exclude"
+        type: string
+        multiple: true
+        description: |
+          A list of method ids to exclude. If not specified, all methods in
+          '--methods_include' will be run. Can not be used with
+          '--methods-include'.
 
 resources:
   - type: nextflow_script
