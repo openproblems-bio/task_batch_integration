@@ -12,19 +12,13 @@ Boolean checkMethodAllowed(String method, List include, List exclude) {
       throw new Exception("Cannot have both include and exclude lists of method ids")
   }
 
-  allowed = true
-
-  // If include list exists, check if method is in the list
-  if (include != null) {
-      allowed = include.contains(method)
+  if (include) {
+    return include.contains(method)
   }
-
-  // If exclude list exists, check if method is NOT in the list
-  if (exclude != null) {
-      allowed = !exclude.contains(method)
+  if (exclude) {
+    return !exclude.contains(method)
   }
-
-  return allowed
+  return true
 }
 
 // construct list of methods and control methods

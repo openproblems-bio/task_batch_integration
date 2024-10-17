@@ -42,24 +42,20 @@ argument_groups:
         required: true
         direction: output
         default: task_info.yaml
-  - name: Include methods
+  - name: Method filtering
+    description: Use these arguments to filter methods by name. By default, all methods are run. If `--methods_include` is defined, only those methods are run. If `--methods_exclude` is defined, all methods except those specified are run. These arguments are mutually exclusive, so don't provide both `--methods_include` and `--methods_exclude`.
     arguments:
       - name: "--methods_include"
         type: string
         multiple: true
         description: |
-          A list of method ids to include. If not specified, all methods except
-          those in '--methods_exclude' will be run. Can not be used with
-          '--methods_exclude'.
+          A list of method ids to include. If specified, only these methods will be run.
   - name: Exclude methods
     arguments:
       - name: "--methods_exclude"
         type: string
         multiple: true
-        description: |
-          A list of method ids to exclude. If not specified, all methods in
-          '--methods_include' will be run. Can not be used with
-          '--methods-include'.
+          A list of method ids to exclude. If specified, all methods except the ones listed will be run.
 
 resources:
   - type: nextflow_script
