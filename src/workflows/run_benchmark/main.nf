@@ -27,7 +27,7 @@ methods = [
   scanorama,
   scanvi,
   scimilarity.run(
-    args: [model: file("https://zenodo.org/records/10685499/files/model_v1.1.tar.gz")]
+    args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
   ),
   scvi
 ]
