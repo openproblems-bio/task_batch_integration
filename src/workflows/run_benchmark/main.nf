@@ -1,24 +1,10 @@
+include { checkMethodAllowed } from "${meta.resources_dir}/helper.nf"
+
 workflow auto {
   findStates(params, meta.config)
     | meta.workflow.run(
       auto: [publish: "state"]
     )
-}
-
-Boolean checkMethodAllowed(String method, List include, List exclude) {
-
-  // Throw and error if both include and exclude lists are provided
-  if (include != null && exclude != null) {
-      throw new Exception("Cannot have both include and exclude lists of method ids")
-  }
-
-  if (include) {
-    return include.contains(method)
-  }
-  if (exclude) {
-    return !exclude.contains(method)
-  }
-  return true
 }
 
 // construct list of methods and control methods

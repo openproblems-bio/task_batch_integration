@@ -67,6 +67,7 @@ resources:
     entrypoint: run_wf
   - type: file
     path: /_viash.yaml
+  - path: /common/nextflow_helpers/helper.nf
 
 dependencies:
   - name: h5ad/extract_uns_metadata
