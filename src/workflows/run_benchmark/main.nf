@@ -1,3 +1,5 @@
+include { checkItemAllowed } from "${meta.resources_dir}/helper.nf"
+
 workflow auto {
   findStates(params, meta.config)
     | meta.workflow.run(
@@ -75,6 +77,7 @@ workflow run_wf {
   /***************************
    * RUN METHODS AND METRICS *
    ***************************/
+
   score_ch = dataset_ch
 
     // run all methods
@@ -88,7 +91,13 @@ workflow run_wf {
         // if the preferred normalisation is none at all,
         // we can pass whichever dataset we want
         def norm_check = (norm == "log_cp10k" && pref == "counts") || norm == pref
-        def method_check = !state.method_ids || state.method_ids.contains(comp.config.name)
+        def method_check = checkItemAllowed(
+          comp.config.name,
+          state.methods_include,
+          state.methods_exclude,
+          "methods_include",
+          "methods_exclude"
+        )
 
         method_check && norm_check
       },
