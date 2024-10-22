@@ -2918,7 +2918,7 @@ meta = [
             }
           },
           "example" : [
-            "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/dataset.h5ad"
+            "resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad"
           ],
           "must_exist" : true,
           "create_parent" : true,
@@ -3064,7 +3064,7 @@ meta = [
             }
           },
           "example" : [
-            "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/solution.h5ad"
+            "resources_test/task_batch_integration/cxg_immune_cell_atlas/solution.h5ad"
           ],
           "must_exist" : true,
           "create_parent" : true,
@@ -3299,6 +3299,12 @@ meta = [
       }
     },
     {
+      "name" : "methods/scimilarity",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/scvi",
       "repository" : {
         "type" : "local"
@@ -3434,7 +3440,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "80a9a2fbff8cb0fa6cb452f6075f74b58254e788",
+    "git_commit" : "014979343b7f90b8ea87b8f8458eff87a6e1da33",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3448,8 +3454,8 @@ meta = [
       "test_resources" : [
         {
           "type" : "s3",
-          "path" : "s3://openproblems-data/resources_test/common/cxg_mouse_pancreas_atlas/",
-          "dest" : "resources_test/common/cxg_mouse_pancreas_atlas"
+          "path" : "s3://openproblems-data/resources_test/common/cxg_immune_cell_atlas/",
+          "dest" : "resources_test/common/cxg_immune_cell_atlas"
         },
         {
           "type" : "s3",
@@ -3588,6 +3594,7 @@ include { pyliger } from "${meta.resources_dir}/../../../nextflow/methods/pylige
 include { scalex } from "${meta.resources_dir}/../../../nextflow/methods/scalex/main.nf"
 include { scanorama } from "${meta.resources_dir}/../../../nextflow/methods/scanorama/main.nf"
 include { scanvi } from "${meta.resources_dir}/../../../nextflow/methods/scanvi/main.nf"
+include { scimilarity } from "${meta.resources_dir}/../../../nextflow/methods/scimilarity/main.nf"
 include { scvi } from "${meta.resources_dir}/../../../nextflow/methods/scvi/main.nf"
 include { asw_batch } from "${meta.resources_dir}/../../../nextflow/metrics/asw_batch/main.nf"
 include { asw_label } from "${meta.resources_dir}/../../../nextflow/metrics/asw_label/main.nf"
@@ -3632,6 +3639,9 @@ methods = [
   scalex,
   scanorama,
   scanvi,
+  scimilarity.run(
+    args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
+  ),
   scvi
 ]
 
@@ -3661,7 +3671,7 @@ workflow run_wf {
    ****************************/
   dataset_ch = input_ch
     // store join id
-    | map{ id, state -> 
+    | map{ id, state ->
       [id, state + ["_meta": [join_id: id]]]
     }
 
@@ -3759,7 +3769,7 @@ workflow run_wf {
       },
       // use 'fromState' to fetch the arguments the component requires from the overall state
       fromState: [
-        input_solution: "input_solution", 
+        input_solution: "input_solution",
         input_integrated: "method_output_cleaned"
       ],
       // use 'toState' to publish that component's outputs to the overall state

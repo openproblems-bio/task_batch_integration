@@ -2948,7 +2948,7 @@ meta = [
             }
           },
           "example" : [
-            "resources_test/common/cxg_mouse_pancreas_atlas/dataset.h5ad"
+            "resources_test/common/cxg_immune_cell_atlas/dataset.h5ad"
           ],
           "must_exist" : true,
           "create_parent" : true,
@@ -3069,7 +3069,7 @@ meta = [
             }
           },
           "example" : [
-            "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/dataset.h5ad"
+            "resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad"
           ],
           "must_exist" : true,
           "create_parent" : true,
@@ -3215,7 +3215,7 @@ meta = [
             }
           },
           "example" : [
-            "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/solution.h5ad"
+            "resources_test/task_batch_integration/cxg_immune_cell_atlas/solution.h5ad"
           ],
           "must_exist" : true,
           "create_parent" : true,
@@ -3314,7 +3314,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/process_datasets",
     "viash_version" : "0.9.0",
-    "git_commit" : "80a9a2fbff8cb0fa6cb452f6075f74b58254e788",
+    "git_commit" : "014979343b7f90b8ea87b8f8458eff87a6e1da33",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3328,8 +3328,8 @@ meta = [
       "test_resources" : [
         {
           "type" : "s3",
-          "path" : "s3://openproblems-data/resources_test/common/cxg_mouse_pancreas_atlas/",
-          "dest" : "resources_test/common/cxg_mouse_pancreas_atlas"
+          "path" : "s3://openproblems-data/resources_test/common/cxg_immune_cell_atlas/",
+          "dest" : "resources_test/common/cxg_immune_cell_atlas"
         },
         {
           "type" : "s3",

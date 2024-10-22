@@ -2995,7 +2995,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/h5ad/extract_uns_metadata",
     "viash_version" : "0.9.0",
-    "git_commit" : "a938a52915b3b4af67e04c92f3dfd13a31963413",
+    "git_commit" : "6d753d71488b24dea0df0730dfb7027deeeb210d",
     "git_remote" : "https://github.com/openproblems-bio/core"
   },
   "package_config" : {

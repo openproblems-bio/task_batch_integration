@@ -26,6 +26,9 @@ methods = [
   scalex,
   scanorama,
   scanvi,
+  scimilarity.run(
+    args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
+  ),
   scvi
 ]
 
@@ -55,7 +58,7 @@ workflow run_wf {
    ****************************/
   dataset_ch = input_ch
     // store join id
-    | map{ id, state -> 
+    | map{ id, state ->
       [id, state + ["_meta": [join_id: id]]]
     }
 
@@ -153,7 +156,7 @@ workflow run_wf {
       },
       // use 'fromState' to fetch the arguments the component requires from the overall state
       fromState: [
-        input_solution: "input_solution", 
+        input_solution: "input_solution",
         input_integrated: "method_output_cleaned"
       ],
       // use 'toState' to publish that component's outputs to the overall state

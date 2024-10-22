@@ -2,7 +2,7 @@
 # `src/datasets/api/file_common_dataset.yaml`. However, some fields
 # such as obs.cell_type and obs.batch are now required
 type: file
-example: "resources_test/common/cxg_mouse_pancreas_atlas/dataset.h5ad"
+example: "resources_test/common/cxg_immune_cell_atlas/dataset.h5ad"
 label: "Common Dataset"
 summary: A subset of the common dataset.
 info:

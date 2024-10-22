@@ -177,7 +177,7 @@ function ViashHelp {
   echo "    --input_integrated"
   echo "        type: file, required parameter, file must exist"
   echo "        example:"
-  echo "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/integrated_full.h5ad"
+  echo "resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_full.h5ad"
   echo "        Must contain at least one of:"
   echo "          - Feature: the corrected_counts layer"
   echo "          - Embedding: the X_emb obsm"
@@ -188,7 +188,7 @@ function ViashHelp {
   echo "    --input_solution"
   echo "        type: file, required parameter, file must exist"
   echo "        example:"
-  echo "resources_test/task_batch_integration/cxg_mouse_pancreas_atlas/solution.h5ad"
+  echo "resources_test/task_batch_integration/cxg_immune_cell_atlas/solution.h5ad"
   echo ""
   echo "    --output"
   echo "        type: file, required parameter, output, file must exist"
@@ -474,9 +474,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scib==1.1.5"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics hvg_overlap"
-LABEL org.opencontainers.image.created="2024-09-29T06:32:40Z"
+LABEL org.opencontainers.image.created="2024-10-22T12:38:25Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="80a9a2fbff8cb0fa6cb452f6075f74b58254e788"
+LABEL org.opencontainers.image.revision="014979343b7f90b8ea87b8f8458eff87a6e1da33"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
