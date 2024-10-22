@@ -3137,7 +3137,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/harmony",
     "viash_version" : "0.9.0",
-    "git_commit" : "014979343b7f90b8ea87b8f8458eff87a6e1da33",
+    "git_commit" : "4cb77a4b441394cba0ed1c22d38125f60ab73e53",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

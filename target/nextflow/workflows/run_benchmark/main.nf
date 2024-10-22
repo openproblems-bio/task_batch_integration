@@ -3147,12 +3147,22 @@ meta = [
       ]
     },
     {
-      "name" : "Methods",
+      "name" : "Method filtering",
+      "description" : "Use these arguments to filter methods by name. By default, all methods are\nrun. If `--methods_include` is defined, only those methods are run. If\n`--methods_exclude` is defined, all methods except those specified are run.\nThese arguments are mutually exclusive, so only `--methods_include` OR\n`--methods_exclude` can set but not both.\n",
       "arguments" : [
         {
           "type" : "string",
-          "name" : "--method_ids",
-          "description" : "A list of method ids to run. If not specified, all methods will be run.",
+          "name" : "--methods_include",
+          "description" : "A list of method ids to include. If specified, only these methods will be run.\n",
+          "required" : false,
+          "direction" : "input",
+          "multiple" : true,
+          "multiple_sep" : ";"
+        },
+        {
+          "type" : "string",
+          "name" : "--methods_exclude",
+          "description" : "A list of method ids to exclude. If specified, all methods except the ones listed will be run.\n",
           "required" : false,
           "direction" : "input",
           "multiple" : true,
@@ -3171,6 +3181,10 @@ meta = [
     {
       "type" : "file",
       "path" : "/_viash.yaml"
+    },
+    {
+      "type" : "file",
+      "path" : "/common/nextflow_helpers/helper.nf"
     }
   ],
   "status" : "enabled",
@@ -3440,7 +3454,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "014979343b7f90b8ea87b8f8458eff87a6e1da33",
+    "git_commit" : "4cb77a4b441394cba0ed1c22d38125f60ab73e53",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3611,6 +3625,8 @@ include { transform } from "${meta.resources_dir}/../../../nextflow/data_process
 
 // inner workflow
 // user-provided Nextflow code
+include { checkItemAllowed } from "${meta.resources_dir}/helper.nf"
+
 workflow auto {
   findStates(params, meta.config)
     | meta.workflow.run(
@@ -3688,6 +3704,7 @@ workflow run_wf {
   /***************************
    * RUN METHODS AND METRICS *
    ***************************/
+
   score_ch = dataset_ch
 
     // run all methods
@@ -3701,7 +3718,13 @@ workflow run_wf {
         // if the preferred normalisation is none at all,
         // we can pass whichever dataset we want
         def norm_check = (norm == "log_cp10k" && pref == "counts") || norm == pref
-        def method_check = !state.method_ids || state.method_ids.contains(comp.config.name)
+        def method_check = checkItemAllowed(
+          comp.config.name,
+          state.methods_include,
+          state.methods_exclude,
+          "methods_include",
+          "methods_exclude"
+        )
 
         method_check && norm_check
       },

@@ -42,12 +42,24 @@ argument_groups:
         required: true
         direction: output
         default: task_info.yaml
-  - name: Methods
+  - name: Method filtering
+    description: |
+      Use these arguments to filter methods by name. By default, all methods are
+      run. If `--methods_include` is defined, only those methods are run. If
+      `--methods_exclude` is defined, all methods except those specified are run.
+      These arguments are mutually exclusive, so only `--methods_include` OR
+      `--methods_exclude` can set but not both.
     arguments:
-      - name: "--method_ids"
+      - name: "--methods_include"
         type: string
         multiple: true
-        description: A list of method ids to run. If not specified, all methods will be run.
+        description: |
+          A list of method ids to include. If specified, only these methods will be run.
+      - name: "--methods_exclude"
+        type: string
+        multiple: true
+        description: |
+          A list of method ids to exclude. If specified, all methods except the ones listed will be run.
 
 resources:
   - type: nextflow_script
@@ -55,6 +67,7 @@ resources:
     entrypoint: run_wf
   - type: file
     path: /_viash.yaml
+  - path: /common/nextflow_helpers/helper.nf
 
 dependencies:
   - name: h5ad/extract_uns_metadata

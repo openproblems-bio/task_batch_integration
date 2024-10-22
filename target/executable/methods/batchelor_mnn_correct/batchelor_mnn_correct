@@ -471,9 +471,9 @@ RUN Rscript -e 'if (!requireNamespace("BiocManager", quietly = TRUE)) install.pa
   Rscript -e 'if (!requireNamespace("batchelor", quietly = TRUE)) BiocManager::install("batchelor")'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods batchelor_mnn_correct"
-LABEL org.opencontainers.image.created="2024-10-22T12:38:27Z"
+LABEL org.opencontainers.image.created="2024-10-22T13:30:24Z"
 LABEL org.opencontainers.image.source="https://code.bioconductor.org/browse/batchelor/"
-LABEL org.opencontainers.image.revision="014979343b7f90b8ea87b8f8458eff87a6e1da33"
+LABEL org.opencontainers.image.revision="4cb77a4b441394cba0ed1c22d38125f60ab73e53"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
