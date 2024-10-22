@@ -1,0 +1,44 @@
+__merge__: ../../api/comp_method.yaml
+
+name: geneformer
+label: Geneformer
+summary: Geneformer is a foundation transformer model pretrained on a large-scale corpus of single cell transcriptomes
+description: |
+  Geneformer is a foundation transformer model pretrained on a large-scale
+  corpus of single cell transcriptomes to enable context-aware predictions in
+  network biology. For this task, Geneformer is used to create a batch-corrected
+  cell embedding.
+references:
+  doi:
+    - 10.1038/s41586-023-06139-9
+    - 10.1101/2024.08.16.608180
+links:
+  documentation: https://geneformer.readthedocs.io/en/latest/index.html
+  repository: https://huggingface.co/ctheodoris/Geneformer
+
+info:
+  preferred_normalization: counts
+  preferred_types: [embedding]
+
+arguments:
+  - name: "--model"
+    type: "file"
+    description: Path to a Geneformer model file
+
+resources:
+  - type: python_script
+    path: script.py
+
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        pip:
+        - git+https://huggingface.co/ctheodoris/Geneformer.git
+
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, midcpu]
