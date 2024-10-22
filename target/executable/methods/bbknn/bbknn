@@ -488,9 +488,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "bbknn"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods bbknn"
-LABEL org.opencontainers.image.created="2024-10-22T13:30:24Z"
+LABEL org.opencontainers.image.created="2024-10-22T19:59:02Z"
 LABEL org.opencontainers.image.source="https://github.com/Teichlab/bbknn"
-LABEL org.opencontainers.image.revision="4cb77a4b441394cba0ed1c22d38125f60ab73e53"
+LABEL org.opencontainers.image.revision="a5793eebb6e4ad3a1ed25c589854f56b93eda2c0"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

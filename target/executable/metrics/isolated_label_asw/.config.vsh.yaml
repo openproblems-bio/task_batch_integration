@@ -305,7 +305,7 @@ build_info:
   output: "target/executable/metrics/isolated_label_asw"
   executable: "target/executable/metrics/isolated_label_asw/isolated_label_asw"
   viash_version: "0.9.0"
-  git_commit: "4cb77a4b441394cba0ed1c22d38125f60ab73e53"
+  git_commit: "a5793eebb6e4ad3a1ed25c589854f56b93eda2c0"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
 package_config:
   name: "task_batch_integration"
