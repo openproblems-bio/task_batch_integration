@@ -28,6 +28,7 @@ arguments:
 resources:
   - type: python_script
     path: script.py
+  - path: /src/utils/read_anndata_partial.py
 
 engines:
   - type: docker
@@ -36,6 +37,7 @@ engines:
       - type: python
         pip:
         - pyarrow<15.0.0a0,>=14.0.1
+        - huggingface_hub
         - git+https://huggingface.co/ctheodoris/Geneformer.git
 
 runners:
