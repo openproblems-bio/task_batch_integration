@@ -20,6 +20,7 @@ methods = [
   batchelor_mnn_correct,
   bbknn,
   combat,
+  geneformer,
   harmony,
   harmonypy,
   liger,
