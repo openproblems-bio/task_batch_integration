@@ -1,4 +1,4 @@
-__merge__: ../../api/comp_method.yaml
+__merge__: ../../api/base_method.yaml
 
 name: uce
 label: UCE
@@ -18,25 +18,28 @@ info:
   method_types: [embedding]
   preferred_normalization: counts
 
-# Component-specific parameters (optional)
-# arguments:
-#   - name: "--n_neighbors"
-#     type: "integer"
-#     default: 5
-#     description: Number of neighbors to use.
+arguments:
+  - name: --model
+    type: file
+    description: Path to the directory containing UCE model files or a .zip/.tar.gz archive
+    required: true
 
 resources:
   - type: python_script
     path: script.py
+  - path: /src/utils/read_anndata_partial.py
 
 engines:
   - type: docker
     image: openproblems/base_pytorch_nvidia:1.0.0
     setup:
+      - type: python
+        pypi:
+          - accelerate==0.24.0
       - type: docker
         run: "git clone https://github.com/snap-stanford/UCE.git"
 runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [midtime,midmem,midcpu,gpu]
+      label: [midtime, midmem, midcpu, gpu]
