@@ -144,7 +144,7 @@ print("\n>>> Evaluating model...", flush=True)
 model_parameters = Namespace(
     token_dim = 5120,
     d_hid = 5120,
-    nlayers = 4, # Small model = 4, full model = 33
+    nlayers = 33, # Small model = 4, full model = 33
     output_dim = 1280,
     multi_gpu= False,
     token_file = os.path.join(model_dir, "all_tokens.torch"),
