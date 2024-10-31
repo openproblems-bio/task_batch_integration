@@ -95,6 +95,7 @@ dependencies:
   - name: methods/scanvi
   - name: methods/scimilarity
   - name: methods/scvi
+  - name: methods/uce
   # metrics
   - name: metrics/asw_batch
   - name: metrics/asw_label

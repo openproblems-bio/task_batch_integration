@@ -31,7 +31,10 @@ methods = [
   scimilarity.run(
     args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
   ),
-  scvi
+  scvi,
+  uce.run(
+    args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
+  ),
 ]
 
 // construct list of metrics
