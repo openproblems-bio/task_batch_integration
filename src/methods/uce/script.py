@@ -14,7 +14,15 @@ from accelerate import Accelerator
 import anndata as ad
 
 # Code has hardcoded paths that only work correctly inside the UCE directory
-os.chdir("UCE")
+if os.path.isdir("UCE"):
+    # For executable we can work inside the UCE directory
+    os.chdir("UCE")
+else:
+    # For Nextflow we need to copy files to the Nextflow working directory
+    print(">>> Copying UCE files to local directory...", flush=True)
+    import shutil
+    shutil.copytree("/workspace/UCE", ".", dirs_exist_ok=True)
+
 sys.path.append(".")
 from data_proc.data_utils import process_raw_anndata, get_species_to_pe, get_spec_chrom_csv, adata_path_to_prot_chrom_starts
 from evaluate import run_eval
