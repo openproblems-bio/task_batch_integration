@@ -1,17 +1,16 @@
-import sys
-import tempfile
 import os
-import zipfile
-import tarfile
-import pandas as pd
-import numpy as np
 import pickle
-import torch
+import sys
+import tarfile
+import tempfile
+import zipfile
 from argparse import Namespace
 
-from accelerate import Accelerator
-
 import anndata as ad
+import numpy as np
+import pandas as pd
+import torch
+from accelerate import Accelerator
 
 # Code has hardcoded paths that only work correctly inside the UCE directory
 if os.path.isdir("UCE"):
@@ -21,10 +20,17 @@ else:
     # For Nextflow we need to copy files to the Nextflow working directory
     print(">>> Copying UCE files to local directory...", flush=True)
     import shutil
+
     shutil.copytree("/workspace/UCE", ".", dirs_exist_ok=True)
 
+# Append current directory to import UCE functions
 sys.path.append(".")
-from data_proc.data_utils import process_raw_anndata, get_species_to_pe, get_spec_chrom_csv, adata_path_to_prot_chrom_starts
+from data_proc.data_utils import (
+    adata_path_to_prot_chrom_starts,
+    get_spec_chrom_csv,
+    get_species_to_pe,
+    process_raw_anndata,
+)
 from evaluate import run_eval
 
 ## VIASH START
@@ -34,11 +40,8 @@ par = {
     "input": "resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad",
     "output": "output.h5ad",
 }
-meta = {
-    'name': 'uce'
-}
+meta = {"name": "uce"}
 ## VIASH END
-
 
 print(">>> Reading input...", flush=True)
 sys.path.append(meta["resources_dir"])
@@ -51,7 +54,7 @@ if adata.uns["dataset_organism"] == "homo_sapiens":
 elif adata.uns["dataset_organism"] == "mus_musculus":
     species = "mouse"
 else:
-    raise ValueError(f"Species '{adata.uns['dataset_organism']} not yet implemented")
+    raise ValueError(f"Species '{adata.uns['dataset_organism']}' not yet implemented")
 
 print("\n>>> Creating working directory...", flush=True)
 work_dir = tempfile.TemporaryDirectory()
@@ -82,7 +85,9 @@ else:
 print(f"Model directory: '{model_dir}'", flush=True)
 
 print("Extracting protein embeddings...", flush=True)
-with tarfile.open(os.path.join(model_dir, "protein_embeddings.tar.gz"), "r:gz") as tar_file:
+with tarfile.open(
+    os.path.join(model_dir, "protein_embeddings.tar.gz"), "r:gz"
+) as tar_file:
     tar_file.extractall("./model_files")
 protein_embeddings_dir = os.path.join("./model_files", "protein_embeddings")
 print(f"Protein embeddings directory: '{protein_embeddings_dir}'", flush=True)
@@ -90,15 +95,15 @@ print(f"Protein embeddings directory: '{protein_embeddings_dir}'", flush=True)
 # The following sections implement methods in the UCE.evaluate.AnndataProcessor
 # class due to the object not being compatible with the Open Problems setup
 model_args = {
-    "dir" : work_dir.name + "/",
-    "skip" : True,
-    "filter" : False, # Turn this off to get embedding for all cells
-    "name" : "input",
-    "offset_pkl_path" : os.path.join(model_dir, "species_offsets.pkl"),
-    "spec_chrom_csv_path" : os.path.join(model_dir, "species_chrom.csv"),
-    "pe_idx_path" : os.path.join(work_dir.name, "input_pe_row_idxs.pt"),
-    "chroms_path" : os.path.join(work_dir.name, "input_chroms.pkl"),
-    "starts_path" : os.path.join(work_dir.name, "input_starts.pkl"),
+    "dir": work_dir.name + "/",
+    "skip": True,
+    "filter": False,  # Turn this off to get embedding for all cells
+    "name": "input",
+    "offset_pkl_path": os.path.join(model_dir, "species_offsets.pkl"),
+    "spec_chrom_csv_path": os.path.join(model_dir, "species_chrom.csv"),
+    "pe_idx_path": os.path.join(work_dir.name, "input_pe_row_idxs.pt"),
+    "chroms_path": os.path.join(work_dir.name, "input_chroms.pkl"),
+    "starts_path": os.path.join(work_dir.name, "input_starts.pkl"),
 }
 
 # AnndataProcessor.preprocess_anndata()
@@ -113,13 +118,13 @@ row.covar_col = np.nan
 row.species = species
 
 processed_adata, num_cells, num_genes = process_raw_anndata(
-    row = row,
-    h5_folder_path = model_args["dir"],
-    npz_folder_path = model_args["dir"],
-    scp = "",
-    skip = model_args["skip"],
-    additional_filter = model_args["filter"],
-    root = model_args["dir"]
+    row=row,
+    h5_folder_path=model_args["dir"],
+    npz_folder_path=model_args["dir"],
+    scp="",
+    skip=model_args["skip"],
+    additional_filter=model_args["filter"],
+    root=model_args["dir"],
 )
 
 # AnndataProcessor.generate_idxs()
@@ -142,20 +147,20 @@ with open(model_args["starts_path"], "wb+") as f:
 # AnndataProcessor.run_evaluation()
 print("\n>>> Evaluating model...", flush=True)
 model_parameters = Namespace(
-    token_dim = 5120,
-    d_hid = 5120,
-    nlayers = 33, # Small model = 4, full model = 33
-    output_dim = 1280,
-    multi_gpu= False,
-    token_file = os.path.join(model_dir, "all_tokens.torch"),
-    dir = model_args["dir"],
-    pad_length = 1536,
-    sample_size = 1024,
-    cls_token_idx = 3,
-    CHROM_TOKEN_OFFSET = 143574,
-    chrom_token_right_idx = 2,
-    chrom_token_left_idx = 1,
-    pad_token_idx = 0
+    token_dim=5120,
+    d_hid=5120,
+    nlayers=33,  # Small model = 4, full model = 33
+    output_dim=1280,
+    multi_gpu=False,
+    token_file=os.path.join(model_dir, "all_tokens.torch"),
+    dir=model_args["dir"],
+    pad_length=1536,
+    sample_size=1024,
+    cls_token_idx=3,
+    CHROM_TOKEN_OFFSET=143574,
+    chrom_token_right_idx=2,
+    chrom_token_left_idx=1,
+    pad_token_idx=0,
 )
 
 if model_parameters.nlayers == 4:
@@ -169,14 +174,14 @@ accelerator = Accelerator(project_dir=model_args["dir"])
 accelerator.wait_for_everyone()
 shapes_dict = {model_args["name"]: (num_cells, num_genes)}
 run_eval(
-    adata = processed_adata,
-    name = model_args["name"],
-    pe_idx_path = model_args["pe_idx_path"],
-    chroms_path = model_args["chroms_path"],
-    starts_path = model_args["starts_path"],
-    shapes_dict = shapes_dict,
-    accelerator = accelerator,
-    args = model_parameters
+    adata=processed_adata,
+    name=model_args["name"],
+    pe_idx_path=model_args["pe_idx_path"],
+    chroms_path=model_args["chroms_path"],
+    starts_path=model_args["starts_path"],
+    shapes_dict=shapes_dict,
+    accelerator=accelerator,
+    args=model_parameters,
 )
 
 print("\n>>> Storing output...", flush=True)
@@ -196,7 +201,7 @@ output = ad.AnnData(
 print(output)
 
 print("\n>>> Writing output AnnData to file...", flush=True)
-output.write_h5ad(par['output'], compression='gzip')
+output.write_h5ad(par["output"], compression="gzip")
 
 print("\n>>> Cleaning up temporary directories...", flush=True)
 work_dir.cleanup()
