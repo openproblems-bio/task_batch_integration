@@ -1,0 +1,57 @@
+__merge__: ../../api/comp_method.yaml
+
+name: scprint
+label: scPRINT
+summary: scPRINT is a large transformer model built for the inference of gene networks
+description: |
+  scPRINT is a large transformer model built for the inference of gene networks
+  (connections between genes explaining the cell's expression profile) from
+  scRNAseq data.
+
+  It uses novel encoding and decoding of the cell expression profile and new
+  pre-training methodologies to learn a cell model.
+
+  scPRINT can be used to perform the following analyses:
+
+  - expression denoising: increase the resolution of your scRNAseq data
+  - cell embedding: generate a low-dimensional representation of your dataset
+  - label prediction: predict the cell type, disease, sequencer, sex, and
+    ethnicity of your cells
+  - gene network inference: generate a gene network from any cell or cell
+    cluster in your scRNAseq dataset
+
+references:
+  doi:
+    - 10.1101/2024.07.29.605556
+
+links:
+  documentation: https://cantinilab.github.io/scPRINT/
+  repository: https://github.com/cantinilab/scPRINT
+
+info:
+  preferred_normalization: counts
+
+# Component-specific parameters (optional)
+# arguments:
+#   - name: "--n_neighbors"
+#     type: "integer"
+#     default: 5
+#     description: Number of neighbors to use.
+
+resources:
+  - type: python_script
+    path: script.py
+
+engines:
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - scPRINT
+
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, midcpu, gpu]
