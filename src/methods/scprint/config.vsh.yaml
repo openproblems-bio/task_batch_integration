@@ -41,6 +41,7 @@ info:
 resources:
   - type: python_script
     path: script.py
+  - path: /src/utils/read_anndata_partial.py
 
 engines:
   - type: docker
@@ -48,7 +49,17 @@ engines:
     setup:
       - type: python
         pypi:
+          - supabase==2.2.1
+          - "gotrue>=2.1.0,<2.9.0"
           - scPRINT
+      - type: docker
+        run: lamin init --storage ./main --name main --schema bionty
+      - type: python
+        script: import bionty as bt; bt.core.sync_all_sources_to_latest()
+      - type: docker
+        run: lamin load main
+      - type: python
+        script: from scdataloader.utils import populate_my_ontology; populate_my_ontology()
 
 runners:
   - type: executable
