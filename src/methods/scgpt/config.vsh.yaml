@@ -18,12 +18,11 @@ links:
 info:
   preferred_normalization: counts
 
-# Component-specific parameters (optional)
-# arguments:
-#   - name: "--n_neighbors"
-#     type: "integer"
-#     default: 5
-#     description: Number of neighbors to use.
+arguments:
+  - name: --n_hvg
+    type: integer
+    default: 3000
+    description: Number of highly variable genes to use.
 
 resources:
   - type: python_script
@@ -33,10 +32,10 @@ resources:
 engines:
   - type: docker
     image: openproblems/base_pytorch_nvidia:1.0.0
+    # TODO: Try to find working installation of flash attention (flash-attn<1.0.5)
     setup:
       - type: python
         pypi:
-          - "flash-attn<1.0.5"
           - scgpt
 
 runners:
