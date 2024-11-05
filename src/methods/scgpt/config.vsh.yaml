@@ -47,7 +47,10 @@ engines:
       - type: python
         pypi:
           - gdown
-          - scgpt
+          - scgpt # Install from PyPI to get dependencies
+      - type: docker
+        # Force re-installing from GitHub to get bug fixes
+        run: pip install --upgrade --no-deps --force-reinstall git+https://github.com/bowang-lab/scGPT.git
 
 runners:
   - type: executable
