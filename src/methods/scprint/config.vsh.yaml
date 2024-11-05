@@ -48,9 +48,10 @@ engines:
     image: openproblems/base_pytorch_nvidia:1.0.0
     setup:
       - type: python
-        pypi:
+        pip:
           - supabase==2.2.1
           - "gotrue>=2.1.0,<2.9.0"
+          - huggingface_hub
           - scPRINT
       - type: docker
         run: lamin init --storage ./main --name main --schema bionty
