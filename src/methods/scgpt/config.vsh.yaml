@@ -16,9 +16,19 @@ links:
   repository: https://github.com/bowang-lab/scGPT
 
 info:
+  method_types: [embedding]
   preferred_normalization: counts
+  variants:
+    scgpt_default:
+    scgpt_cp:
+      model: "scGPT_CP"
 
 arguments:
+  - name: --model
+    type: string
+    description: String giving the scGPT model to use
+    choices: ["scGPT_human", "scGPT_CP"]
+    default: "scGPT_human"
   - name: --n_hvg
     type: integer
     default: 3000
@@ -36,6 +46,7 @@ engines:
     setup:
       - type: python
         pypi:
+          - gdown
           - scgpt
 
 runners:
