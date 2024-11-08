@@ -58,4 +58,4 @@ runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [midtime, highmem, lowcpu]
+      label: [hightime, highmem, lowcpu]

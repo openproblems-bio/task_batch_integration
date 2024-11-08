@@ -14,7 +14,7 @@ par = {
     "model": "model_v1.1",
 }
 meta = {
-    "name": "scvi",
+    "name": "scimilarity",
 }
 ## VIASH END
 

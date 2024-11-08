@@ -3265,6 +3265,12 @@ meta = [
       }
     },
     {
+      "name" : "methods/geneformer",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/harmony",
       "repository" : {
         "type" : "local"
@@ -3319,7 +3325,19 @@ meta = [
       }
     },
     {
+      "name" : "methods/scgpt",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/scvi",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
+      "name" : "methods/uce",
       "repository" : {
         "type" : "local"
       }
@@ -3454,7 +3472,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "4e21e407d0064225a6be2c88a6f586ad5a17d7ad",
+    "git_commit" : "9d89cb3c3190f5f214bf5bb48dad165b6683d984",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3600,6 +3618,7 @@ include { batchelor_fastmnn } from "${meta.resources_dir}/../../../nextflow/meth
 include { batchelor_mnn_correct } from "${meta.resources_dir}/../../../nextflow/methods/batchelor_mnn_correct/main.nf"
 include { bbknn } from "${meta.resources_dir}/../../../nextflow/methods/bbknn/main.nf"
 include { combat } from "${meta.resources_dir}/../../../nextflow/methods/combat/main.nf"
+include { geneformer } from "${meta.resources_dir}/../../../nextflow/methods/geneformer/main.nf"
 include { harmony } from "${meta.resources_dir}/../../../nextflow/methods/harmony/main.nf"
 include { harmonypy } from "${meta.resources_dir}/../../../nextflow/methods/harmonypy/main.nf"
 include { liger } from "${meta.resources_dir}/../../../nextflow/methods/liger/main.nf"
@@ -3609,7 +3628,9 @@ include { scalex } from "${meta.resources_dir}/../../../nextflow/methods/scalex/
 include { scanorama } from "${meta.resources_dir}/../../../nextflow/methods/scanorama/main.nf"
 include { scanvi } from "${meta.resources_dir}/../../../nextflow/methods/scanvi/main.nf"
 include { scimilarity } from "${meta.resources_dir}/../../../nextflow/methods/scimilarity/main.nf"
+include { scgpt } from "${meta.resources_dir}/../../../nextflow/methods/scgpt/main.nf"
 include { scvi } from "${meta.resources_dir}/../../../nextflow/methods/scvi/main.nf"
+include { uce } from "${meta.resources_dir}/../../../nextflow/methods/uce/main.nf"
 include { asw_batch } from "${meta.resources_dir}/../../../nextflow/metrics/asw_batch/main.nf"
 include { asw_label } from "${meta.resources_dir}/../../../nextflow/metrics/asw_label/main.nf"
 include { cell_cycle_conservation } from "${meta.resources_dir}/../../../nextflow/metrics/cell_cycle_conservation/main.nf"
@@ -3647,6 +3668,7 @@ methods = [
   batchelor_mnn_correct,
   bbknn,
   combat,
+  geneformer,
   harmony,
   harmonypy,
   liger,
@@ -3658,7 +3680,11 @@ methods = [
   scimilarity.run(
     args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
   ),
-  scvi
+  scgpt
+  scvi,
+  uce.run(
+    args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
+  )
 ]
 
 // construct list of metrics

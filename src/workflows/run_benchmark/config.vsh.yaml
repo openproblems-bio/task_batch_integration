@@ -85,6 +85,7 @@ dependencies:
   - name: methods/batchelor_mnn_correct
   - name: methods/bbknn
   - name: methods/combat
+  - name: methods/geneformer
   - name: methods/harmony
   - name: methods/harmonypy
   - name: methods/liger
@@ -94,7 +95,9 @@ dependencies:
   - name: methods/scanorama
   - name: methods/scanvi
   - name: methods/scimilarity
+  - name: methods/scgpt
   - name: methods/scvi
+  - name: methods/uce
   # metrics
   - name: metrics/asw_batch
   - name: metrics/asw_label

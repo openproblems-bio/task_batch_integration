@@ -314,6 +314,9 @@ dependencies:
 - name: "methods/combat"
   repository:
     type: "local"
+- name: "methods/geneformer"
+  repository:
+    type: "local"
 - name: "methods/harmony"
   repository:
     type: "local"
@@ -341,7 +344,13 @@ dependencies:
 - name: "methods/scimilarity"
   repository:
     type: "local"
+- name: "methods/scgpt"
+  repository:
+    type: "local"
 - name: "methods/scvi"
+  repository:
+    type: "local"
+- name: "methods/uce"
   repository:
     type: "local"
 - name: "metrics/asw_batch"
@@ -421,7 +430,7 @@ build_info:
   output: "target/nextflow/workflows/run_benchmark"
   executable: "target/nextflow/workflows/run_benchmark/main.nf"
   viash_version: "0.9.0"
-  git_commit: "4e21e407d0064225a6be2c88a6f586ad5a17d7ad"
+  git_commit: "9d89cb3c3190f5f214bf5bb48dad165b6683d984"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
   dependencies:
   - "target/dependencies/github/openproblems-bio/core/build/main/nextflow/h5ad/extract_uns_metadata"
@@ -436,6 +445,7 @@ build_info:
   - "target/nextflow/methods/batchelor_mnn_correct"
   - "target/nextflow/methods/bbknn"
   - "target/nextflow/methods/combat"
+  - "target/nextflow/methods/geneformer"
   - "target/nextflow/methods/harmony"
   - "target/nextflow/methods/harmonypy"
   - "target/nextflow/methods/liger"
@@ -445,7 +455,9 @@ build_info:
   - "target/nextflow/methods/scanorama"
   - "target/nextflow/methods/scanvi"
   - "target/nextflow/methods/scimilarity"
+  - "target/nextflow/methods/scgpt"
   - "target/nextflow/methods/scvi"
+  - "target/nextflow/methods/uce"
   - "target/nextflow/metrics/asw_batch"
   - "target/nextflow/metrics/asw_label"
   - "target/nextflow/metrics/cell_cycle_conservation"
