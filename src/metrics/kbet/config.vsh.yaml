@@ -57,5 +57,5 @@ engines:
 runners:
   - type: executable
   - type: nextflow
-    directives:very
+    directives:
       label: [hightime, highmem, lowcpu]
