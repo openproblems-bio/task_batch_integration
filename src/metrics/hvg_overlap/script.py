@@ -1,6 +1,9 @@
 import sys
 import anndata as ad
+import numpy as np
+import scanpy as sc
 from scib.metrics import hvg_overlap
+from scib.utils import split_batches
 
 ## VIASH START
 par = {
@@ -35,6 +38,20 @@ adata_integrated = read_anndata(
 
 print("Copy batch information", flush=True)
 adata_integrated.obs['batch'] = adata_solution.obs['batch']
+
+print("Remove batches with insufficient genes", flush=True)
+adata_list = split_batches(adata_solution, "batch", hvg=adata_integrated.var_names)
+skip_batches = []
+for adata_batch in adata_list:
+    sc.pp.filter_genes(adata_batch, min_cells=1)
+    n_hvg_tmp = np.minimum(500, int(0.5 * adata_batch.n_vars))
+    if n_hvg_tmp < 500:
+        batch = adata_batch.obs["batch"][0]
+        print(f"Batch '{batch}' has insufficient genes (0.5 * {adata_batch.n_vars} < 500) and will be skipped", flush=True)
+        skip_batches.append(batch)
+
+adata_solution = adata_solution[~adata_solution.obs['batch'].isin(skip_batches)]
+adata_integrated = adata_integrated[~adata_integrated.obs['batch'].isin(skip_batches)]
 
 print('Compute score', flush=True)
 score = hvg_overlap(
