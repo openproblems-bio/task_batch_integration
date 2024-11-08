@@ -29,10 +29,10 @@ methods = [
   scalex,
   scanorama,
   scanvi,
+  scgpt,
   scimilarity.run(
     args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
   ),
-  scgpt
   scvi,
   uce.run(
     args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]

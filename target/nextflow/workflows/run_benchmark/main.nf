@@ -3319,13 +3319,13 @@ meta = [
       }
     },
     {
-      "name" : "methods/scimilarity",
+      "name" : "methods/scgpt",
       "repository" : {
         "type" : "local"
       }
     },
     {
-      "name" : "methods/scgpt",
+      "name" : "methods/scimilarity",
       "repository" : {
         "type" : "local"
       }
@@ -3472,7 +3472,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "9d89cb3c3190f5f214bf5bb48dad165b6683d984",
+    "git_commit" : "68c4b96d64707f0c91d55bbca227964363891f55",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3627,8 +3627,8 @@ include { pyliger } from "${meta.resources_dir}/../../../nextflow/methods/pylige
 include { scalex } from "${meta.resources_dir}/../../../nextflow/methods/scalex/main.nf"
 include { scanorama } from "${meta.resources_dir}/../../../nextflow/methods/scanorama/main.nf"
 include { scanvi } from "${meta.resources_dir}/../../../nextflow/methods/scanvi/main.nf"
-include { scimilarity } from "${meta.resources_dir}/../../../nextflow/methods/scimilarity/main.nf"
 include { scgpt } from "${meta.resources_dir}/../../../nextflow/methods/scgpt/main.nf"
+include { scimilarity } from "${meta.resources_dir}/../../../nextflow/methods/scimilarity/main.nf"
 include { scvi } from "${meta.resources_dir}/../../../nextflow/methods/scvi/main.nf"
 include { uce } from "${meta.resources_dir}/../../../nextflow/methods/uce/main.nf"
 include { asw_batch } from "${meta.resources_dir}/../../../nextflow/metrics/asw_batch/main.nf"
@@ -3677,10 +3677,10 @@ methods = [
   scalex,
   scanorama,
   scanvi,
+  scgpt,
   scimilarity.run(
     args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
   ),
-  scgpt
   scvi,
   uce.run(
     args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]

@@ -341,10 +341,10 @@ dependencies:
 - name: "methods/scanvi"
   repository:
     type: "local"
-- name: "methods/scimilarity"
+- name: "methods/scgpt"
   repository:
     type: "local"
-- name: "methods/scgpt"
+- name: "methods/scimilarity"
   repository:
     type: "local"
 - name: "methods/scvi"
@@ -430,7 +430,7 @@ build_info:
   output: "target/nextflow/workflows/run_benchmark"
   executable: "target/nextflow/workflows/run_benchmark/main.nf"
   viash_version: "0.9.0"
-  git_commit: "9d89cb3c3190f5f214bf5bb48dad165b6683d984"
+  git_commit: "68c4b96d64707f0c91d55bbca227964363891f55"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
   dependencies:
   - "target/dependencies/github/openproblems-bio/core/build/main/nextflow/h5ad/extract_uns_metadata"
@@ -454,8 +454,8 @@ build_info:
   - "target/nextflow/methods/scalex"
   - "target/nextflow/methods/scanorama"
   - "target/nextflow/methods/scanvi"
-  - "target/nextflow/methods/scimilarity"
   - "target/nextflow/methods/scgpt"
+  - "target/nextflow/methods/scimilarity"
   - "target/nextflow/methods/scvi"
   - "target/nextflow/methods/uce"
   - "target/nextflow/metrics/asw_batch"
