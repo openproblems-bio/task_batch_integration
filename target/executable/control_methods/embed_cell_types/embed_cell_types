@@ -472,9 +472,9 @@ function ViashDockerfile {
 FROM openproblems/base_python:1.0.0
 ENTRYPOINT []
 LABEL org.opencontainers.image.description="Companion container for running component control_methods embed_cell_types"
-LABEL org.opencontainers.image.created="2024-11-08T17:52:56Z"
+LABEL org.opencontainers.image.created="2024-11-09T22:45:01Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="68c4b96d64707f0c91d55bbca227964363891f55"
+LABEL org.opencontainers.image.revision="1bda9ca7c83486b02bca0c1d3aaaa3710cd9dd65"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

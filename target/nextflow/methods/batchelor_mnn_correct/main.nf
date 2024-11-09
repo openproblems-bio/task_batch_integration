@@ -3069,7 +3069,7 @@ meta = [
     ]
   },
   "links" : {
-    "repository" : "https://code.bioconductor.org/browse/batchelor/",
+    "repository" : "https://github.com/LTLA/batchelor",
     "docker_registry" : "ghcr.io",
     "documentation" : "https://bioconductor.org/packages/batchelor/"
   },
@@ -3137,7 +3137,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/batchelor_mnn_correct",
     "viash_version" : "0.9.0",
-    "git_commit" : "68c4b96d64707f0c91d55bbca227964363891f55",
+    "git_commit" : "1bda9ca7c83486b02bca0c1d3aaaa3710cd9dd65",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
