@@ -26,8 +26,8 @@ resources:
   - path: /common/nextflow_helpers/helper.nf
 
 dependencies:
-  - name: schema/verify_data_structure
-    repository: core
+  - name: validation/check_dataset_with_schema
+    repository: openproblems
   - name: data_processors/process_dataset
 
 runners:

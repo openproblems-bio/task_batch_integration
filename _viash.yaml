@@ -88,6 +88,5 @@ config_mods: |
 repositories:
   - name: core
     type: github
-    repo: openproblems-bio/core
+    repo: openproblems-bio/openproblems
     tag: build/main
-    path: viash/core

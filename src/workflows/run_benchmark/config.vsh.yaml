@@ -70,8 +70,8 @@ resources:
   - path: /common/nextflow_helpers/helper.nf
 
 dependencies:
-  - name: h5ad/extract_uns_metadata
-    repository: core
+  - name: utils/extract_uns_metadata
+    repository: openproblems
   # control methods
   - name: control_methods/embed_cell_types
   - name: control_methods/embed_cell_types_jittered
