@@ -275,12 +275,11 @@ resources:
 info: null
 status: "enabled"
 dependencies:
-- name: "h5ad/extract_uns_metadata"
+- name: "utils/extract_uns_metadata"
   repository:
     type: "github"
-    repo: "openproblems-bio/core"
+    repo: "openproblems-bio/openproblems"
     tag: "build/main"
-    path: "viash/core"
 - name: "control_methods/embed_cell_types"
   repository:
     type: "local"
@@ -391,10 +390,9 @@ dependencies:
     type: "local"
 repositories:
 - type: "github"
-  name: "core"
-  repo: "openproblems-bio/core"
+  name: "openproblems"
+  repo: "openproblems-bio/openproblems"
   tag: "build/main"
-  path: "viash/core"
 license: "MIT"
 links:
   repository: "https://github.com/openproblems-bio/task_batch_integration"
@@ -430,10 +428,10 @@ build_info:
   output: "target/nextflow/workflows/run_benchmark"
   executable: "target/nextflow/workflows/run_benchmark/main.nf"
   viash_version: "0.9.0"
-  git_commit: "1bda9ca7c83486b02bca0c1d3aaaa3710cd9dd65"
+  git_commit: "6dc0f1de323435b219856e04203c26a1341898c5"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
   dependencies:
-  - "target/dependencies/github/openproblems-bio/core/build/main/nextflow/h5ad/extract_uns_metadata"
+  - "target/dependencies/github/openproblems-bio/openproblems/build/main/nextflow/utils/extract_uns_metadata"
   - "target/nextflow/control_methods/embed_cell_types"
   - "target/nextflow/control_methods/embed_cell_types_jittered"
   - "target/nextflow/control_methods/no_integration"
@@ -511,10 +509,9 @@ package_config:
       dest: "resources_test/task_batch_integration"
   repositories:
   - type: "github"
-    name: "core"
-    repo: "openproblems-bio/core"
+    name: "openproblems"
+    repo: "openproblems-bio/openproblems"
     tag: "build/main"
-    path: "viash/core"
   viash_version: "0.9.0"
   source: "src"
   target: "target"

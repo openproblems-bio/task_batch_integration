@@ -3190,12 +3190,11 @@ meta = [
   "status" : "enabled",
   "dependencies" : [
     {
-      "name" : "h5ad/extract_uns_metadata",
+      "name" : "utils/extract_uns_metadata",
       "repository" : {
         "type" : "github",
-        "repo" : "openproblems-bio/core",
-        "tag" : "build/main",
-        "path" : "viash/core"
+        "repo" : "openproblems-bio/openproblems",
+        "tag" : "build/main"
       }
     },
     {
@@ -3418,10 +3417,9 @@ meta = [
   "repositories" : [
     {
       "type" : "github",
-      "name" : "core",
-      "repo" : "openproblems-bio/core",
-      "tag" : "build/main",
-      "path" : "viash/core"
+      "name" : "openproblems",
+      "repo" : "openproblems-bio/openproblems",
+      "tag" : "build/main"
     }
   ],
   "license" : "MIT",
@@ -3472,7 +3470,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "1bda9ca7c83486b02bca0c1d3aaaa3710cd9dd65",
+    "git_commit" : "6dc0f1de323435b219856e04203c26a1341898c5",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3499,10 +3497,9 @@ meta = [
     "repositories" : [
       {
         "type" : "github",
-        "name" : "core",
-        "repo" : "openproblems-bio/core",
-        "tag" : "build/main",
-        "path" : "viash/core"
+        "name" : "openproblems",
+        "repo" : "openproblems-bio/openproblems",
+        "tag" : "build/main"
       }
     ],
     "viash_version" : "0.9.0",
@@ -3606,7 +3603,7 @@ meta = [
 
 // resolve dependencies dependencies (if any)
 meta["root_dir"] = getRootDir()
-include { extract_uns_metadata } from "${meta.root_dir}/dependencies/github/openproblems-bio/core/build/main/nextflow/h5ad/extract_uns_metadata/main.nf"
+include { extract_uns_metadata } from "${meta.root_dir}/dependencies/github/openproblems-bio/openproblems/build/main/nextflow/utils/extract_uns_metadata/main.nf"
 include { embed_cell_types } from "${meta.resources_dir}/../../../nextflow/control_methods/embed_cell_types/main.nf"
 include { embed_cell_types_jittered } from "${meta.resources_dir}/../../../nextflow/control_methods/embed_cell_types_jittered/main.nf"
 include { no_integration } from "${meta.resources_dir}/../../../nextflow/control_methods/no_integration/main.nf"

@@ -14,7 +14,7 @@ workflow run_wf {
   main:
   output_ch = input_ch
 
-    | verify_data_structure.run(
+    | check_dataset_with_schema.run(
       fromState: { id, state ->
         def schema = findArgumentSchema(meta.config, "input")
         def schemaYaml = tempFile("schema.yaml")

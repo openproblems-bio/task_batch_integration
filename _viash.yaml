@@ -78,8 +78,7 @@ authors:
 config_mods: |
   .runners[.type == "nextflow"].config.labels := { lowmem : "memory = 20.Gb", midmem : "memory = 50.Gb", highmem : "memory = 100.Gb", lowcpu : "cpus = 5", midcpu : "cpus = 15", highcpu : "cpus = 30", lowtime : "time = 1.h", midtime : "time = 4.h", hightime : "time = 8.h", veryhightime : "time = 24.h" }
 repositories:
-  - name: core
+  - name: openproblems
     type: github
-    repo: openproblems-bio/core
+    repo: openproblems-bio/openproblems
     tag: build/main
-    path: viash/core

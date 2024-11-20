@@ -2805,7 +2805,7 @@ meta = [
   "resources_dir": moduleDir.toRealPath().normalize(),
   "config": processConfig(readJsonBlob('''{
   "name" : "extract_uns_metadata",
-  "namespace" : "h5ad",
+  "namespace" : "utils",
   "version" : "build_main",
   "argument_groups" : [
     {
@@ -2889,7 +2889,7 @@ meta = [
   "status" : "enabled",
   "license" : "MIT",
   "links" : {
-    "repository" : "https://github.com/openproblems-bio/core",
+    "repository" : "https://github.com/openproblems-bio/openproblems",
     "docker_registry" : "ghcr.io"
   },
   "runners" : [
@@ -2917,55 +2917,20 @@ meta = [
       },
       "config" : {
         "labels" : {
-          "mem1gb" : "memory = 1000000000.B",
-          "mem2gb" : "memory = 2000000000.B",
-          "mem5gb" : "memory = 5000000000.B",
-          "mem10gb" : "memory = 10000000000.B",
-          "mem20gb" : "memory = 20000000000.B",
-          "mem50gb" : "memory = 50000000000.B",
-          "mem100gb" : "memory = 100000000000.B",
-          "mem200gb" : "memory = 200000000000.B",
-          "mem500gb" : "memory = 500000000000.B",
-          "mem1tb" : "memory = 1000000000000.B",
-          "mem2tb" : "memory = 2000000000000.B",
-          "mem5tb" : "memory = 5000000000000.B",
-          "mem10tb" : "memory = 10000000000000.B",
-          "mem20tb" : "memory = 20000000000000.B",
-          "mem50tb" : "memory = 50000000000000.B",
-          "mem100tb" : "memory = 100000000000000.B",
-          "mem200tb" : "memory = 200000000000000.B",
-          "mem500tb" : "memory = 500000000000000.B",
-          "mem1gib" : "memory = 1073741824.B",
-          "mem2gib" : "memory = 2147483648.B",
-          "mem4gib" : "memory = 4294967296.B",
-          "mem8gib" : "memory = 8589934592.B",
-          "mem16gib" : "memory = 17179869184.B",
-          "mem32gib" : "memory = 34359738368.B",
-          "mem64gib" : "memory = 68719476736.B",
-          "mem128gib" : "memory = 137438953472.B",
-          "mem256gib" : "memory = 274877906944.B",
-          "mem512gib" : "memory = 549755813888.B",
-          "mem1tib" : "memory = 1099511627776.B",
-          "mem2tib" : "memory = 2199023255552.B",
-          "mem4tib" : "memory = 4398046511104.B",
-          "mem8tib" : "memory = 8796093022208.B",
-          "mem16tib" : "memory = 17592186044416.B",
-          "mem32tib" : "memory = 35184372088832.B",
-          "mem64tib" : "memory = 70368744177664.B",
-          "mem128tib" : "memory = 140737488355328.B",
-          "mem256tib" : "memory = 281474976710656.B",
-          "mem512tib" : "memory = 562949953421312.B",
-          "cpu1" : "cpus = 1",
-          "cpu2" : "cpus = 2",
-          "cpu5" : "cpus = 5",
-          "cpu10" : "cpus = 10",
-          "cpu20" : "cpus = 20",
-          "cpu50" : "cpus = 50",
-          "cpu100" : "cpus = 100",
-          "cpu200" : "cpus = 200",
-          "cpu500" : "cpus = 500",
-          "cpu1000" : "cpus = 1000"
-        }
+          "lowmem" : "memory = 20.Gb",
+          "midmem" : "memory = 50.Gb",
+          "highmem" : "memory = 100.Gb",
+          "lowcpu" : "cpus = 5",
+          "midcpu" : "cpus = 15",
+          "highcpu" : "cpus = 30",
+          "lowtime" : "time = 1.h",
+          "midtime" : "time = 4.h",
+          "hightime" : "time = 8.h",
+          "veryhightime" : "time = 24.h"
+        },
+        "script" : [
+          "process.errorStrategy = 'ignore'"
+        ]
       },
       "debug" : false,
       "container" : "docker"
@@ -2990,42 +2955,55 @@ meta = [
     }
   ],
   "build_info" : {
-    "config" : "/home/runner/work/core/core/viash/core/src/h5ad/extract_uns_metadata/config.vsh.yaml",
+    "config" : "/home/runner/work/openproblems/openproblems/src/utils/extract_uns_metadata/config.vsh.yaml",
     "runner" : "nextflow",
     "engine" : "docker",
-    "output" : "target/nextflow/h5ad/extract_uns_metadata",
+    "output" : "target/nextflow/utils/extract_uns_metadata",
     "viash_version" : "0.9.0",
-    "git_commit" : "405c288a53c9a011b41688a47a84c249aa7ba586",
-    "git_remote" : "https://github.com/openproblems-bio/core"
+    "git_commit" : "f0ee7b727ba6538a3480d54b5a47adae57fceff9",
+    "git_remote" : "https://github.com/openproblems-bio/openproblems",
+    "git_tag" : "v1.0.0-1421-gf0ee7b72"
   },
   "package_config" : {
-    "name" : "core",
+    "name" : "openproblems",
     "version" : "build_main",
-    "description" : "Core components for the OpenProblems project.\n",
+    "description" : "Open Problems is a living, extensible, community-guided benchmarking platform.\n",
     "info" : {
       "test_resources" : [
         {
           "type" : "s3",
-          "path" : "s3://openproblems-data/resources_test/common/pancreas",
-          "dest" : "resources_test/common/pancreas"
+          "path" : "s3://openproblems-data/resources_test/common",
+          "dest" : "resources_test/common"
+        },
+        {
+          "type" : "s3",
+          "path" : "s3://openproblems-data/resources_test/openproblems",
+          "dest" : "resources_test/openproblems"
         }
       ]
     },
     "viash_version" : "0.9.0",
     "source" : "src",
     "target" : "target",
+    "config_mods" : [
+      ".runners[.type == \\"nextflow\\"].config.labels := { lowmem : \\"memory = 20.Gb\\", midmem : \\"memory = 50.Gb\\", highmem : \\"memory = 100.Gb\\", lowcpu : \\"cpus = 5\\", midcpu : \\"cpus = 15\\", highcpu : \\"cpus = 30\\", lowtime : \\"time = 1.h\\", midtime : \\"time = 4.h\\", hightime : \\"time = 8.h\\", veryhightime : \\"time = 24.h\\" }\n.runners[.type == \\"nextflow\\"].config.script := \\"process.errorStrategy = 'ignore'\\"\n"
+    ],
     "keywords" : [
       "openproblems",
-      "common-resources",
-      "single-cell",
-      "benchmark"
+      "benchmarking",
+      "single-cell omics"
     ],
     "license" : "MIT",
     "organization" : "openproblems-bio",
+    "references" : {
+      "doi" : [
+        "10.21203/rs.3.rs-4181617/v1"
+      ]
+    },
     "links" : {
-      "repository" : "https://github.com/openproblems-bio/core",
+      "repository" : "https://github.com/openproblems-bio/openproblems",
       "docker_registry" : "ghcr.io",
-      "issue_tracker" : "https://github.com/openproblems-bio/core/issues"
+      "issue_tracker" : "https://github.com/openproblems-bio/openproblems/issues"
     }
   }
 }'''))
@@ -3104,13 +3082,13 @@ else:
 ## Helper functions for extracting the dataset metadata in uns                                    ##
 ####################################################################################################
 def is_atomic(obj):
-  return isinstance(obj, str) or isinstance(obj, int) or isinstance(obj, bool) or isinstance(obj, float)
+  return pd.api.types.is_scalar(obj)
 
 def to_atomic(obj):
-  if isinstance(obj, np.float64):
-    return float(obj)
-  elif isinstance(obj, np.int64):
+  if isinstance(obj, (np.int32,np.int64)):
     return int(obj)
+  elif isinstance(obj, (np.float32,np.float64)):
+    return float(obj)
   elif isinstance(obj, np.bool_):
     return bool(obj)
   elif isinstance(obj, np.str_):
@@ -3118,7 +3096,7 @@ def to_atomic(obj):
   return obj
 
 def is_list_of_atomics(obj):
-  if not isinstance(obj, (list,pd.core.series.Series,np.ndarray)):
+  if not isinstance(obj, (list, pd.core.series.Series, np.ndarray)):
     return False
   return all(is_atomic(elem) for elem in obj)
 
@@ -3645,7 +3623,7 @@ meta["defaults"] = [
   directives: readJsonBlob('''{
   "container" : {
     "registry" : "ghcr.io",
-    "image" : "openproblems-bio/core/h5ad/extract_uns_metadata",
+    "image" : "openproblems-bio/openproblems/utils/extract_uns_metadata",
     "tag" : "build_main"
   },
   "label" : [

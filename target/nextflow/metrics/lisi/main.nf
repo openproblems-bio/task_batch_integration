@@ -3174,10 +3174,9 @@ meta = [
   "repositories" : [
     {
       "type" : "github",
-      "name" : "core",
-      "repo" : "openproblems-bio/core",
-      "tag" : "build/main",
-      "path" : "viash/core"
+      "name" : "openproblems",
+      "repo" : "openproblems-bio/openproblems",
+      "tag" : "build/main"
     }
   ],
   "license" : "MIT",
@@ -3250,7 +3249,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/lisi",
     "viash_version" : "0.9.0",
-    "git_commit" : "1bda9ca7c83486b02bca0c1d3aaaa3710cd9dd65",
+    "git_commit" : "6dc0f1de323435b219856e04203c26a1341898c5",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3277,10 +3276,9 @@ meta = [
     "repositories" : [
       {
         "type" : "github",
-        "name" : "core",
-        "repo" : "openproblems-bio/core",
-        "tag" : "build/main",
-        "path" : "viash/core"
+        "name" : "openproblems",
+        "repo" : "openproblems-bio/openproblems",
+        "tag" : "build/main"
       }
     ],
     "viash_version" : "0.9.0",
