@@ -20,6 +20,7 @@ methods = [
   batchelor_mnn_correct,
   bbknn,
   combat,
+  geneformer,
   harmony,
   harmonypy,
   liger,
@@ -28,10 +29,14 @@ methods = [
   scalex,
   scanorama,
   scanvi,
+  scgpt,
   scimilarity.run(
     args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
   ),
-  scvi
+  scvi,
+  uce.run(
+    args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
+  )
 ]
 
 // construct list of metrics

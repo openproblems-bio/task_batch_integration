@@ -13,7 +13,7 @@ cat > /tmp/params.yaml << 'HERE'
 input_states: s3://openproblems-data/resources_test/task_batch_integration/**/state.yaml
 rename_keys: 'input_dataset:output_dataset;input_solution:output_solution'
 output_state: "state.yaml"
-publish_dir: s3://openproblems-nextflow/temp/task_batch_integration/
+publish_dir: s3://openproblems-work/temp/task_batch_integration/
 HERE
 
 tw launch https://github.com/openproblems-bio/task_batch_integration.git \
