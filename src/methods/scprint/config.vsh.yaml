@@ -49,16 +49,14 @@ engines:
     setup:
       - type: python
         pip:
-          - supabase==2.2.1
-          - "gotrue>=2.1.0,<2.9.0"
           - huggingface_hub
-          - scPRINT
+          - scprint
       - type: docker
         run: lamin init --storage ./main --name main --schema bionty
       - type: python
         script: import bionty as bt; bt.core.sync_all_sources_to_latest()
       - type: docker
-        run: lamin load main
+        run: lamin load anonymous/main
       - type: python
         script: from scdataloader.utils import populate_my_ontology; populate_my_ontology()
 
