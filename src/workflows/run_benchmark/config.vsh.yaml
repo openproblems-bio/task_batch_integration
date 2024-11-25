@@ -96,6 +96,7 @@ dependencies:
   - name: methods/scanvi
   - name: methods/scgpt
   - name: methods/scimilarity
+  - name: methods/scprint
   - name: methods/scvi
   - name: methods/uce
   # metrics
