@@ -13,7 +13,8 @@ import os
 # in config.vsh.yaml and then run `viash config inject config.vsh.yaml`.
 par = {
   'input': 'resources_test/.../input.h5ad',
-  'output': 'output.h5ad'
+  'output': 'output.h5ad',
+  "model": "large",
 }
 meta = {
   'name': 'scprint'
@@ -48,11 +49,10 @@ preprocessor = Preprocessor(
 )
 adata = preprocessor(adata)
 
-print('\n>>> Downloading model...', flush=True)
-model = "small" # TODO: Add other models
+print(f"\n>>> Downloading '{par['model']}' model...", flush=True)
 model_checkpoint_file = hf_hub_download(
     repo_id="jkobject/scPRINT",
-    filename=f"{model}.ckpt"
+    filename=f"{par['model']}.ckpt"
 )
 print(f"Model checkpoint file: '{model_checkpoint_file}'", flush=True)
 model = scPrint.load_from_checkpoint(

@@ -30,13 +30,21 @@ links:
 
 info:
   preferred_normalization: counts
+  method_types: [embedding]
+  variants:
+    scprint_large:
+      model: "large"
+    scprint_medium:
+      model: "medium"
+    scprint_small:
+      model: "small"
 
-# Component-specific parameters (optional)
-# arguments:
-#   - name: "--n_neighbors"
-#     type: "integer"
-#     default: 5
-#     description: Number of neighbors to use.
+arguments:
+  - name: "--model"
+    type: "string"
+    description: String representing the Geneformer model to use
+    choices: ["large", "medium", "small"]
+    default: "large"
 
 resources:
   - type: python_script
