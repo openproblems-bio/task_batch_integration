@@ -5,7 +5,7 @@ from huggingface_hub import hf_hub_download
 from scprint.tasks import Embedder
 from scprint import scPrint
 import scprint
-from torch import float32 as torch_float32
+import torch
 import os
 
 ## VIASH START
@@ -57,13 +57,21 @@ model_checkpoint_file = hf_hub_download(
 print(f"Model checkpoint file: '{model_checkpoint_file}'", flush=True)
 model = scPrint.load_from_checkpoint(
     model_checkpoint_file,
-    transformer = "normal", # TODO: Don't use this for GPUs with flashattention
+    transformer = "normal", # Don't use this for GPUs with flashattention
     precpt_gene_emb = None
 )
 
 print('\n>>> Embedding data...', flush=True)
+if torch.cuda.is_available():
+    print("CUDA is available, using GPU", flush=True)
+    precision = "16"
+    dtype = torch.float16
+else:
+    print("CUDA is not available, using CPU", flush=True)
+    precision = "32"
+    dtype = torch.float32
 n_cores_available = len(os.sched_getaffinity(0))
-print(f"Using {n_cores_available} cores")
+print(f"Using {n_cores_available} worker cores")
 embedder = Embedder(
     how="random expr",
     max_len=4000,
@@ -71,8 +79,8 @@ embedder = Embedder(
     num_workers=n_cores_available,
     doclass = False,
     doplot = False,
-    precision = "32", # TODO: Use float16 for GPUs
-    dtype = torch_float32,
+    precision = precision,
+    dtype = dtype,
 )
 embedded, _ = embedder(model, adata, cache=False)
 
