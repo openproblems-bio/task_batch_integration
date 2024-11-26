@@ -33,18 +33,22 @@ info:
   method_types: [embedding]
   variants:
     scprint_large:
-      model: "large"
+      model_name: "large"
     scprint_medium:
-      model: "medium"
+      model_name: "medium"
     scprint_small:
-      model: "small"
+      model_name: "small"
 
 arguments:
-  - name: "--model"
+  - name: "--model_name"
     type: "string"
-    description: String representing the Geneformer model to use
+    description: Which model to use. Not used if --model is provided.
     choices: ["large", "medium", "small"]
     default: "large"
+  - name: --model
+    type: file
+    description: Path to the scPRINT model.
+    required: false
 
 resources:
   - type: python_script

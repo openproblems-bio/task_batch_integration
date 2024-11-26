@@ -12,7 +12,8 @@ import os
 par = {
     "input": "resources_test/.../input.h5ad",
     "output": "output.h5ad",
-    "model": "large",
+    "model_name": "large",
+    "model": None,
 }
 meta = {"name": "scprint"}
 ## VIASH END
@@ -47,10 +48,12 @@ preprocessor = Preprocessor(
 )
 adata = preprocessor(adata)
 
-print(f"\n>>> Downloading '{par['model']}' model...", flush=True)
-model_checkpoint_file = hf_hub_download(
-    repo_id="jkobject/scPRINT", filename=f"{par['model']}.ckpt"
-)
+model_checkpoint_file = par["model"]
+if model_checkpoint_file is None:
+    print(f"\n>>> Downloading '{par['model_name']}' model...", flush=True)
+    model_checkpoint_file = hf_hub_download(
+        repo_id="jkobject/scPRINT", filename=f"{par['model_name']}.ckpt"
+    )
 print(f"Model checkpoint file: '{model_checkpoint_file}'", flush=True)
 model = scPrint.load_from_checkpoint(
     model_checkpoint_file,
