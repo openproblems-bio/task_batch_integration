@@ -3330,6 +3330,12 @@ meta = [
       }
     },
     {
+      "name" : "methods/scprint",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/scvi",
       "repository" : {
         "type" : "local"
@@ -3470,7 +3476,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "6dc0f1de323435b219856e04203c26a1341898c5",
+    "git_commit" : "52ccedbd0221be2af27c3e9dd584a7ae63e8a0a1",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3626,6 +3632,7 @@ include { scanorama } from "${meta.resources_dir}/../../../nextflow/methods/scan
 include { scanvi } from "${meta.resources_dir}/../../../nextflow/methods/scanvi/main.nf"
 include { scgpt } from "${meta.resources_dir}/../../../nextflow/methods/scgpt/main.nf"
 include { scimilarity } from "${meta.resources_dir}/../../../nextflow/methods/scimilarity/main.nf"
+include { scprint } from "${meta.resources_dir}/../../../nextflow/methods/scprint/main.nf"
 include { scvi } from "${meta.resources_dir}/../../../nextflow/methods/scvi/main.nf"
 include { uce } from "${meta.resources_dir}/../../../nextflow/methods/uce/main.nf"
 include { asw_batch } from "${meta.resources_dir}/../../../nextflow/metrics/asw_batch/main.nf"
@@ -3678,6 +3685,7 @@ methods = [
   scimilarity.run(
     args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
   ),
+  scprint,
   scvi,
   uce.run(
     args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
