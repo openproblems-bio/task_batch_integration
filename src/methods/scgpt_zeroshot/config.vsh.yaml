@@ -20,8 +20,8 @@ info:
   method_types: [embedding]
   preferred_normalization: counts
   variants:
-    scgpt_default:
-    scgpt_cp:
+    scgpt_zeroshot_default:
+    scgpt_zeroshot_cp:
       model: "scGPT_CP"
 
 arguments:
