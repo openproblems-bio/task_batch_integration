@@ -19,15 +19,13 @@ info:
   method_types: [embedding]
   preferred_normalization: counts
   variants:
-    scgpt_default:
-    scgpt_cp:
-      model: "scGPT_CP"
+    scgpt_finetuned_default:
 
 arguments:
   - name: --model
     type: string
     description: String giving the scGPT model to use
-    choices: ["scGPT_human", "scGPT_CP"]
+    choices: ["scGPT_human"]
     default: "scGPT_human"
   - name: --n_hvg
     type: integer
@@ -38,6 +36,7 @@ resources:
   - type: python_script
     path: script.py
   - path: /src/utils/read_anndata_partial.py
+  - path: scgpt_functions.py
 
 engines:
   - type: docker
