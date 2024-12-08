@@ -1,0 +1,78 @@
+# The API specifies which type of component this is.
+# It contains specifications for:
+#   - The input/output files
+#   - Common parameters
+#   - A unit test
+__merge__: ../../api/comp_method.yaml
+
+# A unique identifier for your component (required).
+# Can contain only lowercase letters or underscores.
+name: scfoundation
+# A relatively short label, used when rendering visualisations (required)
+label: scfoundation
+# A one sentence summary of how this method works (required). Used when 
+# rendering summary tables.
+summary: "A foundation model pre-trained with downsampling pre-training method."
+# A multi-line description of how this component works (required). Used
+# when rendering reference documentation.
+description: |
+  scFoundation is a large-scale foundation model designed specifically for single-cell genomics analysis. It leverages self-supervised learning strategies to understand the complex patterns in single-cell gene expression data, enabling various downstream tasks through transfer learning and fine-tuning approaches.
+references:
+  doi: 
+    - https://www.nature.com/articles/s41592-024-02305-7
+#   bibtex:
+#     - |
+#       @article{foo,
+#         title={Foo},
+#         author={Bar},
+#         journal={Baz},
+#         year={2024}
+#       }
+links:
+  # URL to the documentation for this method (required).
+  documentation: https://github.com/biomap-research/scFoundation
+  # URL to the code repository for this method (required).
+  repository: https://github.com/biomap-research/scFoundation
+
+
+
+info:
+  method_types: [embedding]
+  preferred_normalization: counts
+
+# arguments:
+#   - name: --model
+#     type: string
+#     description: String giving the scGPT model to use
+#     choices: ["cellplm"]
+#     default: "cellplm"
+#   - name: --n_hvg
+#     type: integer
+#     default: 3000
+#     description: Number of highly variable genes to use.
+
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+  - path: /src/utils/load.py
+  - path: /src/utils/get_embedding.py
+
+  - type: file
+    path: /src/utils/OS_scRNA_gene_index.19264.tsv
+
+engines:
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1.0.0
+    # TODO: Try to find working installation of flash attention (flash-attn<1.0.5)
+    setup:
+      - type: python
+        pypi:
+          - gdown
+          - scanpy
+
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, midcpu, gpu]
