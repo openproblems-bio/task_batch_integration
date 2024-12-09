@@ -1,5 +1,8 @@
+import os
 import sys
+import tarfile
 import tempfile
+import zipfile
 
 import anndata as ad
 import gdown
@@ -43,23 +46,55 @@ if par["n_hvg"]:
 
 print(adata, flush=True)
 
-print(f"\n>>> Downloading '{par['model']}' model...", flush=True)
-model_drive_ids = {
-    "scGPT_human": "1oWh_-ZRdhtoGQ2Fw24HP41FgLoomVo-y",
-    "scGPT_CP": "1_GROJTzXiAV8HB4imruOTk6PEGuNOcgB",
-}
-drive_path = f"https://drive.google.com/drive/folders/{model_drive_ids[par['model']]}"
-model_dir = tempfile.TemporaryDirectory()
-print(f"Downloading from '{drive_path}'", flush=True)
-gdown.download_folder(drive_path, output=model_dir.name, quiet=True)
-print(f"Model directory: '{model_dir.name}'", flush=True)
+if par["model_path"] is None:
+    print(f"\n>>> Downloading '{par['model']}' model...", flush=True)
+    model_drive_ids = {
+        "scGPT_human": "1oWh_-ZRdhtoGQ2Fw24HP41FgLoomVo-y",
+        "scGPT_CP": "1_GROJTzXiAV8HB4imruOTk6PEGuNOcgB",
+    }
+    drive_path = (
+        f"https://drive.google.com/drive/folders/{model_drive_ids[par['model']]}"
+    )
+    model_temp = tempfile.TemporaryDirectory()
+    model_dir = model_temp.name
+    print(f"Downloading from '{drive_path}'", flush=True)
+    gdown.download_folder(drive_path, output=model_dir, quiet=True)
+else:
+    if os.path.isdir(par["model_path"]):
+        print(f"\n>>> Using model directory...", flush=True)
+        model_temp = None
+        model_dir = par["model_path"]
+    else:
+        model_temp = tempfile.TemporaryDirectory()
+        model_dir = model_temp.name
+
+        if zipfile.is_zipfile(par["model_path"]):
+            print(f"\n>>> Extracting model from .zip...", flush=True)
+            print(f".zip path: '{par['model_path']}'", flush=True)
+            with zipfile.ZipFile(par["model_path"], "r") as zip_file:
+                zip_file.extractall(model_dir)
+        elif tarfile.is_tarfile(par["model_path"]) and par["model_path"].endswith(
+            ".tar.gz"
+        ):
+            print(f"\n>>> Extracting model from .tar.gz...", flush=True)
+            print(f".tar.gz path: '{par['model_path']}'", flush=True)
+            with tarfile.open(par["model_path"], "r:gz") as tar_file:
+                tar_file.extractall(model_dir)
+                model_dir = os.path.join(model_dir, os.listdir(model_dir)[0])
+        else:
+            raise ValueError(
+                f"The 'model_path' argument should be a directory a .zip file or a .tar.gz file"
+            )
+
+print(f"Model directory: '{model_dir}'", flush=True)
+print(os.listdir(model_dir), flush=True)
 
 print("\n>>> Embedding data...", flush=True)
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Device: '{device}'", flush=True)
 embedded = scgpt.tasks.embed_data(
     adata,
-    model_dir.name,
+    model_dir,
     gene_col="feature_name",
     batch_size=64,
     use_fast_transformer=False,  # Disable fast-attn as not installed
@@ -86,7 +121,8 @@ print("\n>>> Writing output to file...", flush=True)
 print(f"Output H5AD file: '{par['output']}'", flush=True)
 output.write_h5ad(par["output"], compression="gzip")
 
-print("\n>>> Cleaning up temporary directories...", flush=True)
-model_dir.cleanup()
+if model_temp is not None:
+    print("\n>>> Cleaning up temporary directories...", flush=True)
+    model_temp.cleanup()
 
 print("\n>>> Done!", flush=True)
