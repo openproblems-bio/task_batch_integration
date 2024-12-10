@@ -3012,8 +3012,8 @@ meta = [
         },
         {
           "type" : "string",
-          "name" : "--model",
-          "description" : "String giving the scGPT model to use",
+          "name" : "--model_name",
+          "description" : "String giving the name of the scGPT model to use",
           "default" : [
             "scGPT_human"
           ],
@@ -3022,6 +3022,17 @@ meta = [
             "scGPT_human",
             "scGPT_CP"
           ],
+          "direction" : "input",
+          "multiple" : false,
+          "multiple_sep" : ";"
+        },
+        {
+          "type" : "file",
+          "name" : "--model",
+          "description" : "Path to the directory containing the scGPT model specified by model_name\nor a .zip/.tar.gz archive to extract. If not given the model will be\ndownloaded.\n",
+          "must_exist" : true,
+          "create_parent" : true,
+          "required" : false,
           "direction" : "input",
           "multiple" : false,
           "multiple_sep" : ";"
@@ -3060,16 +3071,6 @@ meta = [
       "type" : "python_script",
       "path" : "/common/component_tests/check_config.py",
       "is_executable" : true
-    },
-    {
-      "type" : "python_script",
-      "path" : "/common/component_tests/run_and_check_output.py",
-      "is_executable" : true
-    },
-    {
-      "type" : "file",
-      "path" : "/resources_test/task_batch_integration/cxg_immune_cell_atlas",
-      "dest" : "resources_test/task_batch_integration/cxg_immune_cell_atlas"
     }
   ],
   "info" : {
@@ -3182,7 +3183,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scgpt",
     "viash_version" : "0.9.0",
-    "git_commit" : "52ccedbd0221be2af27c3e9dd584a7ae63e8a0a1",
+    "git_commit" : "dd18949c7853e53edb74009b2bb99c9849c94a11",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3322,8 +3323,11 @@ def innerWorkflowFactory(args) {
   def rawScript = '''set -e
 tempscript=".viash_script.sh"
 cat > "$tempscript" << VIASHMAIN
+import os
 import sys
+import tarfile
 import tempfile
+import zipfile
 
 import anndata as ad
 import gdown
@@ -3335,6 +3339,7 @@ import torch
 par = {
   'input': $( if [ ! -z ${VIASH_PAR_INPUT+x} ]; then echo "r'${VIASH_PAR_INPUT//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
   'output': $( if [ ! -z ${VIASH_PAR_OUTPUT+x} ]; then echo "r'${VIASH_PAR_OUTPUT//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
+  'model_name': $( if [ ! -z ${VIASH_PAR_MODEL_NAME+x} ]; then echo "r'${VIASH_PAR_MODEL_NAME//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
   'model': $( if [ ! -z ${VIASH_PAR_MODEL+x} ]; then echo "r'${VIASH_PAR_MODEL//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
   'n_hvg': $( if [ ! -z ${VIASH_PAR_N_HVG+x} ]; then echo "int(r'${VIASH_PAR_N_HVG//\\'/\\'\\"\\'\\"r\\'}')"; else echo None; fi )
 }
@@ -3389,23 +3394,54 @@ if par["n_hvg"]:
 
 print(adata, flush=True)
 
-print(f"\\\\n>>> Downloading '{par['model']}' model...", flush=True)
-model_drive_ids = {
-    "scGPT_human": "1oWh_-ZRdhtoGQ2Fw24HP41FgLoomVo-y",
-    "scGPT_CP": "1_GROJTzXiAV8HB4imruOTk6PEGuNOcgB",
-}
-drive_path = f"https://drive.google.com/drive/folders/{model_drive_ids[par['model']]}"
-model_dir = tempfile.TemporaryDirectory()
-print(f"Downloading from '{drive_path}'", flush=True)
-gdown.download_folder(drive_path, output=model_dir.name, quiet=True)
-print(f"Model directory: '{model_dir.name}'", flush=True)
+if par["model"] is None:
+    print(f"\\\\n>>> Downloading '{par['model_name']}' model...", flush=True)
+    model_drive_ids = {
+        "scGPT_human": "1oWh_-ZRdhtoGQ2Fw24HP41FgLoomVo-y",
+        "scGPT_CP": "1_GROJTzXiAV8HB4imruOTk6PEGuNOcgB",
+    }
+    drive_path = (
+        f"https://drive.google.com/drive/folders/{model_drive_ids[par['model_name']]}"
+    )
+    model_temp = tempfile.TemporaryDirectory()
+    model_dir = model_temp.name
+    print(f"Downloading from '{drive_path}'", flush=True)
+    gdown.download_folder(drive_path, output=model_dir, quiet=True)
+else:
+    if os.path.isdir(par["model"]):
+        print(f"\\\\n>>> Using model directory...", flush=True)
+        model_temp = None
+        model_dir = par["model"]
+    else:
+        model_temp = tempfile.TemporaryDirectory()
+        model_dir = model_temp.name
+
+        if zipfile.is_zipfile(par["model"]):
+            print(f"\\\\n>>> Extracting model from .zip...", flush=True)
+            print(f".zip path: '{par['model']}'", flush=True)
+            with zipfile.ZipFile(par["model"], "r") as zip_file:
+                zip_file.extractall(model_dir)
+        elif tarfile.is_tarfile(par["model"]) and par["model"].endswith(
+            ".tar.gz"
+        ):
+            print(f"\\\\n>>> Extracting model from .tar.gz...", flush=True)
+            print(f".tar.gz path: '{par['model']}'", flush=True)
+            with tarfile.open(par["model"], "r:gz") as tar_file:
+                tar_file.extractall(model_dir)
+                model_dir = os.path.join(model_dir, os.listdir(model_dir)[0])
+        else:
+            raise ValueError(
+                f"The 'model' argument should be a directory a .zip file or a .tar.gz file"
+            )
+
+print(f"Model directory: '{model_dir}'", flush=True)
 
 print("\\\\n>>> Embedding data...", flush=True)
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Device: '{device}'", flush=True)
 embedded = scgpt.tasks.embed_data(
     adata,
-    model_dir.name,
+    model_dir,
     gene_col="feature_name",
     batch_size=64,
     use_fast_transformer=False,  # Disable fast-attn as not installed
@@ -3432,8 +3468,9 @@ print("\\\\n>>> Writing output to file...", flush=True)
 print(f"Output H5AD file: '{par['output']}'", flush=True)
 output.write_h5ad(par["output"], compression="gzip")
 
-print("\\\\n>>> Cleaning up temporary directories...", flush=True)
-model_dir.cleanup()
+if model_temp is not None:
+    print("\\\\n>>> Cleaning up temporary directories...", flush=True)
+    model_temp.cleanup()
 
 print("\\\\n>>> Done!", flush=True)
 VIASHMAIN

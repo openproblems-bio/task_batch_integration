@@ -193,11 +193,17 @@ function ViashHelp {
   echo "          - Embedding: the X_emb obsm"
   echo "          - Graph: the connectivities and distances obsp"
   echo ""
-  echo "    --model"
+  echo "    --model_name"
   echo "        type: string"
   echo "        default: scGPT_human"
   echo "        choices: [ scGPT_human, scGPT_CP ]"
-  echo "        String giving the scGPT model to use"
+  echo "        String giving the name of the scGPT model to use"
+  echo ""
+  echo "    --model"
+  echo "        type: file, file must exist"
+  echo "        Path to the directory containing the scGPT model specified by model_name"
+  echo "        or a .zip/.tar.gz archive to extract. If not given the model will be"
+  echo "        downloaded."
   echo ""
   echo "    --n_hvg"
   echo "        type: integer"
@@ -485,9 +491,9 @@ RUN pip install --upgrade pip && \
 
 RUN pip install --upgrade --no-deps --force-reinstall git+https://github.com/bowang-lab/scGPT.git
 LABEL org.opencontainers.image.description="Companion container for running component methods scgpt"
-LABEL org.opencontainers.image.created="2024-11-26T13:24:48Z"
+LABEL org.opencontainers.image.created="2024-12-10T12:43:28Z"
 LABEL org.opencontainers.image.source="https://github.com/bowang-lab/scGPT"
-LABEL org.opencontainers.image.revision="52ccedbd0221be2af27c3e9dd584a7ae63e8a0a1"
+LABEL org.opencontainers.image.revision="dd18949c7853e53edb74009b2bb99c9849c94a11"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -647,6 +653,17 @@ while [[ $# -gt 0 ]]; do
         --output=*)
             [ -n "$VIASH_PAR_OUTPUT" ] && ViashError Bad arguments for option \'--output=*\': \'$VIASH_PAR_OUTPUT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
             VIASH_PAR_OUTPUT=$(ViashRemoveFlags "$1")
+            shift 1
+            ;;
+        --model_name)
+            [ -n "$VIASH_PAR_MODEL_NAME" ] && ViashError Bad arguments for option \'--model_name\': \'$VIASH_PAR_MODEL_NAME\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
+            VIASH_PAR_MODEL_NAME="$2"
+            [ $# -lt 2 ] && ViashError Not enough arguments passed to --model_name. Use "--help" to get more information on the parameters. && exit 1
+            shift 2
+            ;;
+        --model_name=*)
+            [ -n "$VIASH_PAR_MODEL_NAME" ] && ViashError Bad arguments for option \'--model_name=*\': \'$VIASH_PAR_MODEL_NAME\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
+            VIASH_PAR_MODEL_NAME=$(ViashRemoveFlags "$1")
             shift 1
             ;;
         --model)
@@ -875,8 +892,8 @@ if [ -z ${VIASH_META_TEMP_DIR+x} ]; then
 fi
 
 # filling in defaults
-if [ -z ${VIASH_PAR_MODEL+x} ]; then
-  VIASH_PAR_MODEL="scGPT_human"
+if [ -z ${VIASH_PAR_MODEL_NAME+x} ]; then
+  VIASH_PAR_MODEL_NAME="scGPT_human"
 fi
 if [ -z ${VIASH_PAR_N_HVG+x} ]; then
   VIASH_PAR_N_HVG="3000"
@@ -885,6 +902,10 @@ fi
 # check whether required files exist
 if [ ! -z "$VIASH_PAR_INPUT" ] && [ ! -e "$VIASH_PAR_INPUT" ]; then
   ViashError "Input file '$VIASH_PAR_INPUT' does not exist."
+  exit 1
+fi
+if [ ! -z "$VIASH_PAR_MODEL" ] && [ ! -e "$VIASH_PAR_MODEL" ]; then
+  ViashError "Input file '$VIASH_PAR_MODEL' does not exist."
   exit 1
 fi
 
@@ -969,12 +990,12 @@ if [[ -n "$VIASH_META_MEMORY_PIB" ]]; then
 fi
 
 # check whether value is belongs to a set of choices
-if [ ! -z "$VIASH_PAR_MODEL" ]; then
-  VIASH_PAR_MODEL_CHOICES=("scGPT_human;scGPT_CP")
+if [ ! -z "$VIASH_PAR_MODEL_NAME" ]; then
+  VIASH_PAR_MODEL_NAME_CHOICES=("scGPT_human;scGPT_CP")
   IFS=';'
   set -f
-  if ! [[ ";${VIASH_PAR_MODEL_CHOICES[*]};" =~ ";$VIASH_PAR_MODEL;" ]]; then
-    ViashError '--model' specified value of \'$VIASH_PAR_MODEL\' is not in the list of allowed values. Use "--help" to get more information on the parameters.
+  if ! [[ ";${VIASH_PAR_MODEL_NAME_CHOICES[*]};" =~ ";$VIASH_PAR_MODEL_NAME;" ]]; then
+    ViashError '--model_name' specified value of \'$VIASH_PAR_MODEL_NAME\' is not in the list of allowed values. Use "--help" to get more information on the parameters.
     exit 1
   fi
   set +f
@@ -997,6 +1018,10 @@ if [ ! -z "$VIASH_PAR_OUTPUT" ]; then
   VIASH_DIRECTORY_MOUNTS+=( "$(ViashDockerAutodetectMountArg "$VIASH_PAR_OUTPUT")" )
   VIASH_PAR_OUTPUT=$(ViashDockerAutodetectMount "$VIASH_PAR_OUTPUT")
   VIASH_CHOWN_VARS+=( "$VIASH_PAR_OUTPUT" )
+fi
+if [ ! -z "$VIASH_PAR_MODEL" ]; then
+  VIASH_DIRECTORY_MOUNTS+=( "$(ViashDockerAutodetectMountArg "$VIASH_PAR_MODEL")" )
+  VIASH_PAR_MODEL=$(ViashDockerAutodetectMount "$VIASH_PAR_MODEL")
 fi
 if [ ! -z "$VIASH_META_RESOURCES_DIR" ]; then
   VIASH_DIRECTORY_MOUNTS+=( "$(ViashDockerAutodetectMountArg "$VIASH_META_RESOURCES_DIR")" )
@@ -1065,8 +1090,11 @@ function interrupt {
 trap clean_up EXIT
 trap interrupt INT SIGINT
 cat > "\$tempscript" << 'VIASHMAIN'
+import os
 import sys
+import tarfile
 import tempfile
+import zipfile
 
 import anndata as ad
 import gdown
@@ -1078,6 +1106,7 @@ import torch
 par = {
   'input': $( if [ ! -z ${VIASH_PAR_INPUT+x} ]; then echo "r'${VIASH_PAR_INPUT//\'/\'\"\'\"r\'}'"; else echo None; fi ),
   'output': $( if [ ! -z ${VIASH_PAR_OUTPUT+x} ]; then echo "r'${VIASH_PAR_OUTPUT//\'/\'\"\'\"r\'}'"; else echo None; fi ),
+  'model_name': $( if [ ! -z ${VIASH_PAR_MODEL_NAME+x} ]; then echo "r'${VIASH_PAR_MODEL_NAME//\'/\'\"\'\"r\'}'"; else echo None; fi ),
   'model': $( if [ ! -z ${VIASH_PAR_MODEL+x} ]; then echo "r'${VIASH_PAR_MODEL//\'/\'\"\'\"r\'}'"; else echo None; fi ),
   'n_hvg': $( if [ ! -z ${VIASH_PAR_N_HVG+x} ]; then echo "int(r'${VIASH_PAR_N_HVG//\'/\'\"\'\"r\'}')"; else echo None; fi )
 }
@@ -1132,23 +1161,54 @@ if par["n_hvg"]:
 
 print(adata, flush=True)
 
-print(f"\\n>>> Downloading '{par['model']}' model...", flush=True)
-model_drive_ids = {
-    "scGPT_human": "1oWh_-ZRdhtoGQ2Fw24HP41FgLoomVo-y",
-    "scGPT_CP": "1_GROJTzXiAV8HB4imruOTk6PEGuNOcgB",
-}
-drive_path = f"https://drive.google.com/drive/folders/{model_drive_ids[par['model']]}"
-model_dir = tempfile.TemporaryDirectory()
-print(f"Downloading from '{drive_path}'", flush=True)
-gdown.download_folder(drive_path, output=model_dir.name, quiet=True)
-print(f"Model directory: '{model_dir.name}'", flush=True)
+if par["model"] is None:
+    print(f"\\n>>> Downloading '{par['model_name']}' model...", flush=True)
+    model_drive_ids = {
+        "scGPT_human": "1oWh_-ZRdhtoGQ2Fw24HP41FgLoomVo-y",
+        "scGPT_CP": "1_GROJTzXiAV8HB4imruOTk6PEGuNOcgB",
+    }
+    drive_path = (
+        f"https://drive.google.com/drive/folders/{model_drive_ids[par['model_name']]}"
+    )
+    model_temp = tempfile.TemporaryDirectory()
+    model_dir = model_temp.name
+    print(f"Downloading from '{drive_path}'", flush=True)
+    gdown.download_folder(drive_path, output=model_dir, quiet=True)
+else:
+    if os.path.isdir(par["model"]):
+        print(f"\\n>>> Using model directory...", flush=True)
+        model_temp = None
+        model_dir = par["model"]
+    else:
+        model_temp = tempfile.TemporaryDirectory()
+        model_dir = model_temp.name
+
+        if zipfile.is_zipfile(par["model"]):
+            print(f"\\n>>> Extracting model from .zip...", flush=True)
+            print(f".zip path: '{par['model']}'", flush=True)
+            with zipfile.ZipFile(par["model"], "r") as zip_file:
+                zip_file.extractall(model_dir)
+        elif tarfile.is_tarfile(par["model"]) and par["model"].endswith(
+            ".tar.gz"
+        ):
+            print(f"\\n>>> Extracting model from .tar.gz...", flush=True)
+            print(f".tar.gz path: '{par['model']}'", flush=True)
+            with tarfile.open(par["model"], "r:gz") as tar_file:
+                tar_file.extractall(model_dir)
+                model_dir = os.path.join(model_dir, os.listdir(model_dir)[0])
+        else:
+            raise ValueError(
+                f"The 'model' argument should be a directory a .zip file or a .tar.gz file"
+            )
+
+print(f"Model directory: '{model_dir}'", flush=True)
 
 print("\\n>>> Embedding data...", flush=True)
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Device: '{device}'", flush=True)
 embedded = scgpt.tasks.embed_data(
     adata,
-    model_dir.name,
+    model_dir,
     gene_col="feature_name",
     batch_size=64,
     use_fast_transformer=False,  # Disable fast-attn as not installed
@@ -1175,8 +1235,9 @@ print("\\n>>> Writing output to file...", flush=True)
 print(f"Output H5AD file: '{par['output']}'", flush=True)
 output.write_h5ad(par["output"], compression="gzip")
 
-print("\\n>>> Cleaning up temporary directories...", flush=True)
-model_dir.cleanup()
+if model_temp is not None:
+    print("\\n>>> Cleaning up temporary directories...", flush=True)
+    model_temp.cleanup()
 
 print("\\n>>> Done!", flush=True)
 VIASHMAIN
@@ -1194,6 +1255,9 @@ if [[ "$VIASH_ENGINE_TYPE" == "docker" ]]; then
   fi
   if [ ! -z "$VIASH_PAR_OUTPUT" ]; then
     VIASH_PAR_OUTPUT=$(ViashDockerStripAutomount "$VIASH_PAR_OUTPUT")
+  fi
+  if [ ! -z "$VIASH_PAR_MODEL" ]; then
+    VIASH_PAR_MODEL=$(ViashDockerStripAutomount "$VIASH_PAR_MODEL")
   fi
   if [ ! -z "$VIASH_META_RESOURCES_DIR" ]; then
     VIASH_META_RESOURCES_DIR=$(ViashDockerStripAutomount "$VIASH_META_RESOURCES_DIR")
