@@ -243,7 +243,7 @@ def evaluate(model, loader, vocab, criterion, criterion_dab, hyperparameters, mo
                 loss_dab = criterion_dab(output_dict["dab_output"], batch_labels)
 
             total_loss += loss.item() * len(input_gene_ids)
-            total_error += scgpt.masked_relative_error(
+            total_error += scgpt.loss.masked_relative_error(
                 output_values, target_values, masked_positions
             ).item() * len(input_gene_ids)
             total_dab += loss_dab.item() * len(input_gene_ids)

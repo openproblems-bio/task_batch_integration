@@ -3,6 +3,8 @@ import tempfile
 import json
 import time
 import copy
+import os
+import shutil
 
 import anndata as ad
 import gdown
@@ -278,26 +280,47 @@ for epoch in range(1, hyperparameters["epochs"] + 1):
 
     scheduler.step()
 
-# print("\n>>> Storing output...", flush=True)
-# output = ad.AnnData(
-#     obs=adata.obs[[]],
-#     var=adata.var[[]],
-#     obsm={
-#         "X_emb": embedded.X,
-#     },
-#     uns={
-#         "dataset_id": adata.uns["dataset_id"],
-#         "normalization_id": adata.uns["normalization_id"],
-#         "method_id": meta["name"],
-#     },
-# )
-# print(output)
+print(f"Best model: Epoch {best_model_epoch}, Val loss {best_val_loss}")
 
-# print("\n>>> Writing output to file...", flush=True)
-# print(f"Output H5AD file: '{par['output']}'", flush=True)
-# output.write_h5ad(par["output"], compression="gzip")
+print("\n>>> Saving best model...", flush=True)
+best_model_dir = tempfile.TemporaryDirectory()
+shutil.copy(vocab_file, best_model_dir.name)
+shutil.copy(model_config_file, best_model_dir.name)
+torch.save(best_model.state_dict(), os.path.join(best_model_dir.name, "best_model.pt"))
+print(f"Best model directory: '{best_model_dir.name}'", flush=True)
 
-# print("\n>>> Cleaning up temporary directories...", flush=True)
-# model_dir.cleanup()
+print("\n>>> Embedding data...", flush=True)
+embedded = scgpt.tasks.embed_data(
+    adata,
+    best_model_dir.name,
+    gene_col="feature_name",
+    batch_size=64,
+    use_fast_transformer=False,  # Disable fast-attn as not installed
+    device=device,
+    return_new_adata=True,
+)
+
+print("\n>>> Storing output...", flush=True)
+output = ad.AnnData(
+    obs=adata.obs[[]],
+    var=adata.var[[]],
+    obsm={
+        "X_emb": embedded.X,
+    },
+    uns={
+        "dataset_id": adata.uns["dataset_id"],
+        "normalization_id": adata.uns["normalization_id"],
+        "method_id": meta["name"],
+    },
+)
+print(output)
+
+print("\n>>> Writing output to file...", flush=True)
+print(f"Output H5AD file: '{par['output']}'", flush=True)
+output.write_h5ad(par["output"], compression="gzip")
+
+print("\n>>> Cleaning up temporary directories...", flush=True)
+model_dir.cleanup()
+best_model_dir.cleanup()
 
 print("\n>>> Done!", flush=True)
