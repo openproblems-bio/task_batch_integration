@@ -1,4 +1,4 @@
-__merge__: ../../api/comp_method.yaml
+__merge__: ../../api/base_method.yaml
 
 name: scgpt_zeroshot
 label: scGPT (zero shot)
@@ -25,11 +25,18 @@ info:
       model: "scGPT_CP"
 
 arguments:
-  - name: --model
+  - name: --model_name
     type: string
-    description: String giving the scGPT model to use
+    description: String giving the name of the scGPT model to use
     choices: ["scGPT_human", "scGPT_CP"]
     default: "scGPT_human"
+  - name: --model
+    type: file
+    description: |
+      Path to the directory containing the scGPT model specified by model_name
+      or a .zip/.tar.gz archive to extract. If not given the model will be
+      downloaded.
+    required: false
   - name: --n_hvg
     type: integer
     default: 3000

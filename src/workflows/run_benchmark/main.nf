@@ -29,8 +29,10 @@ methods = [
   scalex,
   scanorama,
   scanvi,
-  scgpt_zeroshot,
   scgpt_finetuned,
+  scgpt_zeroshot.run(
+    args: [model_path: file("s3://openproblems-work/cache/scGPT_human.zip")]
+  ),
   scimilarity.run(
     args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
   ),
