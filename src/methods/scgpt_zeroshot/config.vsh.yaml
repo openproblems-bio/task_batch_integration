@@ -22,7 +22,7 @@ info:
   variants:
     scgpt_zeroshot_default:
     scgpt_zeroshot_cp:
-      model: "scGPT_CP"
+      model_name: "scGPT_CP"
 
 arguments:
   - name: --model_name

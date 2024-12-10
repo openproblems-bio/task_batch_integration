@@ -5,6 +5,8 @@ import shutil
 import sys
 import tempfile
 import time
+import zipfile
+import tarfile
 
 import anndata as ad
 import gdown
@@ -19,6 +21,7 @@ from sklearn.model_selection import train_test_split
 par = {
     "input": "resources_test/.../input.h5ad",
     "output": "output.h5ad",
+    "model_name": "scGPT_human",
     "model": "scGPT_human",
     "n_hvg": 3000,
 }
@@ -48,18 +51,50 @@ adata.var_names = adata.var["feature_name"]
 
 print(adata, flush=True)
 
-print(f"\n>>> Downloading '{par['model']}' model...", flush=True)
-model_drive_ids = {
-    "scGPT_human": "1oWh_-ZRdhtoGQ2Fw24HP41FgLoomVo-y",
-}
-drive_path = f"https://drive.google.com/drive/folders/{model_drive_ids[par['model']]}"
-model_dir = tempfile.TemporaryDirectory()
-print(f"Downloading from '{drive_path}'", flush=True)
-gdown.download_folder(drive_path, output=model_dir.name, quiet=True)
-model_config_file = f"{model_dir.name}/args.json"
-model_file = f"{model_dir.name}/best_model.pt"
-vocab_file = f"{model_dir.name}/vocab.json"
-print(f"Model directory: '{model_dir.name}'", flush=True)
+if par["model"] is None:
+    print(f"\n>>> Downloading '{par['model_name']}' model...", flush=True)
+    model_drive_ids = {
+        "scGPT_human": "1oWh_-ZRdhtoGQ2Fw24HP41FgLoomVo-y",
+        "scGPT_CP": "1_GROJTzXiAV8HB4imruOTk6PEGuNOcgB",
+    }
+    drive_path = (
+        f"https://drive.google.com/drive/folders/{model_drive_ids[par['model_name']]}"
+    )
+    model_temp = tempfile.TemporaryDirectory()
+    model_dir = model_temp.name
+    print(f"Downloading from '{drive_path}'", flush=True)
+    gdown.download_folder(drive_path, output=model_dir, quiet=True)
+else:
+    if os.path.isdir(par["model"]):
+        print(f"\n>>> Using model directory...", flush=True)
+        model_temp = None
+        model_dir = par["model"]
+    else:
+        model_temp = tempfile.TemporaryDirectory()
+        model_dir = model_temp.name
+
+        if zipfile.is_zipfile(par["model"]):
+            print(f"\n>>> Extracting model from .zip...", flush=True)
+            print(f".zip path: '{par['model']}'", flush=True)
+            with zipfile.ZipFile(par["model"], "r") as zip_file:
+                zip_file.extractall(model_dir)
+        elif tarfile.is_tarfile(par["model"]) and par["model"].endswith(
+            ".tar.gz"
+        ):
+            print(f"\n>>> Extracting model from .tar.gz...", flush=True)
+            print(f".tar.gz path: '{par['model']}'", flush=True)
+            with tarfile.open(par["model"], "r:gz") as tar_file:
+                tar_file.extractall(model_dir)
+                model_dir = os.path.join(model_dir, os.listdir(model_dir)[0])
+        else:
+            raise ValueError(
+                f"The 'model' argument should be a directory a .zip file or a .tar.gz file"
+            )
+
+model_config_file = f"{model_dir}/args.json"
+model_file = f"{model_dir}/best_model.pt"
+vocab_file = f"{model_dir}/vocab.json"
+print(f"Model directory: '{model_dir}'", flush=True)
 print(f"Model config file: '{model_config_file}'", flush=True)
 print(f"Model file: '{model_file}'", flush=True)
 print(f"Model vocabulary file: '{vocab_file}'", flush=True)
@@ -354,7 +389,8 @@ print(f"Output H5AD file: '{par['output']}'", flush=True)
 output.write_h5ad(par["output"], compression="gzip")
 
 print("\n>>> Cleaning up temporary directories...", flush=True)
-model_dir.cleanup()
+if model_temp is not None:
+    model_temp.cleanup()
 best_model_dir.cleanup()
 
 print("\n>>> Done!", flush=True)
