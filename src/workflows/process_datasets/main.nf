@@ -50,6 +50,7 @@ workflow run_wf {
       }
     }
     
+    // precompute clustering at this resolution
     | precompute_clustering_run.run(
       fromState: ["input": "dataset", "resolution": "resolution"],
       toState: ["output_clustering": "output"]
@@ -61,6 +62,7 @@ workflow run_wf {
     }
     | groupTuple()
 
+    // merge the clustering results into one state
     | map{ id, states -> 
       if (states.size() == 0) {
         throw new RuntimeException("Expected at least one state, but got ${states.size()}")
@@ -75,11 +77,13 @@ workflow run_wf {
       [id, newState]
     }
 
+    // merge clustering results into dataset h5ad
     | precompute_clustering_merge.run(
       fromState: ["input": "dataset", "clusterings": "clusterings"],
       toState: ["dataset": "output"]
     )
 
+    // process the dataset
     | process_dataset.run(
       fromState: [ input: "dataset" ],
       toState: [
