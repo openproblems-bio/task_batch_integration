@@ -1,4 +1,4 @@
-__merge__: ../../api/comp_method.yaml
+__merge__: ../../api/base_method.yaml
 
 name: scgpt_finetuned
 label: scGPT (fine-tuned)
