@@ -1,16 +1,16 @@
-import sys
-import tempfile
-import json
-import time
 import copy
+import json
 import os
 import shutil
+import sys
+import tempfile
+import time
 
 import anndata as ad
 import gdown
+import numpy as np
 import scgpt
 import torch
-import numpy as np
 from sklearn.model_selection import train_test_split
 
 ## VIASH START
@@ -27,7 +27,7 @@ meta = {"name": "scgpt"}
 
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
-from scgpt_functions import prepare_data, prepare_dataloader, train, evaluate
+from scgpt_functions import evaluate, prepare_data, prepare_dataloader, train
 
 print(f"====== scGPT version {scgpt.__version__} ======", flush=True)
 
@@ -77,7 +77,7 @@ model_settings = {
     "max_seq_len": par["n_hvg"] + 1,
     "per_seq_batch_sample": True,
     "DSBN": True,
-    "explicit_zero_prob": True
+    "explicit_zero_prob": True,
 }
 print("Model settings:", flush=True)
 for key, value in model_settings.items():
@@ -86,9 +86,7 @@ vocab = scgpt.tokenizer.gene_tokenizer.GeneVocab.from_file(vocab_file)
 for token in model_settings["special_tokens"]:
     if token not in vocab:
         vocab.add_token(token)
-adata.var["id_in_vocab"] = [
-    1 if gene in vocab else -1 for gene in adata.var_names
-]
+adata.var["id_in_vocab"] = [1 if gene in vocab else -1 for gene in adata.var_names]
 gene_ids_in_vocab = np.array(adata.var["id_in_vocab"])
 scgpt.logger.info(
     f"Matched {np.sum(gene_ids_in_vocab >= 0)}/{len(gene_ids_in_vocab)} genes in vocabulary of {len(vocab)}",
@@ -110,17 +108,21 @@ for key, value in model_config.items():
 
 print("\n>>> Preprocessing data...", flush=True)
 preprocessor = scgpt.preprocess.Preprocessor(
-    use_key="X",                             # The key in adata.layers to use as raw data
-    filter_gene_by_counts=3,                 # Number of counts for filtering genes
-    filter_cell_by_counts=False,             # Number of counts for filtering cells
-    normalize_total=1e4,                     # Whether to normalize the raw data and to what sum
-    result_normed_key="X_normed",            # The key in adata.layers to store the normalized data
-    log1p=True,                              # Whether to log1p the normalized data
-    result_log1p_key="X_log1p",              # The key in adata.layers to store the log1p data
-    subset_hvg=model_settings["n_hvg"],      # Whether to subset the raw data to highly variable genes and to what number
-    hvg_flavor="seurat_v3",                  # The flavor of highly variable gene selection
-    binning=model_settings["n_input_bins"],  # Whether to bin the raw data and to what number of bins
-    result_binned_key="X_binned",            # The key in adata.layers to store the binned data
+    use_key="X",  # The key in adata.layers to use as raw data
+    filter_gene_by_counts=3,  # Number of counts for filtering genes
+    filter_cell_by_counts=False,  # Number of counts for filtering cells
+    normalize_total=1e4,  # Whether to normalize the raw data and to what sum
+    result_normed_key="X_normed",  # The key in adata.layers to store the normalized data
+    log1p=True,  # Whether to log1p the normalized data
+    result_log1p_key="X_log1p",  # The key in adata.layers to store the log1p data
+    subset_hvg=model_settings[
+        "n_hvg"
+    ],  # Whether to subset the raw data to highly variable genes and to what number
+    hvg_flavor="seurat_v3",  # The flavor of highly variable gene selection
+    binning=model_settings[
+        "n_input_bins"
+    ],  # Whether to bin the raw data and to what number of bins
+    result_binned_key="X_binned",  # The key in adata.layers to store the binned data
 )
 preprocessor(adata, batch_key="str_batch")
 print(adata, flush=True)
@@ -139,7 +141,7 @@ celltype_labels = np.array(adata.obs["cell_type"].to_list())
     celltype_labels,
     np.array(adata.obs["batch_id"].tolist()),
     test_size=0.1,
-    shuffle=True
+    shuffle=True,
 )
 
 vocab.set_default_index(vocab["<pad>"])
@@ -179,19 +181,19 @@ print(f"Using '{device}' device")
 
 hyperparameters = {
     "n_tokens": len(vocab),
-    "GEPC": True,               # Gene expression modelling for cell objective
-    "ecs_thres": 0.8,           # Elastic cell similarity objective, 0.0 to 1.0, 0.0 to disable
-    "dab_weight":1.0,           # DAR objective weight for batch correction
-    "mask_ratio":0.4,
-    "epochs":15,
-    "lr":1e-4,
-    "batch_size":64,
+    "GEPC": True,  # Gene expression modelling for cell objective
+    "ecs_thres": 0.8,  # Elastic cell similarity objective, 0.0 to 1.0, 0.0 to disable
+    "dab_weight": 1.0,  # DAR objective weight for batch correction
+    "mask_ratio": 0.4,
+    "epochs": 15,
+    "lr": 1e-4,
+    "batch_size": 64,
     "dropout": 0.2,
-    "schedule_ratio":0.9,       # Learning rate decay
+    "schedule_ratio": 0.9,  # Learning rate decay
     "log_interval": 100,
     "fast_transformer": False,  # TODO: Set True if flash-attn is installed
     "pre_norm": False,
-    "amp":True,                 # Automatic Mixed Precision
+    "amp": True,  # Automatic Mixed Precision
 }
 print("Hyperparameters:", flush=True)
 for key, value in hyperparameters.items():
@@ -217,16 +219,22 @@ model = scgpt.model.TransformerModel(
     use_fast_transformer=hyperparameters["fast_transformer"],
     pre_norm=hyperparameters["pre_norm"],
 )
-scgpt.utils.load_pretrained(model, torch.load(model_file, map_location=torch.device(device)), verbose=False)
+scgpt.utils.load_pretrained(
+    model, torch.load(model_file, map_location=torch.device(device)), verbose=False
+)
 model.to(device)
 
 print("\n>>> Fine-tuning model...", flush=True)
 criterion = scgpt.loss.masked_mse_loss
 criterion_dab = torch.nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(
-    model.parameters(), lr=hyperparameters["lr"], eps=1e-4 if hyperparameters["amp"] else 1e-8
+    model.parameters(),
+    lr=hyperparameters["lr"],
+    eps=1e-4 if hyperparameters["amp"] else 1e-8,
 )
-scheduler = torch.optim.lr_scheduler.StepLR(optimizer, 1, gamma=hyperparameters["schedule_ratio"])
+scheduler = torch.optim.lr_scheduler.StepLR(
+    optimizer, 1, gamma=hyperparameters["schedule_ratio"]
+)
 scaler = torch.cuda.amp.GradScaler(enabled=hyperparameters["amp"])
 
 best_val_loss = float("inf")
@@ -235,7 +243,15 @@ best_model = None
 
 for epoch in range(1, hyperparameters["epochs"] + 1):
     epoch_start_time = time.time()
-    train_data_pt, valid_data_pt = prepare_data(tokenized_train, tokenized_valid, train_batch_labels, valid_batch_labels, hyperparameters, model_settings, epoch)
+    train_data_pt, valid_data_pt = prepare_data(
+        tokenized_train,
+        tokenized_valid,
+        train_batch_labels,
+        valid_batch_labels,
+        hyperparameters,
+        model_settings,
+        epoch,
+    )
 
     train_loader = prepare_dataloader(
         train_data_pt,
@@ -244,7 +260,7 @@ for epoch in range(1, hyperparameters["epochs"] + 1):
         intra_domain_shuffle=True,
         drop_last=False,
         num_workers=0,
-        per_seq_batch_sample=model_settings["per_seq_batch_sample"]
+        per_seq_batch_sample=model_settings["per_seq_batch_sample"],
     )
 
     valid_loader = prepare_dataloader(
@@ -254,15 +270,33 @@ for epoch in range(1, hyperparameters["epochs"] + 1):
         intra_domain_shuffle=False,
         drop_last=False,
         num_workers=0,
-        per_seq_batch_sample=model_settings["per_seq_batch_sample"]
+        per_seq_batch_sample=model_settings["per_seq_batch_sample"],
     )
 
-    train(model, train_loader, scaler, optimizer, scheduler, vocab, criterion, criterion_dab, hyperparameters, model_settings, device, epoch)
+    train(
+        model,
+        train_loader,
+        scaler,
+        optimizer,
+        scheduler,
+        vocab,
+        criterion,
+        criterion_dab,
+        hyperparameters,
+        model_settings,
+        device,
+        epoch,
+    )
 
     val_loss, val_mre = evaluate(
         model,
         valid_loader,
-        vocab, criterion, criterion_dab, hyperparameters, model_settings, device
+        vocab,
+        criterion,
+        criterion_dab,
+        hyperparameters,
+        model_settings,
+        device,
     )
     elapsed = time.time() - epoch_start_time
     scgpt.logger.info("-" * 89)

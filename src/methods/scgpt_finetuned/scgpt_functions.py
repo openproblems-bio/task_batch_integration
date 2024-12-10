@@ -1,10 +1,20 @@
-import torch
-import scgpt
-import numpy as np
 import time
 import warnings
 
-def prepare_data(tokenized_train, tokenized_valid, train_batch_labels, valid_batch_labels, hyperparameters, model_settings, epoch):
+import numpy as np
+import scgpt
+import torch
+
+
+def prepare_data(
+    tokenized_train,
+    tokenized_valid,
+    train_batch_labels,
+    valid_batch_labels,
+    hyperparameters,
+    model_settings,
+    epoch,
+):
     masked_values_train = scgpt.tokenizer.random_mask_value(
         tokenized_train["values"],
         mask_ratio=hyperparameters["mask_ratio"],
@@ -18,7 +28,8 @@ def prepare_data(tokenized_train, tokenized_valid, train_batch_labels, valid_bat
         pad_value=model_settings["pad_value"],
     )
     scgpt.logger.info(
-        f"Random masking at epoch {epoch:3d}, ratio of masked values in train: {(masked_values_train == model_settings['mask_value']).sum() / (masked_values_train - model_settings['pad_value']).count_nonzero():.4f}",
+        f"Random masking at epoch {epoch:3d},"
+        f"ratio of masked values in train: {(masked_values_train == model_settings['mask_value']).sum() / (masked_values_train - model_settings['pad_value']).count_nonzero():.4f}"
     )
 
     input_gene_ids_train, input_gene_ids_valid = (
@@ -81,7 +92,7 @@ def prepare_dataloader(
     intra_domain_shuffle,
     drop_last,
     num_workers,
-    per_seq_batch_sample
+    per_seq_batch_sample,
 ):
     dataset = SeqDataset(data_pt)
 
@@ -116,7 +127,21 @@ def prepare_dataloader(
     )
     return data_loader
 
-def train(model, loader, scaler, optimizer, scheduler, vocab, criterion, criterion_dab, hyperparameters, model_settings, device, epoch):
+
+def train(
+    model,
+    loader,
+    scaler,
+    optimizer,
+    scheduler,
+    vocab,
+    criterion,
+    criterion_dab,
+    hyperparameters,
+    model_settings,
+    device,
+    epoch,
+):
     model.train()
 
     total_loss, total_mse, total_gepc = 0.0, 0.0, 0.0
@@ -142,7 +167,9 @@ def train(model, loader, scaler, optimizer, scheduler, vocab, criterion, criteri
                 ECS=hyperparameters["ecs_thres"] > 0,
             )
 
-            masked_positions = input_values.eq(model_settings["mask_value"])  # the postions to predict
+            masked_positions = input_values.eq(
+                model_settings["mask_value"]
+            )  # the postions to predict
             loss = loss_mse = criterion(
                 output_dict["mlm_output"], target_values, masked_positions
             )
@@ -215,7 +242,16 @@ def train(model, loader, scaler, optimizer, scheduler, vocab, criterion, criteri
             start_time = time.time()
 
 
-def evaluate(model, loader, vocab, criterion, criterion_dab, hyperparameters, model_settings, device):
+def evaluate(
+    model,
+    loader,
+    vocab,
+    criterion,
+    criterion_dab,
+    hyperparameters,
+    model_settings,
+    device,
+):
     model.eval()
     total_loss = 0.0
     total_error = 0.0
