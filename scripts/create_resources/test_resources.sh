@@ -14,10 +14,14 @@ DATASET_DIR=resources_test/task_batch_integration
 mkdir -p $DATASET_DIR
 
 # process dataset
-viash run src/data_processors/process_dataset/config.vsh.yaml -- \
+nextflow run . \
+  -main-script target/nextflow/workflows/process_datasets/main.nf \
+  -profile docker \
   --input "$RAW_DATA/cxg_immune_cell_atlas/dataset.h5ad" \
-  --output_dataset "$DATASET_DIR/cxg_immune_cell_atlas/dataset.h5ad" \
-  --output_solution "$DATASET_DIR/cxg_immune_cell_atlas/solution.h5ad"
+  --publish_dir "$DATASET_DIR/cxg_immune_cell_atlas" \
+  --output_dataset output_dataset.h5ad \
+  --output_solution output_solution.h5ad \
+  --output_state state.yaml
 
 # run one method
 viash run src/methods/combat/config.vsh.yaml -- \
