@@ -1,11 +1,12 @@
 __merge__: ../../api/base_method.yaml
 
-name: scgpt
-label: scGPT
-summary: "A foundation model for single-cell biology"
+name: scgpt_zeroshot
+label: scGPT (zero shot)
+summary: "A foundation model for single-cell biology (zero shot)"
 description: |
   scGPT is a foundation model for single-cell biology based on a generative
   pre-trained transformer and trained on a repository of over 33 million cells.
+
   Here, we use zero-shot output from a pre-trained model to get an integrated
   embedding for the batch integration task.
 references:
@@ -19,9 +20,9 @@ info:
   method_types: [embedding]
   preferred_normalization: counts
   variants:
-    scgpt_default:
-    scgpt_cp:
-      model: "scGPT_CP"
+    scgpt_zeroshot_default:
+    scgpt_zeroshot_cp:
+      model_name: "scGPT_CP"
 
 arguments:
   - name: --model_name
