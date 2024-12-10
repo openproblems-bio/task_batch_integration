@@ -15,6 +15,7 @@ import torch
 par = {
     "input": "resources_test/.../input.h5ad",
     "output": "output.h5ad",
+    "model_name": "scGPT_human",
     "model": "scGPT_human",
     "n_hvg": 3000,
 }
@@ -46,48 +47,47 @@ if par["n_hvg"]:
 
 print(adata, flush=True)
 
-if par["model_path"] is None:
-    print(f"\n>>> Downloading '{par['model']}' model...", flush=True)
+if par["model"] is None:
+    print(f"\n>>> Downloading '{par['model_name']}' model...", flush=True)
     model_drive_ids = {
         "scGPT_human": "1oWh_-ZRdhtoGQ2Fw24HP41FgLoomVo-y",
         "scGPT_CP": "1_GROJTzXiAV8HB4imruOTk6PEGuNOcgB",
     }
     drive_path = (
-        f"https://drive.google.com/drive/folders/{model_drive_ids[par['model']]}"
+        f"https://drive.google.com/drive/folders/{model_drive_ids[par['model_name']]}"
     )
     model_temp = tempfile.TemporaryDirectory()
     model_dir = model_temp.name
     print(f"Downloading from '{drive_path}'", flush=True)
     gdown.download_folder(drive_path, output=model_dir, quiet=True)
 else:
-    if os.path.isdir(par["model_path"]):
+    if os.path.isdir(par["model"]):
         print(f"\n>>> Using model directory...", flush=True)
         model_temp = None
-        model_dir = par["model_path"]
+        model_dir = par["model"]
     else:
         model_temp = tempfile.TemporaryDirectory()
         model_dir = model_temp.name
 
-        if zipfile.is_zipfile(par["model_path"]):
+        if zipfile.is_zipfile(par["model"]):
             print(f"\n>>> Extracting model from .zip...", flush=True)
-            print(f".zip path: '{par['model_path']}'", flush=True)
-            with zipfile.ZipFile(par["model_path"], "r") as zip_file:
+            print(f".zip path: '{par['model']}'", flush=True)
+            with zipfile.ZipFile(par["model"], "r") as zip_file:
                 zip_file.extractall(model_dir)
-        elif tarfile.is_tarfile(par["model_path"]) and par["model_path"].endswith(
+        elif tarfile.is_tarfile(par["model"]) and par["model"].endswith(
             ".tar.gz"
         ):
             print(f"\n>>> Extracting model from .tar.gz...", flush=True)
-            print(f".tar.gz path: '{par['model_path']}'", flush=True)
-            with tarfile.open(par["model_path"], "r:gz") as tar_file:
+            print(f".tar.gz path: '{par['model']}'", flush=True)
+            with tarfile.open(par["model"], "r:gz") as tar_file:
                 tar_file.extractall(model_dir)
                 model_dir = os.path.join(model_dir, os.listdir(model_dir)[0])
         else:
             raise ValueError(
-                f"The 'model_path' argument should be a directory a .zip file or a .tar.gz file"
+                f"The 'model' argument should be a directory a .zip file or a .tar.gz file"
             )
 
 print(f"Model directory: '{model_dir}'", flush=True)
-print(os.listdir(model_dir), flush=True)
 
 print("\n>>> Embedding data...", flush=True)
 device = "cuda" if torch.cuda.is_available() else "cpu"

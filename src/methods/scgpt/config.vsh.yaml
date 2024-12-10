@@ -24,16 +24,17 @@ info:
       model: "scGPT_CP"
 
 arguments:
-  - name: --model
+  - name: --model_name
     type: string
-    description: String giving the scGPT model to use
+    description: String giving the name of the scGPT model to use
     choices: ["scGPT_human", "scGPT_CP"]
     default: "scGPT_human"
-  - name: --model_path
+  - name: --model
     type: file
     description: |
-      Path to the directory containing the specified scGPT model or a
-      .zip/.tar.gz archive to extract. If not given the model will be downloaded.
+      Path to the directory containing the scGPT model specified by model_name
+      or a .zip/.tar.gz archive to extract. If not given the model will be
+      downloaded.
     required: false
   - name: --n_hvg
     type: integer
