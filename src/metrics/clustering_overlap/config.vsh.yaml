@@ -59,7 +59,7 @@ engines:
     setup:
       - type: python
         pypi:
-          - scib==1.1.5
+          - scib==1.1.6
 runners:
   - type: executable
   - type: nextflow

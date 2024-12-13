@@ -210,7 +210,7 @@ Format:
     AnnData object
      obs: 'cell_type', 'batch'
      var: 'hvg', 'hvg_score', 'feature_name'
-     obsm: 'X_pca'
+     obsm: 'X_pca', 'clustering'
      obsp: 'knn_distances', 'knn_connectivities'
      layers: 'counts', 'normalized'
      uns: 'dataset_id', 'dataset_name', 'dataset_url', 'dataset_reference', 'dataset_summary', 'dataset_description', 'dataset_organism', 'normalization_id', 'knn'
@@ -229,6 +229,7 @@ Data structure:
 | `var["hvg_score"]` | `double` | A ranking of the features by hvg. |
 | `var["feature_name"]` | `string` | A human-readable name for the feature, usually a gene symbol. |
 | `obsm["X_pca"]` | `double` | The resulting PCA embedding. |
+| `obsm["clustering"]` | `integer` | Leiden clustering results at different resolutions. |
 | `obsp["knn_distances"]` | `double` | K nearest neighbors distance matrix. |
 | `obsp["knn_connectivities"]` | `double` | K nearest neighbors connectivities matrix. |
 | `layers["counts"]` | `integer` | Raw counts. |
