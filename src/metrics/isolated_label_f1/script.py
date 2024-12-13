@@ -26,7 +26,8 @@ print('compute score', flush=True)
 score = isolated_labels_f1(
     adata,
     label_key="cell_type",
-    batch_key='batch',
+    batch_key="batch",
+    cluster_key="leiden",
     embed=None,
     iso_threshold=None,
     verbose=True,

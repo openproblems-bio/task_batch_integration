@@ -28,7 +28,7 @@ print('Run optimal Leiden clustering', flush=True)
 cluster_optimal_resolution(
     adata=adata,
     label_key="cell_type",
-    cluster_key='cluster',
+    cluster_key="leiden",
     cluster_function=sc.tl.leiden,
 )
 
