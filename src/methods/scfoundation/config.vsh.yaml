@@ -18,16 +18,18 @@ summary: "A foundation model pre-trained with downsampling pre-training method."
 description: |
   scFoundation is a large-scale foundation model designed specifically for single-cell genomics analysis. It leverages self-supervised learning strategies to understand the complex patterns in single-cell gene expression data, enabling various downstream tasks through transfer learning and fine-tuning approaches.
 references:
-  doi: 
-    - https://www.nature.com/articles/s41592-024-02305-7
-#   bibtex:
-#     - |
-#       @article{foo,
-#         title={Foo},
-#         author={Bar},
-#         journal={Baz},
-#         year={2024}
-#       }
+  # doi: 
+  #   - https://www.nature.com/articles/s41592-024-02305-7
+  bibtex:
+    - |
+      @article{hao2024large,
+        title={Large-scale foundation model on single-cell transcriptomics},
+        author={Hao, Minsheng and Gong, Jing and Zeng, Xin and Liu, Chiming and Guo, Yucheng and Cheng, Xingyi and Wang, Taifeng and Ma, Jianzhu and Zhang, Xuegong and Song, Le},
+        journal={Nature Methods},
+        pages={1--11},
+        year={2024},
+        publisher={Nature Publishing Group US New York}
+      }
 links:
   # URL to the documentation for this method (required).
   documentation: https://github.com/biomap-research/scFoundation

@@ -18,16 +18,18 @@ summary: "A foundation model pre-trained with cells as tokens."
 description: |
   CellPLM is a pre-trained language model specifically designed for single-cell analysis that leverages the principles of natural language processing (NLP) to understand and process single-cell gene expression data. 
 references:
-  doi: 
-    - https://openreview.net/forum?id=BKXvPDekud
-#   bibtex:
-#     - |
-#       @article{foo,
-#         title={Foo},
-#         author={Bar},
-#         journal={Baz},
-#         year={2024}
-#       }
+  # doi: 
+  #   - https://openreview.net/forum?id=BKXvPDekud
+  bibtex:
+    - |
+      @inproceedings{
+      wen2024cellplm,
+      title={Cell{PLM}: Pre-training of Cell Language Model Beyond Single Cells},
+      author={Hongzhi Wen and Wenzhuo Tang and Xinnan Dai and Jiayuan Ding and Wei Jin and Yuying Xie and Jiliang Tang},
+      booktitle={The Twelfth International Conference on Learning Representations},
+      year={2024},
+      url={https://openreview.net/forum?id=BKXvPDekud}
+      }
 links:
   # URL to the documentation for this method (required).
   documentation: https://github.com/OmicsML/CellPLM
@@ -62,6 +64,7 @@ engines:
     setup:
       - type: python
         pypi:
+          - torch==1.13.0
           - gdown
           - scgpt # Install from PyPI to get dependencies
           - cellplm
