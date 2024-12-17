@@ -3,7 +3,7 @@
 #   - The input/output files
 #   - Common parameters
 #   - A unit test
-__merge__: ../../api/comp_method.yaml
+__merge__: ../../api/base_method.yaml
 
 # A unique identifier for your component (required).
 # Can contain only lowercase letters or underscores.

@@ -25,6 +25,11 @@ par = {
   'output': 'output.h5ad'
 }
 meta = {"name": "scfoundation"}
+
+## VIASH END
+
+
+
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
 
