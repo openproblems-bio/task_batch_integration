@@ -1,0 +1,36 @@
+__merge__: /src/api/comp_method.yaml
+name: combat
+label: Combat
+summary: Adjusting batch effects in microarray expression data using empirical Bayes
+  methods
+description: |
+  "An Empirical Bayes (EB) approach to correct for batch effects. It
+  estimates batch-specific parameters by pooling information across genes in
+  each batch and shrinks the estimates towards the overall mean of the batch
+  effect estimates across all genes. These parameters are then used to adjust
+  the data for batch effects, leading to more accurate and reproducible
+  results."
+references:
+  doi: 10.1093/biostatistics/kxj037
+links:
+  repository: https://scanpy.readthedocs.io/en/stable/api/scanpy.pp.combat.html
+  documentation: https://scanpy.readthedocs.io/en/stable/api/scanpy.pp.combat.html
+info:
+  method_types: [feature]
+  preferred_normalization: log_cp10k
+  variants:
+    combat_full_unscaled:
+    combat_full_scaled:
+      preferred_normalization: log_cp10k_scaled
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, highmem, lowcpu]

@@ -1,0 +1,39 @@
+namespace: data_processors
+info:
+  type: transformer
+  type_info:
+    label: Transform
+    summary: Check the output and transform to create additional output types
+    description: |
+      This component will:
+
+        - Assert whether the input dataset and integrated dataset have the same shape.
+        - Reorder the integrated dataset to match the input dataset if needed.
+        - Transform the corrected feature output to an embedding.
+        - Transform an embedding to a graph output.
+arguments:
+  - name: --input_integrated
+    __merge__: file_integrated.yaml
+    direction: input
+    required: true
+  - name: --input_dataset
+    __merge__: file_dataset.yaml
+    direction: input
+    required: true
+  - name: --expected_method_types
+    type: string
+    direction: input
+    required: true
+    multiple: true
+    description: |
+      The expected output types of the batch integration method.
+    choices: [ feature, embedding, graph ]
+  - name: --output
+    __merge__: file_integrated_full.yaml
+    direction: output
+    required: true
+test_resources:
+  - type: python_script
+    path: /common/component_tests/run_and_check_output.py
+  - path: /resources_test/task_batch_integration/cxg_immune_cell_atlas
+    dest: resources_test/task_batch_integration/cxg_immune_cell_atlas

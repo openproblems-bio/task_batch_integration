@@ -1,0 +1,45 @@
+__merge__: ../../api/base_method.yaml
+
+name: uce
+label: UCE
+summary: UCE offers a unified biological latent space that can represent any cell
+description: |
+  Universal Cell Embedding (UCE) is a single-cell foundation model that offers a
+  unified biological latent space that can represent any cell, regardless of
+  tissue or species
+references:
+  doi:
+    - 10.1101/2023.11.28.568918
+links:
+  documentation: https://github.com/snap-stanford/UCE/blob/main/README.md
+  repository: https://github.com/snap-stanford/UCE
+
+info:
+  method_types: [embedding]
+  preferred_normalization: counts
+
+arguments:
+  - name: --model
+    type: file
+    description: Path to the directory containing UCE model files or a .zip/.tar.gz archive
+    required: true
+
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+
+engines:
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - accelerate==0.24.0
+      - type: docker
+        run: "git clone https://github.com/snap-stanford/UCE.git"
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, midcpu, gpu]
