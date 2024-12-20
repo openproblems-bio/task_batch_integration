@@ -18,10 +18,13 @@ par = {
 }
 ## VIASH END
 
+sys.path.append(meta["resources_dir"])
+from read_anndata_partial import read_anndata
+
 n_cell_cpu = 300_000
 
 print("Read input", flush=True)
-input = ad.read_h5ad(par["input"])
+input = read_anndata(par["input"], obs='obs', obsp='obsp')
 
 key = f'leiden_r{par["resolution"]}'
 kwargs = dict()
