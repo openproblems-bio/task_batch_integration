@@ -1,4 +1,5 @@
 import sys
+import pandas as pd
 import anndata as ad
 from scib.metrics import isolated_labels_f1
 
@@ -19,9 +20,13 @@ from read_anndata_partial import read_anndata
 
 
 print('Read input', flush=True)
-adata = read_anndata(par['input_integrated'], obs='obs', obsp='obsp', uns='uns')
+adata = read_anndata(par['input_integrated'], obs='obs', obsm='obsm', obsp='obsp', uns='uns')
 adata.obs = read_anndata(par['input_solution'], obs='obs').obs
 adata.uns |= read_anndata(par['input_solution'], uns='uns').uns
+
+# get existing clusters
+cluster_df = adata.obsm.get('clustering', pd.DataFrame(index=adata.obs_names))
+adata.obs = pd.concat([adata.obs, cluster_df], axis=1)
 
 print('compute score', flush=True)
 score = isolated_labels_f1(
