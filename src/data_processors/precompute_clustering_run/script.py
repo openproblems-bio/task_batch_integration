@@ -26,7 +26,7 @@ n_cell_cpu = 300_000
 print("Read input", flush=True)
 input = read_anndata(par["input"], obs='obs', obsp='obsp')
 
-key = f'leiden_r{par["resolution"]}'
+key = f'leiden_{par["resolution"]}'
 kwargs = dict()
 if not USE_GPU:
     kwargs |= dict(

@@ -13,7 +13,7 @@ print("Read clusterings", flush=True)
 clusterings = []
 for clus_file in par["clusterings"]:
     adata = ad.read_h5ad(clus_file)
-    obs_filt = adata.obs.filter(regex='leiden_r[0-9.]+')
+    obs_filt = adata.obs.filter(regex='leiden_[0-9.]+')
     clusterings.append(obs_filt)
 
 print("Merge clusterings", flush=True)
