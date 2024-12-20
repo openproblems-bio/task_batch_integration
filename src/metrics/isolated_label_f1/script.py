@@ -6,7 +6,7 @@ from scib.metrics import isolated_labels_f1
 par = {
     'input_integrated': 'resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_full.h5ad',
     'output': 'output.h5ad',
-    "resolutions": [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8],  # TODO needs to be added to config
+    "resolutions": [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8],
 }
 
 meta = {
