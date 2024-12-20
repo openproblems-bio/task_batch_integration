@@ -1,3 +1,4 @@
+import sys
 import anndata as ad
 
 # check if we can use GPU
@@ -24,7 +25,7 @@ from read_anndata_partial import read_anndata
 n_cell_cpu = 300_000
 
 print("Read input", flush=True)
-input = read_anndata(par["input"], obs='obs', obsp='obsp')
+input = read_anndata(par["input"], obs='obs', obsp='obsp', uns='uns')
 
 key = f'leiden_{par["resolution"]}'
 kwargs = dict()
