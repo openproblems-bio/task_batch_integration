@@ -24,12 +24,20 @@ print("Read input", flush=True)
 input = ad.read_h5ad(par["input"])
 
 key = f'leiden_r{par["resolution"]}'
+kwargs = dict()
+if not USE_GPU:
+    kwargs |= dict(
+        flavor='igraph',
+        n_iterations=2,
+    )
 
+print(f"Run Leiden clustering with {kwargs}", flush=True)
 leiden(
     input,
     resolution=par["resolution"],
     neighbors_key="knn",
     key_added=key,
+    **kwargs,
 )
 
 print("Store outputs", flush=True)
