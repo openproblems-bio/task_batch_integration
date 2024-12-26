@@ -6,14 +6,9 @@
 
 ## NEW FUNCTIONALITY
 
-* Added `methods/cellplm` component.
-
-* Added `methods/scfoundation` component.
-
 
 ## MAJOR CHANGES
 
-* Updated scripts.
 
 
 

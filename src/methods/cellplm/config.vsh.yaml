@@ -1,15 +1,10 @@
-# The API specifies which type of component this is.
-# It contains specifications for:
-#   - The input/output files
-#   - Common parameters
-#   - A unit test
 __merge__: ../../api/base_method.yaml
 
 # A unique identifier for your component (required).
 # Can contain only lowercase letters or underscores.
 name: cellplm
 # A relatively short label, used when rendering visualisations (required)
-label: cellplm
+label: CellPLM
 # A one sentence summary of how this method works (required). Used when 
 # rendering summary tables.
 summary: "A foundation model pre-trained with cells as tokens."
@@ -18,21 +13,11 @@ summary: "A foundation model pre-trained with cells as tokens."
 description: |
   CellPLM is a pre-trained language model specifically designed for single-cell analysis that leverages the principles of natural language processing (NLP) to understand and process single-cell gene expression data. 
 references:
-  # doi: 
-  #   - https://openreview.net/forum?id=BKXvPDekud
-  bibtex:
-    - |
-      @inproceedings{
-      wen2024cellplm,
-      title={Cell{PLM}: Pre-training of Cell Language Model Beyond Single Cells},
-      author={Hongzhi Wen and Wenzhuo Tang and Xinnan Dai and Jiayuan Ding and Wei Jin and Yuying Xie and Jiliang Tang},
-      booktitle={The Twelfth International Conference on Learning Representations},
-      year={2024},
-      url={https://openreview.net/forum?id=BKXvPDekud}
-      }
+  doi: 
+    - https://www.biorxiv.org/content/10.1101/2023.10.03.560734v1
 links:
   # URL to the documentation for this method (required).
-  documentation: https://github.com/OmicsML/CellPLM
+  documentation: https://github.com/OmicsML/CellPLM/tree/main/tutorials
   # URL to the code repository for this method (required).
   repository: https://github.com/OmicsML/CellPLM
 
@@ -41,12 +26,12 @@ info:
   method_types: [embedding]
   preferred_normalization: counts
 
-# arguments:
-#   - name: --model
-#     type: string
-#     description: String giving the scGPT model to use
-#     choices: ["cellplm"]
-#     default: "cellplm"
+arguments:
+  - name: --model
+    type: string
+    description: String giving the CellPLM model to use
+    choices: ["20231027_85M"]
+    default: "20231027_85M"
 #   - name: --n_hvg
 #     type: integer
 #     default: 3000
@@ -64,11 +49,9 @@ engines:
     setup:
       - type: python
         pypi:
-          - torch==1.13.0
           - gdown
           - scgpt # Install from PyPI to get dependencies
           - cellplm
-          - scanpy
 
 runners:
   - type: executable
