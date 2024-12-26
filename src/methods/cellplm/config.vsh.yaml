@@ -14,7 +14,7 @@ description: |
   CellPLM is a pre-trained language model specifically designed for single-cell analysis that leverages the principles of natural language processing (NLP) to understand and process single-cell gene expression data. 
 references:
   doi: 
-    - https://www.biorxiv.org/content/10.1101/2023.10.03.560734v1
+    - 10.1101/2023.10.03.560734
 links:
   # URL to the documentation for this method (required).
   documentation: https://github.com/OmicsML/CellPLM/tree/main/tutorials
