@@ -1,24 +1,21 @@
 __merge__: ../../api/base_method.yaml
 
-# A unique identifier for your component (required).
-# Can contain only lowercase letters or underscores.
+
 name: cellplm
-# A relatively short label, used when rendering visualisations (required)
+
 label: CellPLM
-# A one sentence summary of how this method works (required). Used when 
-# rendering summary tables.
+
 summary: "A foundation model pre-trained with cells as tokens."
-# A multi-line description of how this component works (required). Used
-# when rendering reference documentation.
+
 description: |
   CellPLM is a pre-trained language model specifically designed for single-cell analysis that leverages the principles of natural language processing (NLP) to understand and process single-cell gene expression data. 
 references:
   doi: 
     - 10.1101/2023.10.03.560734
 links:
-  # URL to the documentation for this method (required).
+
   documentation: https://github.com/OmicsML/CellPLM/tree/main/tutorials
-  # URL to the code repository for this method (required).
+
   repository: https://github.com/OmicsML/CellPLM
 
 
@@ -32,10 +29,6 @@ arguments:
     description: String giving the CellPLM model to use
     choices: ["20231027_85M"]
     default: "20231027_85M"
-#   - name: --n_hvg
-#     type: integer
-#     default: 3000
-#     description: Number of highly variable genes to use.
 
 resources:
   - type: python_script
@@ -45,12 +38,11 @@ resources:
 engines:
   - type: docker
     image: openproblems/base_pytorch_nvidia:1.0.0
-    # TODO: Try to find working installation of flash attention (flash-attn<1.0.5)
     setup:
       - type: python
         pypi:
           - gdown
-          - scgpt # Install from PyPI to get dependencies
+          - scgpt
           - cellplm
 
 runners:

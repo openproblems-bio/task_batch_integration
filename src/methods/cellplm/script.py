@@ -52,9 +52,6 @@ if adata.uns["dataset_organism"] != "homo_sapiens":
 
 print(adata, flush=True)
 
-print('Preprocess data', flush=True)
-# ... preprocessing ...
-
 print('Train model', flush=True)
 # ... train model ...
 
