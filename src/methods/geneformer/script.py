@@ -33,6 +33,8 @@ if adata.uns["dataset_organism"] != "homo_sapiens":
         f"(dataset_organism == '{adata.uns['dataset_organism']}')"
     )
 
+# Set adata.var_names to gene IDs
+adata.var_names = adata.var["feature_id"]
 is_ensembl = all(var_name.startswith("ENSG") for var_name in adata.var_names)
 if not is_ensembl:
     raise ValueError(f"Geneformer requires adata.var_names to contain ENSEMBL gene ids")
