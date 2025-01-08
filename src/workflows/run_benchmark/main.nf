@@ -9,50 +9,50 @@ workflow auto {
 
 // construct list of methods and control methods
 methods = [
-  embed_cell_types,
-  embed_cell_types_jittered,
+  // embed_cell_types,
+  // embed_cell_types_jittered,
   no_integration,
-  no_integration_batch,
-  shuffle_integration,
-  shuffle_integration_by_batch,
-  shuffle_integration_by_cell_type,
-  batchelor_fastmnn,
-  batchelor_mnn_correct,
-  bbknn,
+  // no_integration_batch,
+  // shuffle_integration,
+  // shuffle_integration_by_batch,
+  // shuffle_integration_by_cell_type,
+  // batchelor_fastmnn,
+  // batchelor_mnn_correct,
+  // bbknn,
   combat,
-  geneformer,
-  harmony,
-  harmonypy,
-  liger,
-  mnnpy,
-  pyliger,
-  scalex,
-  scanorama,
-  scanvi,
-  scgpt,
-  scimilarity.run(
-    args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
-  ),
-  scprint,
-  scvi,
-  uce.run(
-    args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
-  )
+  // geneformer,
+  // harmony,
+  // harmonypy,
+  // liger,
+  // mnnpy,
+  // pyliger,
+  // scalex,
+  // scanorama,
+  // scanvi,
+  // scgpt,
+  // scimilarity.run(
+  //   args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
+  // ),
+  // scprint,
+  // scvi,
+  // uce.run(
+  //   args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
+  // )
 ]
 
 // construct list of metrics
 metrics = [
   asw_batch,
-  asw_label,
-  cell_cycle_conservation,
+  // asw_label,
+  // cell_cycle_conservation,
   clustering_overlap,
-  graph_connectivity,
-  hvg_overlap,
-  isolated_label_asw,
-  isolated_label_f1,
-  kbet,
-  lisi,
-  pcr
+  // graph_connectivity,
+  // hvg_overlap,
+  // isolated_label_asw,
+  // isolated_label_f1,
+  // kbet,
+  // lisi,
+  // pcr
 ]
 
 workflow run_wf {
@@ -80,9 +80,9 @@ workflow run_wf {
       }
     )
 
-  /***************************
-   * RUN METHODS AND METRICS *
-   ***************************/
+  /***************
+   * RUN METHODS *
+   ***************/
 
   score_ch = dataset_ch
 
@@ -135,6 +135,10 @@ workflow run_wf {
       }
     )
 
+  /******************
+   * PROCESS OUTPUT *
+   ******************/
+
     | transform.run(
       fromState: [
         input_integrated: "method_output",
@@ -160,6 +164,61 @@ workflow run_wf {
       }
     )
 
+    // collect clustering resolutions
+    | flatMap { id, state ->
+      state.resolutions.collect { resolution ->
+        def newId = "${id}_r${resolution}"
+        def newState = state + [
+          "resolution": resolution,
+          "prevId": id
+        ]
+        [newId, newState]
+      }
+    }
+
+    // precompute clustering at one resolution
+    | precompute_clustering_run.run(
+      fromState: [
+        input: "method_output_cleaned",
+        resolution: "resolution"
+      ],
+      toState: ["output_clustering": "output"]
+    )
+
+    // group by original dataset id
+    | map{id, state ->
+      [state.prevId, state]
+    }
+    | groupTuple()
+
+    // merge the clustering results into one state
+    | map{ id, states ->
+      if (states.size() == 0) {
+        throw new RuntimeException("Expected at least one state, but got ${states.size()}")
+      }
+      if (states.size() != states[0].resolutions.size()) {
+        throw new RuntimeException("Expected ${states[0].resolutions.size()} states, but got ${states.size()}")
+      }
+
+      def clusterings = states.collect { it.output_clustering }
+      def newState = states[0] + ["clusterings": clusterings]
+
+      [id, newState]
+    }
+
+    // merge clustering results into dataset h5ad
+    | precompute_clustering_merge.run(
+      fromState: [
+        input: "method_output_cleaned",
+        clusterings: "clusterings"
+      ],
+      toState: [method_output_clustered : "output"]
+    )
+
+  /***************
+   * RUN METRICS *
+   ***************/
+
     // run all metrics
     | runEach(
       components: metrics,
@@ -172,7 +231,7 @@ workflow run_wf {
       // use 'fromState' to fetch the arguments the component requires from the overall state
       fromState: [
         input_solution: "input_solution",
-        input_integrated: "method_output_cleaned"
+        input_integrated: "method_output_clustered"
       ],
       // use 'toState' to publish that component's outputs to the overall state
       toState: { id, output, state, comp ->
