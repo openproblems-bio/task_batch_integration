@@ -21,7 +21,8 @@ nextflow run . \
   --publish_dir "$DATASET_DIR/cxg_immune_cell_atlas" \
   --output_dataset output_dataset.h5ad \
   --output_solution output_solution.h5ad \
-  --output_state state.yaml
+  --output_state state.yaml \
+  -c common/nextflow_helpers/labels_ci.config \
 
 # run one method
 viash run src/methods/combat/config.vsh.yaml -- \
