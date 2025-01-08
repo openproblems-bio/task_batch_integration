@@ -21,13 +21,13 @@ links:
 
 info:
   method_types: [embedding]
-  preferred_normalization: counts
+  preferred_normalization: log_cp10k
 
 arguments:
   - name: --model
     type: string
     description: String giving the CellPLM model to use
-    choices: ["20231027_85M"]
+    choices: ["20231027_85M", "20230926_85M"]
     default: "20231027_85M"
 
 resources:

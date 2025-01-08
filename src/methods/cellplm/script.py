@@ -52,26 +52,20 @@ if adata.uns["dataset_organism"] != "homo_sapiens":
 
 print(adata, flush=True)
 
-print('Train model', flush=True)
-# ... train model ...
-
-drive_path = f"https://drive.google.com/drive/folders/1C2fVNEKX3plHnagaTwpuPW5tpwv1up9G?usp=sharing"
-model_dir = tempfile.TemporaryDirectory()
-print(f"Downloading from '{drive_path}'", flush=True)
-gdown.download_folder(drive_path, output=model_dir.name, quiet=True)
-print(f"Model directory: '{model_dir.name}'", flush=True)
+model_dir = par['model']
+print(f"Model directory: '{model_dir}'", flush=True)
 
 pipeline = CellEmbeddingPipeline(pretrain_prefix=PRETRAIN_VERSION, # Specify the pretrain checkpoint to load
-                                 pretrain_directory=model_dir.name)
+                                 pretrain_directory=model_dir)
+
+print('Generate predictions', flush=True)
+# ... generate predictions ...
 
 # DEVICE ='cpu'
 embedding = pipeline.predict(adata, # An AnnData object
                 device=DEVICE) # Specify a gpu or cpu for model inference
 
 embedding = embedding.cpu().numpy()
-
-print('Generate predictions', flush=True)
-# ... generate predictions ...
 
 output = ad.AnnData(
     obs=adata.obs[[]],
