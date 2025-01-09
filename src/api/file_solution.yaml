@@ -41,10 +41,6 @@ info:
         name: X_pca
         description: The resulting PCA embedding.
         required: true
-      - type: integer
-        name: clustering
-        description: Leiden clustering results at different resolutions.
-        required: true
     obsp:
       - type: double
         name: knn_distances

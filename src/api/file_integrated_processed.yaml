@@ -25,7 +25,7 @@ info:
         required: false
       - type: integer
         name: clustering
-        description: Cluster assignments at different resolutions
+        description: Leiden clustering results at different resolutions.
         required: true
     obsp:
       - type: double
