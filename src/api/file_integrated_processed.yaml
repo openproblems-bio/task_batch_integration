@@ -1,6 +1,6 @@
 type: file
-example: "resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_full.h5ad"
-label: Transformed integration
+example: "resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_processed.h5ad"
+label: Processed integration output
 summary: An integrated AnnData dataset with additional outputs.
 description: |
   Must contain at least one of:
@@ -23,6 +23,10 @@ info:
         name: X_emb
         description: Embedding output - 2D coordinate matrix
         required: false
+      - type: integer
+        name: clustering
+        description: Cluster assignments at different resolutions
+        required: true
     obsp:
       - type: double
         name: connectivities

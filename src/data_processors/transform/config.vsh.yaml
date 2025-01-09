@@ -1,10 +1,10 @@
-__merge__: /src/api/comp_transformer.yaml
 name: transform
+namespace: data_processors
 label: Transform
 summary: Check the output and transform to create additional output types
 description: |
   This component will:
-  
+
     - Assert whether the input dataset and integrated dataset have the same shape.
     - Reorder the integrated dataset to match the input dataset if needed.
     - Transform the corrected feature output to an embedding.
@@ -13,6 +13,27 @@ info:
   test_setup:
     default:
       expected_method_types: feature
+arguments:
+  - name: --input_integrated
+    type: file
+    direction: input
+    required: true
+  - name: --input_dataset
+    type: file
+    direction: input
+    required: true
+  - name: --expected_method_types
+    type: string
+    direction: input
+    required: true
+    multiple: true
+    description: |
+      The expected output types of the batch integration method.
+    choices: [ feature, embedding, graph ]
+  - name: --output
+    type: file
+    direction: output
+    required: true
 resources:
   - type: python_script
     path: script.py
@@ -25,5 +46,5 @@ engines:
 runners:
   - type: executable
   - type: nextflow
-    directives: 
+    directives:
       label: [midtime, midmem, lowcpu]
