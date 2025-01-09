@@ -9,50 +9,50 @@ workflow auto {
 
 // construct list of methods and control methods
 methods = [
-  // embed_cell_types,
-  // embed_cell_types_jittered,
+  embed_cell_types,
+  embed_cell_types_jittered,
   no_integration,
-  // no_integration_batch,
-  // shuffle_integration,
-  // shuffle_integration_by_batch,
-  // shuffle_integration_by_cell_type,
-  // batchelor_fastmnn,
-  // batchelor_mnn_correct,
-  // bbknn,
+  no_integration_batch,
+  shuffle_integration,
+  shuffle_integration_by_batch,
+  shuffle_integration_by_cell_type,
+  batchelor_fastmnn,
+  batchelor_mnn_correct,
+  bbknn,
   combat,
-  // geneformer,
-  // harmony,
-  // harmonypy,
-  // liger,
-  // mnnpy,
-  // pyliger,
-  // scalex,
-  // scanorama,
-  // scanvi,
-  // scgpt,
-  // scimilarity.run(
-  //   args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
-  // ),
-  // scprint,
-  // scvi,
-  // uce.run(
-  //   args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
-  // )
+  geneformer,
+  harmony,
+  harmonypy,
+  liger,
+  mnnpy,
+  pyliger,
+  scalex,
+  scanorama,
+  scanvi,
+  scgpt,
+  scimilarity.run(
+    args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
+  ),
+  scprint,
+  scvi,
+  uce.run(
+    args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
+  )
 ]
 
 // construct list of metrics
 metrics = [
   asw_batch,
-  // asw_label,
-  // cell_cycle_conservation,
+  asw_label,
+  cell_cycle_conservation,
   clustering_overlap,
-  // graph_connectivity,
-  // hvg_overlap,
-  // isolated_label_asw,
-  // isolated_label_f1,
-  // kbet,
-  // lisi,
-  // pcr
+  graph_connectivity,
+  hvg_overlap,
+  isolated_label_asw,
+  isolated_label_f1,
+  kbet,
+  lisi,
+  pcr
 ]
 
 workflow run_wf {
