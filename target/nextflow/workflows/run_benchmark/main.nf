@@ -2865,6 +2865,12 @@ meta = [
                   "name" : "feature_name",
                   "description" : "A human-readable name for the feature, usually a gene symbol.",
                   "required" : true
+                },
+                {
+                  "type" : "string",
+                  "name" : "feature_id",
+                  "description" : "A database identifier for the feature, usually an ENSEMBL ID.",
+                  "required" : true
                 }
               ],
               "obsm" : [
@@ -2980,6 +2986,12 @@ meta = [
                   "type" : "string",
                   "name" : "feature_name",
                   "description" : "A human-readable name for the feature, usually a gene symbol.",
+                  "required" : true
+                },
+                {
+                  "type" : "string",
+                  "name" : "feature_id",
+                  "description" : "A database identifier for the feature, usually an ENSEMBL ID.",
                   "required" : true
                 }
               ],
@@ -3476,7 +3488,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "dd18949c7853e53edb74009b2bb99c9849c94a11",
+    "git_commit" : "120cd51a650d808f5c377ce704af0ef01ce1fb80",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

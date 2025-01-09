@@ -2865,6 +2865,12 @@ meta = [
                   "name" : "feature_name",
                   "description" : "A human-readable name for the feature, usually a gene symbol.",
                   "required" : true
+                },
+                {
+                  "type" : "string",
+                  "name" : "feature_id",
+                  "description" : "A database identifier for the feature, usually an ENSEMBL ID.",
+                  "required" : true
                 }
               ],
               "obsm" : [
@@ -3167,7 +3173,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/geneformer",
     "viash_version" : "0.9.0",
-    "git_commit" : "dd18949c7853e53edb74009b2bb99c9849c94a11",
+    "git_commit" : "120cd51a650d808f5c377ce704af0ef01ce1fb80",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3364,6 +3370,8 @@ if adata.uns["dataset_organism"] != "homo_sapiens":
         f"(dataset_organism == '{adata.uns['dataset_organism']}')"
     )
 
+# Set adata.var_names to gene IDs
+adata.var_names = adata.var["feature_id"]
 is_ensembl = all(var_name.startswith("ENSG") for var_name in adata.var_names)
 if not is_ensembl:
     raise ValueError(f"Geneformer requires adata.var_names to contain ENSEMBL gene ids")

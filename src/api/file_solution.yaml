@@ -36,6 +36,10 @@ info:
         name: feature_name
         description: A human-readable name for the feature, usually a gene symbol.
         required: true
+      - type: string
+        name: feature_id
+        description: A database identifier for the feature, usually an ENSEMBL ID.
+        required: true
     obsm:
       - type: double
         name: X_pca

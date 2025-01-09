@@ -480,9 +480,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "pyarrow<15.0.0a0,>=14.0.1" "huggingface_hub" "git+https://huggingface.co/ctheodoris/Geneformer.git"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods geneformer"
-LABEL org.opencontainers.image.created="2024-12-10T12:43:28Z"
+LABEL org.opencontainers.image.created="2025-01-09T07:30:35Z"
 LABEL org.opencontainers.image.source="https://huggingface.co/ctheodoris/Geneformer"
-LABEL org.opencontainers.image.revision="dd18949c7853e53edb74009b2bb99c9849c94a11"
+LABEL org.opencontainers.image.revision="120cd51a650d808f5c377ce704af0ef01ce1fb80"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1097,6 +1097,8 @@ if adata.uns["dataset_organism"] != "homo_sapiens":
         f"(dataset_organism == '{adata.uns['dataset_organism']}')"
     )
 
+# Set adata.var_names to gene IDs
+adata.var_names = adata.var["feature_id"]
 is_ensembl = all(var_name.startswith("ENSG") for var_name in adata.var_names)
 if not is_ensembl:
     raise ValueError(f"Geneformer requires adata.var_names to contain ENSEMBL gene ids")
