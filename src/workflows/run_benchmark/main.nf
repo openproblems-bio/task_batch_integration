@@ -139,13 +139,15 @@ workflow run_wf {
    * PROCESS OUTPUT *
    ******************/
 
-    | transform.run(
+    | process_integration.run(
       fromState: [
         input_integrated: "method_output",
         input_dataset: "input_dataset",
         expected_method_types: "method_types"
       ],
       toState: { id, output, state ->
+        // Add method types to the state
+        // This is done here because state can't be passed from the processing subworkflow
         def method_types_cleaned = []
         if ("feature" in state.method_types) {
           method_types_cleaned += ["feature", "embedding", "graph"]
@@ -156,63 +158,12 @@ workflow run_wf {
         }
 
         def new_state = state + [
-          method_output_cleaned: output.output,
+          method_output_processed: output.output,
           method_types_cleaned: method_types_cleaned
         ]
 
         new_state
       }
-    )
-
-    // collect clustering resolutions
-    | flatMap { id, state ->
-      state.resolutions.collect { resolution ->
-        def newId = "${id}_r${resolution}"
-        def newState = state + [
-          "resolution": resolution,
-          "prevId": id
-        ]
-        [newId, newState]
-      }
-    }
-
-    // precompute clustering at one resolution
-    | precompute_clustering_run.run(
-      fromState: [
-        input: "method_output_cleaned",
-        resolution: "resolution"
-      ],
-      toState: ["output_clustering": "output"]
-    )
-
-    // group by original dataset id
-    | map{id, state ->
-      [state.prevId, state]
-    }
-    | groupTuple()
-
-    // merge the clustering results into one state
-    | map{ id, states ->
-      if (states.size() == 0) {
-        throw new RuntimeException("Expected at least one state, but got ${states.size()}")
-      }
-      if (states.size() != states[0].resolutions.size()) {
-        throw new RuntimeException("Expected ${states[0].resolutions.size()} states, but got ${states.size()}")
-      }
-
-      def clusterings = states.collect { it.output_clustering }
-      def newState = states[0] + ["clusterings": clusterings]
-
-      [id, newState]
-    }
-
-    // merge clustering results into dataset h5ad
-    | precompute_clustering_merge.run(
-      fromState: [
-        input: "method_output_cleaned",
-        clusterings: "clusterings"
-      ],
-      toState: [method_output_clustered : "output"]
     )
 
   /***************
@@ -231,7 +182,7 @@ workflow run_wf {
       // use 'fromState' to fetch the arguments the component requires from the overall state
       fromState: [
         input_solution: "input_solution",
-        input_integrated: "method_output_clustered"
+        input_integrated: "method_output_processed"
       ],
       // use 'toState' to publish that component's outputs to the overall state
       toState: { id, output, state, comp ->
