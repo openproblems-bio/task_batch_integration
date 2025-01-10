@@ -1,9 +1,10 @@
 import sys
 import tempfile
-import scanpy as sc
 import anndata as ad
-import gdown
 import torch
+import os
+import zipfile
+import tarfile
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -31,7 +32,6 @@ sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
 
 set_seed(24)
-PRETRAIN_VERSION = par['model']
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 print("\n>>> Reading input files...", flush=True)
@@ -52,10 +52,32 @@ if adata.uns["dataset_organism"] != "homo_sapiens":
 
 print(adata, flush=True)
 
-model_dir = par['model']
+print("\n>>> Getting model files...", flush=True)
+# Available from https://www.dropbox.com/scl/fo/i5rmxgtqzg7iykt2e9uqm/h/ckpt?dl=0&subfolder_nav_tracking=1
+if os.path.isdir(par["model"]):
+    model_temp = None
+    model_dir = par["model"]
+else:
+    model_temp = tempfile.TemporaryDirectory()
+    model_dir = model_temp.name
+
+    if zipfile.is_zipfile(par["model"]):
+        print("Extracting CellPLM models from .zip...", flush=True)
+        with zipfile.ZipFile(par["model"], "r") as zip_file:
+            zip_file.extractall(model_dir)
+    elif tarfile.is_tarfile(par["model"]) and par["model"].endswith(".tar.gz"):
+        print("Extracting CellPLM models from .tar.gz...", flush=True)
+        with tarfile.open(par["model"], "r:gz") as tar_file:
+            tar_file.extractall(model_dir)
+            model_dir = os.path.join(model_dir, os.listdir(model_dir)[0])
+    else:
+        raise ValueError(
+            f"The 'model' argument should be a directory a .zip file or a .tar.gz file"
+        )
+
 print(f"Model directory: '{model_dir}'", flush=True)
 
-pipeline = CellEmbeddingPipeline(pretrain_prefix=PRETRAIN_VERSION, # Specify the pretrain checkpoint to load
+pipeline = CellEmbeddingPipeline(pretrain_prefix=par["model_name"],
                                  pretrain_directory=model_dir)
 
 print('Generate predictions', flush=True)

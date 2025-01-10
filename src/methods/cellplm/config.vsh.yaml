@@ -24,11 +24,15 @@ info:
   preferred_normalization: log_cp10k
 
 arguments:
-  - name: --model
+  - name: --model_name
     type: string
     description: String giving the CellPLM model to use
     choices: ["20231027_85M", "20230926_85M"]
     default: "20231027_85M"
+  - name: --model
+    type: file
+    description: Path to the directory containing CellPLM model files or a .zip/.tar.gz archive
+    required: true
 
 resources:
   - type: python_script
@@ -41,7 +45,6 @@ engines:
     setup:
       - type: python
         pypi:
-          - gdown
           - cellplm
 
 runners:
