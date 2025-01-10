@@ -8,9 +8,9 @@ label: CellPLM
 summary: "A foundation model pre-trained with cells as tokens."
 
 description: |
-  CellPLM is a pre-trained language model specifically designed for single-cell analysis that leverages the principles of natural language processing (NLP) to understand and process single-cell gene expression data. 
+  CellPLM is a pre-trained language model specifically designed for single-cell analysis that leverages the principles of natural language processing (NLP) to understand and process single-cell gene expression data.
 references:
-  doi: 
+  doi:
     - 10.1101/2023.10.03.560734
 links:
 
@@ -42,7 +42,6 @@ engines:
       - type: python
         pypi:
           - gdown
-          - scgpt
           - cellplm
 
 runners:
