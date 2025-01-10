@@ -106,5 +106,8 @@ print(output)
 
 output.write_h5ad(par['output'], compression='gzip')
 
-print("\n>>> Cleaning up temporary directories...", flush=True)
-model_dir.cleanup()
+if model_temp is not None:
+    print("\n>>> Cleaning up temporary directories...", flush=True)
+    model_temp.cleanup()
+
+print("\n>>> Done!", flush=True)
