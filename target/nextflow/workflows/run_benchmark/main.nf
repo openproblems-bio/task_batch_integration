@@ -3488,7 +3488,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "120cd51a650d808f5c377ce704af0ef01ce1fb80",
+    "git_commit" : "0aa213973000d4618662951592205682dff03aa9",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3694,7 +3694,7 @@ methods = [
   scanorama,
   scanvi,
   scgpt.run(
-    args: [model_path: file("s3://openproblems-work/cache/scGPT_human.zip")]
+    args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
   ),
   scimilarity.run(
     args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]

@@ -30,7 +30,7 @@ methods = [
   scanorama,
   scanvi,
   scgpt.run(
-    args: [model_path: file("s3://openproblems-work/cache/scGPT_human.zip")]
+    args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
   ),
   scimilarity.run(
     args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]

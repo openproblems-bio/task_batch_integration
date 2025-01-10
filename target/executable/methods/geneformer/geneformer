@@ -480,9 +480,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "pyarrow<15.0.0a0,>=14.0.1" "huggingface_hub" "git+https://huggingface.co/ctheodoris/Geneformer.git"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods geneformer"
-LABEL org.opencontainers.image.created="2025-01-09T07:30:35Z"
+LABEL org.opencontainers.image.created="2025-01-10T10:57:47Z"
 LABEL org.opencontainers.image.source="https://huggingface.co/ctheodoris/Geneformer"
-LABEL org.opencontainers.image.revision="120cd51a650d808f5c377ce704af0ef01ce1fb80"
+LABEL org.opencontainers.image.revision="0aa213973000d4618662951592205682dff03aa9"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
