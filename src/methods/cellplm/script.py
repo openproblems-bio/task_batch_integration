@@ -6,8 +6,6 @@ import os
 import zipfile
 import tarfile
 
-import warnings
-warnings.filterwarnings("ignore")
 from CellPLM.utils import set_seed
 
 import numpy as np
@@ -32,7 +30,10 @@ sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
 
 set_seed(24)
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+device = "cuda" if torch.cuda.is_available() else "cpu"
+if device == "cpu":
+    import warnings
+    warnings.warn("Loading CellPLM models requires a GPU, this run will fail")
 
 print("\n>>> Reading input files...", flush=True)
 print(f"Input H5AD file: '{par['input']}'", flush=True)
@@ -85,7 +86,7 @@ print('Generate predictions', flush=True)
 
 # DEVICE ='cpu'
 embedding = pipeline.predict(adata, # An AnnData object
-                device=DEVICE) # Specify a gpu or cpu for model inference
+                device=device) # Specify a gpu or cpu for model inference
 
 embedding = embedding.cpu().numpy()
 
