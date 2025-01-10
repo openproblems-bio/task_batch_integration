@@ -1,0 +1,25 @@
+__merge__: /src/api/comp_process_integration.yaml
+
+name: process_integration
+
+argument_groups:
+  - name: Clustering
+    arguments:
+      - name: "--resolutions"
+        type: double
+        multiple: true
+        default: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+        description: Resolution parameter for clustering
+
+resources:
+  - type: nextflow_script
+    path: main.nf
+    entrypoint: run_wf
+
+dependencies:
+  - name: data_processors/transform
+  - name: data_processors/precompute_clustering_run
+  - name: data_processors/precompute_clustering_merge
+
+runners:
+  - type: nextflow

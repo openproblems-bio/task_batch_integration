@@ -475,9 +475,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scib==1.1.5"
 
 LABEL org.opencontainers.image.description="Companion container for running component data_processors process_dataset"
-LABEL org.opencontainers.image.created="2025-01-10T10:57:48Z"
+LABEL org.opencontainers.image.created="2025-01-10T11:56:03Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="0aa213973000d4618662951592205682dff03aa9"
+LABEL org.opencontainers.image.revision="4b67f90a253b15ac0163f7890bc4903f544c716d"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1152,6 +1152,12 @@ adata.uns["pca_variance"] = {
     "variance": variance, 
     "variance_ratio": variance_ratio
 }
+
+print(">> Recompute neighbors", flush=True)
+del adata.uns["knn"]
+del adata.obsp["knn_connectivities"]
+del adata.obsp["knn_distances"]
+sc.pp.neighbors(adata, use_rep="X_pca", n_neighbors=30, key_added="knn")
 
 print(">> Create output object", flush=True)
 output_dataset = subset_h5ad_by_format(

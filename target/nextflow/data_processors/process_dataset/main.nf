@@ -3363,7 +3363,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/data_processors/process_dataset",
     "viash_version" : "0.9.0",
-    "git_commit" : "0aa213973000d4618662951592205682dff03aa9",
+    "git_commit" : "4b67f90a253b15ac0163f7890bc4903f544c716d",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3604,6 +3604,12 @@ adata.uns["pca_variance"] = {
     "variance": variance, 
     "variance_ratio": variance_ratio
 }
+
+print(">> Recompute neighbors", flush=True)
+del adata.uns["knn"]
+del adata.obsp["knn_connectivities"]
+del adata.obsp["knn_distances"]
+sc.pp.neighbors(adata, use_rep="X_pca", n_neighbors=30, key_added="knn")
 
 print(">> Create output object", flush=True)
 output_dataset = subset_h5ad_by_format(

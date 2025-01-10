@@ -2814,7 +2814,7 @@ meta = [
         {
           "type" : "file",
           "name" : "--input_integrated",
-          "label" : "Transformed integration",
+          "label" : "Processed integration output",
           "summary" : "An integrated AnnData dataset with additional outputs.",
           "description" : "Must contain at least one of:\n\n  - Feature: the corrected_counts layer\n  - Embedding: the X_emb obsm\n  - Graph: the connectivities and distances obsp\n\nThe Graph should always be present, but the Feature and Embedding are optional.\n",
           "info" : {
@@ -2834,6 +2834,12 @@ meta = [
                   "name" : "X_emb",
                   "description" : "Embedding output - 2D coordinate matrix",
                   "required" : false
+                },
+                {
+                  "type" : "integer",
+                  "name" : "clustering",
+                  "description" : "Leiden clustering results at different resolutions.",
+                  "required" : true
                 }
               ],
               "obsp" : [
@@ -2885,7 +2891,7 @@ meta = [
             }
           },
           "example" : [
-            "resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_full.h5ad"
+            "resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_processed.h5ad"
           ],
           "must_exist" : true,
           "create_parent" : true,
@@ -3099,6 +3105,24 @@ meta = [
           "direction" : "output",
           "multiple" : false,
           "multiple_sep" : ";"
+        },
+        {
+          "type" : "double",
+          "name" : "--resolutions",
+          "description" : "Resolution parameter for clustering, looking for precomputed clusters of that resolution",
+          "default" : [
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8
+          ],
+          "required" : false,
+          "direction" : "input",
+          "multiple" : true,
+          "multiple_sep" : ";"
         }
       ]
     }
@@ -3225,7 +3249,7 @@ meta = [
           "type" : "python",
           "user" : false,
           "pypi" : [
-            "scib==1.1.5"
+            "scib==1.1.6"
           ],
           "upgrade" : true
         }
@@ -3238,7 +3262,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/isolated_label_f1",
     "viash_version" : "0.9.0",
-    "git_commit" : "0aa213973000d4618662951592205682dff03aa9",
+    "git_commit" : "4b67f90a253b15ac0163f7890bc4903f544c716d",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3379,6 +3403,7 @@ def innerWorkflowFactory(args) {
 tempscript=".viash_script.sh"
 cat > "$tempscript" << VIASHMAIN
 import sys
+import pandas as pd
 import anndata as ad
 from scib.metrics import isolated_labels_f1
 
@@ -3387,7 +3412,8 @@ from scib.metrics import isolated_labels_f1
 par = {
   'input_integrated': $( if [ ! -z ${VIASH_PAR_INPUT_INTEGRATED+x} ]; then echo "r'${VIASH_PAR_INPUT_INTEGRATED//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
   'input_solution': $( if [ ! -z ${VIASH_PAR_INPUT_SOLUTION+x} ]; then echo "r'${VIASH_PAR_INPUT_SOLUTION//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
-  'output': $( if [ ! -z ${VIASH_PAR_OUTPUT+x} ]; then echo "r'${VIASH_PAR_OUTPUT//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi )
+  'output': $( if [ ! -z ${VIASH_PAR_OUTPUT+x} ]; then echo "r'${VIASH_PAR_OUTPUT//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
+  'resolutions': $( if [ ! -z ${VIASH_PAR_RESOLUTIONS+x} ]; then echo "list(map(float, r'${VIASH_PAR_RESOLUTIONS//\\'/\\'\\"\\'\\"r\\'}'.split(';')))"; else echo None; fi )
 }
 meta = {
   'name': $( if [ ! -z ${VIASH_META_NAME+x} ]; then echo "r'${VIASH_META_NAME//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
@@ -3420,15 +3446,21 @@ from read_anndata_partial import read_anndata
 
 
 print('Read input', flush=True)
-adata = read_anndata(par['input_integrated'], obs='obs', obsp='obsp', uns='uns')
+adata = read_anndata(par['input_integrated'], obs='obs', obsm='obsm', obsp='obsp', uns='uns')
 adata.obs = read_anndata(par['input_solution'], obs='obs').obs
 adata.uns |= read_anndata(par['input_solution'], uns='uns').uns
+
+# get existing clusters
+cluster_df = adata.obsm.get('clustering', pd.DataFrame(index=adata.obs_names))
+adata.obs = pd.concat([adata.obs, cluster_df], axis=1)
 
 print('compute score', flush=True)
 score = isolated_labels_f1(
     adata,
     label_key="cell_type",
-    batch_key='batch',
+    batch_key="batch",
+    cluster_key="leiden",
+    resolutions=par["resolutions"],
     embed=None,
     iso_threshold=None,
     verbose=True,

@@ -12,8 +12,8 @@ par = {
     "output": "output.h5ad"
 }
 meta = {
-    "config": "target/nextflow/batch_integration/process_dataset/.config.vsh.yaml",
-    "resources_dir": "src/common/helper_functions"
+    "config": "target/nextflow/data_processors/process_dataset/.config.vsh.yaml",
+    "resources_dir": "target/nextflow/data_processors/process_dataset"
 }
 ## VIASH END
 
@@ -79,6 +79,12 @@ adata.uns["pca_variance"] = {
     "variance": variance, 
     "variance_ratio": variance_ratio
 }
+
+print(">> Recompute neighbors", flush=True)
+del adata.uns["knn"]
+del adata.obsp["knn_connectivities"]
+del adata.obsp["knn_distances"]
+sc.pp.neighbors(adata, use_rep="X_pca", n_neighbors=30, key_added="knn")
 
 print(">> Create output object", flush=True)
 output_dataset = subset_h5ad_by_format(

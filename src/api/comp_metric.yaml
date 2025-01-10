@@ -8,7 +8,7 @@ info:
       A metric for evaluating batch integration methods.
 arguments:
   - name: --input_integrated
-    __merge__: file_integrated_full.yaml
+    __merge__: file_integrated_processed.yaml
     direction: input
     required: true
   - name: --input_solution

@@ -2814,79 +2814,6 @@ meta = [
         {
           "type" : "file",
           "name" : "--input_integrated",
-          "label" : "Integration",
-          "summary" : "An integrated AnnData dataset.",
-          "description" : "Must contain at least one of:\n\n  - Feature: the corrected_counts layer\n  - Embedding: the X_emb obsm\n  - Graph: the connectivities and distances obsp\n",
-          "info" : {
-            "format" : {
-              "type" : "h5ad",
-              "layers" : [
-                {
-                  "type" : "double",
-                  "name" : "corrected_counts",
-                  "description" : "Feature output - corrected counts",
-                  "required" : false
-                }
-              ],
-              "obsm" : [
-                {
-                  "type" : "double",
-                  "name" : "X_emb",
-                  "description" : "Embedding output - 2D coordinate matrix",
-                  "required" : false
-                }
-              ],
-              "obsp" : [
-                {
-                  "type" : "double",
-                  "name" : "connectivities",
-                  "description" : "Graph output - neighbor connectivities matrix",
-                  "required" : false
-                },
-                {
-                  "type" : "double",
-                  "name" : "distances",
-                  "description" : "Graph output - neighbor distances matrix",
-                  "required" : false
-                }
-              ],
-              "uns" : [
-                {
-                  "type" : "string",
-                  "name" : "dataset_id",
-                  "description" : "A unique identifier for the dataset",
-                  "required" : true
-                },
-                {
-                  "type" : "string",
-                  "name" : "normalization_id",
-                  "description" : "Which normalization was used",
-                  "required" : true
-                },
-                {
-                  "name" : "dataset_organism",
-                  "type" : "string",
-                  "description" : "The organism of the sample in the dataset.",
-                  "required" : false
-                },
-                {
-                  "type" : "string",
-                  "name" : "method_id",
-                  "description" : "A unique identifier for the method",
-                  "required" : true
-                },
-                {
-                  "type" : "object",
-                  "name" : "neighbors",
-                  "description" : "Supplementary K nearest neighbors data.",
-                  "required" : false
-                }
-              ]
-            }
-          },
-          "example" : [
-            "resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated.h5ad"
-          ],
           "must_exist" : true,
           "create_parent" : true,
           "required" : true,
@@ -2897,118 +2824,6 @@ meta = [
         {
           "type" : "file",
           "name" : "--input_dataset",
-          "label" : "Dataset",
-          "summary" : "Unintegrated AnnData HDF5 file.",
-          "info" : {
-            "format" : {
-              "type" : "h5ad",
-              "layers" : [
-                {
-                  "type" : "integer",
-                  "name" : "counts",
-                  "description" : "Raw counts",
-                  "required" : true
-                },
-                {
-                  "type" : "double",
-                  "name" : "normalized",
-                  "description" : "Normalized expression values",
-                  "required" : true
-                }
-              ],
-              "obs" : [
-                {
-                  "type" : "string",
-                  "name" : "cell_type",
-                  "description" : "Cell type information",
-                  "required" : true
-                },
-                {
-                  "type" : "string",
-                  "name" : "batch",
-                  "description" : "Batch information",
-                  "required" : true
-                }
-              ],
-              "var" : [
-                {
-                  "type" : "boolean",
-                  "name" : "hvg",
-                  "description" : "Whether or not the feature is considered to be a 'highly variable gene'",
-                  "required" : true
-                },
-                {
-                  "type" : "double",
-                  "name" : "hvg_score",
-                  "description" : "A ranking of the features by hvg.",
-                  "required" : true
-                },
-                {
-                  "type" : "string",
-                  "name" : "feature_name",
-                  "description" : "A human-readable name for the feature, usually a gene symbol.",
-                  "required" : true
-                },
-                {
-                  "type" : "string",
-                  "name" : "feature_id",
-                  "description" : "A database identifier for the feature, usually an ENSEMBL ID.",
-                  "required" : true
-                }
-              ],
-              "obsm" : [
-                {
-                  "type" : "double",
-                  "name" : "X_pca",
-                  "description" : "The resulting PCA embedding.",
-                  "required" : true
-                }
-              ],
-              "obsp" : [
-                {
-                  "type" : "double",
-                  "name" : "knn_distances",
-                  "description" : "K nearest neighbors distance matrix.",
-                  "required" : true
-                },
-                {
-                  "type" : "double",
-                  "name" : "knn_connectivities",
-                  "description" : "K nearest neighbors connectivities matrix.",
-                  "required" : true
-                }
-              ],
-              "uns" : [
-                {
-                  "type" : "string",
-                  "name" : "dataset_id",
-                  "description" : "A unique identifier for the dataset",
-                  "required" : true
-                },
-                {
-                  "type" : "string",
-                  "name" : "normalization_id",
-                  "description" : "Which normalization was used",
-                  "required" : true
-                },
-                {
-                  "name" : "dataset_organism",
-                  "type" : "string",
-                  "description" : "The organism of the sample in the dataset.",
-                  "required" : false
-                },
-                {
-                  "type" : "object",
-                  "name" : "knn",
-                  "description" : "Supplementary K nearest neighbors data.",
-                  "required" : true
-                }
-              ]
-            }
-          },
-          "example" : [
-            "resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad"
-          ],
           "must_exist" : true,
           "create_parent" : true,
           "required" : true,
@@ -3033,79 +2848,6 @@ meta = [
         {
           "type" : "file",
           "name" : "--output",
-          "label" : "Transformed integration",
-          "summary" : "An integrated AnnData dataset with additional outputs.",
-          "description" : "Must contain at least one of:\n\n  - Feature: the corrected_counts layer\n  - Embedding: the X_emb obsm\n  - Graph: the connectivities and distances obsp\n\nThe Graph should always be present, but the Feature and Embedding are optional.\n",
-          "info" : {
-            "format" : {
-              "type" : "h5ad",
-              "layers" : [
-                {
-                  "type" : "double",
-                  "name" : "corrected_counts",
-                  "description" : "Feature output - corrected counts",
-                  "required" : false
-                }
-              ],
-              "obsm" : [
-                {
-                  "type" : "double",
-                  "name" : "X_emb",
-                  "description" : "Embedding output - 2D coordinate matrix",
-                  "required" : false
-                }
-              ],
-              "obsp" : [
-                {
-                  "type" : "double",
-                  "name" : "connectivities",
-                  "description" : "Graph output - neighbor connectivities matrix",
-                  "required" : true
-                },
-                {
-                  "type" : "double",
-                  "name" : "distances",
-                  "description" : "Graph output - neighbor distances matrix",
-                  "required" : true
-                }
-              ],
-              "uns" : [
-                {
-                  "type" : "string",
-                  "name" : "dataset_id",
-                  "description" : "A unique identifier for the dataset",
-                  "required" : true
-                },
-                {
-                  "type" : "string",
-                  "name" : "normalization_id",
-                  "description" : "Which normalization was used",
-                  "required" : true
-                },
-                {
-                  "name" : "dataset_organism",
-                  "type" : "string",
-                  "description" : "The organism of the sample in the dataset.",
-                  "required" : false
-                },
-                {
-                  "type" : "string",
-                  "name" : "method_id",
-                  "description" : "A unique identifier for the method",
-                  "required" : true
-                },
-                {
-                  "type" : "object",
-                  "name" : "neighbors",
-                  "description" : "Supplementary K nearest neighbors data.",
-                  "required" : true
-                }
-              ]
-            }
-          },
-          "example" : [
-            "resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_full.h5ad"
-          ],
           "must_exist" : true,
           "create_parent" : true,
           "required" : true,
@@ -3126,29 +2868,11 @@ meta = [
   "label" : "Transform",
   "summary" : "Check the output and transform to create additional output types",
   "description" : "This component will:\n\n  - Assert whether the input dataset and integrated dataset have the same shape.\n  - Reorder the integrated dataset to match the input dataset if needed.\n  - Transform the corrected feature output to an embedding.\n  - Transform an embedding to a graph output.\n",
-  "test_resources" : [
-    {
-      "type" : "python_script",
-      "path" : "/common/component_tests/run_and_check_output.py",
-      "is_executable" : true
-    },
-    {
-      "type" : "file",
-      "path" : "/resources_test/task_batch_integration/cxg_immune_cell_atlas",
-      "dest" : "resources_test/task_batch_integration/cxg_immune_cell_atlas"
-    }
-  ],
   "info" : {
     "test_setup" : {
       "default" : {
         "expected_method_types" : "feature"
       }
-    },
-    "type" : "transformer",
-    "type_info" : {
-      "label" : "Transform",
-      "summary" : "Check the output and transform to create additional output types",
-      "description" : "This component will:\n\n  - Assert whether the input dataset and integrated dataset have the same shape.\n  - Reorder the integrated dataset to match the input dataset if needed.\n  - Transform the corrected feature output to an embedding.\n  - Transform an embedding to a graph output.\n"
     }
   },
   "status" : "enabled",
@@ -3230,7 +2954,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/data_processors/transform",
     "viash_version" : "0.9.0",
-    "git_commit" : "0aa213973000d4618662951592205682dff03aa9",
+    "git_commit" : "4b67f90a253b15ac0163f7890bc4903f544c716d",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

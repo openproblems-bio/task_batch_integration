@@ -3159,6 +3159,29 @@ meta = [
       ]
     },
     {
+      "name" : "Clustering",
+      "arguments" : [
+        {
+          "type" : "double",
+          "name" : "--resolutions",
+          "description" : "Resolution parameter for clustering",
+          "default" : [
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8
+          ],
+          "required" : false,
+          "direction" : "input",
+          "multiple" : true,
+          "multiple_sep" : ";"
+        }
+      ]
+    },
+    {
       "name" : "Method filtering",
       "description" : "Use these arguments to filter methods by name. By default, all methods are\nrun. If `--methods_include` is defined, only those methods are run. If\n`--methods_exclude` is defined, all methods except those specified are run.\nThese arguments are mutually exclusive, so only `--methods_include` OR\n`--methods_exclude` can set but not both.\n",
       "arguments" : [
@@ -3426,7 +3449,7 @@ meta = [
       }
     },
     {
-      "name" : "data_processors/transform",
+      "name" : "data_processors/process_integration",
       "repository" : {
         "type" : "local"
       }
@@ -3488,7 +3511,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "0aa213973000d4618662951592205682dff03aa9",
+    "git_commit" : "4b67f90a253b15ac0163f7890bc4903f544c716d",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3658,7 +3681,7 @@ include { isolated_label_f1 } from "${meta.resources_dir}/../../../nextflow/metr
 include { kbet } from "${meta.resources_dir}/../../../nextflow/metrics/kbet/main.nf"
 include { lisi } from "${meta.resources_dir}/../../../nextflow/metrics/lisi/main.nf"
 include { pcr } from "${meta.resources_dir}/../../../nextflow/metrics/pcr/main.nf"
-include { transform } from "${meta.resources_dir}/../../../nextflow/data_processors/transform/main.nf"
+include { process_integration } from "${meta.resources_dir}/../../../nextflow/data_processors/process_integration/main.nf"
 
 // inner workflow
 // user-provided Nextflow code
@@ -3746,9 +3769,9 @@ workflow run_wf {
       }
     )
 
-  /***************************
-   * RUN METHODS AND METRICS *
-   ***************************/
+  /***************
+   * RUN METHODS *
+   ***************/
 
   score_ch = dataset_ch
 
@@ -3801,13 +3824,19 @@ workflow run_wf {
       }
     )
 
-    | transform.run(
+  /******************
+   * PROCESS OUTPUT *
+   ******************/
+
+    | process_integration.run(
       fromState: [
         input_integrated: "method_output",
         input_dataset: "input_dataset",
         expected_method_types: "method_types"
       ],
       toState: { id, output, state ->
+        // Add method types to the state
+        // This is done here because state can't be passed from the processing subworkflow
         def method_types_cleaned = []
         if ("feature" in state.method_types) {
           method_types_cleaned += ["feature", "embedding", "graph"]
@@ -3818,13 +3847,17 @@ workflow run_wf {
         }
 
         def new_state = state + [
-          method_output_cleaned: output.output,
+          method_output_processed: output.output,
           method_types_cleaned: method_types_cleaned
         ]
 
         new_state
       }
     )
+
+  /***************
+   * RUN METRICS *
+   ***************/
 
     // run all metrics
     | runEach(
@@ -3838,7 +3871,7 @@ workflow run_wf {
       // use 'fromState' to fetch the arguments the component requires from the overall state
       fromState: [
         input_solution: "input_solution",
-        input_integrated: "method_output_cleaned"
+        input_integrated: "method_output_processed"
       ],
       // use 'toState' to publish that component's outputs to the overall state
       toState: { id, output, state, comp ->

@@ -2814,7 +2814,7 @@ meta = [
         {
           "type" : "file",
           "name" : "--input_integrated",
-          "label" : "Transformed integration",
+          "label" : "Processed integration output",
           "summary" : "An integrated AnnData dataset with additional outputs.",
           "description" : "Must contain at least one of:\n\n  - Feature: the corrected_counts layer\n  - Embedding: the X_emb obsm\n  - Graph: the connectivities and distances obsp\n\nThe Graph should always be present, but the Feature and Embedding are optional.\n",
           "info" : {
@@ -2834,6 +2834,12 @@ meta = [
                   "name" : "X_emb",
                   "description" : "Embedding output - 2D coordinate matrix",
                   "required" : false
+                },
+                {
+                  "type" : "integer",
+                  "name" : "clustering",
+                  "description" : "Leiden clustering results at different resolutions.",
+                  "required" : true
                 }
               ],
               "obsp" : [
@@ -2885,7 +2891,7 @@ meta = [
             }
           },
           "example" : [
-            "resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_full.h5ad"
+            "resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_processed.h5ad"
           ],
           "must_exist" : true,
           "create_parent" : true,
@@ -3248,7 +3254,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/kbet",
     "viash_version" : "0.9.0",
-    "git_commit" : "0aa213973000d4618662951592205682dff03aa9",
+    "git_commit" : "4b67f90a253b15ac0163f7890bc4903f544c716d",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

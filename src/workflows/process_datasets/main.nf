@@ -38,6 +38,7 @@ workflow run_wf {
       state.dataset != null
     }
 
+    // process the dataset
     | process_dataset.run(
       fromState: [ input: "dataset" ],
       toState: [

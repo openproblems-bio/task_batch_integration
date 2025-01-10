@@ -14,26 +14,35 @@ DATASET_DIR=resources_test/task_batch_integration
 mkdir -p $DATASET_DIR
 
 # process dataset
-viash run src/data_processors/process_dataset/config.vsh.yaml -- \
+nextflow run . \
+  -main-script target/nextflow/workflows/process_datasets/main.nf \
+  -profile docker \
   --input "$RAW_DATA/cxg_immune_cell_atlas/dataset.h5ad" \
-  --output_dataset "$DATASET_DIR/cxg_immune_cell_atlas/dataset.h5ad" \
-  --output_solution "$DATASET_DIR/cxg_immune_cell_atlas/solution.h5ad"
+  --publish_dir "$DATASET_DIR/cxg_immune_cell_atlas" \
+  --output_dataset dataset.h5ad \
+  --output_solution solution.h5ad \
+  --output_state state.yaml \
+  -c common/nextflow_helpers/labels_ci.config \
 
 # run one method
 viash run src/methods/combat/config.vsh.yaml -- \
   --input $DATASET_DIR/cxg_immune_cell_atlas/dataset.h5ad \
   --output $DATASET_DIR/cxg_immune_cell_atlas/integrated.h5ad
 
-# run transformer
-viash run src/data_processors/transform/config.vsh.yaml -- \
-    --input_integrated $DATASET_DIR/cxg_immune_cell_atlas/integrated.h5ad \
-    --input_dataset $DATASET_DIR/cxg_immune_cell_atlas/dataset.h5ad \
-    --expected_method_types feature \
-    --output $DATASET_DIR/cxg_immune_cell_atlas/integrated_full.h5ad
+# process integration
+nextflow run . \
+  -main-script target/nextflow/data_processors/process_integration/main.nf \
+  -profile docker \
+  --input_dataset "$RAW_DATA/cxg_immune_cell_atlas/dataset.h5ad" \
+  --input_integrated "$DATASET_DIR/cxg_immune_cell_atlas/integrated.h5ad" \
+  --expected_method_types feature \
+  --publish_dir "$DATASET_DIR/cxg_immune_cell_atlas" \
+  --output integrated_processed.h5ad \
+  -c common/nextflow_helpers/labels_ci.config \
 
 # run one metric
 viash run src/metrics/graph_connectivity/config.vsh.yaml -- \
-    --input_integrated $DATASET_DIR/cxg_immune_cell_atlas/integrated_full.h5ad \
+    --input_integrated $DATASET_DIR/cxg_immune_cell_atlas/integrated_processed.h5ad \
     --input_solution $DATASET_DIR/cxg_immune_cell_atlas/solution.h5ad \
     --output $DATASET_DIR/cxg_immune_cell_atlas/score.h5ad
 
