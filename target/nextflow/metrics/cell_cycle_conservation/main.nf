@@ -3150,7 +3150,7 @@ meta = [
         },
         "links" : {
           "homepage" : "https://scib.readthedocs.io/en/latest/",
-          "documentation" : "https://scib.readthedocs.io/en/latest/api/scib.metrics.silhouette_batch.html",
+          "documentation" : "https://scib.readthedocs.io/en/latest/api/scib.metrics.cell_cycle.html",
           "repository" : "https://github.com/theislab/scib"
         },
         "min" : 0,
@@ -3231,7 +3231,7 @@ meta = [
           "type" : "python",
           "user" : false,
           "pypi" : [
-            "scib==1.1.5"
+            "git+https://github.com/theislab/scib.git@extend_cell_cycle_genes"
           ],
           "upgrade" : true
         }
@@ -3244,7 +3244,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/cell_cycle_conservation",
     "viash_version" : "0.9.0",
-    "git_commit" : "4b67f90a253b15ac0163f7890bc4903f544c716d",
+    "git_commit" : "9b3d1680c4f6714da99f69a6ebe0aa9a25296c98",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

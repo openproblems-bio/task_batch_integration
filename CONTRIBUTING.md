@@ -146,3 +146,18 @@ To run the benchmark, you can use the following command:
 ```bash
 scripts/run_benchmark/run.sh
 ```
+
+## Debugging nf-tower runs
+
+The actual benchmark is run on the [nf-tower platform](https://cloud.seqera.io/orgs/openproblems-bio/workspaces/openproblems-bio/watch).
+You can find runs related to the batch integration by filtering for `label:task_batch_integration`, selecting a specific run and browsing the outputs.
+
+For debugging purposes, you can download the output of a task run from nf-tower following command:
+
+```bash
+common/scripts/fetch_task_run \
+  --input s3://openproblems-work/work/<process ID>\
+  --output temp_output
+```
+
+You can find the process ID under the "Work directory" section of the Task details.
