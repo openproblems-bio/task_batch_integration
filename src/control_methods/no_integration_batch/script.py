@@ -29,13 +29,21 @@ adata = read_anndata(
     uns='uns'
 )
 adata.var["highly_variable"] = adata.var["hvg"]
+print(adata, flush=True)
 
 print("Process dataset", flush=True)
 adata.obsm["X_emb"] = np.zeros((adata.shape[0], 50), dtype=float)
 for batch in adata.obs["batch"].unique():
     batch_idx = adata.obs["batch"] == batch
-    n_comps = min(50, np.sum(batch_idx))
-    solver = "full" if n_comps == np.sum(batch_idx) else "arpack"
+
+    if np.sum(batch_idx) <= 50:
+        n_comps = np.sum(batch_idx) - 1
+        solver = "full"
+        print(f"Batch '{batch}' has 50 or less cells. Using the 'full' solver with {n_comps} components.", flush=True)
+    else:
+        n_comps = 50
+        solver = "arpack"
+
     adata.obsm["X_emb"][batch_idx, :n_comps] = sc.tl.pca(
         adata[batch_idx].copy(),
         n_comps=n_comps,
