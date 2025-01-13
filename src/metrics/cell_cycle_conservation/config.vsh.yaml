@@ -28,7 +28,7 @@ info:
         doi: 10.1038/s41592-021-01336-8
       links:
         homepage: https://scib.readthedocs.io/en/latest/
-        documentation: https://scib.readthedocs.io/en/latest/api/scib.metrics.silhouette_batch.html
+        documentation: https://scib.readthedocs.io/en/latest/api/scib.metrics.cell_cycle.html
         repository: https://github.com/theislab/scib
       min: 0
       max: 1
@@ -43,7 +43,7 @@ engines:
     setup:
       - type: python
         pypi:
-          - scib==1.1.5
+          - git+https://github.com/theislab/scib.git@extend_cell_cycle_genes
 runners:
   - type: executable
   - type: nextflow

@@ -66,25 +66,25 @@ flowchart TB
   file_solution("<a href='https://github.com/openproblems-bio/task_batch_integration#file-format-solution'>Solution</a>")
   comp_control_method[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-control-method'>Control method</a>"/]
   comp_method[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-method'>Method</a>"/]
-  comp_transformer[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-transform'>Transform</a>"/]
+  comp_process_integration[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-process-integration'>Process integration</a>"/]
   comp_metric[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-metric'>Metric</a>"/]
   file_integrated("<a href='https://github.com/openproblems-bio/task_batch_integration#file-format-integration'>Integration</a>")
-  file_integrated_full("<a href='https://github.com/openproblems-bio/task_batch_integration#file-format-transformed-integration'>Transformed integration</a>")
+  file_integrated_processed("<a href='https://github.com/openproblems-bio/task_batch_integration#file-format-processed-integration-output'>Processed integration output</a>")
   file_score("<a href='https://github.com/openproblems-bio/task_batch_integration#file-format-score'>Score</a>")
   file_common_dataset---comp_process_dataset
   comp_process_dataset-->file_dataset
   comp_process_dataset-->file_solution
   file_dataset---comp_control_method
   file_dataset---comp_method
-  file_dataset---comp_transformer
+  file_dataset---comp_process_integration
   file_solution---comp_control_method
   file_solution---comp_metric
   comp_control_method-->file_integrated
   comp_method-->file_integrated
-  comp_transformer-->file_integrated_full
+  comp_process_integration-->file_integrated_processed
   comp_metric-->file_score
-  file_integrated---comp_transformer
-  file_integrated_full---comp_metric
+  file_integrated---comp_process_integration
+  file_integrated_processed---comp_metric
 ```
 
 ## File format: Common Dataset
@@ -276,9 +276,10 @@ Arguments:
 
 </div>
 
-## Component type: Transform
+## Component type: Process integration
 
-Check the output and transform to create additional output types
+Process output from an integration method to the format expected by
+metrics
 
 Arguments:
 
@@ -286,8 +287,8 @@ Arguments:
 
 | Name | Type | Description |
 |:---|:---|:---|
-| `--input_integrated` | `file` | An integrated AnnData dataset. |
 | `--input_dataset` | `file` | Unintegrated AnnData HDF5 file. |
+| `--input_integrated` | `file` | An integrated AnnData dataset. |
 | `--expected_method_types` | `string` | NA. |
 | `--expected_method_types` | `string` | NA. |
 | `--expected_method_types` | `string` | NA. |
@@ -356,12 +357,12 @@ Data structure:
 
 </div>
 
-## File format: Transformed integration
+## File format: Processed integration output
 
 An integrated AnnData dataset with additional outputs.
 
 Example file:
-`resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_full.h5ad`
+`resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_processed.h5ad`
 
 Description:
 
@@ -379,7 +380,7 @@ Format:
 <div class="small">
 
     AnnData object
-     obsm: 'X_emb'
+     obsm: 'X_emb', 'clustering'
      obsp: 'connectivities', 'distances'
      layers: 'corrected_counts'
      uns: 'dataset_id', 'normalization_id', 'dataset_organism', 'method_id', 'neighbors'
@@ -393,6 +394,7 @@ Data structure:
 | Slot | Type | Description |
 |:---|:---|:---|
 | `obsm["X_emb"]` | `double` | (*Optional*) Embedding output - 2D coordinate matrix. |
+| `obsm["clustering"]` | `integer` | Leiden clustering results at different resolutions. |
 | `obsp["connectivities"]` | `double` | Graph output - neighbor connectivities matrix. |
 | `obsp["distances"]` | `double` | Graph output - neighbor distances matrix. |
 | `layers["corrected_counts"]` | `double` | (*Optional*) Feature output - corrected counts. |
