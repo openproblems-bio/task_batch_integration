@@ -5,9 +5,9 @@ summary: Mutual nearest neighbors correction
 description: |
   Correct for batch effects in single-cell expression data using the mutual nearest neighbors method.
 references:
-  # Haghverdi, L., Lun, A., Morgan, M. et al. 
-  # Batch effects in single-cell RNA-sequencing data are 
-  # corrected by matching mutual nearest neighbors. 
+  # Haghverdi, L., Lun, A., Morgan, M. et al.
+  # Batch effects in single-cell RNA-sequencing data are
+  # corrected by matching mutual nearest neighbors.
   # Nat Biotechnol 36, 421–427 (2018). https://doi.org/10.1038/nbt.4091
   doi: 10.1038/nbt.4091
 links:
@@ -30,4 +30,4 @@ runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [lowcpu, highmem, midtime]
+      label: [lowcpu, highmem, hightime]
