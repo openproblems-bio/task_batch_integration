@@ -2,6 +2,7 @@ import sys
 import anndata as ad
 import scanpy as sc
 import openproblems as op
+import numpy as np
 
 ## VIASH START
 par = {
@@ -48,13 +49,10 @@ n_components = adata.obsm["X_pca"].shape[1]
 
 if adata.n_vars < n_hvgs:
     n_hvgs = adata.n_vars
-
-if adata.n_vars > n_hvgs:
+    hvg_list = adata.var_names.tolist()
+else:
     print(f"Select {par['hvgs']} highly variable genes", flush=True)
     hvg_list = compute_batched_hvg(adata, n_hvgs=n_hvgs)
-
-    print("Subsetting to HVG dimensions", flush=True)
-    adata = adata[:, adata.var_names.isin(hvg_list)].copy()
 
 print(">> Recompute HVG", flush=True)
 out = sc.pp.highly_variable_genes(
@@ -68,15 +66,18 @@ adata.var["hvg"] = out["highly_variable"].values
 adata.var["hvg_score"] = out["dispersions_norm"].values
 
 print(">> Recompute PCA", flush=True)
+hvg_mask = adata.var_names.isin(hvg_list)
 X_pca, loadings, variance, variance_ratio = sc.pp.pca(
-    adata.layers["normalized"], 
+    adata.layers["normalized"],
     n_comps=n_components,
+    mask_var=hvg_mask,
     return_info=True
 )
 adata.obsm["X_pca"] = X_pca
-adata.varm["pca_loadings"] = loadings.T
+adata.varm["pca_loadings"] = np.zeros(shape=(adata.n_vars, n_components))
+adata.varm["pca_loadings"][hvg_mask, :] = loadings.T
 adata.uns["pca_variance"] = {
-    "variance": variance, 
+    "variance": variance,
     "variance_ratio": variance_ratio
 }
 
@@ -88,7 +89,7 @@ sc.pp.neighbors(adata, use_rep="X_pca", n_neighbors=30, key_added="knn")
 
 print(">> Create output object", flush=True)
 output_dataset = subset_h5ad_by_format(
-    adata,
+    adata[:, adata.var_names.isin(hvg_list)].copy(),
     config,
     "output_dataset"
 )
