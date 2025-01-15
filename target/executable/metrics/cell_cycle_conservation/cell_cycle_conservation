@@ -474,7 +474,7 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "git+https://github.com/theislab/scib.git@extend_cell_cycle_genes"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics cell_cycle_conservation"
-LABEL org.opencontainers.image.created="2025-01-15T07:41:19Z"
+LABEL org.opencontainers.image.created="2025-01-15T08:23:11Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
 LABEL org.opencontainers.image.revision="5abd7b5569b4156377adfa042c8c51331eadcda7"
 LABEL org.opencontainers.image.version="build_main"
