@@ -24,7 +24,6 @@ print(f"Input dataset H5AD file: '{par['input_dataset']}'", flush=True)
 adata = read_anndata(
     par["input_dataset"], X="layers/normalized", obs="obs", var="var", uns="uns"
 )
-adata.var["highly_variable"] = adata.var["hvg"]
 print(adata, flush=True)
 
 print("\n>>> Calculating PCA by batch...", flush=True)
@@ -47,8 +46,8 @@ for batch in adata.obs["batch"].unique():
     adata.obsm["X_emb"][batch_idx, :n_comps] = sc.tl.pca(
         adata[batch_idx].copy(),
         n_comps=n_comps,
-        use_highly_variable=True,
         svd_solver=solver,
+        mask_var=None,
         copy=True,
     ).obsm["X_pca"]
 

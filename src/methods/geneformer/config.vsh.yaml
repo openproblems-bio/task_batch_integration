@@ -40,6 +40,7 @@ resources:
   - type: python_script
     path: script.py
   - path: /src/utils/read_anndata_partial.py
+  - path: /src/utils/exit_codes.py
 
 engines:
   - type: docker

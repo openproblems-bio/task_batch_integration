@@ -20,12 +20,13 @@ meta = {
 
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
+from exit_codes import exit_non_applicable
 
 print("Read input", flush=True)
 adata = read_anndata(par["input"], X="layers/counts", obs="obs", var="var", uns="uns")
 
 if adata.uns["dataset_organism"] != "homo_sapiens":
-    raise ValueError(
+    exit_non_applicable(
         f"SCimilarity can only be used with human data "
         f"(dataset_organism == \"{adata.uns['dataset_organism']}\")"
     )
