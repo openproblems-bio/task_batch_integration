@@ -474,9 +474,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scib==1.1.5"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics pcr"
-LABEL org.opencontainers.image.created="2025-01-13T12:07:14Z"
+LABEL org.opencontainers.image.created="2025-01-15T07:41:18Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="10bc18795818473720c4cb9e446349d57dbad9db"
+LABEL org.opencontainers.image.revision="5abd7b5569b4156377adfa042c8c51331eadcda7"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1081,6 +1081,7 @@ adata_solution = read_anndata(
 )
 adata_integrated = read_anndata(
     par['input_integrated'],
+    var='var',
     obs='obs',
     obsm='obsm',
     uns='uns'
@@ -1091,11 +1092,11 @@ adata_integrated.obs['batch'] = adata_solution.obs['batch']
 
 print('compute score', flush=True)
 score = pcr_comparison(
-    adata_solution,
+    adata_solution[:, adata_solution.var_names.isin(adata_integrated.var_names)],
     adata_integrated,
     embed='X_emb',
     covariate='batch',
-    verbose=False
+    verbose=True
 )
 
 print('Create output AnnData object', flush=True)

@@ -478,9 +478,9 @@ RUN pip install --upgrade pip && \
 
 RUN git clone https://github.com/snap-stanford/UCE.git
 LABEL org.opencontainers.image.description="Companion container for running component methods uce"
-LABEL org.opencontainers.image.created="2025-01-13T12:07:15Z"
+LABEL org.opencontainers.image.created="2025-01-15T07:41:20Z"
 LABEL org.opencontainers.image.source="https://github.com/snap-stanford/UCE"
-LABEL org.opencontainers.image.revision="10bc18795818473720c4cb9e446349d57dbad9db"
+LABEL org.opencontainers.image.revision="5abd7b5569b4156377adfa042c8c51331eadcda7"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1103,6 +1103,7 @@ dep = {
 print(">>> Reading input...", flush=True)
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
+from exit_codes import exit_non_applicable
 
 adata = read_anndata(par["input"], X="layers/counts", obs="obs", var="var", uns="uns")
 
@@ -1111,7 +1112,7 @@ if adata.uns["dataset_organism"] == "homo_sapiens":
 elif adata.uns["dataset_organism"] == "mus_musculus":
     species = "mouse"
 else:
-    raise ValueError(f"Species '{adata.uns['dataset_organism']}' not yet implemented")
+    exit_non_applicable(f"Species '{adata.uns['dataset_organism']}' not yet implemented")
 
 print("\\n>>> Creating working directory...", flush=True)
 work_dir = tempfile.TemporaryDirectory()

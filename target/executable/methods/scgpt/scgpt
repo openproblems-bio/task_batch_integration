@@ -491,9 +491,9 @@ RUN pip install --upgrade pip && \
 
 RUN pip install --upgrade --no-deps --force-reinstall git+https://github.com/bowang-lab/scGPT.git
 LABEL org.opencontainers.image.description="Companion container for running component methods scgpt"
-LABEL org.opencontainers.image.created="2025-01-13T12:07:14Z"
+LABEL org.opencontainers.image.created="2025-01-15T07:41:18Z"
 LABEL org.opencontainers.image.source="https://github.com/bowang-lab/scGPT"
-LABEL org.opencontainers.image.revision="10bc18795818473720c4cb9e446349d57dbad9db"
+LABEL org.opencontainers.image.revision="5abd7b5569b4156377adfa042c8c51331eadcda7"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1136,17 +1136,18 @@ dep = {
 
 ## VIASH END
 
-print(f"====== scGPT version {scgpt.__version__} ======", flush=True)
-
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
+from exit_codes import exit_non_applicable
+
+print(f"====== scGPT version {scgpt.__version__} ======", flush=True)
 
 print("\\n>>> Reading input files...", flush=True)
 print(f"Input H5AD file: '{par['input']}'", flush=True)
 adata = read_anndata(par["input"], X="layers/counts", obs="obs", var="var", uns="uns")
 
 if adata.uns["dataset_organism"] != "homo_sapiens":
-    raise ValueError(
+    exit_non_applicable(
         f"scGPT can only be used with human data "
         f"(dataset_organism == \\"{adata.uns['dataset_organism']}\\")"
     )

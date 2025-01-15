@@ -3056,6 +3056,10 @@ meta = [
     {
       "type" : "file",
       "path" : "/src/utils/read_anndata_partial.py"
+    },
+    {
+      "type" : "file",
+      "path" : "/src/utils/exit_codes.py"
     }
   ],
   "label" : "scPRINT",
@@ -3165,7 +3169,8 @@ meta = [
           "user" : false,
           "pip" : [
             "huggingface_hub",
-            "scprint"
+            "scprint==1.6.2",
+            "scdataloader==1.6.4"
           ],
           "upgrade" : true
         },
@@ -3206,7 +3211,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scprint",
     "viash_version" : "0.9.0",
-    "git_commit" : "10bc18795818473720c4cb9e446349d57dbad9db",
+    "git_commit" : "5abd7b5569b4156377adfa042c8c51331eadcda7",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3392,6 +3397,7 @@ dep = {
 
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
+from exit_codes import exit_non_applicable
 
 print(f"====== scPRINT version {scprint.__version__} ======", flush=True)
 
@@ -3402,7 +3408,7 @@ if input.uns["dataset_organism"] == "homo_sapiens":
 elif input.uns["dataset_organism"] == "mus_musculus":
     input.obs["organism_ontology_term_id"] = "NCBITaxon:10090"
 else:
-    raise ValueError(
+    exit_non_applicable(
         f"scPRINT requires human or mouse data, not '{input.uns['dataset_organism']}'"
     )
 adata = input.copy()

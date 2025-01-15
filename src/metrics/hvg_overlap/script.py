@@ -51,7 +51,11 @@ adata_solution = adata_solution[~adata_solution.obs["batch"].isin(skip_batches)]
 adata_integrated = adata_integrated[~adata_integrated.obs["batch"].isin(skip_batches)]
 
 print("Compute score", flush=True)
-score = hvg_overlap(adata_solution, adata_integrated, batch_key="batch")
+score = hvg_overlap(
+    adata_solution[:, adata_solution.var_names.isin(adata_integrated.var_names)],
+    adata_integrated,
+    batch_key="batch"
+)
 
 print("Create output AnnData object", flush=True)
 output = ad.AnnData(

@@ -3244,7 +3244,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/pcr",
     "viash_version" : "0.9.0",
-    "git_commit" : "10bc18795818473720c4cb9e446349d57dbad9db",
+    "git_commit" : "5abd7b5569b4156377adfa042c8c51331eadcda7",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3437,6 +3437,7 @@ adata_solution = read_anndata(
 )
 adata_integrated = read_anndata(
     par['input_integrated'],
+    var='var',
     obs='obs',
     obsm='obsm',
     uns='uns'
@@ -3447,11 +3448,11 @@ adata_integrated.obs['batch'] = adata_solution.obs['batch']
 
 print('compute score', flush=True)
 score = pcr_comparison(
-    adata_solution,
+    adata_solution[:, adata_solution.var_names.isin(adata_integrated.var_names)],
     adata_integrated,
     embed='X_emb',
     covariate='batch',
-    verbose=False
+    verbose=True
 )
 
 print('Create output AnnData object', flush=True)

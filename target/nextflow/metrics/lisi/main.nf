@@ -3261,7 +3261,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/lisi",
     "viash_version" : "0.9.0",
-    "git_commit" : "10bc18795818473720c4cb9e446349d57dbad9db",
+    "git_commit" : "5abd7b5569b4156377adfa042c8c51331eadcda7",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

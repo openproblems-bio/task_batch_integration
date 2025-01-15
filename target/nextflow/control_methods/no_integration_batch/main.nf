@@ -3283,7 +3283,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/control_methods/no_integration_batch",
     "viash_version" : "0.9.0",
-    "git_commit" : "10bc18795818473720c4cb9e446349d57dbad9db",
+    "git_commit" : "5abd7b5569b4156377adfa042c8c51331eadcda7",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3471,7 +3471,6 @@ print(f"Input dataset H5AD file: '{par['input_dataset']}'", flush=True)
 adata = read_anndata(
     par["input_dataset"], X="layers/normalized", obs="obs", var="var", uns="uns"
 )
-adata.var["highly_variable"] = adata.var["hvg"]
 print(adata, flush=True)
 
 print("\\\\n>>> Calculating PCA by batch...", flush=True)
@@ -3494,8 +3493,8 @@ for batch in adata.obs["batch"].unique():
     adata.obsm["X_emb"][batch_idx, :n_comps] = sc.tl.pca(
         adata[batch_idx].copy(),
         n_comps=n_comps,
-        use_highly_variable=True,
         svd_solver=solver,
+        mask_var=None,
         copy=True,
     ).obsm["X_pca"]
 

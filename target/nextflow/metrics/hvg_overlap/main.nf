@@ -3244,7 +3244,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/hvg_overlap",
     "viash_version" : "0.9.0",
-    "git_commit" : "10bc18795818473720c4cb9e446349d57dbad9db",
+    "git_commit" : "5abd7b5569b4156377adfa042c8c51331eadcda7",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3461,7 +3461,11 @@ adata_solution = adata_solution[~adata_solution.obs["batch"].isin(skip_batches)]
 adata_integrated = adata_integrated[~adata_integrated.obs["batch"].isin(skip_batches)]
 
 print("Compute score", flush=True)
-score = hvg_overlap(adata_solution, adata_integrated, batch_key="batch")
+score = hvg_overlap(
+    adata_solution[:, adata_solution.var_names.isin(adata_integrated.var_names)],
+    adata_integrated,
+    batch_key="batch"
+)
 
 print("Create output AnnData object", flush=True)
 output = ad.AnnData(

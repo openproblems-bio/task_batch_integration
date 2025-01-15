@@ -110,13 +110,13 @@ def get_argument_sets(config):
     for arg in config["all_arguments"]:
         new_arg = arg.copy()
         arg_info = new_arg.get("info") or {}
+        example = arg.get("example", ["example"])[0]
 
         # use example to find test resource file
         if arg["type"] == "file":
             if arg["direction"] == "input":
-                value = f"{meta['resources_dir']}/{arg['example'][0]}"
+                value = f"{meta['resources_dir']}/{example}"
             else:
-                example = arg.get("example", ["example"])[0]
                 ext_res = re.search(r"\.(\w+)$", example)
                 if ext_res:
                     value = f"{arg['clean_name']}.{ext_res.group(1)}"
