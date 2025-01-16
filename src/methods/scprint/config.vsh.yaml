@@ -54,6 +54,7 @@ resources:
   - type: python_script
     path: script.py
   - path: /src/utils/read_anndata_partial.py
+  - path: /src/utils/exit_codes.py
 
 engines:
   - type: docker
@@ -62,7 +63,9 @@ engines:
       - type: python
         pip:
           - huggingface_hub
-          - scprint
+          # Can be unpinned after https://github.com/cantinilab/scPRINT/issues/14 is resolved
+          - scprint==1.6.2
+          - scdataloader==1.6.4
       - type: docker
         run: lamin init --storage ./main --name main --schema bionty
       - type: python

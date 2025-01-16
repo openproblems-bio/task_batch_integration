@@ -20,6 +20,7 @@ meta = {"name": "scprint"}
 
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
+from exit_codes import exit_non_applicable
 
 print(f"====== scPRINT version {scprint.__version__} ======", flush=True)
 
@@ -30,7 +31,7 @@ if input.uns["dataset_organism"] == "homo_sapiens":
 elif input.uns["dataset_organism"] == "mus_musculus":
     input.obs["organism_ontology_term_id"] = "NCBITaxon:10090"
 else:
-    raise ValueError(
+    exit_non_applicable(
         f"scPRINT requires human or mouse data, not '{input.uns['dataset_organism']}'"
     )
 adata = input.copy()

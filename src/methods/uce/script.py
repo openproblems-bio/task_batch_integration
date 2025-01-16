@@ -46,6 +46,7 @@ meta = {"name": "uce"}
 print(">>> Reading input...", flush=True)
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
+from exit_codes import exit_non_applicable
 
 adata = read_anndata(par["input"], X="layers/counts", obs="obs", var="var", uns="uns")
 
@@ -54,7 +55,7 @@ if adata.uns["dataset_organism"] == "homo_sapiens":
 elif adata.uns["dataset_organism"] == "mus_musculus":
     species = "mouse"
 else:
-    raise ValueError(f"Species '{adata.uns['dataset_organism']}' not yet implemented")
+    exit_non_applicable(f"Species '{adata.uns['dataset_organism']}' not yet implemented")
 
 print("\n>>> Creating working directory...", flush=True)
 work_dir = tempfile.TemporaryDirectory()
