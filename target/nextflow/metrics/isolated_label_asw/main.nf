@@ -3231,7 +3231,7 @@ meta = [
           "type" : "python",
           "user" : false,
           "pypi" : [
-            "scib==1.1.5"
+            "scib==1.1.7"
           ],
           "upgrade" : true
         }
@@ -3244,7 +3244,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/isolated_label_asw",
     "viash_version" : "0.9.0",
-    "git_commit" : "5abd7b5569b4156377adfa042c8c51331eadcda7",
+    "git_commit" : "058ebf03ad5612f5b677fe038c7d038aeaae2b18",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

@@ -477,12 +477,12 @@ function ViashDockerfile {
 FROM openproblems/base_python:1.0.0
 ENTRYPOINT []
 RUN pip install --upgrade pip && \
-  pip install --upgrade --no-cache-dir "scib==1.1.6"
+  pip install --upgrade --no-cache-dir "scib==1.1.7"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics clustering_overlap"
-LABEL org.opencontainers.image.created="2025-01-15T08:23:11Z"
+LABEL org.opencontainers.image.created="2025-01-16T06:45:54Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="5abd7b5569b4156377adfa042c8c51331eadcda7"
+LABEL org.opencontainers.image.revision="058ebf03ad5612f5b677fe038c7d038aeaae2b18"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
