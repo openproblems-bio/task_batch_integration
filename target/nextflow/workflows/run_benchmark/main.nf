@@ -3353,7 +3353,13 @@ meta = [
       }
     },
     {
-      "name" : "methods/scgpt",
+      "name" : "methods/scgpt_finetuned",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
+      "name" : "methods/scgpt_zeroshot",
       "repository" : {
         "type" : "local"
       }
@@ -3511,7 +3517,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "058ebf03ad5612f5b677fe038c7d038aeaae2b18",
+    "git_commit" : "6191552ab6734ced8565aa8426d07ed0ce3da26f",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3665,7 +3671,8 @@ include { pyliger } from "${meta.resources_dir}/../../../nextflow/methods/pylige
 include { scalex } from "${meta.resources_dir}/../../../nextflow/methods/scalex/main.nf"
 include { scanorama } from "${meta.resources_dir}/../../../nextflow/methods/scanorama/main.nf"
 include { scanvi } from "${meta.resources_dir}/../../../nextflow/methods/scanvi/main.nf"
-include { scgpt } from "${meta.resources_dir}/../../../nextflow/methods/scgpt/main.nf"
+include { scgpt_finetuned } from "${meta.resources_dir}/../../../nextflow/methods/scgpt_finetuned/main.nf"
+include { scgpt_zeroshot } from "${meta.resources_dir}/../../../nextflow/methods/scgpt_zeroshot/main.nf"
 include { scimilarity } from "${meta.resources_dir}/../../../nextflow/methods/scimilarity/main.nf"
 include { scprint } from "${meta.resources_dir}/../../../nextflow/methods/scprint/main.nf"
 include { scvi } from "${meta.resources_dir}/../../../nextflow/methods/scvi/main.nf"
@@ -3716,7 +3723,10 @@ methods = [
   scalex,
   scanorama,
   scanvi,
-  scgpt.run(
+  scgpt_finetuned.run(
+    args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
+  ),
+  scgpt_zeroshot.run(
     args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
   ),
   scimilarity.run(

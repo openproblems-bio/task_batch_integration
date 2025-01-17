@@ -490,9 +490,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "git+https://github.com/chriscainx/mnnpy"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods mnnpy"
-LABEL org.opencontainers.image.created="2025-01-16T06:45:54Z"
+LABEL org.opencontainers.image.created="2025-01-17T07:38:38Z"
 LABEL org.opencontainers.image.source="https://github.com/chriscainx/mnnpy"
-LABEL org.opencontainers.image.revision="058ebf03ad5612f5b677fe038c7d038aeaae2b18"
+LABEL org.opencontainers.image.revision="6191552ab6734ced8565aa8426d07ed0ce3da26f"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

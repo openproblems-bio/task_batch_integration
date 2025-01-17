@@ -101,7 +101,8 @@ dependencies:
   - name: methods/scalex
   - name: methods/scanorama
   - name: methods/scanvi
-  - name: methods/scgpt
+  - name: methods/scgpt_finetuned
+  - name: methods/scgpt_zeroshot
   - name: methods/scimilarity
   - name: methods/scprint
   - name: methods/scvi

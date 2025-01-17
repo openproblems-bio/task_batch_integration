@@ -1,4 +1,4 @@
-name: "scgpt"
+name: "scgpt_zeroshot"
 namespace: "methods"
 version: "build_main"
 argument_groups:
@@ -187,10 +187,10 @@ resources:
   path: "read_anndata_partial.py"
 - type: "file"
   path: "exit_codes.py"
-label: "scGPT"
-summary: "A foundation model for single-cell biology"
+label: "scGPT (zero shot)"
+summary: "A foundation model for single-cell biology (zero shot)"
 description: "scGPT is a foundation model for single-cell biology based on a generative\n\
-  pre-trained transformer and trained on a repository of over 33 million cells.\n\
+  pre-trained transformer and trained on a repository of over 33 million cells.\n\n\
   Here, we use zero-shot output from a pre-trained model to get an integrated\nembedding\
   \ for the batch integration task.\n"
 test_resources:
@@ -202,8 +202,8 @@ info:
   - "embedding"
   preferred_normalization: "counts"
   variants:
-    scgpt_cp:
-      model: "scGPT_CP"
+    scgpt_zeroshot_cp:
+      model_name: "scGPT_CP"
   type: "method"
   type_info:
     label: "Method"
@@ -273,13 +273,13 @@ engines:
   entrypoint: []
   cmd: null
 build_info:
-  config: "src/methods/scgpt/config.vsh.yaml"
+  config: "src/methods/scgpt_zeroshot/config.vsh.yaml"
   runner: "executable"
   engine: "docker"
-  output: "target/executable/methods/scgpt"
-  executable: "target/executable/methods/scgpt/scgpt"
+  output: "target/executable/methods/scgpt_zeroshot"
+  executable: "target/executable/methods/scgpt_zeroshot/scgpt_zeroshot"
   viash_version: "0.9.0"
-  git_commit: "058ebf03ad5612f5b677fe038c7d038aeaae2b18"
+  git_commit: "6191552ab6734ced8565aa8426d07ed0ce3da26f"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
 package_config:
   name: "task_batch_integration"
