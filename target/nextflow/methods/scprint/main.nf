@@ -3211,7 +3211,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scprint",
     "viash_version" : "0.9.0",
-    "git_commit" : "73f36fff3abc94cc7165a3240af8aed0f6026db8",
+    "git_commit" : "81e252e83ffa30929491a3a7c3f3e4507915f321",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3400,6 +3400,9 @@ from read_anndata_partial import read_anndata
 from exit_codes import exit_non_applicable
 
 print(f"====== scPRINT version {scprint.__version__} ======", flush=True)
+
+# Set suggested PyTorch environment variable
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
 print("\\\\n>>> Reading input data...", flush=True)
 input = read_anndata(par["input"], X="layers/counts", obs="obs", var="var", uns="uns")
