@@ -472,9 +472,9 @@ function ViashDockerfile {
 FROM openproblems/base_python:1.0.0
 ENTRYPOINT []
 LABEL org.opencontainers.image.description="Companion container for running component methods combat"
-LABEL org.opencontainers.image.created="2025-01-17T11:30:48Z"
+LABEL org.opencontainers.image.created="2025-01-17T15:35:08Z"
 LABEL org.opencontainers.image.source="https://scanpy.readthedocs.io/en/stable/api/scanpy.pp.combat.html"
-LABEL org.opencontainers.image.revision="488e06ab665910da924db50ed2ce22f5dce011c4"
+LABEL org.opencontainers.image.revision="f9f1417d48bff9f2f713d8a1176f55c63dbb3747"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
