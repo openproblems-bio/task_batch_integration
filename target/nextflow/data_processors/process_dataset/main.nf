@@ -3123,18 +3123,6 @@ meta = [
               ],
               "var" : [
                 {
-                  "type" : "boolean",
-                  "name" : "hvg",
-                  "description" : "Whether or not the feature is considered to be a 'highly variable gene'",
-                  "required" : true
-                },
-                {
-                  "type" : "double",
-                  "name" : "hvg_score",
-                  "description" : "A ranking of the features by hvg.",
-                  "required" : true
-                },
-                {
                   "type" : "string",
                   "name" : "feature_name",
                   "description" : "A human-readable name for the feature, usually a gene symbol.",
@@ -3144,6 +3132,24 @@ meta = [
                   "type" : "string",
                   "name" : "feature_id",
                   "description" : "A database identifier for the feature, usually an ENSEMBL ID.",
+                  "required" : true
+                },
+                {
+                  "type" : "boolean",
+                  "name" : "hvg",
+                  "description" : "Whether or not the feature is considered to be a 'highly variable gene'.",
+                  "required" : true
+                },
+                {
+                  "type" : "double",
+                  "name" : "hvg_score",
+                  "description" : "A ranking of the features by hvg.",
+                  "required" : true
+                },
+                {
+                  "type" : "boolean",
+                  "name" : "batch_hvg",
+                  "description" : "Whether or not the feature is considered to be a batch-aware 'highly variable gene'.",
                   "required" : true
                 }
               ],
@@ -3363,7 +3369,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/data_processors/process_dataset",
     "viash_version" : "0.9.0",
-    "git_commit" : "6191552ab6734ced8565aa8426d07ed0ce3da26f",
+    "git_commit" : "73f36fff3abc94cc7165a3240af8aed0f6026db8",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3580,25 +3586,26 @@ print(adata, flush=True)
 
 n_hvgs = par["hvgs"]
 if adata.n_vars < n_hvgs:
-    print(f"\\\\n>>> Using all {adata.n_vars} features as HVGs...", flush=True)
+    print(f"\\\\n>>> Using all {adata.n_vars} features as batch-aware HVGs...", flush=True)
     n_hvgs = adata.n_vars
     hvg_list = adata.var_names.tolist()
 else:
     print(f"\\\\n>>> Computing {n_hvgs} batch-aware HVGs...", flush=True)
     hvg_list = compute_batched_hvg(adata, n_hvgs=n_hvgs)
 
+adata.var["batch_hvg"] = adata.var_names.isin(hvg_list)
+
 n_components = adata.obsm["X_pca"].shape[1]
 print(f"\\\\n>>> Computing PCA with {n_components} components using HVGs...", flush=True)
-hvg_mask = adata.var_names.isin(hvg_list)
 X_pca, loadings, variance, variance_ratio = sc.pp.pca(
     adata.layers["normalized"],
     n_comps=n_components,
-    mask_var=hvg_mask,
+    mask_var=adata.var["batch_hvg"],
     return_info=True,
 )
 adata.obsm["X_pca"] = X_pca
 adata.varm["pca_loadings"] = np.zeros(shape=(adata.n_vars, n_components))
-adata.varm["pca_loadings"][hvg_mask, :] = loadings.T
+adata.varm["pca_loadings"][adata.var["batch_hvg"], :] = loadings.T
 adata.uns["pca_variance"] = {"variance": variance, "variance_ratio": variance_ratio}
 
 print("\\\\n>>> Computing neighbours using PCA...", flush=True)

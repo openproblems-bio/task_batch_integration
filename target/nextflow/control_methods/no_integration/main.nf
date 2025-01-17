@@ -2971,18 +2971,6 @@ meta = [
               ],
               "var" : [
                 {
-                  "type" : "boolean",
-                  "name" : "hvg",
-                  "description" : "Whether or not the feature is considered to be a 'highly variable gene'",
-                  "required" : true
-                },
-                {
-                  "type" : "double",
-                  "name" : "hvg_score",
-                  "description" : "A ranking of the features by hvg.",
-                  "required" : true
-                },
-                {
                   "type" : "string",
                   "name" : "feature_name",
                   "description" : "A human-readable name for the feature, usually a gene symbol.",
@@ -2992,6 +2980,24 @@ meta = [
                   "type" : "string",
                   "name" : "feature_id",
                   "description" : "A database identifier for the feature, usually an ENSEMBL ID.",
+                  "required" : true
+                },
+                {
+                  "type" : "boolean",
+                  "name" : "hvg",
+                  "description" : "Whether or not the feature is considered to be a 'highly variable gene'.",
+                  "required" : true
+                },
+                {
+                  "type" : "double",
+                  "name" : "hvg_score",
+                  "description" : "A ranking of the features by hvg.",
+                  "required" : true
+                },
+                {
+                  "type" : "boolean",
+                  "name" : "batch_hvg",
+                  "description" : "Whether or not the feature is considered to be a batch-aware 'highly variable gene'.",
                   "required" : true
                 }
               ],
@@ -3283,7 +3289,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/control_methods/no_integration",
     "viash_version" : "0.9.0",
-    "git_commit" : "6191552ab6734ced8565aa8426d07ed0ce3da26f",
+    "git_commit" : "73f36fff3abc94cc7165a3240af8aed0f6026db8",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
