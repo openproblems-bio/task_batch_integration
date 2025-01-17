@@ -3255,7 +3255,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/data_processors/process_integration",
     "viash_version" : "0.9.0",
-    "git_commit" : "0d4d0d0937eb73b22ff468037df550a018a957b0",
+    "git_commit" : "488e06ab665910da924db50ed2ce22f5dce011c4",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
