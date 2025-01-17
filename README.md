@@ -99,7 +99,7 @@ Format:
 
     AnnData object
      obs: 'cell_type', 'batch'
-     var: 'hvg', 'hvg_score', 'feature_name'
+     var: 'hvg', 'hvg_score', 'feature_name', 'feature_id'
      obsm: 'X_pca'
      obsp: 'knn_distances', 'knn_connectivities'
      layers: 'counts', 'normalized'
@@ -118,6 +118,7 @@ Data structure:
 | `var["hvg"]` | `boolean` | Whether or not the feature is considered to be a ‘highly variable gene’. |
 | `var["hvg_score"]` | `double` | A ranking of the features by hvg. |
 | `var["feature_name"]` | `string` | A human-readable name for the feature, usually a gene symbol. |
+| `var["feature_id"]` | `string` | A database identifier for the feature, usually an ENSEMBL ID. |
 | `obsm["X_pca"]` | `double` | The resulting PCA embedding. |
 | `obsp["knn_distances"]` | `double` | K nearest neighbors distance matrix. |
 | `obsp["knn_connectivities"]` | `double` | K nearest neighbors connectivities matrix. |
@@ -165,7 +166,7 @@ Format:
 
     AnnData object
      obs: 'cell_type', 'batch'
-     var: 'hvg', 'hvg_score', 'feature_name'
+     var: 'hvg', 'hvg_score', 'feature_name', 'feature_id'
      obsm: 'X_pca'
      obsp: 'knn_distances', 'knn_connectivities'
      layers: 'counts', 'normalized'
@@ -184,6 +185,7 @@ Data structure:
 | `var["hvg"]` | `boolean` | Whether or not the feature is considered to be a ‘highly variable gene’. |
 | `var["hvg_score"]` | `double` | A ranking of the features by hvg. |
 | `var["feature_name"]` | `string` | A human-readable name for the feature, usually a gene symbol. |
+| `var["feature_id"]` | `string` | A database identifier for the feature, usually an ENSEMBL ID. |
 | `obsm["X_pca"]` | `double` | The resulting PCA embedding. |
 | `obsp["knn_distances"]` | `double` | K nearest neighbors distance matrix. |
 | `obsp["knn_connectivities"]` | `double` | K nearest neighbors connectivities matrix. |
@@ -209,7 +211,7 @@ Format:
 
     AnnData object
      obs: 'cell_type', 'batch'
-     var: 'hvg', 'hvg_score', 'feature_name'
+     var: 'feature_name', 'feature_id', 'hvg', 'hvg_score', 'batch_hvg'
      obsm: 'X_pca'
      obsp: 'knn_distances', 'knn_connectivities'
      layers: 'counts', 'normalized'
@@ -225,9 +227,11 @@ Data structure:
 |:---|:---|:---|
 | `obs["cell_type"]` | `string` | Cell type information. |
 | `obs["batch"]` | `string` | Batch information. |
+| `var["feature_name"]` | `string` | A human-readable name for the feature, usually a gene symbol. |
+| `var["feature_id"]` | `string` | A database identifier for the feature, usually an ENSEMBL ID. |
 | `var["hvg"]` | `boolean` | Whether or not the feature is considered to be a ‘highly variable gene’. |
 | `var["hvg_score"]` | `double` | A ranking of the features by hvg. |
-| `var["feature_name"]` | `string` | A human-readable name for the feature, usually a gene symbol. |
+| `var["batch_hvg"]` | `boolean` | Whether or not the feature is considered to be a batch-aware ‘highly variable gene’. |
 | `obsm["X_pca"]` | `double` | The resulting PCA embedding. |
 | `obsp["knn_distances"]` | `double` | K nearest neighbors distance matrix. |
 | `obsp["knn_connectivities"]` | `double` | K nearest neighbors connectivities matrix. |
