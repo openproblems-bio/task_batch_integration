@@ -40,7 +40,7 @@ adata_integrated.obs['batch'] = adata_solution.obs['batch']
 
 print('compute score', flush=True)
 score = pcr_comparison(
-    adata_solution[:, adata_solution.var_names.isin(adata_integrated.var_names)],
+    adata_solution[:, adata_solution.var["batch_hvg"]],
     adata_integrated,
     embed='X_emb',
     covariate='batch',

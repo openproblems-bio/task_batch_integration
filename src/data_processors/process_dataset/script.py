@@ -55,25 +55,26 @@ print(adata, flush=True)
 
 n_hvgs = par["hvgs"]
 if adata.n_vars < n_hvgs:
-    print(f"\n>>> Using all {adata.n_vars} features as HVGs...", flush=True)
+    print(f"\n>>> Using all {adata.n_vars} features as batch-aware HVGs...", flush=True)
     n_hvgs = adata.n_vars
     hvg_list = adata.var_names.tolist()
 else:
     print(f"\n>>> Computing {n_hvgs} batch-aware HVGs...", flush=True)
     hvg_list = compute_batched_hvg(adata, n_hvgs=n_hvgs)
 
+adata.var["batch_hvg"] = adata.var_names.isin(hvg_list)
+
 n_components = adata.obsm["X_pca"].shape[1]
 print(f"\n>>> Computing PCA with {n_components} components using HVGs...", flush=True)
-hvg_mask = adata.var_names.isin(hvg_list)
 X_pca, loadings, variance, variance_ratio = sc.pp.pca(
     adata.layers["normalized"],
     n_comps=n_components,
-    mask_var=hvg_mask,
+    mask_var=adata.var["batch_hvg"],
     return_info=True,
 )
 adata.obsm["X_pca"] = X_pca
 adata.varm["pca_loadings"] = np.zeros(shape=(adata.n_vars, n_components))
-adata.varm["pca_loadings"][hvg_mask, :] = loadings.T
+adata.varm["pca_loadings"][adata.var["batch_hvg"], :] = loadings.T
 adata.uns["pca_variance"] = {"variance": variance, "variance_ratio": variance_ratio}
 
 print("\n>>> Computing neighbours using PCA...", flush=True)

@@ -18,6 +18,7 @@ input_states: s3://openproblems-data/resources/task_batch_integration/datasets/*
 rename_keys: 'input_dataset:output_dataset;input_solution:output_solution'
 output_state: "state.yaml"
 publish_dir: "$publish_dir"
+settings: '{"methods_exclude": ["scgpt_finetuned"]}'
 HERE
 
 tw launch https://github.com/openproblems-bio/task_batch_integration.git \
