@@ -24,7 +24,7 @@ adata_solution = read_anndata(
     var='var',
     uns='uns'
 )
-print(f"adata_solution: {adata_solution}")
+print(f"adata_solution: {adata_solution}", flush=True)
 
 adata_integrated = read_anndata(
     par['input_integrated'],
@@ -32,7 +32,7 @@ adata_integrated = read_anndata(
     obsm='obsm',
     uns='uns'
 )
-print(f"adata_integrated: {adata_integrated}")
+print(f"adata_integrated: {adata_integrated}", flush=True)
 
 print("Copy batch information", flush=True)
 adata_integrated.obs['batch'] = adata_solution.obs['batch']
@@ -59,7 +59,7 @@ output = ad.AnnData(
         'metric_values': [ score ]
     }
 )
-print(f"output: {output}")
+print(f"output: {output}", flush=True)
 
 print('Write data to file', flush=True)
 output.write_h5ad(par['output'], compression='gzip')
