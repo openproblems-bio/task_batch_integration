@@ -1,0 +1,61 @@
+__merge__: /src/api/comp_metric.yaml
+name: isolated_label_f1
+info:
+  metric_type: graph
+  metrics:
+    - name: isolated_label_f1
+      label: Isolated label F1 score
+      summary: Evaluate how well isolated labels coincide with clusters
+      # TODO: transform into more readable markdown with proper formulae formatting
+      description: |
+        We developed two isolated label scores to evaluate how well the data integration methods
+        dealt with cell identity labels shared by few batches. Specifically, we identified
+        isolated cell labels as the labels present in the least number of batches in the
+        integration task.
+        The score evaluates how well these isolated labels separate from other cell identities.
+        We implemented the isolated label metric in two versions:
+        (1) the best clustering of the isolated label (F1 score) and
+        (2) the global ASW of the isolated label. For the cluster-based score,
+        we first optimize the cluster assignment of the isolated label using the F1 score˚
+        across louvain clustering resolutions ranging from 0.1 to 2 in resolution steps of 0.1.
+        The optimal F1 score for the isolated label is then used as the metric score.
+        The F1 score is a weighted mean of precision and recall given by the equation:
+        𝐹1=2×(precision×recall)/(precision+recall).
+
+        It returns a value between 0 and 1,
+        where 1 shows that all of the isolated label cells and no others are captured in
+        the cluster. For the isolated label ASW score, we compute the ASW of isolated
+        versus nonisolated labels on the PCA embedding (ASW metric above) and scale this
+        score to be between 0 and 1. The final score for each metric version consists of
+        the mean isolated score of all isolated labels.
+      references:
+        doi: 10.1038/s41592-021-01336-8
+      links:
+        homepage: https://scib.readthedocs.io/en/latest/
+        documentation: https://scib.readthedocs.io/en/latest/api/scib.metrics.silhouette_batch.html
+        repository: https://github.com/theislab/scib
+      min: 0
+      max: 1
+      maximize: true
+arguments:
+  - name: --resolutions
+    type: double
+    multiple: true
+    default: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+    description: Resolution parameter for clustering, looking for precomputed clusters of that resolution
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - scib==1.1.7
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [hightime, midmem, lowcpu]

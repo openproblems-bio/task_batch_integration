@@ -1,0 +1,59 @@
+__merge__: /src/api/base_method.yaml
+
+name: geneformer
+label: Geneformer
+summary: Geneformer is a foundation transformer model pretrained on a large-scale corpus of single cell transcriptomes
+description: |
+  Geneformer is a foundation transformer model pretrained on a large-scale
+  corpus of single cell transcriptomes to enable context-aware predictions in
+  network biology. For this task, Geneformer is used to create a batch-corrected
+  cell embedding.
+references:
+  doi:
+    - 10.1038/s41586-023-06139-9
+    - 10.1101/2024.08.16.608180
+links:
+  documentation: https://geneformer.readthedocs.io/en/latest/index.html
+  repository: https://huggingface.co/ctheodoris/Geneformer
+
+info:
+  preferred_normalization: counts
+  method_types: [embedding]
+  variants:
+    geneformer_12L_95M_i4096:
+      model: "gf-12L-95M-i4096"
+    geneformer_6L_30M_i2048:
+      model: "gf-6L-30M-i2048"
+    geneformer_12L_30M_i2048:
+      model: "gf-12L-30M-i2048"
+    geneformer_20L_95M_i4096:
+      model: "gf-20L-95M-i4096"
+
+arguments:
+  - name: "--model"
+    type: "string"
+    description: String representing the Geneformer model to use
+    choices: ["gf-6L-30M-i2048", "gf-12L-30M-i2048", "gf-12L-95M-i4096", "gf-20L-95M-i4096"]
+    default: "gf-12L-95M-i4096"
+
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+  - path: /src/utils/exit_codes.py
+
+engines:
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1.0.0
+    setup:
+      - type: python
+        pip:
+        - pyarrow<15.0.0a0,>=14.0.1
+        - huggingface_hub
+        - git+https://huggingface.co/ctheodoris/Geneformer.git
+
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, midcpu, gpu]

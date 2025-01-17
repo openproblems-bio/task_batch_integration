@@ -1,0 +1,615 @@
+name: "run_benchmark"
+namespace: "workflows"
+version: "build_test_gpu"
+argument_groups:
+- name: "Inputs"
+  arguments:
+  - type: "file"
+    name: "--input_dataset"
+    label: "Dataset"
+    summary: "Unintegrated AnnData HDF5 file."
+    info:
+      format:
+        type: "h5ad"
+        layers:
+        - type: "integer"
+          name: "counts"
+          description: "Raw counts"
+          required: true
+        - type: "double"
+          name: "normalized"
+          description: "Normalized expression values"
+          required: true
+        obs:
+        - type: "string"
+          name: "cell_type"
+          description: "Cell type information"
+          required: true
+        - type: "string"
+          name: "batch"
+          description: "Batch information"
+          required: true
+        var:
+        - type: "boolean"
+          name: "hvg"
+          description: "Whether or not the feature is considered to be a 'highly variable\
+            \ gene'"
+          required: true
+        - type: "double"
+          name: "hvg_score"
+          description: "A ranking of the features by hvg."
+          required: true
+        - type: "string"
+          name: "feature_name"
+          description: "A human-readable name for the feature, usually a gene symbol."
+          required: true
+        - type: "string"
+          name: "feature_id"
+          description: "A database identifier for the feature, usually an ENSEMBL\
+            \ ID."
+          required: true
+        obsm:
+        - type: "double"
+          name: "X_pca"
+          description: "The resulting PCA embedding."
+          required: true
+        obsp:
+        - type: "double"
+          name: "knn_distances"
+          description: "K nearest neighbors distance matrix."
+          required: true
+        - type: "double"
+          name: "knn_connectivities"
+          description: "K nearest neighbors connectivities matrix."
+          required: true
+        uns:
+        - type: "string"
+          name: "dataset_id"
+          description: "A unique identifier for the dataset"
+          required: true
+        - type: "string"
+          name: "normalization_id"
+          description: "Which normalization was used"
+          required: true
+        - name: "dataset_organism"
+          type: "string"
+          description: "The organism of the sample in the dataset."
+          required: false
+        - type: "object"
+          name: "knn"
+          description: "Supplementary K nearest neighbors data."
+          required: true
+    example:
+    - "resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad"
+    must_exist: true
+    create_parent: true
+    required: true
+    direction: "input"
+    multiple: false
+    multiple_sep: ";"
+  - type: "file"
+    name: "--input_solution"
+    label: "Solution"
+    summary: "Uncensored dataset containing the true labels."
+    info:
+      format:
+        type: "h5ad"
+        layers:
+        - type: "integer"
+          name: "counts"
+          description: "Raw counts"
+          required: true
+        - type: "double"
+          name: "normalized"
+          description: "Normalized expression values"
+          required: true
+        obs:
+        - type: "string"
+          name: "cell_type"
+          description: "Cell type information"
+          required: true
+        - type: "string"
+          name: "batch"
+          description: "Batch information"
+          required: true
+        var:
+        - type: "boolean"
+          name: "hvg"
+          description: "Whether or not the feature is considered to be a 'highly variable\
+            \ gene'"
+          required: true
+        - type: "double"
+          name: "hvg_score"
+          description: "A ranking of the features by hvg."
+          required: true
+        - type: "string"
+          name: "feature_name"
+          description: "A human-readable name for the feature, usually a gene symbol."
+          required: true
+        - type: "string"
+          name: "feature_id"
+          description: "A database identifier for the feature, usually an ENSEMBL\
+            \ ID."
+          required: true
+        obsm:
+        - type: "double"
+          name: "X_pca"
+          description: "The resulting PCA embedding."
+          required: true
+        obsp:
+        - type: "double"
+          name: "knn_distances"
+          description: "K nearest neighbors distance matrix."
+          required: true
+        - type: "double"
+          name: "knn_connectivities"
+          description: "K nearest neighbors connectivities matrix."
+          required: true
+        uns:
+        - type: "string"
+          name: "dataset_id"
+          description: "A unique identifier for the dataset"
+          required: true
+        - name: "dataset_name"
+          type: "string"
+          description: "Nicely formatted name."
+          required: true
+        - type: "string"
+          name: "dataset_url"
+          description: "Link to the original source of the dataset."
+          required: false
+        - name: "dataset_reference"
+          type: "string"
+          description: "Bibtex reference of the paper in which the dataset was published."
+          required: false
+        - name: "dataset_summary"
+          type: "string"
+          description: "Short description of the dataset."
+          required: true
+        - name: "dataset_description"
+          type: "string"
+          description: "Long description of the dataset."
+          required: true
+        - name: "dataset_organism"
+          type: "string"
+          description: "The organism of the sample in the dataset."
+          required: false
+        - type: "string"
+          name: "normalization_id"
+          description: "Which normalization was used"
+          required: true
+        - type: "object"
+          name: "knn"
+          description: "Supplementary K nearest neighbors data."
+          required: true
+    example:
+    - "resources_test/task_batch_integration/cxg_immune_cell_atlas/solution.h5ad"
+    must_exist: true
+    create_parent: true
+    required: true
+    direction: "input"
+    multiple: false
+    multiple_sep: ";"
+- name: "Outputs"
+  arguments:
+  - type: "file"
+    name: "--output_scores"
+    description: "A yaml file containing the scores of each of the methods"
+    info: null
+    default:
+    - "score_uns.yaml"
+    must_exist: true
+    create_parent: true
+    required: true
+    direction: "output"
+    multiple: false
+    multiple_sep: ";"
+  - type: "file"
+    name: "--output_method_configs"
+    info: null
+    default:
+    - "method_configs.yaml"
+    must_exist: true
+    create_parent: true
+    required: true
+    direction: "output"
+    multiple: false
+    multiple_sep: ";"
+  - type: "file"
+    name: "--output_metric_configs"
+    info: null
+    default:
+    - "metric_configs.yaml"
+    must_exist: true
+    create_parent: true
+    required: true
+    direction: "output"
+    multiple: false
+    multiple_sep: ";"
+  - type: "file"
+    name: "--output_dataset_info"
+    info: null
+    default:
+    - "dataset_uns.yaml"
+    must_exist: true
+    create_parent: true
+    required: true
+    direction: "output"
+    multiple: false
+    multiple_sep: ";"
+  - type: "file"
+    name: "--output_task_info"
+    info: null
+    default:
+    - "task_info.yaml"
+    must_exist: true
+    create_parent: true
+    required: true
+    direction: "output"
+    multiple: false
+    multiple_sep: ";"
+- name: "Clustering"
+  arguments:
+  - type: "double"
+    name: "--resolutions"
+    description: "Resolution parameter for clustering"
+    info: null
+    default:
+    - 0.2
+    - 0.3
+    - 0.4
+    - 0.5
+    - 0.6
+    - 0.7
+    - 0.8
+    required: false
+    direction: "input"
+    multiple: true
+    multiple_sep: ";"
+- name: "Method filtering"
+  description: "Use these arguments to filter methods by name. By default, all methods\
+    \ are\nrun. If `--methods_include` is defined, only those methods are run. If\n\
+    `--methods_exclude` is defined, all methods except those specified are run.\n\
+    These arguments are mutually exclusive, so only `--methods_include` OR\n`--methods_exclude`\
+    \ can set but not both.\n"
+  arguments:
+  - type: "string"
+    name: "--methods_include"
+    description: "A list of method ids to include. If specified, only these methods\
+      \ will be run.\n"
+    info: null
+    required: false
+    direction: "input"
+    multiple: true
+    multiple_sep: ";"
+  - type: "string"
+    name: "--methods_exclude"
+    description: "A list of method ids to exclude. If specified, all methods except\
+      \ the ones listed will be run.\n"
+    info: null
+    required: false
+    direction: "input"
+    multiple: true
+    multiple_sep: ";"
+resources:
+- type: "nextflow_script"
+  path: "main.nf"
+  is_executable: true
+  entrypoint: "run_wf"
+- type: "file"
+  path: "_viash.yaml"
+- type: "file"
+  path: "helper.nf"
+info: null
+status: "enabled"
+dependencies:
+- name: "utils/extract_uns_metadata"
+  repository:
+    type: "github"
+    repo: "openproblems-bio/openproblems"
+    tag: "build/main"
+- name: "control_methods/embed_cell_types"
+  repository:
+    type: "local"
+- name: "control_methods/embed_cell_types_jittered"
+  repository:
+    type: "local"
+- name: "control_methods/no_integration"
+  repository:
+    type: "local"
+- name: "control_methods/no_integration_batch"
+  repository:
+    type: "local"
+- name: "control_methods/shuffle_integration"
+  repository:
+    type: "local"
+- name: "control_methods/shuffle_integration_by_batch"
+  repository:
+    type: "local"
+- name: "control_methods/shuffle_integration_by_cell_type"
+  repository:
+    type: "local"
+- name: "methods/batchelor_fastmnn"
+  repository:
+    type: "local"
+- name: "methods/batchelor_mnn_correct"
+  repository:
+    type: "local"
+- name: "methods/bbknn"
+  repository:
+    type: "local"
+- name: "methods/combat"
+  repository:
+    type: "local"
+- name: "methods/geneformer"
+  repository:
+    type: "local"
+- name: "methods/harmony"
+  repository:
+    type: "local"
+- name: "methods/harmonypy"
+  repository:
+    type: "local"
+- name: "methods/liger"
+  repository:
+    type: "local"
+- name: "methods/mnnpy"
+  repository:
+    type: "local"
+- name: "methods/pyliger"
+  repository:
+    type: "local"
+- name: "methods/scalex"
+  repository:
+    type: "local"
+- name: "methods/scanorama"
+  repository:
+    type: "local"
+- name: "methods/scanvi"
+  repository:
+    type: "local"
+- name: "methods/scgpt_finetuned"
+  repository:
+    type: "local"
+- name: "methods/scgpt_zeroshot"
+  repository:
+    type: "local"
+- name: "methods/scimilarity"
+  repository:
+    type: "local"
+- name: "methods/scprint"
+  repository:
+    type: "local"
+- name: "methods/scvi"
+  repository:
+    type: "local"
+- name: "methods/uce"
+  repository:
+    type: "local"
+- name: "metrics/asw_batch"
+  repository:
+    type: "local"
+- name: "metrics/asw_label"
+  repository:
+    type: "local"
+- name: "metrics/cell_cycle_conservation"
+  repository:
+    type: "local"
+- name: "metrics/clustering_overlap"
+  repository:
+    type: "local"
+- name: "metrics/graph_connectivity"
+  repository:
+    type: "local"
+- name: "metrics/hvg_overlap"
+  repository:
+    type: "local"
+- name: "metrics/isolated_label_asw"
+  repository:
+    type: "local"
+- name: "metrics/isolated_label_f1"
+  repository:
+    type: "local"
+- name: "metrics/kbet"
+  repository:
+    type: "local"
+- name: "metrics/lisi"
+  repository:
+    type: "local"
+- name: "metrics/pcr"
+  repository:
+    type: "local"
+- name: "data_processors/process_integration"
+  repository:
+    type: "local"
+repositories:
+- type: "github"
+  name: "openproblems"
+  repo: "openproblems-bio/openproblems"
+  tag: "build/main"
+license: "MIT"
+links:
+  repository: "https://github.com/openproblems-bio/task_batch_integration"
+  docker_registry: "ghcr.io"
+runners:
+- type: "nextflow"
+  id: "nextflow"
+  directives:
+    tag: "$id"
+  auto:
+    simplifyInput: true
+    simplifyOutput: false
+    transcript: false
+    publish: false
+  config:
+    labels:
+      lowmem: "memory = 20.Gb"
+      midmem: "memory = 50.Gb"
+      highmem: "memory = 100.Gb"
+      lowcpu: "cpus = 5"
+      midcpu: "cpus = 15"
+      highcpu: "cpus = 30"
+      lowtime: "time = 1.h"
+      midtime: "time = 4.h"
+      hightime: "time = 8.h"
+      veryhightime: "time = 24.h"
+  debug: false
+  container: "docker"
+build_info:
+  config: "src/workflows/run_benchmark/config.vsh.yaml"
+  runner: "nextflow"
+  engine: "native"
+  output: "target/nextflow/workflows/run_benchmark"
+  executable: "target/nextflow/workflows/run_benchmark/main.nf"
+  viash_version: "0.9.0"
+  git_commit: "a44c4dad353f2d3401f05ac813fcef63ae3cdb13"
+  git_remote: "https://github.com/openproblems-bio/task_batch_integration"
+  dependencies:
+  - "target/dependencies/github/openproblems-bio/openproblems/build/main/nextflow/utils/extract_uns_metadata"
+  - "target/nextflow/control_methods/embed_cell_types"
+  - "target/nextflow/control_methods/embed_cell_types_jittered"
+  - "target/nextflow/control_methods/no_integration"
+  - "target/nextflow/control_methods/no_integration_batch"
+  - "target/nextflow/control_methods/shuffle_integration"
+  - "target/nextflow/control_methods/shuffle_integration_by_batch"
+  - "target/nextflow/control_methods/shuffle_integration_by_cell_type"
+  - "target/nextflow/methods/batchelor_fastmnn"
+  - "target/nextflow/methods/batchelor_mnn_correct"
+  - "target/nextflow/methods/bbknn"
+  - "target/nextflow/methods/combat"
+  - "target/nextflow/methods/geneformer"
+  - "target/nextflow/methods/harmony"
+  - "target/nextflow/methods/harmonypy"
+  - "target/nextflow/methods/liger"
+  - "target/nextflow/methods/mnnpy"
+  - "target/nextflow/methods/pyliger"
+  - "target/nextflow/methods/scalex"
+  - "target/nextflow/methods/scanorama"
+  - "target/nextflow/methods/scanvi"
+  - "target/nextflow/methods/scgpt_finetuned"
+  - "target/nextflow/methods/scgpt_zeroshot"
+  - "target/nextflow/methods/scimilarity"
+  - "target/nextflow/methods/scprint"
+  - "target/nextflow/methods/scvi"
+  - "target/nextflow/methods/uce"
+  - "target/nextflow/metrics/asw_batch"
+  - "target/nextflow/metrics/asw_label"
+  - "target/nextflow/metrics/cell_cycle_conservation"
+  - "target/nextflow/metrics/clustering_overlap"
+  - "target/nextflow/metrics/graph_connectivity"
+  - "target/nextflow/metrics/hvg_overlap"
+  - "target/nextflow/metrics/isolated_label_asw"
+  - "target/nextflow/metrics/isolated_label_f1"
+  - "target/nextflow/metrics/kbet"
+  - "target/nextflow/metrics/lisi"
+  - "target/nextflow/metrics/pcr"
+  - "target/nextflow/data_processors/process_integration"
+package_config:
+  name: "task_batch_integration"
+  version: "build_test_gpu"
+  label: "Batch Integration"
+  summary: "Remove unwanted batch effects from scRNA-seq data while retaining biologically\
+    \ meaningful variation."
+  description: "As single-cell technologies advance, single-cell datasets are growing\
+    \ both in size and complexity.\nEspecially in consortia such as the Human Cell\
+    \ Atlas, individual studies combine data from multiple labs, each sequencing multiple\
+    \ individuals possibly with different technologies.\nThis gives rise to complex\
+    \ batch effects in the data that must be computationally removed to perform a\
+    \ joint analysis.\nThese batch integration methods must remove the batch effect\
+    \ while not removing relevant biological information.\nCurrently, over 200 tools\
+    \ exist that aim to remove batch effects scRNA-seq datasets [@zappia2018exploring].\n\
+    These methods balance the removal of batch effects with the conservation of nuanced\
+    \ biological information in different ways.\nThis abundance of tools has complicated\
+    \ batch integration method choice, leading to several benchmarks on this topic\
+    \ [@luecken2020benchmarking; @tran2020benchmark; @chazarragil2021flexible; @mereu2020benchmarking].\n\
+    Yet, benchmarks use different metrics, method implementations and datasets. Here\
+    \ we build a living benchmarking task for batch integration methods with the vision\
+    \ of improving the consistency of method evaluation.\n\nIn this task we evaluate\
+    \ batch integration methods on their ability to remove batch effects in the data\
+    \ while conserving variation attributed to biological effects.\nAs input, methods\
+    \ require either normalised or unnormalised data with multiple batches and consistent\
+    \ cell type labels.\nThe batch integrated output can be a feature matrix, a low\
+    \ dimensional embedding and/or a neighbourhood graph.\nThe respective batch-integrated\
+    \ representation is then evaluated using sets of metrics that capture how well\
+    \ batch effects are removed and whether biological variance is conserved.\nWe\
+    \ have based this particular task on the latest, and most extensive benchmark\
+    \ of single-cell data integration methods.\n"
+  info:
+    image: "thumbnail.svg"
+    test_resources:
+    - type: "s3"
+      path: "s3://openproblems-data/resources_test/common/cxg_immune_cell_atlas/"
+      dest: "resources_test/common/cxg_immune_cell_atlas"
+    - type: "s3"
+      path: "s3://openproblems-data/resources_test/task_batch_integration/"
+      dest: "resources_test/task_batch_integration"
+  repositories:
+  - type: "github"
+    name: "openproblems"
+    repo: "openproblems-bio/openproblems"
+    tag: "build/main"
+  viash_version: "0.9.0"
+  source: "src"
+  target: "target"
+  config_mods:
+  - ".runners[.type == \"nextflow\"].config.labels := { lowmem : \"memory = 20.Gb\"\
+    , midmem : \"memory = 50.Gb\", highmem : \"memory = 100.Gb\", lowcpu : \"cpus\
+    \ = 5\", midcpu : \"cpus = 15\", highcpu : \"cpus = 30\", lowtime : \"time = 1.h\"\
+    , midtime : \"time = 4.h\", hightime : \"time = 8.h\", veryhightime : \"time =\
+    \ 24.h\" }\n"
+  authors:
+  - name: "Michaela Mueller"
+    roles:
+    - "maintainer"
+    - "author"
+    info:
+      github: "mumichae"
+      orcid: "0000-0002-1401-1785"
+  - name: "Malte Luecken"
+    roles:
+    - "author"
+    info:
+      github: "LuckyMD"
+      orcid: "0000-0001-7464-7921"
+  - name: "Daniel Strobl"
+    roles:
+    - "author"
+    info:
+      github: "danielStrobl"
+      orcid: "0000-0002-5516-7057"
+  - name: "Robrecht Cannoodt"
+    roles:
+    - "contributor"
+    info:
+      github: "rcannood"
+      orcid: "0000-0003-3641-729X"
+  - name: "Scott Gigante"
+    roles:
+    - "contributor"
+    info:
+      github: "scottgigante"
+      orcid: "0000-0002-4544-2764"
+  - name: "Kai Waldrant"
+    roles:
+    - "contributor"
+    info:
+      github: "KaiWaldrant"
+      orcid: "0009-0003-8555-1361"
+  - name: "Nartin Kim"
+    roles:
+    - "contributor"
+    info:
+      github: "martinkim0"
+      orcid: "0009-0003-8555-1361"
+  keywords:
+  - "batch integration"
+  - "scRNA-seq"
+  license: "MIT"
+  organization: "openproblems-bio"
+  references:
+    doi:
+    - "10.1038/s41592-021-01336-8"
+  links:
+    repository: "https://github.com/openproblems-bio/task_batch_integration"
+    docker_registry: "ghcr.io"
+    issue_tracker: "https://github.com/openproblems-bio/task_batch_integration/issues"
