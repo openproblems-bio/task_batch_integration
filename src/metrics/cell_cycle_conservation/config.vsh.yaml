@@ -43,7 +43,7 @@ engines:
     setup:
       - type: python
         pypi:
-          - git+https://github.com/theislab/scib.git@extend_cell_cycle_genes
+          - scib==1.1.7
 runners:
   - type: executable
   - type: nextflow
