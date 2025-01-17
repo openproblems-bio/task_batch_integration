@@ -3028,7 +3028,7 @@ meta = [
   ],
   "label" : "Harmony",
   "summary" : "Fast, sensitive and accurate integration of single-cell data with Harmony",
-  "description" : "Harmony is a general-purpose R package with an efficient algorithm for integrating multiple data sets. \nIt is especially useful for large single-cell datasets such as single-cell RNA-seq.\n",
+  "description" : "Harmony is a general-purpose R package with an efficient algorithm for integrating multiple data sets.\nIt is especially useful for large single-cell datasets such as single-cell RNA-seq.\n",
   "test_resources" : [
     {
       "type" : "python_script",
@@ -3091,7 +3091,7 @@ meta = [
         "label" : [
           "lowcpu",
           "highmem",
-          "midtime"
+          "hightime"
         ],
         "tag" : "$id"
       },
@@ -3142,7 +3142,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/harmony",
     "viash_version" : "0.9.0",
-    "git_commit" : "81e252e83ffa30929491a3a7c3f3e4507915f321",
+    "git_commit" : "0d4d0d0937eb73b22ff468037df550a018a957b0",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3718,7 +3718,7 @@ meta["defaults"] = [
   "label" : [
     "lowcpu",
     "highmem",
-    "midtime"
+    "hightime"
   ],
   "tag" : "$id"
 }'''),

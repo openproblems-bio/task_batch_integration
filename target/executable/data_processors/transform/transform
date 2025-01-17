@@ -475,9 +475,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scanpy"
 
 LABEL org.opencontainers.image.description="Companion container for running component data_processors transform"
-LABEL org.opencontainers.image.created="2025-01-17T11:24:15Z"
+LABEL org.opencontainers.image.created="2025-01-17T11:25:25Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="81e252e83ffa30929491a3a7c3f3e4507915f321"
+LABEL org.opencontainers.image.revision="0d4d0d0937eb73b22ff468037df550a018a957b0"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

@@ -3,7 +3,7 @@ name: harmony
 label: Harmony
 summary: Fast, sensitive and accurate integration of single-cell data with Harmony
 description: |
-  Harmony is a general-purpose R package with an efficient algorithm for integrating multiple data sets. 
+  Harmony is a general-purpose R package with an efficient algorithm for integrating multiple data sets.
   It is especially useful for large single-cell datasets such as single-cell RNA-seq.
 references:
   # Korsunsky, I., Millard, N., Fan, J. et al.
@@ -30,4 +30,4 @@ runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [lowcpu, highmem, midtime]
+      label: [lowcpu, highmem, hightime]

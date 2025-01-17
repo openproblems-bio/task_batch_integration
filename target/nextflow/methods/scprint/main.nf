@@ -3126,7 +3126,7 @@ meta = [
       "id" : "nextflow",
       "directives" : {
         "label" : [
-          "midtime",
+          "hightime",
           "midmem",
           "midcpu",
           "gpu"
@@ -3211,7 +3211,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scprint",
     "viash_version" : "0.9.0",
-    "git_commit" : "81e252e83ffa30929491a3a7c3f3e4507915f321",
+    "git_commit" : "0d4d0d0937eb73b22ff468037df550a018a957b0",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3848,7 +3848,7 @@ meta["defaults"] = [
     "tag" : "build_main"
   },
   "label" : [
-    "midtime",
+    "hightime",
     "midmem",
     "midcpu",
     "gpu"

@@ -3028,7 +3028,7 @@ meta = [
   ],
   "label" : "LIGER",
   "summary" : "Linked Inference of Genomic Experimental Relationships",
-  "description" : "LIGER or linked inference of genomic experimental relationships uses iNMF \nderiving and implementing a novel coordinate descent algorithm to efficiently \ndo the factorization. Joint clustering is performed and factor loadings are \nnormalised.\n",
+  "description" : "LIGER or linked inference of genomic experimental relationships uses iNMF\nderiving and implementing a novel coordinate descent algorithm to efficiently\ndo the factorization. Joint clustering is performed and factor loadings are\nnormalised.\n",
   "test_resources" : [
     {
       "type" : "python_script",
@@ -3091,7 +3091,7 @@ meta = [
         "label" : [
           "lowcpu",
           "highmem",
-          "midtime"
+          "hightime"
         ],
         "tag" : "$id"
       },
@@ -3152,7 +3152,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/liger",
     "viash_version" : "0.9.0",
-    "git_commit" : "81e252e83ffa30929491a3a7c3f3e4507915f321",
+    "git_commit" : "0d4d0d0937eb73b22ff468037df550a018a957b0",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3797,7 +3797,7 @@ meta["defaults"] = [
   "label" : [
     "lowcpu",
     "highmem",
-    "midtime"
+    "hightime"
   ],
   "tag" : "$id"
 }'''),

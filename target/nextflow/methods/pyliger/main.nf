@@ -3032,7 +3032,7 @@ meta = [
   ],
   "label" : "pyliger",
   "summary" : "Python implementation of LIGER (Linked Inference of Genomic Experimental Relationships",
-  "description" : "LIGER (installed as rliger) is a package for integrating and analyzing multiple \nsingle-cell datasets, developed by the Macosko lab and maintained/extended by the \nWelch lab. It relies on integrative non-negative matrix factorization to identify \nshared and dataset-specific factors.\n",
+  "description" : "LIGER (installed as rliger) is a package for integrating and analyzing multiple\nsingle-cell datasets, developed by the Macosko lab and maintained/extended by the\nWelch lab. It relies on integrative non-negative matrix factorization to identify\nshared and dataset-specific factors.\n",
   "test_resources" : [
     {
       "type" : "python_script",
@@ -3100,7 +3100,7 @@ meta = [
         "label" : [
           "lowcpu",
           "highmem",
-          "midtime"
+          "hightime"
         ],
         "tag" : "$id"
       },
@@ -3154,7 +3154,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/pyliger",
     "viash_version" : "0.9.0",
-    "git_commit" : "81e252e83ffa30929491a3a7c3f3e4507915f321",
+    "git_commit" : "0d4d0d0937eb73b22ff468037df550a018a957b0",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3768,7 +3768,7 @@ meta["defaults"] = [
   "label" : [
     "lowcpu",
     "highmem",
-    "midtime"
+    "hightime"
   ],
   "tag" : "$id"
 }'''),

@@ -4,9 +4,9 @@ label: pyliger
 summary: Python implementation of LIGER (Linked Inference of Genomic Experimental
   Relationships
 description: |
-  LIGER (installed as rliger) is a package for integrating and analyzing multiple 
-  single-cell datasets, developed by the Macosko lab and maintained/extended by the 
-  Welch lab. It relies on integrative non-negative matrix factorization to identify 
+  LIGER (installed as rliger) is a package for integrating and analyzing multiple
+  single-cell datasets, developed by the Macosko lab and maintained/extended by the
+  Welch lab. It relies on integrative non-negative matrix factorization to identify
   shared and dataset-specific factors.
 references:
   doi: 10.1016/j.cell.2019.05.006
@@ -37,4 +37,4 @@ runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [lowcpu, highmem, midtime]
+      label: [lowcpu, highmem, hightime]
