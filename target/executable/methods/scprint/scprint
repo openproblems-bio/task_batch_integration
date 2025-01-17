@@ -502,9 +502,9 @@ RUN pip install --upgrade pip && \
   python -c 'from scdataloader.utils import populate_my_ontology; populate_my_ontology()'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scprint"
-LABEL org.opencontainers.image.created="2025-01-17T08:58:20Z"
+LABEL org.opencontainers.image.created="2025-01-17T09:53:57Z"
 LABEL org.opencontainers.image.source="https://github.com/cantinilab/scPRINT"
-LABEL org.opencontainers.image.revision="a44c4dad353f2d3401f05ac813fcef63ae3cdb13"
+LABEL org.opencontainers.image.revision="232e4fc25bf41d8958a7aad01d5aa73b81c36cb4"
 LABEL org.opencontainers.image.version="build_test_gpu"
 
 VIASHDOCKER
@@ -1130,6 +1130,9 @@ from read_anndata_partial import read_anndata
 from exit_codes import exit_non_applicable
 
 print(f"====== scPRINT version {scprint.__version__} ======", flush=True)
+
+# Set suggested PyTorch environment variable
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
 print("\\n>>> Reading input data...", flush=True)
 input = read_anndata(par["input"], X="layers/counts", obs="obs", var="var", uns="uns")

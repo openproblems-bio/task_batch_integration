@@ -498,9 +498,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scvi-tools>=1.1.0"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scvi"
-LABEL org.opencontainers.image.created="2025-01-17T08:58:21Z"
+LABEL org.opencontainers.image.created="2025-01-17T09:53:58Z"
 LABEL org.opencontainers.image.source="https://github.com/scverse/scvi-tools"
-LABEL org.opencontainers.image.revision="a44c4dad353f2d3401f05ac813fcef63ae3cdb13"
+LABEL org.opencontainers.image.revision="232e4fc25bf41d8958a7aad01d5aa73b81c36cb4"
 LABEL org.opencontainers.image.version="build_test_gpu"
 
 VIASHDOCKER
