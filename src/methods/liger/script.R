@@ -31,9 +31,7 @@ anndataToLiger <- function(adata) {
 }
 
 addNormalizedDataToLiger <- function(adata, lobj) {
-
   norm_data <- lapply(names(rliger::rawData(lobj)), function(name) {
-
     norm <- adata$layers[["normalized"]]
 
     # subset
