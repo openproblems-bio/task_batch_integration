@@ -3152,7 +3152,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/liger",
     "viash_version" : "0.9.0",
-    "git_commit" : "377fd160da92c0575750db4af2dfdcd0e8b9e3cf",
+    "git_commit" : "0ccffac7ce92f138da631b397adc4123d514366b",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3338,6 +3338,7 @@ rm(.viash_orig_warn)
 
 cat("Read input\\\\n")
 adata <- anndata::read_h5ad(par\\$input)
+adata\\$obs["batch"] <- sub("\\\\\\\\+", "plus", adata\\$obs[["batch"]]) # Replace "+"" characters in batch names
 
 anndataToLiger <- function(adata) {
   # fetch batch names

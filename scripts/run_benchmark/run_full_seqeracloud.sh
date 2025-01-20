@@ -18,7 +18,6 @@ input_states: s3://openproblems-data/resources/task_batch_integration/datasets/*
 rename_keys: 'input_dataset:output_dataset;input_solution:output_solution'
 output_state: "state.yaml"
 publish_dir: "$publish_dir"
-settings: '{"methods_exclude": ["scgpt_finetuned"]}'
 HERE
 
 tw launch https://github.com/openproblems-bio/task_batch_integration.git \
@@ -26,7 +25,7 @@ tw launch https://github.com/openproblems-bio/task_batch_integration.git \
   --pull-latest \
   --main-script target/nextflow/workflows/run_benchmark/main.nf \
   --workspace 53907369739130 \
-  --compute-env 5DwwhQoBi0knMSGcwThnlF \
+  --compute-env 7gRyww9YNGb0c6BUBtLhDP \
   --params-file /tmp/params.yaml \
   --entry-name auto \
   --config common/nextflow_helpers/labels_tw.config \
