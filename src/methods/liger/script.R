@@ -14,6 +14,7 @@ meta <- list(
 
 cat("Read input\n")
 adata <- anndata::read_h5ad(par$input)
+adata$obs["batch"] <- sub("\\+", "plus", adata$obs[["batch"]]) # Replace "+"" characters in batch names
 
 anndataToLiger <- function(adata) {
   # fetch batch names
@@ -30,7 +31,9 @@ anndataToLiger <- function(adata) {
 }
 
 addNormalizedDataToLiger <- function(adata, lobj) {
+
   norm_data <- lapply(names(rliger::rawData(lobj)), function(name) {
+
     norm <- adata$layers[["normalized"]]
 
     # subset
