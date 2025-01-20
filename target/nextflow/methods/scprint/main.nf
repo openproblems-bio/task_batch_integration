@@ -3211,7 +3211,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scprint",
     "viash_version" : "0.9.0",
-    "git_commit" : "f9f1417d48bff9f2f713d8a1176f55c63dbb3747",
+    "git_commit" : "377fd160da92c0575750db4af2dfdcd0e8b9e3cf",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3418,8 +3418,7 @@ adata = input.copy()
 
 print("\\\\n>>> Preprocessing data...", flush=True)
 preprocessor = Preprocessor(
-    # Lower this threshold for test datasets
-    min_valid_genes_id=1000 if input.n_vars < 2000 else 10000,
+    min_valid_genes_id=min(0.9 * adata.n_vars, 10000), # 90% of features up to 10,000
     # Turn off cell filtering to return results for all cells
     filter_cell_by_counts=False,
     min_nnz_genes=False,
