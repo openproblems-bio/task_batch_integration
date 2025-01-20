@@ -41,8 +41,7 @@ adata = input.copy()
 
 print("\n>>> Preprocessing data...", flush=True)
 preprocessor = Preprocessor(
-    # Lower this threshold for test datasets
-    min_valid_genes_id=1000 if input.n_vars < 2000 else 10000,
+    min_valid_genes_id=min(0.9 * adata.n_vars, 10000), # 90% of features up to 10,000
     # Turn off cell filtering to return results for all cells
     filter_cell_by_counts=False,
     min_nnz_genes=False,
