@@ -42,13 +42,6 @@ argument_groups:
         required: true
         direction: output
         default: task_info.yaml
-  - name: Clustering
-    arguments:
-      - name: "--resolutions"
-        type: double
-        multiple: true
-        default: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
-        description: Resolution parameter for clustering
   - name: Method filtering
     description: |
       Use these arguments to filter methods by name. By default, all methods are
