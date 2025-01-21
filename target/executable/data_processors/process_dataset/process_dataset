@@ -475,9 +475,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scib==1.1.7"
 
 LABEL org.opencontainers.image.description="Companion container for running component data_processors process_dataset"
-LABEL org.opencontainers.image.created="2025-01-21T12:17:33Z"
+LABEL org.opencontainers.image.created="2025-01-21T12:29:33Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="01bdb9d6cb82e006ff09c844184ddaec8a307397"
+LABEL org.opencontainers.image.revision="0211654ae5d02e273801f896e2d217fdb7a8788f"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
