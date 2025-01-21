@@ -1,12 +1,13 @@
-import anndata as ad
-from scdataloader import Preprocessor
+import os
 import sys
-from huggingface_hub import hf_hub_download
-from scprint.tasks import Embedder
-from scprint import scPrint
+
+import anndata as ad
 import scprint
 import torch
-import os
+from huggingface_hub import hf_hub_download
+from scdataloader import Preprocessor
+from scprint import scPrint
+from scprint.tasks import Embedder
 
 ## VIASH START
 par = {
@@ -19,8 +20,8 @@ meta = {"name": "scprint"}
 ## VIASH END
 
 sys.path.append(meta["resources_dir"])
-from read_anndata_partial import read_anndata
 from exit_codes import exit_non_applicable
+from read_anndata_partial import read_anndata
 
 print(f"====== scPRINT version {scprint.__version__} ======", flush=True)
 
@@ -41,7 +42,7 @@ adata = input.copy()
 
 print("\n>>> Preprocessing data...", flush=True)
 preprocessor = Preprocessor(
-    min_valid_genes_id=min(0.9 * adata.n_vars, 10000), # 90% of features up to 10,000
+    min_valid_genes_id=min(0.9 * adata.n_vars, 10000),  # 90% of features up to 10,000
     # Turn off cell filtering to return results for all cells
     filter_cell_by_counts=False,
     min_nnz_genes=False,
@@ -77,7 +78,8 @@ n_cores_available = len(os.sched_getaffinity(0))
 print(f"Using {n_cores_available} worker cores")
 embedder = Embedder(
     how="random expr",
-    max_len=4000,
+    batch_size=par["batch_size"],
+    max_len=par["max_len"],
     add_zero_genes=0,
     num_workers=n_cores_available,
     doclass=False,

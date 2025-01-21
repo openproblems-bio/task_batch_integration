@@ -169,6 +169,26 @@ argument_groups:
     direction: "input"
     multiple: false
     multiple_sep: ";"
+  - type: "integer"
+    name: "--batch_size"
+    description: "The size of the batches to be used in the DataLoader."
+    info: null
+    default:
+    - 64
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ";"
+  - type: "integer"
+    name: "--max_len"
+    description: "The maximum length of the gene sequence."
+    info: null
+    default:
+    - 4000
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ";"
 resources:
 - type: "python_script"
   path: "script.py"
@@ -192,6 +212,12 @@ test_resources:
 - type: "python_script"
   path: "check_config.py"
   is_executable: true
+- type: "python_script"
+  path: "run_and_check_output.py"
+  is_executable: true
+- type: "file"
+  path: "resources_test/task_batch_integration/cxg_immune_cell_atlas"
+  dest: "resources_test/task_batch_integration/cxg_immune_cell_atlas"
 info:
   preferred_normalization: "counts"
   method_types:
@@ -203,6 +229,11 @@ info:
       model_name: "medium"
     scprint_small:
       model_name: "small"
+  test_setup:
+    run:
+      model_name: "small"
+      batch_size: 16
+      max_len: 100
   type: "method"
   type_info:
     label: "Method"
@@ -234,6 +265,7 @@ runners:
     - "midmem"
     - "midcpu"
     - "gpu"
+    - "midsharedmem"
     tag: "$id"
   auto:
     simplifyInput: true
@@ -292,7 +324,7 @@ build_info:
   output: "target/executable/methods/scprint"
   executable: "target/executable/methods/scprint/scprint"
   viash_version: "0.9.0"
-  git_commit: "0ccffac7ce92f138da631b397adc4123d514366b"
+  git_commit: "01bdb9d6cb82e006ff09c844184ddaec8a307397"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
 package_config:
   name: "task_batch_integration"

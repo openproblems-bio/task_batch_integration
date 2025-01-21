@@ -3071,6 +3071,10 @@ meta = [
     {
       "type" : "file",
       "path" : "scgpt_functions.py"
+    },
+    {
+      "type" : "file",
+      "path" : "/src/utils/exit_codes.py"
     }
   ],
   "label" : "scGPT (fine-tuned)",
@@ -3188,7 +3192,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scgpt_finetuned",
     "viash_version" : "0.9.0",
-    "git_commit" : "0ccffac7ce92f138da631b397adc4123d514366b",
+    "git_commit" : "01bdb9d6cb82e006ff09c844184ddaec8a307397",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3382,6 +3386,7 @@ dep = {
 
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
+from exit_codes import exit_non_applicable
 from scgpt_functions import evaluate, prepare_data, prepare_dataloader, train
 
 print(f"====== scGPT version {scgpt.__version__} ======", flush=True)
@@ -3391,7 +3396,7 @@ print(f"Input H5AD file: '{par['input']}'", flush=True)
 adata = read_anndata(par["input"], X="layers/counts", obs="obs", var="var", uns="uns")
 
 if adata.uns["dataset_organism"] != "homo_sapiens":
-    raise ValueError(
+    exit_non_applicable(
         f"scGPT can only be used with human data "
         f"(dataset_organism == \\\\"{adata.uns['dataset_organism']}\\\\")"
     )

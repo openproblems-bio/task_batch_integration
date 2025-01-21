@@ -3197,7 +3197,7 @@ meta = [
       "directives" : {
         "label" : [
           "hightime",
-          "highmem",
+          "veryhighmem",
           "lowcpu"
         ],
         "tag" : "$id"
@@ -3260,7 +3260,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/kbet",
     "viash_version" : "0.9.0",
-    "git_commit" : "0ccffac7ce92f138da631b397adc4123d514366b",
+    "git_commit" : "01bdb9d6cb82e006ff09c844184ddaec8a307397",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3454,7 +3454,7 @@ score = kBET(
     type_="embed",
     embed="X_emb",
     scaled=True,
-    verbose=False,
+    verbose=True,
 )
 print(score, flush=True)
 
@@ -3836,7 +3836,7 @@ meta["defaults"] = [
   },
   "label" : [
     "hightime",
-    "highmem",
+    "veryhighmem",
     "lowcpu"
   ],
   "tag" : "$id"

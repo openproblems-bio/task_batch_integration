@@ -3196,7 +3196,7 @@ meta = [
       "id" : "nextflow",
       "directives" : {
         "label" : [
-          "midtime",
+          "hightime",
           "midmem",
           "lowcpu"
         ],
@@ -3250,7 +3250,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/isolated_label_asw",
     "viash_version" : "0.9.0",
-    "git_commit" : "0ccffac7ce92f138da631b397adc4123d514366b",
+    "git_commit" : "01bdb9d6cb82e006ff09c844184ddaec8a307397",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3825,7 +3825,7 @@ meta["defaults"] = [
     "tag" : "build_main"
   },
   "label" : [
-    "midtime",
+    "hightime",
     "midmem",
     "lowcpu"
   ],
