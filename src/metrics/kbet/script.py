@@ -30,7 +30,7 @@ score = kBET(
     type_="embed",
     embed="X_emb",
     scaled=True,
-    verbose=False,
+    verbose=True,
 )
 print(score, flush=True)
 
