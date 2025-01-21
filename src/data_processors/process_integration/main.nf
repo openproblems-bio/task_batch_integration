@@ -44,9 +44,12 @@ workflow run_wf {
 
     // group by original dataset id
     | map{id, state ->
-      [state.prevId, state]
+      // groupKey() allows us to set a size for each group based on the state
+      // which means each group can continue once it is complete
+      [groupKey(state.prevId, state.resolutions.size()), state]
     }
-    | groupTuple()
+    // Group and sort by resolution to ensure the order is consistent
+    | groupTuple(sort: { res1, res2 -> res1.resolution <=> res2.resolution })
 
     // merge the clustering results into one state
     | map{ id, states ->
@@ -60,7 +63,7 @@ workflow run_wf {
       def clusterings = states.collect { it.output_clustering }
       def newState = states[0] + ["clusterings": clusterings]
 
-      [id, newState]
+      [id.toString(), newState]
     }
 
     // merge clustering results into dataset h5ad
