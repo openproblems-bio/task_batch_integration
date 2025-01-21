@@ -3255,7 +3255,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/data_processors/process_integration",
     "viash_version" : "0.9.0",
-    "git_commit" : "0211654ae5d02e273801f896e2d217fdb7a8788f",
+    "git_commit" : "624d849a5d2912e516f47e31d53ebb2905dcead3",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3440,9 +3440,12 @@ workflow run_wf {
 
     // group by original dataset id
     | map{id, state ->
-      [state.prevId, state]
+      // groupKey() allows us to set a size for each group based on the state
+      // which means each group can continue once it is complete
+      [groupKey(state.prevId, state.resolutions.size()), state]
     }
-    | groupTuple()
+    // Group and sort by resolution to ensure the order is consistent
+    | groupTuple(sort: { res1, res2 -> res1.resolution <=> res2.resolution })
 
     // merge the clustering results into one state
     | map{ id, states ->
@@ -3456,7 +3459,7 @@ workflow run_wf {
       def clusterings = states.collect { it.output_clustering }
       def newState = states[0] + ["clusterings": clusterings]
 
-      [id, newState]
+      [id.toString(), newState]
     }
 
     // merge clustering results into dataset h5ad

@@ -3523,7 +3523,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "0211654ae5d02e273801f896e2d217fdb7a8788f",
+    "git_commit" : "624d849a5d2912e516f47e31d53ebb2905dcead3",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3848,7 +3848,8 @@ workflow run_wf {
       fromState: [
         input_integrated: "method_output",
         input_dataset: "input_dataset",
-        expected_method_types: "method_types"
+        expected_method_types: "method_types",
+        resolutions: "resolutions"
       ],
       toState: { id, output, state ->
         // Add method types to the state
