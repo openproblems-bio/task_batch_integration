@@ -148,7 +148,8 @@ workflow run_wf {
       fromState: [
         input_integrated: "method_output",
         input_dataset: "input_dataset",
-        expected_method_types: "method_types"
+        expected_method_types: "method_types",
+        resolutions: "resolutions"
       ],
       toState: { id, output, state ->
         // Add method types to the state
