@@ -30,9 +30,8 @@ engines:
     setup:
       - type: python
         pypi:
-          - umap-learn[plot]
           - pyliger
-          - dask-expr
+          - dask-expr<2
 runners:
   - type: executable
   - type: nextflow
