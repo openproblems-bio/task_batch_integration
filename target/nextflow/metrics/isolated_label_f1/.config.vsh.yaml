@@ -346,7 +346,7 @@ build_info:
   output: "target/nextflow/metrics/isolated_label_f1"
   executable: "target/nextflow/metrics/isolated_label_f1/main.nf"
   viash_version: "0.9.0"
-  git_commit: "624d849a5d2912e516f47e31d53ebb2905dcead3"
+  git_commit: "df3f053963c3a9a98e95c31b8e91236413be5839"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
 package_config:
   name: "task_batch_integration"
@@ -365,7 +365,7 @@ package_config:
     These methods balance the removal of batch effects with the conservation of nuanced\
     \ biological information in different ways.\nThis abundance of tools has complicated\
     \ batch integration method choice, leading to several benchmarks on this topic\
-    \ [@luecken2020benchmarking; @tran2020benchmark; @chazarragil2021flexible; @mereu2020benchmarking].\n\
+    \ [@luecken2022benchmarking; @tran2020benchmark; @chazarragil2021flexible; @mereu2020benchmarking].\n\
     Yet, benchmarks use different metrics, method implementations and datasets. Here\
     \ we build a living benchmarking task for batch integration methods with the vision\
     \ of improving the consistency of method evaluation.\n\nIn this task we evaluate\
