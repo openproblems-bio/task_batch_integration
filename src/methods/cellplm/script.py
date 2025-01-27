@@ -34,7 +34,7 @@ if device == "cpu":
 print("\n>>> Reading input files...", flush=True)
 print(f"Input H5AD file: '{par['input']}'", flush=True)
 adata = read_anndata(
-    par["input"], X="layers/normalized", obs="obs", var="var", uns="uns"
+    par["input"], X="layers/counts", obs="obs", var="var", uns="uns"
 )
 
 if adata.uns["dataset_organism"] != "homo_sapiens":

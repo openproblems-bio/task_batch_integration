@@ -1,6 +1,5 @@
 __merge__: ../../api/base_method.yaml
 
-
 name: cellplm
 
 label: CellPLM
@@ -13,15 +12,12 @@ references:
   doi:
     - 10.1101/2023.10.03.560734
 links:
-
   documentation: https://github.com/OmicsML/CellPLM/tree/main/tutorials
-
   repository: https://github.com/OmicsML/CellPLM
-
 
 info:
   method_types: [embedding]
-  preferred_normalization: log_cp10k
+  preferred_normalization: counts
 
 arguments:
   - name: --model_name
