@@ -26,7 +26,7 @@ input_states: resources/datasets/**/state.yaml
 rename_keys: 'input_dataset:output_dataset;input_solution:output_solution'
 output_state: "state.yaml"
 publish_dir: "$publish_dir"
-settings: '{"methods_exclude": ["uce", "cellplm"]}'
+settings: '{"methods_exclude": ["uce", "scgpt_finetuned", "cellplm"]}'
 HERE
 
 # run the benchmark

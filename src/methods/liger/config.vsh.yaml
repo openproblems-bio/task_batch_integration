@@ -3,9 +3,9 @@ name: liger
 label: LIGER
 summary: Linked Inference of Genomic Experimental Relationships
 description: |
-  LIGER or linked inference of genomic experimental relationships uses iNMF 
-  deriving and implementing a novel coordinate descent algorithm to efficiently 
-  do the factorization. Joint clustering is performed and factor loadings are 
+  LIGER or linked inference of genomic experimental relationships uses iNMF
+  deriving and implementing a novel coordinate descent algorithm to efficiently
+  do the factorization. Joint clustering is performed and factor loadings are
   normalised.
 references:
   doi: 10.1016/j.cell.2019.05.006
@@ -31,4 +31,4 @@ runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [lowcpu, highmem, midtime]
+      label: [lowcpu, highmem, hightime]

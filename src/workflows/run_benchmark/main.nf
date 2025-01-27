@@ -32,7 +32,12 @@ methods = [
   scalex,
   scanorama,
   scanvi,
-  scgpt,
+  scgpt_finetuned.run(
+    args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
+  ),
+  scgpt_zeroshot.run(
+    args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
+  ),
   scimilarity.run(
     args: [model: file("s3://openproblems-work/cache/scimilarity-model_v1.1.tar.gz")]
   ),
@@ -83,9 +88,9 @@ workflow run_wf {
       }
     )
 
-  /***************************
-   * RUN METHODS AND METRICS *
-   ***************************/
+  /***************
+   * RUN METHODS *
+   ***************/
 
   score_ch = dataset_ch
 
@@ -138,13 +143,20 @@ workflow run_wf {
       }
     )
 
-    | transform.run(
+  /******************
+   * PROCESS OUTPUT *
+   ******************/
+
+    | process_integration.run(
       fromState: [
         input_integrated: "method_output",
         input_dataset: "input_dataset",
-        expected_method_types: "method_types"
+        expected_method_types: "method_types",
+        resolutions: "resolutions"
       ],
       toState: { id, output, state ->
+        // Add method types to the state
+        // This is done here because state can't be passed from the processing subworkflow
         def method_types_cleaned = []
         if ("feature" in state.method_types) {
           method_types_cleaned += ["feature", "embedding", "graph"]
@@ -155,13 +167,17 @@ workflow run_wf {
         }
 
         def new_state = state + [
-          method_output_cleaned: output.output,
+          method_output_processed: output.output,
           method_types_cleaned: method_types_cleaned
         ]
 
         new_state
       }
     )
+
+  /***************
+   * RUN METRICS *
+   ***************/
 
     // run all metrics
     | runEach(
@@ -175,7 +191,7 @@ workflow run_wf {
       // use 'fromState' to fetch the arguments the component requires from the overall state
       fromState: [
         input_solution: "input_solution",
-        input_integrated: "method_output_cleaned"
+        input_integrated: "method_output_processed"
       ],
       // use 'toState' to publish that component's outputs to the overall state
       toState: { id, output, state, comp ->

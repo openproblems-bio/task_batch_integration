@@ -1,4 +1,4 @@
-__merge__: /src/api/base_method.yaml
+__merge__: /src/api/comp_method.yaml
 
 name: scprint
 label: scPRINT
@@ -38,6 +38,11 @@ info:
       model_name: "medium"
     scprint_small:
       model_name: "small"
+  test_setup:
+    run:
+      model_name: small
+      batch_size: 16
+      max_len: 100
 
 arguments:
   - name: "--model_name"
@@ -49,11 +54,20 @@ arguments:
     type: file
     description: Path to the scPRINT model.
     required: false
+  - name: --batch_size
+    type: integer
+    description: The size of the batches to be used in the DataLoader.
+    default: 64
+  - name: --max_len
+    type: integer
+    description: The maximum length of the gene sequence.
+    default: 4000
 
 resources:
   - type: python_script
     path: script.py
   - path: /src/utils/read_anndata_partial.py
+  - path: /src/utils/exit_codes.py
 
 engines:
   - type: docker
@@ -62,7 +76,9 @@ engines:
       - type: python
         pip:
           - huggingface_hub
-          - scprint
+          # Can be unpinned after https://github.com/cantinilab/scPRINT/issues/14 is resolved
+          - scprint==1.6.2
+          - scdataloader==1.6.4
       - type: docker
         run: lamin init --storage ./main --name main --schema bionty
       - type: python
@@ -76,4 +92,4 @@ runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [midtime, midmem, midcpu, gpu]
+      label: [hightime, highmem, midcpu, gpu, highsharedmem]

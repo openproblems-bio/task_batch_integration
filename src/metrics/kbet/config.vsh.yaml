@@ -50,7 +50,7 @@ engines:
         github: theislab/kBET
       - type: python
         pypi:
-          - scib==1.1.5
+          - scib==1.1.7
           - rpy2>=3
           - anndata2ri
           - scipy<=1.13
@@ -58,4 +58,4 @@ runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [hightime, highmem, lowcpu]
+      label: [hightime, veryhighmem, lowcpu]

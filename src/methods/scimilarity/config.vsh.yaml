@@ -21,6 +21,7 @@ resources:
   - type: python_script
     path: script.py
   - path: /src/utils/read_anndata_partial.py
+  - path: /src/utils/exit_codes.py
 engines:
   - type: docker
     image: openproblems/base_pytorch_nvidia:1.0.0
@@ -31,4 +32,4 @@ runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [midtime, midmem, lowcpu]
+      label: [hightime, midmem, lowcpu]

@@ -1,0 +1,30 @@
+name: precompute_clustering_merge
+namespace: data_processors
+label: Merge clustering precomputations
+summary: Merge the precompute results of clustering on the input dataset
+arguments:
+  - name: --input
+    type: file
+    direction: input
+    required: true
+  - name: --output
+    type: file
+    direction: output
+    required: true
+  - name: --clusterings
+    type: file
+    description: Clustering results to merge
+    direction: input
+    required: true
+    multiple: true
+resources:
+  - type: python_script
+    path: script.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, lowcpu]

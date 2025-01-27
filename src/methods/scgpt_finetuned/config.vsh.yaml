@@ -1,13 +1,13 @@
-__merge__: ../../api/comp_method.yaml
+__merge__: ../../api/base_method.yaml
 
-name: scgpt
-label: scGPT
-summary: "A foundation model for single-cell biology"
+name: scgpt_finetuned
+label: scGPT (fine-tuned)
+summary: "A foundation model for single-cell biology (fine-tuned)"
 description: |
   scGPT is a foundation model for single-cell biology based on a generative
   pre-trained transformer and trained on a repository of over 33 million cells.
-  Here, we use zero-shot output from a pre-trained model to get an integrated
-  embedding for the batch integration task.
+
+  Here, we fine-tune the pre-trained model for the batch integration task.
 references:
   doi:
     - 10.1038/s41592-024-02201-0
@@ -19,16 +19,21 @@ info:
   method_types: [embedding]
   preferred_normalization: counts
   variants:
-    scgpt_default:
-    scgpt_cp:
-      model: "scGPT_CP"
+    scgpt_finetuned_default:
 
 arguments:
-  - name: --model
+  - name: --model_name
     type: string
-    description: String giving the scGPT model to use
+    description: String giving the name of the scGPT model to use
     choices: ["scGPT_human", "scGPT_CP"]
     default: "scGPT_human"
+  - name: --model
+    type: file
+    description: |
+      Path to the directory containing the scGPT model specified by model_name
+      or a .zip/.tar.gz archive to extract. If not given the model will be
+      downloaded.
+    required: false
   - name: --n_hvg
     type: integer
     default: 3000
@@ -38,6 +43,8 @@ resources:
   - type: python_script
     path: script.py
   - path: /src/utils/read_anndata_partial.py
+  - path: scgpt_functions.py
+  - path: /src/utils/exit_codes.py
 
 engines:
   - type: docker
@@ -56,4 +63,4 @@ runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [midtime, midmem, midcpu, gpu]
+      label: [hightime, midmem, midcpu, biggpu]
