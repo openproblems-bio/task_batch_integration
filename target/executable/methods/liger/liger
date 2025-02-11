@@ -478,9 +478,9 @@ RUN Rscript -e 'if (!requireNamespace("remotes", quietly = TRUE)) install.packag
   Rscript -e 'remotes::install_github(c("welch-lab/RcppPlanc"), repos = "https://cran.rstudio.com")'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods liger"
-LABEL org.opencontainers.image.created="2025-02-11T13:17:54Z"
+LABEL org.opencontainers.image.created="2025-02-11T13:19:13Z"
 LABEL org.opencontainers.image.source="https://github.com/welch-lab/liger"
-LABEL org.opencontainers.image.revision="9a85a77205e6a769a0b152e289a4ea60ed831def"
+LABEL org.opencontainers.image.revision="3794a9236827cded1e89c2d9b5a858b977ce7609"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
