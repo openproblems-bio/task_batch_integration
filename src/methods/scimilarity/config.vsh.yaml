@@ -1,0 +1,35 @@
+__merge__: /src/api/base_method.yaml
+name: scimilarity
+label: SCimilarity
+summary: SCimilarity provides unifying representation of single cell expression profiles
+description: |
+  SCimilarity is a unifying representation of single cell expression profiles that quantifies similarity between expression states and generalizes to represent new studies without additional training
+references:
+  doi: 10.1101/2023.07.18.549537
+links:
+  repository: https://github.com/Genentech/scimilarity
+  documentation: https://genentech.github.io/scimilarity/index.html
+info:
+  method_types: [embedding]
+  preferred_normalization: counts
+arguments:
+  - name: --model
+    type: file
+    description: Path to the directory containing SCimilarity models or a .zip/.tar.gz archive
+    required: true
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+  - path: /src/utils/exit_codes.py
+engines:
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1.0.0
+    setup:
+      - type: python
+        github: Genentech/scimilarity
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [hightime, midmem, lowcpu]

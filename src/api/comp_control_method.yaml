@@ -1,0 +1,28 @@
+namespace: control_methods
+info:
+  type: control_method
+  type_info:
+    label: Control method
+    summary: A control method for the batch integration task.
+    description: |
+      A control method for the batch integration task.
+arguments:
+  - name: --input_dataset
+    __merge__: file_dataset.yaml
+    direction: input
+    required: true
+  - name: --input_solution
+    __merge__: file_solution.yaml
+    direction: input
+    required: true
+  - name: --output
+    direction: output
+    __merge__: file_integrated.yaml
+    required: true
+test_resources:
+  - type: python_script
+    path: /common/component_tests/check_config.py
+  - type: python_script
+    path: /common/component_tests/run_and_check_output.py
+  - path: /resources_test/task_batch_integration/cxg_immune_cell_atlas
+    dest: resources_test/task_batch_integration/cxg_immune_cell_atlas

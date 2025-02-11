@@ -1,0 +1,20 @@
+__merge__: /src/api/comp_control_method.yaml
+name: no_integration_batch
+label: No integration by Batch
+summary: Cells are embedded by computing PCA independently on each batch
+description: Cells are embedded by computing PCA independently on each batch
+info:
+  method_types: [embedding]
+  preferred_normalization: log_cp10k
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, lowcpu]

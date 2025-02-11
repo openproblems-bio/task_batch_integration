@@ -1,0 +1,33 @@
+__merge__: /src/api/comp_method.yaml
+name: harmony
+label: Harmony
+summary: Fast, sensitive and accurate integration of single-cell data with Harmony
+description: |
+  Harmony is a general-purpose R package with an efficient algorithm for integrating multiple data sets.
+  It is especially useful for large single-cell datasets such as single-cell RNA-seq.
+references:
+  # Korsunsky, I., Millard, N., Fan, J. et al.
+  # Fast, sensitive and accurate integration of single-cell data with Harmony.
+  # Nat Methods 16, 1289–1296 (2019). https://doi.org/10.1038/s41592-019-0619-0
+  doi: 10.1038/s41592-019-0619-0
+links:
+  repository: https://github.com/immunogenomics/harmony
+  documentation: https://portals.broadinstitute.org/harmony
+info:
+  method_types: [embedding]
+  preferred_normalization: log_cp10k
+resources:
+  - type: r_script
+    path: script.R
+engines:
+  - type: docker
+    image: openproblems/base_r:1.0.0
+    setup:
+      - type: r
+        cran:
+          - harmony
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [lowcpu, highmem, hightime]

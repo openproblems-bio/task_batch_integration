@@ -1,0 +1,41 @@
+__merge__: /src/api/comp_metric.yaml
+name: asw_label
+info:
+  metric_type: embedding
+  metrics:
+    - name: asw_label
+      label: ASW Label
+      summary: Average silhouette of cell identity labels (cell types)
+      # TODO: transform into more readable markdown with proper formulae formatting
+      description: |
+        For the bio-conservation score, the ASW was computed on cell identity labels and
+        scaled to a value between 0 and 1 using the equation:
+        celltypeASW=(ASW_C+1)/2,
+
+        where C denotes the set of all cell identity labels.
+        For information about the batch silhouette score, check sil_batch.
+      references:
+        doi: 10.1038/s41592-021-01336-8
+      links:
+        homepage: https://scib.readthedocs.io/en/latest/
+        documentation: https://scib.readthedocs.io/en/latest/api/scib.metrics.silhouette_batch.html
+        repository: https://github.com/theislab/scib
+      min: 0
+      max: 1
+      maximize: true
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - scib==1.1.7
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [hightime, midmem, lowcpu]

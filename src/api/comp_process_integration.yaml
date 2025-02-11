@@ -1,0 +1,45 @@
+namespace: data_processors
+info:
+  type: process_integration
+  type_info:
+    label: Process integration
+    summary: Process output from an integration method to the format expected by metrics
+    description: |
+      This component will:
+
+        - Perform transformations of the integration output
+        - Cluster the integrated data at different resolutions
+
+argument_groups:
+  - name: Inputs
+    arguments:
+      - name: "--input_dataset"
+        __merge__: /src/api/file_dataset.yaml
+        type: file
+        direction: input
+        required: true
+      - name: "--input_integrated"
+        __merge__: /src/api/file_integrated.yaml
+        type: file
+        direction: input
+        required: true
+      - name: --expected_method_types
+        type: string
+        direction: input
+        required: true
+        multiple: true
+        description: |
+          The expected output types of the batch integration method.
+        choices: [ feature, embedding, graph ]
+  - name: Outputs
+    arguments:
+      - name: "--output"
+        __merge__: file_integrated_processed.yaml
+        direction: output
+        required: true
+
+test_resources:
+  - type: python_script
+    path: /common/component_tests/run_and_check_output.py
+  - path: /resources_test/task_batch_integration/cxg_immune_cell_atlas
+    dest: resources_test/task_batch_integration/cxg_immune_cell_atlas

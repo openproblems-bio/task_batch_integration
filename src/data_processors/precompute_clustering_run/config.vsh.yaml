@@ -1,0 +1,35 @@
+name: precompute_clustering_run
+namespace: data_processors
+label: Run clustering precomputations
+summary: Run clustering on the input dataset
+arguments:
+  - name: --input
+    __merge__: /src/api/file_common_dataset.yaml
+    direction: input
+    required: true
+  - name: --output
+    __merge__: /src/api/file_dataset.yaml
+    direction: output
+    required: true
+  - type: double
+    name: resolution
+    default: 0.8
+    description: Resolution parameter for clustering
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - scanpy
+          - igraph
+          - leidenalg
+runners:
+  - type: executable
+  - type: nextflow
+    directives: 
+      label: [midtime, midmem, lowcpu]
