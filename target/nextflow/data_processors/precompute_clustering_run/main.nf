@@ -3194,7 +3194,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/data_processors/precompute_clustering_run",
     "viash_version" : "0.9.0",
-    "git_commit" : "df3f053963c3a9a98e95c31b8e91236413be5839",
+    "git_commit" : "b9bde9a7627e2b0e030c3aaa6e79d9fc27fbf9a5",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3267,11 +3267,21 @@ meta = [
       {
         "name" : "Robrecht Cannoodt",
         "roles" : [
-          "contributor"
+          "author"
         ],
         "info" : {
           "github" : "rcannood",
           "orcid" : "0000-0003-3641-729X"
+        }
+      },
+      {
+        "name" : "Luke Zappia",
+        "roles" : [
+          "author"
+        ],
+        "info" : {
+          "github" : "lazappi",
+          "orcid" : "0000-0001-7744-8565"
         }
       },
       {
@@ -3295,13 +3305,23 @@ meta = [
         }
       },
       {
-        "name" : "Nartin Kim",
+        "name" : "Martin Kim",
         "roles" : [
           "contributor"
         ],
         "info" : {
           "github" : "martinkim0",
           "orcid" : "0009-0003-8555-1361"
+        }
+      },
+      {
+        "name" : "Sai Nirmayi Yasa",
+        "roles" : [
+          "contributor"
+        ],
+        "info" : {
+          "github" : "sainirmayi",
+          "orcid" : "0009-0003-6319-9803"
         }
       }
     ],
