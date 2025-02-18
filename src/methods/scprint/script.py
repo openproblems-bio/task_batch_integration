@@ -74,16 +74,19 @@ else:
     print("CUDA is not available, using CPU", flush=True)
     precision = "32"
     dtype = torch.float32
-n_cores_available = len(os.sched_getaffinity(0))
-print(f"Using {n_cores_available} worker cores")
+n_cores = min(len(os.sched_getaffinity(0)), 24)
+print(f"Using {n_cores} worker cores")
 embedder = Embedder(
     how="random expr",
     batch_size=par["batch_size"],
     max_len=par["max_len"],
     add_zero_genes=0,
-    num_workers=n_cores_available,
+    num_workers=n_cores,
     doclass=False,
     doplot=False,
+    pred_embedding=["cell_type_ontology_term_id"],
+    keep_all_cls_pred=False,
+    output_expression="none",
     precision=precision,
     dtype=dtype,
 )
