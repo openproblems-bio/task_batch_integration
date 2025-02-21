@@ -1,3 +1,9 @@
+# task_batch_integration devel
+
+## Minor changes
+
+* Un-pin the scPRINT version and update parameters (PR #51)
+
 # task_batch_integration 2.0.0
 
 A major update to the OpenProblems framework, switching from a Python-based framework to a Viash + Nextflow-based framework. This update features the same concepts as the previous version, but with a new implementation that is more flexible, scalable, and maintainable.
