@@ -1,5 +1,5 @@
 __merge__: /src/api/comp_metric.yaml
-name: kbet_pg
+name: kbet_pg_label
 info:
   metric_type: embedding
   metrics:
