@@ -6,6 +6,8 @@
 
 ## NEW FUNCTIONALITY
 
+* Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
+
 * Added `control_methods/true_labels` component (PR #5).
 
 * Added `methods/logistic_regression` component (PR #5).
