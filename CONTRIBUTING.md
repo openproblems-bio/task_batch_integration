@@ -141,11 +141,13 @@ viash ns test --parallel
 
 ### Running the benchmark
 
-To run the benchmark, you can use the following command:
+To locally test the benchmark workflow, you can use the following command:
 
 ```bash
-scripts/run_benchmark/run.sh
+scripts/run_benchmark/run_test_local.sh
 ```
+
+Other scripts in `scripts/run_benchmark/` provide commands for testing on sequeracloud an for production runs. 
 
 ## Debugging nf-tower runs
 
