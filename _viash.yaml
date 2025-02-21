@@ -62,10 +62,15 @@ authors:
       github: danielStrobl
       orcid: 0000-0002-5516-7057
   - name: Robrecht Cannoodt
-    roles: [ contributor ]
+    roles: [ author ]
     info:
       github: rcannood
       orcid: "0000-0003-3641-729X"
+  - name: Luke Zappia
+    roles: [author]
+    info:
+      github: lazappi
+      orcid: 0000-0001-7744-8565
   - name: "Scott Gigante"
     roles: [ contributor ]
     info:
@@ -76,12 +81,21 @@ authors:
     info:
       github: KaiWaldrant
       orcid: "0009-0003-8555-1361"
-  - name: Nartin Kim
+  - name: Martin Kim
     roles: [ contributor ]
     info:
       github: martinkim0
       orcid: "0009-0003-8555-1361"
-
+  - name: Sai Nirmayi Yasa
+    roles: [contributor]
+    info:
+      github: sainirmayi
+      orcid: 0009-0003-6319-9803
+  - name: Jeremie Kalfon
+    roles: [contributor]
+    info:
+      github: jkobject
+      orcid: 0000-0002-2818-9728
 config_mods: |
   .runners[.type == "nextflow"].config.labels := { lowmem : "memory = 20.Gb", midmem : "memory = 50.Gb", highmem : "memory = 100.Gb", lowcpu : "cpus = 5", midcpu : "cpus = 15", highcpu : "cpus = 30", lowtime : "time = 1.h", midtime : "time = 4.h", hightime : "time = 8.h", veryhightime : "time = 24.h" }
 
