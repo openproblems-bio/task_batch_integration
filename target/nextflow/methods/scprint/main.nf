@@ -3049,7 +3049,7 @@ meta = [
           "name" : "--batch_size",
           "description" : "The size of the batches to be used in the DataLoader.",
           "default" : [
-            64
+            32
           ],
           "required" : false,
           "direction" : "input",
@@ -3210,9 +3210,7 @@ meta = [
           "type" : "python",
           "user" : false,
           "pip" : [
-            "huggingface_hub",
-            "scprint==1.6.2",
-            "scdataloader==1.6.4"
+            "scprint"
           ],
           "upgrade" : true
         },
@@ -3221,14 +3219,6 @@ meta = [
           "run" : [
             "lamin init --storage ./main --name main --schema bionty"
           ]
-        },
-        {
-          "type" : "python",
-          "user" : false,
-          "script" : [
-            "import bionty as bt; bt.core.sync_all_sources_to_latest()"
-          ],
-          "upgrade" : true
         },
         {
           "type" : "docker",
@@ -3243,6 +3233,14 @@ meta = [
             "from scdataloader.utils import populate_my_ontology; populate_my_ontology()"
           ],
           "upgrade" : true
+        },
+        {
+          "type" : "python",
+          "user" : false,
+          "script" : [
+            "import bionty as bt; bt.core.sync_all_sources_to_latest()"
+          ],
+          "upgrade" : true
         }
       ]
     }
@@ -3253,7 +3251,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scprint",
     "viash_version" : "0.9.0",
-    "git_commit" : "3794a9236827cded1e89c2d9b5a858b977ce7609",
+    "git_commit" : "81856f1381375eba0eae502734e27b98067a48cf",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3382,6 +3380,16 @@ meta = [
           "github" : "sainirmayi",
           "orcid" : "0009-0003-6319-9803"
         }
+      },
+      {
+        "name" : "Jeremie Kalfon",
+        "roles" : [
+          "contributor"
+        ],
+        "info" : {
+          "github" : "jkobject",
+          "orcid" : "0000-0002-2818-9728"
+        }
       }
     ],
     "keywords" : [
@@ -3499,32 +3507,39 @@ if model_checkpoint_file is None:
     model_checkpoint_file = hf_hub_download(
         repo_id="jkobject/scPRINT", filename=f"{par['model_name']}.ckpt"
     )
-print(f"Model checkpoint file: '{model_checkpoint_file}'", flush=True)
-model = scPrint.load_from_checkpoint(
-    model_checkpoint_file,
-    transformer="normal",  # Don't use this for GPUs with flashattention
-    precpt_gene_emb=None,
-)
 
 print("\\\\n>>> Embedding data...", flush=True)
 if torch.cuda.is_available():
     print("CUDA is available, using GPU", flush=True)
     precision = "16"
     dtype = torch.float16
+    transformer="flash"
 else:
     print("CUDA is not available, using CPU", flush=True)
     precision = "32"
     dtype = torch.float32
-n_cores_available = len(os.sched_getaffinity(0))
-print(f"Using {n_cores_available} worker cores")
+    transformer="normal"
+
+print(f"Model checkpoint file: '{model_checkpoint_file}'", flush=True)
+model = scPrint.load_from_checkpoint(
+    model_checkpoint_file,
+    transformer=transformer,  # Don't use this for GPUs with flashattention
+    precpt_gene_emb=None,
+)
+
+n_cores = min(len(os.sched_getaffinity(0)), 24)
+print(f"Using {n_cores} worker cores")
 embedder = Embedder(
     how="random expr",
     batch_size=par["batch_size"],
     max_len=par["max_len"],
     add_zero_genes=0,
-    num_workers=n_cores_available,
+    num_workers=n_cores,
     doclass=False,
     doplot=False,
+    pred_embedding=["cell_type_ontology_term_id"],
+    keep_all_cls_pred=False,
+    output_expression="none",
     precision=precision,
     dtype=dtype,
 )

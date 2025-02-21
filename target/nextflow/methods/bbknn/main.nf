@@ -3188,7 +3188,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/bbknn",
     "viash_version" : "0.9.0",
-    "git_commit" : "3794a9236827cded1e89c2d9b5a858b977ce7609",
+    "git_commit" : "81856f1381375eba0eae502734e27b98067a48cf",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3316,6 +3316,16 @@ meta = [
         "info" : {
           "github" : "sainirmayi",
           "orcid" : "0009-0003-6319-9803"
+        }
+      },
+      {
+        "name" : "Jeremie Kalfon",
+        "roles" : [
+          "contributor"
+        ],
+        "info" : {
+          "github" : "jkobject",
+          "orcid" : "0000-0002-2818-9728"
         }
       }
     ],

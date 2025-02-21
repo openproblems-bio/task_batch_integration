@@ -216,7 +216,7 @@ function ViashHelp {
   echo ""
   echo "    --batch_size"
   echo "        type: integer"
-  echo "        default: 64"
+  echo "        default: 32"
   echo "        The size of the batches to be used in the DataLoader."
   echo ""
   echo "    --max_len"
@@ -501,20 +501,20 @@ function ViashDockerfile {
 FROM openproblems/base_pytorch_nvidia:1.0.0
 ENTRYPOINT []
 RUN pip install --upgrade pip && \
-  pip install --upgrade --no-cache-dir "huggingface_hub" "scprint==1.6.2" "scdataloader==1.6.4"
+  pip install --upgrade --no-cache-dir "scprint"
 
 RUN lamin init --storage ./main --name main --schema bionty
-RUN pip install --upgrade pip && \
-  python -c 'import bionty as bt; bt.core.sync_all_sources_to_latest()'
-
 RUN lamin load anonymous/main
 RUN pip install --upgrade pip && \
   python -c 'from scdataloader.utils import populate_my_ontology; populate_my_ontology()'
 
+RUN pip install --upgrade pip && \
+  python -c 'import bionty as bt; bt.core.sync_all_sources_to_latest()'
+
 LABEL org.opencontainers.image.description="Companion container for running component methods scprint"
-LABEL org.opencontainers.image.created="2025-02-11T13:19:11Z"
+LABEL org.opencontainers.image.created="2025-02-21T07:49:04Z"
 LABEL org.opencontainers.image.source="https://github.com/cantinilab/scPRINT"
-LABEL org.opencontainers.image.revision="3794a9236827cded1e89c2d9b5a858b977ce7609"
+LABEL org.opencontainers.image.revision="81856f1381375eba0eae502734e27b98067a48cf"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -928,7 +928,7 @@ if [ -z ${VIASH_PAR_MODEL_NAME+x} ]; then
   VIASH_PAR_MODEL_NAME="large"
 fi
 if [ -z ${VIASH_PAR_BATCH_SIZE+x} ]; then
-  VIASH_PAR_BATCH_SIZE="64"
+  VIASH_PAR_BATCH_SIZE="32"
 fi
 if [ -z ${VIASH_PAR_MAX_LEN+x} ]; then
   VIASH_PAR_MAX_LEN="4000"
@@ -1217,32 +1217,39 @@ if model_checkpoint_file is None:
     model_checkpoint_file = hf_hub_download(
         repo_id="jkobject/scPRINT", filename=f"{par['model_name']}.ckpt"
     )
-print(f"Model checkpoint file: '{model_checkpoint_file}'", flush=True)
-model = scPrint.load_from_checkpoint(
-    model_checkpoint_file,
-    transformer="normal",  # Don't use this for GPUs with flashattention
-    precpt_gene_emb=None,
-)
 
 print("\\n>>> Embedding data...", flush=True)
 if torch.cuda.is_available():
     print("CUDA is available, using GPU", flush=True)
     precision = "16"
     dtype = torch.float16
+    transformer="flash"
 else:
     print("CUDA is not available, using CPU", flush=True)
     precision = "32"
     dtype = torch.float32
-n_cores_available = len(os.sched_getaffinity(0))
-print(f"Using {n_cores_available} worker cores")
+    transformer="normal"
+
+print(f"Model checkpoint file: '{model_checkpoint_file}'", flush=True)
+model = scPrint.load_from_checkpoint(
+    model_checkpoint_file,
+    transformer=transformer,  # Don't use this for GPUs with flashattention
+    precpt_gene_emb=None,
+)
+
+n_cores = min(len(os.sched_getaffinity(0)), 24)
+print(f"Using {n_cores} worker cores")
 embedder = Embedder(
     how="random expr",
     batch_size=par["batch_size"],
     max_len=par["max_len"],
     add_zero_genes=0,
-    num_workers=n_cores_available,
+    num_workers=n_cores,
     doclass=False,
     doplot=False,
+    pred_embedding=["cell_type_ontology_term_id"],
+    keep_all_cls_pred=False,
+    output_expression="none",
     precision=precision,
     dtype=dtype,
 )
