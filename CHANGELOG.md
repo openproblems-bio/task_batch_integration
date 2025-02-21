@@ -1,5 +1,9 @@
 # task_batch_integration devel
 
+## New functionality
+
+* Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
+
 ## Minor changes
 
 * Un-pin the scPRINT version and update parameters (PR #51)
@@ -17,8 +21,6 @@ A major update to the OpenProblems framework, switching from a Python-based fram
 * Methods, metrics, workflows and other components are implemented as Viash components with a per-component Docker image.
 
 ## New functionality
-
-* Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
 
 * Switched to larger datasets derived from CELLxGENE.
 
