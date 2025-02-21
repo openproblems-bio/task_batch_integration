@@ -147,7 +147,7 @@ To locally test the benchmark workflow, you can use the following command:
 scripts/run_benchmark/run_test_local.sh
 ```
 
-Other scripts in `scripts/run_benchmark/` provide commands for testing on sequeracloud an for production runs. 
+Other scripts in `scripts/run_benchmark/` provide commands for testing on Seqera Cloud and for production runs. 
 
 ## Debugging nf-tower runs
 

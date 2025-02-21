@@ -19,7 +19,7 @@ par = {
 }
 
 meta = {
-    'name': 'foo',
+    'name': 'kbet_pg',
 }
 ## VIASH END
 
