@@ -18,6 +18,8 @@ A major update to the OpenProblems framework, switching from a Python-based fram
 
 ## New functionality
 
+* Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
+
 * Switched to larger datasets derived from CELLxGENE.
 
 * Added SCimilarity (PR #3).

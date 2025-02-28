@@ -418,6 +418,12 @@ dependencies:
 - name: "metrics/kbet"
   repository:
     type: "local"
+- name: "metrics/kbet_pg"
+  repository:
+    type: "local"
+- name: "metrics/kbet_pg_label"
+  repository:
+    type: "local"
 - name: "metrics/lisi"
   repository:
     type: "local"
@@ -467,7 +473,7 @@ build_info:
   output: "target/nextflow/workflows/run_benchmark"
   executable: "target/nextflow/workflows/run_benchmark/main.nf"
   viash_version: "0.9.0"
-  git_commit: "81856f1381375eba0eae502734e27b98067a48cf"
+  git_commit: "48fdf51d380c54baf75d10c602dd8a00c61feb00"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
   dependencies:
   - "target/dependencies/github/openproblems-bio/openproblems/build/main/nextflow/utils/extract_uns_metadata"
@@ -506,6 +512,8 @@ build_info:
   - "target/nextflow/metrics/isolated_label_asw"
   - "target/nextflow/metrics/isolated_label_f1"
   - "target/nextflow/metrics/kbet"
+  - "target/nextflow/metrics/kbet_pg"
+  - "target/nextflow/metrics/kbet_pg_label"
   - "target/nextflow/metrics/lisi"
   - "target/nextflow/metrics/pcr"
   - "target/nextflow/data_processors/process_integration"
