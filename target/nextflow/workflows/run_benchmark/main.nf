@@ -3449,18 +3449,6 @@ meta = [
       }
     },
     {
-      "name" : "metrics/kbet_pg",
-      "repository" : {
-        "type" : "local"
-      }
-    },
-    {
-      "name" : "metrics/kbet_pg_label",
-      "repository" : {
-        "type" : "local"
-      }
-    },
-    {
       "name" : "metrics/lisi",
       "repository" : {
         "type" : "local"
@@ -3535,7 +3523,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.0",
-    "git_commit" : "48fdf51d380c54baf75d10c602dd8a00c61feb00",
+    "git_commit" : "81856f1381375eba0eae502734e27b98067a48cf",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3734,8 +3722,6 @@ include { hvg_overlap } from "${meta.resources_dir}/../../../nextflow/metrics/hv
 include { isolated_label_asw } from "${meta.resources_dir}/../../../nextflow/metrics/isolated_label_asw/main.nf"
 include { isolated_label_f1 } from "${meta.resources_dir}/../../../nextflow/metrics/isolated_label_f1/main.nf"
 include { kbet } from "${meta.resources_dir}/../../../nextflow/metrics/kbet/main.nf"
-include { kbet_pg } from "${meta.resources_dir}/../../../nextflow/metrics/kbet_pg/main.nf"
-include { kbet_pg_label } from "${meta.resources_dir}/../../../nextflow/metrics/kbet_pg_label/main.nf"
 include { lisi } from "${meta.resources_dir}/../../../nextflow/metrics/lisi/main.nf"
 include { pcr } from "${meta.resources_dir}/../../../nextflow/metrics/pcr/main.nf"
 include { process_integration } from "${meta.resources_dir}/../../../nextflow/data_processors/process_integration/main.nf"
@@ -3800,8 +3786,6 @@ metrics = [
   isolated_label_asw,
   isolated_label_f1,
   kbet,
-  kbet_pg,
-  kbet_pg_label,
   lisi,
   pcr
 ]

@@ -141,13 +141,11 @@ viash ns test --parallel
 
 ### Running the benchmark
 
-To locally test the benchmark workflow, you can use the following command:
+To run the benchmark, you can use the following command:
 
 ```bash
-scripts/run_benchmark/run_test_local.sh
+scripts/run_benchmark/run.sh
 ```
-
-Other scripts in `scripts/run_benchmark/` provide commands for testing on Seqera Cloud and for production runs. 
 
 ## Debugging nf-tower runs
 

@@ -512,9 +512,9 @@ RUN pip install --upgrade pip && \
   python -c 'import bionty as bt; bt.core.sync_all_sources_to_latest()'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scprint"
-LABEL org.opencontainers.image.created="2025-02-28T12:10:09Z"
+LABEL org.opencontainers.image.created="2025-02-28T12:15:14Z"
 LABEL org.opencontainers.image.source="https://github.com/cantinilab/scPRINT"
-LABEL org.opencontainers.image.revision="48fdf51d380c54baf75d10c602dd8a00c61feb00"
+LABEL org.opencontainers.image.revision="81856f1381375eba0eae502734e27b98067a48cf"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
