@@ -13,7 +13,7 @@ from scprint.tasks import Embedder
 par = {
     "input": "resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad",
     "output": "output.h5ad",
-    "model_name": "large",
+    "model_name": "v2-medium",
     "model": None,
 }
 meta = {"name": "scprint"}
@@ -64,12 +64,12 @@ if torch.cuda.is_available():
     print("CUDA is available, using GPU", flush=True)
     precision = "16"
     dtype = torch.float16
-    transformer="flash"
+    transformer = "flash"
 else:
     print("CUDA is not available, using CPU", flush=True)
     precision = "32"
     dtype = torch.float32
-    transformer="normal"
+    transformer = "normal"
 
 print(f"Model checkpoint file: '{model_checkpoint_file}'", flush=True)
 model = scPrint.load_from_checkpoint(

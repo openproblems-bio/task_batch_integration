@@ -48,8 +48,8 @@ arguments:
   - name: "--model_name"
     type: "string"
     description: Which model to use. Not used if --model is provided.
-    choices: ["large", "medium", "small"]
-    default: "large"
+    choices: ["large", "v2-medium", "small"]
+    default: "v2-medium"
   - name: --model
     type: file
     description: Path to the scPRINT model.
@@ -75,7 +75,7 @@ engines:
     setup:
       - type: python
         pip:
-          - scprint
+          - git+https://github.com/cantinilab/scPRINT.git
       - type: docker
         run: lamin init --storage ./main --name main --schema bionty
       - type: docker
