@@ -35,7 +35,7 @@ info:
     scprint_large:
       model_name: "large"
     scprint_medium:
-      model_name: "medium"
+      model_name: "v2-medium"
     scprint_small:
       model_name: "small"
   test_setup:
@@ -75,15 +75,15 @@ engines:
     setup:
       - type: python
         pip:
-          - git+https://github.com/cantinilab/scPRINT.git
+          - scprint
       - type: docker
         run: lamin init --storage ./main --name main --schema bionty
       - type: docker
         run: lamin load anonymous/main
       - type: python
-        script: from scdataloader.utils import populate_my_ontology; populate_my_ontology()
-      - type: python
         script: import bionty as bt; bt.core.sync_all_sources_to_latest()
+      - type: python
+        script: from scdataloader.utils import populate_my_ontology; populate_my_ontology()
 runners:
   - type: executable
   - type: nextflow

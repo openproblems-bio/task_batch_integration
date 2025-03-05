@@ -72,11 +72,22 @@ else:
     transformer = "normal"
 
 print(f"Model checkpoint file: '{model_checkpoint_file}'", flush=True)
-model = scPrint.load_from_checkpoint(
-    model_checkpoint_file,
-    transformer=transformer,  # Don't use this for GPUs with flashattention
-    precpt_gene_emb=None,
-)
+
+m = torch.load(model_checkpoint_file, map_location=torch.device("cpu"))
+if "label_counts" in m["hyper_parameters"]:
+    model = scPrint.load_from_checkpoint(
+        model_checkpoint_file,
+        transformer=transformer,  # Don't use this for GPUs with flashattention
+        precpt_gene_emb=None,
+        classes=m["hyper_parameters"]["label_counts"],
+    )
+else:
+    model = scPrint.load_from_checkpoint(
+        model_checkpoint_file,
+        transformer=transformer,  # Don't use this for GPUs with flashattention
+        precpt_gene_emb=None,
+    )
+del m
 
 n_cores = min(len(os.sched_getaffinity(0)), 24)
 print(f"Using {n_cores} worker cores")
