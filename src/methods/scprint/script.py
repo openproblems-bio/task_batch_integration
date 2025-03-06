@@ -59,7 +59,6 @@ if model_checkpoint_file is None:
         repo_id="jkobject/scPRINT", filename=f"{par['model_name']}.ckpt"
     )
 
-print("\n>>> Embedding data...", flush=True)
 if torch.cuda.is_available():
     print("CUDA is available, using GPU", flush=True)
     precision = "16"
@@ -89,6 +88,7 @@ else:
     )
 del m
 
+print("\n>>> Embedding data...", flush=True)
 n_cores = min(len(os.sched_getaffinity(0)), 24)
 print(f"Using {n_cores} worker cores")
 embedder = Embedder(
