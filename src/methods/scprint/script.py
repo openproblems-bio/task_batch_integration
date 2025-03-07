@@ -13,7 +13,7 @@ from scprint.tasks import Embedder
 par = {
     "input": "resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad",
     "output": "output.h5ad",
-    "model_name": "large",
+    "model_name": "v2-medium",
     "model": None,
 }
 meta = {"name": "scprint"}
@@ -59,7 +59,6 @@ if model_checkpoint_file is None:
         repo_id="jkobject/scPRINT", filename=f"{par['model_name']}.ckpt"
     )
 
-print("\n>>> Embedding data...", flush=True)
 if torch.cuda.is_available():
     print("CUDA is available, using GPU", flush=True)
     precision = "16"
@@ -69,15 +68,27 @@ else:
     print("CUDA is not available, using CPU", flush=True)
     precision = "32"
     dtype = torch.float32
-    transformer="normal"
+    transformer = "normal"
 
 print(f"Model checkpoint file: '{model_checkpoint_file}'", flush=True)
-model = scPrint.load_from_checkpoint(
-    model_checkpoint_file,
-    transformer=transformer,  # Don't use this for GPUs with flashattention
-    precpt_gene_emb=None,
-)
 
+m = torch.load(model_checkpoint_file, map_location=torch.device("cpu"))
+if "label_counts" in m["hyper_parameters"]:
+    model = scPrint.load_from_checkpoint(
+        model_checkpoint_file,
+        transformer=transformer,  # Don't use this for GPUs with flashattention
+        precpt_gene_emb=None,
+        classes=m["hyper_parameters"]["label_counts"],
+    )
+else:
+    model = scPrint.load_from_checkpoint(
+        model_checkpoint_file,
+        transformer=transformer,  # Don't use this for GPUs with flashattention
+        precpt_gene_emb=None,
+    )
+del m
+
+print("\n>>> Embedding data...", flush=True)
 n_cores = min(len(os.sched_getaffinity(0)), 24)
 print(f"Using {n_cores} worker cores")
 embedder = Embedder(
