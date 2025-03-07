@@ -63,7 +63,7 @@ if torch.cuda.is_available():
     print("CUDA is available, using GPU", flush=True)
     precision = "16"
     dtype = torch.float16
-    transformer = "flash"
+    transformer="flash"
 else:
     print("CUDA is not available, using CPU", flush=True)
     precision = "32"
