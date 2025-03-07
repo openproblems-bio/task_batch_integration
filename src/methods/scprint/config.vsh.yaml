@@ -75,7 +75,8 @@ engines:
     setup:
       - type: python
         pip:
-          - scprint
+          - scprint==2.2.1
+          - gseapy==1.1.2
       - type: docker
         run: lamin init --storage ./main --name main --schema bionty
       - type: docker
