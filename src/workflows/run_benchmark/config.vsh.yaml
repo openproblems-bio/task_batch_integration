@@ -117,6 +117,8 @@ dependencies:
   - name: metrics/isolated_label_asw
   - name: metrics/isolated_label_f1
   - name: metrics/kbet
+  - name: metrics/kbet_pg
+  - name: metrics/kbet_pg_label
   - name: metrics/lisi
   - name: metrics/pcr
   # data processors
