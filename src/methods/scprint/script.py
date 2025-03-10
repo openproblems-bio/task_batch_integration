@@ -30,14 +30,18 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
 print("\n>>> Reading input data...", flush=True)
 input = read_anndata(par["input"], X="layers/counts", obs="obs", var="var", uns="uns")
-if input.uns["dataset_organism"] == "homo_sapiens":
-    input.obs["organism_ontology_term_id"] = "NCBITaxon:9606"
-elif input.uns["dataset_organism"] == "mus_musculus":
-    input.obs["organism_ontology_term_id"] = "NCBITaxon:10090"
-else:
-    exit_non_applicable(
-        f"scPRINT requires human or mouse data, not '{input.uns['dataset_organism']}'"
-    )
+if (
+    "organism_ontology_term_id" not in input.obs.columns
+    and "dataset_organism" in input.uns
+):
+    if input.uns["dataset_organism"] == "homo_sapiens":
+        input.obs["organism_ontology_term_id"] = "NCBITaxon:9606"
+    elif input.uns["dataset_organism"] == "mus_musculus":
+        input.obs["organism_ontology_term_id"] = "NCBITaxon:10090"
+    else:
+        exit_non_applicable(
+            f"scPRINT requires human or mouse data, not '{input.uns['dataset_organism']}'"
+        )
 adata = input.copy()
 
 print("\n>>> Preprocessing data...", flush=True)
@@ -112,7 +116,7 @@ output = ad.AnnData(
     obs=input.obs[[]],
     var=input.var[[]],
     obsm={
-        "X_emb": embedded.obsm["scprint"],
+        "X_emb": embedded.obsm["scprint_emb"],
     },
     uns={
         "dataset_id": input.uns["dataset_id"],
