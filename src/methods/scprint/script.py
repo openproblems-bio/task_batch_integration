@@ -13,7 +13,7 @@ from scprint.tasks import Embedder
 par = {
     "input": "resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad",
     "output": "output.h5ad",
-    "model_name": "large",
+    "model_name": "v2-medium",
     "model": None,
 }
 meta = {"name": "scprint"}
@@ -30,14 +30,18 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
 print("\n>>> Reading input data...", flush=True)
 input = read_anndata(par["input"], X="layers/counts", obs="obs", var="var", uns="uns")
-if input.uns["dataset_organism"] == "homo_sapiens":
-    input.obs["organism_ontology_term_id"] = "NCBITaxon:9606"
-elif input.uns["dataset_organism"] == "mus_musculus":
-    input.obs["organism_ontology_term_id"] = "NCBITaxon:10090"
-else:
-    exit_non_applicable(
-        f"scPRINT requires human or mouse data, not '{input.uns['dataset_organism']}'"
-    )
+if (
+    "organism_ontology_term_id" not in input.obs.columns
+    and "dataset_organism" in input.uns
+):
+    if input.uns["dataset_organism"] == "homo_sapiens":
+        input.obs["organism_ontology_term_id"] = "NCBITaxon:9606"
+    elif input.uns["dataset_organism"] == "mus_musculus":
+        input.obs["organism_ontology_term_id"] = "NCBITaxon:10090"
+    else:
+        exit_non_applicable(
+            f"scPRINT requires human or mouse data, not '{input.uns['dataset_organism']}'"
+        )
 adata = input.copy()
 
 print("\n>>> Preprocessing data...", flush=True)
@@ -59,25 +63,36 @@ if model_checkpoint_file is None:
         repo_id="jkobject/scPRINT", filename=f"{par['model_name']}.ckpt"
     )
 
-print("\n>>> Embedding data...", flush=True)
 if torch.cuda.is_available():
     print("CUDA is available, using GPU", flush=True)
     precision = "16"
     dtype = torch.float16
-    transformer="flash"
+    transformer = "flash"
 else:
     print("CUDA is not available, using CPU", flush=True)
     precision = "32"
     dtype = torch.float32
-    transformer="normal"
+    transformer = "normal"
 
 print(f"Model checkpoint file: '{model_checkpoint_file}'", flush=True)
-model = scPrint.load_from_checkpoint(
-    model_checkpoint_file,
-    transformer=transformer,  # Don't use this for GPUs with flashattention
-    precpt_gene_emb=None,
-)
 
+m = torch.load(model_checkpoint_file, map_location=torch.device("cpu"))
+if "label_counts" in m["hyper_parameters"]:
+    model = scPrint.load_from_checkpoint(
+        model_checkpoint_file,
+        transformer=transformer,  # Don't use this for GPUs with flashattention
+        precpt_gene_emb=None,
+        classes=m["hyper_parameters"]["label_counts"],
+    )
+else:
+    model = scPrint.load_from_checkpoint(
+        model_checkpoint_file,
+        transformer=transformer,  # Don't use this for GPUs with flashattention
+        precpt_gene_emb=None,
+    )
+del m
+
+print("\n>>> Embedding data...", flush=True)
 n_cores = min(len(os.sched_getaffinity(0)), 24)
 print(f"Using {n_cores} worker cores")
 embedder = Embedder(
@@ -91,6 +106,7 @@ embedder = Embedder(
     pred_embedding=["cell_type_ontology_term_id"],
     keep_all_cls_pred=False,
     output_expression="none",
+    save_every=30_000,
     precision=precision,
     dtype=dtype,
 )
@@ -101,7 +117,7 @@ output = ad.AnnData(
     obs=input.obs[[]],
     var=input.var[[]],
     obsm={
-        "X_emb": embedded.obsm["scprint"],
+        "X_emb": embedded.obsm["scprint_emb"],
     },
     uns={
         "dataset_id": input.uns["dataset_id"],
