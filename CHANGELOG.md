@@ -3,6 +3,7 @@
 ## Minor changes
 
 * Un-pin the scPRINT version and update parameters (PR #51)
+* Update scPRINT to better handle large datasets, including a new default model (PR #54)
 
 # task_batch_integration 2.0.0
 

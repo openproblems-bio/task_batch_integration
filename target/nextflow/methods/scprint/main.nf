@@ -3021,12 +3021,12 @@ meta = [
           "name" : "--model_name",
           "description" : "Which model to use. Not used if --model is provided.",
           "default" : [
-            "large"
+            "v2-medium"
           ],
           "required" : false,
           "choices" : [
             "large",
-            "medium",
+            "v2-medium",
             "small"
           ],
           "direction" : "input",
@@ -3116,7 +3116,7 @@ meta = [
         "model_name" : "large"
       },
       "scprint_medium" : {
-        "model_name" : "medium"
+        "model_name" : "v2-medium"
       },
       "scprint_small" : {
         "model_name" : "small"
@@ -3210,7 +3210,9 @@ meta = [
           "type" : "python",
           "user" : false,
           "pip" : [
-            "scprint"
+            "git+https://github.com/cantinilab/scPRINT.git@d8cc270b099c8d5dacf6913acc26f2b696685b2b",
+            "gseapy==1.1.2",
+            "git+https://github.com/jkobject/scDataLoader.git@c67c24a2e5c62399912be39169aae76e29e108aa"
           ],
           "upgrade" : true
         },
@@ -3230,7 +3232,7 @@ meta = [
           "type" : "python",
           "user" : false,
           "script" : [
-            "from scdataloader.utils import populate_my_ontology; populate_my_ontology()"
+            "import bionty as bt; bt.core.sync_all_sources_to_latest()"
           ],
           "upgrade" : true
         },
@@ -3238,7 +3240,7 @@ meta = [
           "type" : "python",
           "user" : false,
           "script" : [
-            "import bionty as bt; bt.core.sync_all_sources_to_latest()"
+            "from scdataloader.utils import populate_my_ontology; populate_my_ontology()"
           ],
           "upgrade" : true
         }
@@ -3251,7 +3253,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scprint",
     "viash_version" : "0.9.0",
-    "git_commit" : "81856f1381375eba0eae502734e27b98067a48cf",
+    "git_commit" : "a75dc6e3f4a926eb91bc6238997b160742367e8b",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3479,14 +3481,18 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
 print("\\\\n>>> Reading input data...", flush=True)
 input = read_anndata(par["input"], X="layers/counts", obs="obs", var="var", uns="uns")
-if input.uns["dataset_organism"] == "homo_sapiens":
-    input.obs["organism_ontology_term_id"] = "NCBITaxon:9606"
-elif input.uns["dataset_organism"] == "mus_musculus":
-    input.obs["organism_ontology_term_id"] = "NCBITaxon:10090"
-else:
-    exit_non_applicable(
-        f"scPRINT requires human or mouse data, not '{input.uns['dataset_organism']}'"
-    )
+if (
+    "organism_ontology_term_id" not in input.obs.columns
+    and "dataset_organism" in input.uns
+):
+    if input.uns["dataset_organism"] == "homo_sapiens":
+        input.obs["organism_ontology_term_id"] = "NCBITaxon:9606"
+    elif input.uns["dataset_organism"] == "mus_musculus":
+        input.obs["organism_ontology_term_id"] = "NCBITaxon:10090"
+    else:
+        exit_non_applicable(
+            f"scPRINT requires human or mouse data, not '{input.uns['dataset_organism']}'"
+        )
 adata = input.copy()
 
 print("\\\\n>>> Preprocessing data...", flush=True)
@@ -3508,25 +3514,36 @@ if model_checkpoint_file is None:
         repo_id="jkobject/scPRINT", filename=f"{par['model_name']}.ckpt"
     )
 
-print("\\\\n>>> Embedding data...", flush=True)
 if torch.cuda.is_available():
     print("CUDA is available, using GPU", flush=True)
     precision = "16"
     dtype = torch.float16
-    transformer="flash"
+    transformer = "flash"
 else:
     print("CUDA is not available, using CPU", flush=True)
     precision = "32"
     dtype = torch.float32
-    transformer="normal"
+    transformer = "normal"
 
 print(f"Model checkpoint file: '{model_checkpoint_file}'", flush=True)
-model = scPrint.load_from_checkpoint(
-    model_checkpoint_file,
-    transformer=transformer,  # Don't use this for GPUs with flashattention
-    precpt_gene_emb=None,
-)
 
+m = torch.load(model_checkpoint_file, map_location=torch.device("cpu"))
+if "label_counts" in m["hyper_parameters"]:
+    model = scPrint.load_from_checkpoint(
+        model_checkpoint_file,
+        transformer=transformer,  # Don't use this for GPUs with flashattention
+        precpt_gene_emb=None,
+        classes=m["hyper_parameters"]["label_counts"],
+    )
+else:
+    model = scPrint.load_from_checkpoint(
+        model_checkpoint_file,
+        transformer=transformer,  # Don't use this for GPUs with flashattention
+        precpt_gene_emb=None,
+    )
+del m
+
+print("\\\\n>>> Embedding data...", flush=True)
 n_cores = min(len(os.sched_getaffinity(0)), 24)
 print(f"Using {n_cores} worker cores")
 embedder = Embedder(
@@ -3540,6 +3557,7 @@ embedder = Embedder(
     pred_embedding=["cell_type_ontology_term_id"],
     keep_all_cls_pred=False,
     output_expression="none",
+    save_every=30_000,
     precision=precision,
     dtype=dtype,
 )
@@ -3550,7 +3568,7 @@ output = ad.AnnData(
     obs=input.obs[[]],
     var=input.var[[]],
     obsm={
-        "X_emb": embedded.obsm["scprint"],
+        "X_emb": embedded.obsm["scprint_emb"],
     },
     uns={
         "dataset_id": input.uns["dataset_id"],

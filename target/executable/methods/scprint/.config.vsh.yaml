@@ -150,11 +150,11 @@ argument_groups:
     description: "Which model to use. Not used if --model is provided."
     info: null
     default:
-    - "large"
+    - "v2-medium"
     required: false
     choices:
     - "large"
-    - "medium"
+    - "v2-medium"
     - "small"
     direction: "input"
     multiple: false
@@ -226,7 +226,7 @@ info:
     scprint_large:
       model_name: "large"
     scprint_medium:
-      model_name: "medium"
+      model_name: "v2-medium"
     scprint_small:
       model_name: "small"
   test_setup:
@@ -295,7 +295,9 @@ engines:
   - type: "python"
     user: false
     pip:
-    - "scprint"
+    - "git+https://github.com/cantinilab/scPRINT.git@d8cc270b099c8d5dacf6913acc26f2b696685b2b"
+    - "gseapy==1.1.2"
+    - "git+https://github.com/jkobject/scDataLoader.git@c67c24a2e5c62399912be39169aae76e29e108aa"
     upgrade: true
   - type: "docker"
     run:
@@ -306,12 +308,12 @@ engines:
   - type: "python"
     user: false
     script:
-    - "from scdataloader.utils import populate_my_ontology; populate_my_ontology()"
+    - "import bionty as bt; bt.core.sync_all_sources_to_latest()"
     upgrade: true
   - type: "python"
     user: false
     script:
-    - "import bionty as bt; bt.core.sync_all_sources_to_latest()"
+    - "from scdataloader.utils import populate_my_ontology; populate_my_ontology()"
     upgrade: true
   entrypoint: []
   cmd: null
@@ -322,7 +324,7 @@ build_info:
   output: "target/executable/methods/scprint"
   executable: "target/executable/methods/scprint/scprint"
   viash_version: "0.9.0"
-  git_commit: "81856f1381375eba0eae502734e27b98067a48cf"
+  git_commit: "a75dc6e3f4a926eb91bc6238997b160742367e8b"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
 package_config:
   name: "task_batch_integration"
