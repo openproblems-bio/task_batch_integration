@@ -1,0 +1,51 @@
+__merge__: ../../api/comp_method.yaml
+name: combat_seq
+label: ComBat-Seq
+summary: Adjusting batch effects in RNA-Seq expression data using empirical Bayes
+  methods
+description: |
+  ComBat-Seq extends the ComBat method for batch correction in RNA-Seq data.
+  While ComBat assumes normally distributed data, ComBat-Seq uses a negative
+  binomial distribution to model the data.  While initially developed for
+  RNA-Seq data, ComBat-Seq can be applied to single-cell RNA-Seq data as well.
+
+  The method is implemented in Python as a part of the inmoose package.  It is
+  based on the original R implementation, distributed through the sva package.
+
+references:
+  doi:
+    - 10.1093/nargab/lqaa078
+    - 10.1186/s12859-023-05578-5
+
+links:
+  documentation: https://inmoose.readthedocs.io/en/stable/pycombatseq.html
+  repository: https://github.com/epigenelabs/inmoose
+
+# Metadata for your component
+info:
+  # Which normalisation method this component prefers to use (required).
+  preferred_normalization: counts
+
+# Resources required to run the component
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+
+engines:
+  # Specifications for the Docker image for this component.
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    # Add custom dependencies here (optional). For more information, see
+    # https://viash.io/reference/config/engines/docker/#setup .
+    setup:
+      - type: python
+        pip: inmoose
+
+runners:
+  # This platform allows running the component natively
+  - type: executable
+  # Allows turning the component into a Nextflow module / pipeline.
+  - type: nextflow
+    directives:
+      label: [midtime,midmem,midcpu]
