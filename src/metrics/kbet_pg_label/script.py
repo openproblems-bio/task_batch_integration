@@ -27,7 +27,7 @@ meta = {
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
 
-n_threads = meta.get("cpus", -1)
+n_threads = meta["cpus"] or -1
 
 print('Read input...', flush=True)
 adata = read_anndata(par['input_integrated'], obs='obs', obsm='obsm', uns='uns')
