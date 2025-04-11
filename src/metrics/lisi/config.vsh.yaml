@@ -14,7 +14,8 @@ info:
         variable.
 
         The original LISI score ranges from 0 to the number of categories, with the latter
-        indicating good cell mixing. This is rescaled to a score between 0 and 1.
+        indicating good cell mixing. This is rescaled to a score between 0 and 1, where 0 
+        represents bad batch mixing and 1 represents good batch mixing.
       references:
         doi: 10.1038/s41592-021-01336-8
       links:
@@ -33,7 +34,10 @@ info:
         distance computation on single-cell kNN graphs. The metric assesses whether clusters
         of cells in a single-cell RNA-seq dataset are well-mixed across a categorical cell type variable.
 
-        The original LISI score ranges from 0 to the number of categories, with the latter indicating good cell mixing. This is rescaled to a score between 0 and 1.
+        The original LISI score ranges from 0 to the number of categories, with the latter
+        indicating good cell mixing. This is inverted and rescaled to a score between 0 and 1,
+        where 0 represents bad cell type separation and 1 represents good cell type separation.
+
       references:
         doi: 10.1038/s41592-021-01336-8
       links:
