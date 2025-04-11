@@ -474,9 +474,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scib==1.1.7"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics pcr"
-LABEL org.opencontainers.image.created="2025-03-18T09:43:37Z"
+LABEL org.opencontainers.image.created="2025-04-11T11:30:07Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="a75dc6e3f4a926eb91bc6238997b160742367e8b"
+LABEL org.opencontainers.image.revision="7e4d3b5fc7e5702817ae111b6e27453fceaad652"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

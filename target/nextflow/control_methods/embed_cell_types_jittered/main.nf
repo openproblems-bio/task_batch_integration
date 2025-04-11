@@ -3304,7 +3304,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/control_methods/embed_cell_types_jittered",
     "viash_version" : "0.9.0",
-    "git_commit" : "a75dc6e3f4a926eb91bc6238997b160742367e8b",
+    "git_commit" : "7e4d3b5fc7e5702817ae111b6e27453fceaad652",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
