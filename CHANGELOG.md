@@ -1,5 +1,9 @@
 # task_batch_integration devel
 
+## New functionality
+
+* Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
+
 ## Minor changes
 
 * Un-pin the scPRINT version and update parameters (PR #51)
