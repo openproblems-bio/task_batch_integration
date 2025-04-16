@@ -21,7 +21,7 @@ description: |
   (e.g. in terms of proportions of distinct cell populations).
   Prior cell type knowledge, given as cell type labels, can be provided to the algorithm to perform
   semi-supervised integration, leading to increased preservation of biological variability
-   in the resulting integrated space.
+  in the resulting integrated space.
   STACAS is robust to incomplete cell type labels and can be applied to large-scale integration tasks.
 references:
   doi: 10.1038/s41467-024-45240-z
