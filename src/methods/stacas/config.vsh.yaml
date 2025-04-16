@@ -1,0 +1,81 @@
+# The API specifies which type of component this is.
+# It contains specifications for:
+#   - The input/output files
+#   - Common parameters
+#   - A unit test
+__merge__: ../../api/comp_method.yaml
+
+# A unique identifier for your component (required).
+# Can contain only lowercase letters or underscores.
+name: stacas
+# A relatively short label, used when rendering visualisations (required)
+label: STACAS
+# A one sentence summary of how this method works (required). Used when 
+# rendering summary tables.
+summary: Accurate semi-supervised integration of single-cell transcriptomics data
+# A multi-line description of how this component works (required). Used
+# when rendering reference documentation.
+description: |
+  STACAS is a method for scRNA-seq integration,
+  especially suited to accurately integrate datasets with large cell type imbalance
+  (e.g. in terms of proportions of distinct cell populations).
+  Prior cell type knowledge, given as cell type labels, can be provided to the algorithm to perform
+  semi-supervised integration, leading to increased preservation of biological variability
+   in the resulting integrated space.
+  STACAS is robust to incomplete cell type labels and can be applied to large-scale integration tasks.
+references:
+  doi: 10.1038/s41467-024-45240-z
+  # Andreatta M, Hérault L, Gueguen P, Gfeller D, Berenstein AJ, Carmona SJ.
+  # Semi-supervised integration of single-cell transcriptomics data.
+  # Nature Communications*. 2024;15(1):1-13. doi:10.1038/s41467-024-45240-z
+links:
+  # URL to the documentation for this method (required).
+  documentation: https://carmonalab.github.io/STACAS.demo/STACAS.demo.html
+  # URL to the code repository for this method (required).
+  repository: https://github.com/carmonalab/STACAS
+# Metadata for your component
+info:
+  # Which normalisation method this component prefers to use (required).
+  preferred_normalization: log_cp10k
+
+# Component-specific parameters (optional)
+# arguments:
+#   - name: "--n_neighbors"
+#     type: "integer"
+#     default: 5
+#     description: Number of neighbors to use.
+
+# Resources required to run the component
+resources:
+  # The script of your component (required)
+  - type: r_script
+    path: script.R
+  # Additional resources your script needs (optional)
+  # - type: file
+  #   path: weights.pt
+
+engines:
+  # Specifications for the Docker image for this component.
+  - type: docker
+    image: openproblems/base_r:1.0.0
+    # Add custom dependencies here (optional). For more information, see
+    # https://viash.io/reference/config/engines/docker/#setup .
+    setup:
+      - type: r
+        #github: https://github.com/carmonalab/STACAS.git@2.2.0
+        cran:
+          - Seurat
+          - SeuratObject
+          - R.utils
+        bioc:
+          - BiocNeighbors
+          - BiocParallel
+        script: remotes::install_github("carmonalab/STACAS@2.2.0", dependencies = FALSE)
+
+runners:
+  # This platform allows running the component natively
+  - type: executable
+  # Allows turning the component into a Nextflow module / pipeline.
+  - type: nextflow
+    directives:
+      label: [midtime,midmem,midcpu]
