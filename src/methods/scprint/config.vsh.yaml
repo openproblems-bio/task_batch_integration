@@ -48,7 +48,6 @@ arguments:
   - name: "--model_name"
     type: "string"
     description: Which model to use. Not used if --model is provided.
-    choices: ["large", "v2-medium", "small"]
     default: "v2-medium"
   - name: --model
     type: file
