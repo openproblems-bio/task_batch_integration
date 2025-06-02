@@ -63,7 +63,7 @@ resources:
 engines:
   # Specifications for the Docker image for this component.
   - type: docker
-    image: nvidia/cuda:12.3.2-runtime-ubuntu22.04
+    image: openproblems/base_pytorch_nvidia:1.0.0 
     # Add custom dependencies here (optional). For more information, see
     # https://viash.io/reference/config/engines/docker/#setup .
     setup:
