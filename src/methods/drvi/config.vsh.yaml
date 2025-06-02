@@ -45,17 +45,23 @@ info:
   preferred_normalization: counts
 
 # Component-specific parameters (optional)
-# arguments:
-#   - name: "--n_neighbors"
-#     type: "integer"
-#     default: 5
-#     description: Number of neighbors to use.
+arguments:
+  - name: --n_hvg
+    type: integer
+    default: 2000
+    description: Number of highly variable genes to use.
+  - name: --n_epochs
+    type: integer
+    default: 400
+    description: Number of epochs
 
 # Resources required to run the component
 resources:
   # The script of your component (required)
   - type: python_script
     path: script.py
+  - path: /src/utils/read_anndata_partial.py
+
   # Additional resources your script needs (optional)
   # - type: file
   #   path: weights.pt
@@ -69,8 +75,10 @@ engines:
     setup:
       - type: python
         pypi:
-        - drvi==0.0.10
-        packages: numpy<2
+        - drvi-py==0.1.7
+        - torch==2.3.0
+        - torchvision==0.18.0
+        # packages:
 
 runners:
   # This platform allows running the component natively
@@ -78,4 +86,4 @@ runners:
   # Allows turning the component into a Nextflow module / pipeline.
   - type: nextflow
     directives:
-      label: [midtime,midmem,midcpu]
+      label: [midtime,midmem,lowcpu,gpu]
