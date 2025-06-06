@@ -25,13 +25,31 @@ anndataToScMerge2 <- function(adata, seg_list, layer = "normalized", verbose = F
   valid_cells <- !is.na(batch_all)
   exprsMat <- exprsMat_all[, valid_cells, drop = FALSE]
   batch <- batch_all[valid_cells]
-  
-  ctl_flat <- unlist(seg_list, recursive = FALSE)
-  ctl_matches <- ctl_flat[grepl("scSEG$", names(ctl_flat))]
-  if (length(ctl_matches) == 0) {
-    stop("No stably expressed gene (scSEG) list found in the provided seg_list.")
+
+  # Check overlap with human/mouse scSEG lists
+  gene_ids <- rownames(exprsMat)
+  species <- NULL
+  best_match <- 0
+
+  for (organism in names(seg_list)) {
+    scseg_name <- paste0(organism, "_scSEG")
+    seg_genes <- seg_list[[organism]][[scseg_name]]
+    overlap <- length(intersect(gene_ids, seg_genes))
+
+    if (overlap > best_match) {
+      best_match <- overlap
+      species <- organism
+    }
   }
-  ctl <- ctl_matches[[1]]
+
+  if (is.null(species) || best_match == 0) {
+    stop("No match found between gene IDs in exprsMat and scSEG lists for human or mouse. ",
+         "Please ensure you're using Ensembl IDs for human or mouse, or provide a custom SEG list.")
+  }
+
+  message("Detected species: ", species, " (matched ", best_match, " genes)")
+
+  ctl <- seg_list[[species]][[paste0(species, "_scSEG")]]
 
   scMerge2_res <- scMerge2(
     exprsMat = exprsMat,
@@ -43,7 +61,7 @@ anndataToScMerge2 <- function(adata, seg_list, layer = "normalized", verbose = F
   return(scMerge2_res)
 }
 
-data("segList_ensemblGeneID") # only for human and mouse- is that okay?
+data("segList_ensemblGeneID")
 
 cat("Run scMerge2\n")
 
@@ -58,7 +76,6 @@ scMerge2_res <- anndataToScMerge2(
 cat("Store output\n")
 corrected_mat <- scMerge2_res$newY
 
-# PCA as embedding - is this right?
 embedding <- prcomp(t(corrected_mat))$x[, 1:10]
 
 rownames(embedding) <- colnames(corrected_mat)
