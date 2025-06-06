@@ -76,9 +76,7 @@ engines:
     setup:
       - type: python
         pypi:
-        - joblib==1.5.1
-        - threadpoolctl==3.6.0
-        - scikit-learn==1.6.1
+        - scib-metrics==0.5.5
 
 runners:
   # This platform allows running the component natively
