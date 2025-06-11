@@ -24,7 +24,7 @@ resources:
   - path: /src/utils/exit_codes.py
 engines:
   - type: docker
-    image: openproblems/base_pytorch_nvidia:1.0.0
+    image: openproblems/base_pytorch_nvidia:1
     setup:
       - type: python
         github: Genentech/scimilarity
