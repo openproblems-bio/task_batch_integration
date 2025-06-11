@@ -467,7 +467,7 @@ function ViashDockerfile {
 
   if [[ "$engine_id" == "docker" ]]; then
     cat << 'VIASHDOCKER'
-FROM openproblems/base_r:1.0.0
+FROM openproblems/base_r:1
 ENTRYPOINT []
 RUN apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y cmake && \
@@ -478,9 +478,9 @@ RUN Rscript -e 'if (!requireNamespace("remotes", quietly = TRUE)) install.packag
   Rscript -e 'remotes::install_github(c("welch-lab/RcppPlanc"), repos = "https://cran.rstudio.com")'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods liger"
-LABEL org.opencontainers.image.created="2025-04-11T11:30:06Z"
+LABEL org.opencontainers.image.created="2025-06-11T11:41:54Z"
 LABEL org.opencontainers.image.source="https://github.com/welch-lab/liger"
-LABEL org.opencontainers.image.revision="7e4d3b5fc7e5702817ae111b6e27453fceaad652"
+LABEL org.opencontainers.image.revision="06b679fe236e8de372fba4d27afff0ddfbc03fdc"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

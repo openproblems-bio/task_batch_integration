@@ -498,7 +498,7 @@ function ViashDockerfile {
 
   if [[ "$engine_id" == "docker" ]]; then
     cat << 'VIASHDOCKER'
-FROM openproblems/base_pytorch_nvidia:1.0.0
+FROM openproblems/base_pytorch_nvidia:1
 ENTRYPOINT []
 RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "git+https://github.com/cantinilab/scPRINT.git@d8cc270b099c8d5dacf6913acc26f2b696685b2b" "gseapy==1.1.2" "git+https://github.com/jkobject/scDataLoader.git@c67c24a2e5c62399912be39169aae76e29e108aa"
@@ -512,9 +512,9 @@ RUN pip install --upgrade pip && \
   python -c 'from scdataloader.utils import populate_my_ontology; populate_my_ontology()'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scprint"
-LABEL org.opencontainers.image.created="2025-04-11T11:30:07Z"
+LABEL org.opencontainers.image.created="2025-06-11T11:41:53Z"
 LABEL org.opencontainers.image.source="https://github.com/cantinilab/scPRINT"
-LABEL org.opencontainers.image.revision="7e4d3b5fc7e5702817ae111b6e27453fceaad652"
+LABEL org.opencontainers.image.revision="06b679fe236e8de372fba4d27afff0ddfbc03fdc"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

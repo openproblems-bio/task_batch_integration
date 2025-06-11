@@ -3133,7 +3133,7 @@ meta = [
     {
       "type" : "docker",
       "id" : "docker",
-      "image" : "openproblems/base_pytorch_nvidia:1.0.0",
+      "image" : "openproblems/base_pytorch_nvidia:1",
       "namespace_separator" : "/",
       "setup" : [
         {
@@ -3159,7 +3159,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/uce",
     "viash_version" : "0.9.0",
-    "git_commit" : "7e4d3b5fc7e5702817ae111b6e27453fceaad652",
+    "git_commit" : "06b679fe236e8de372fba4d27afff0ddfbc03fdc",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
