@@ -1,6 +1,11 @@
 # task_batch_integration devel
 
 ## New functionality
+* Add `methods/ss_stacas` new method.
+Add semi-supervised version of STACAS tool for integration of single-cell transcriptomics data.
+This functionality leverages partial or imperfect knowledge of cell identity to improve integration quality by preserving biological variation while correcting for batch effects.
+
+## New functionality
 
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
 
