@@ -1,8 +1,6 @@
 cat(">> Load dependencies\n")
 requireNamespace("anndata", quietly = TRUE)
 library(scMerge)
-library(org.Hs.eg.db)
-library(org.Mm.eg.db)
 
 ## VIASH START
 par <- list(
