@@ -41,8 +41,6 @@ info:
 resources:
   - type: python_script
     path: script.py
-  - path: https://raw.githubusercontent.com/chanzuckerberg/cz-benchmarks/refs/heads/main/docker/scgpt/model.py
-    dest: model.py
   - path: /src/utils/read_anndata_partial.py
   - path: /src/utils/exit_codes.py
 

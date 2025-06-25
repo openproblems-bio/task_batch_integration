@@ -15,11 +15,13 @@ meta = {"name": "scgpt_czbenchmarks"}
 ## VIASH END
 
 sys.path.append(meta["resources_dir"])
-from model import ScGPT
 from read_anndata_partial import read_anndata
 from exit_codes import exit_non_applicable
 
-print(f"====== scGPT version {scgpt.__version__} (czbenchmarks {czbenchmarks.__version__}) ======", flush=True)
+sys.path.append("/app")
+from model import ScGPT
+
+print(f"====== scGPT version {scgpt.__version__} (czbenchmarks) ======", flush=True)
 
 print("\n>>> Reading input files...", flush=True)
 print(f"Input H5AD file: '{par['input']}'", flush=True)
