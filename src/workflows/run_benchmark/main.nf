@@ -29,6 +29,7 @@ methods = [
   scalex,
   scanorama,
   scanvi,
+  scgpt_czbenchmarks
   scgpt_finetuned.run(
     args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
   ),
