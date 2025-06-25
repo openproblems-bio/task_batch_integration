@@ -49,6 +49,10 @@ resources:
 engines:
   - type: docker
     image: public.ecr.aws/czi-virtual-cells/cz-benchmarks-models-public:scgpt
+    setup:
+      - type: apt
+        packages:
+          - python-is-python3
 
 runners:
   - type: executable
