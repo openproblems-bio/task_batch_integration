@@ -1,0 +1,41 @@
+__merge__: ../../api/base_method.yaml
+
+name: scgpt_czbenchmarks
+label: scGPT (CZ Benchmarks)
+summary: "A foundation model for single-cell biology (CZ Benchmarks implementation)"
+description: |
+  scGPT is a foundation model for single-cell biology based on a generative
+  pre-trained transformer and trained on a repository of over 33 million cells.
+
+  Here, we use zero-shot output from a pre-trained model to get an integrated
+  embedding for the batch integration task.
+references:
+  doi:
+    - 10.1038/s41592-024-02201-0
+links:
+  documentation: https://scgpt.readthedocs.io/en/latest/
+  repository: https://github.com/chanzuckerberg/cz-benchmarks/tree/main/docker/scgpt
+
+info:
+  method_types: [embedding]
+  preferred_normalization: counts
+
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+  - path: /src/utils/exit_codes.py
+
+engines:
+  - type: docker
+    image: public.ecr.aws/czi-virtual-cells/cz-benchmarks-models-public:scgpt
+    setup:
+      - type: apt
+        packages:
+          - python-is-python3
+
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [hightime, midmem, midcpu, gpu]
