@@ -264,13 +264,13 @@ info:
       \ isolated label using the F1 score˚\nacross louvain clustering resolutions\
       \ ranging from 0.1 to 2 in resolution steps of 0.1.\nThe optimal F1 score for\
       \ the isolated label is then used as the metric score.\nThe F1 score is a weighted\
-      \ mean of precision and recall given by the equation:\n\U0001d4391=2×(precision×\
-      recall)/(precision+recall).\n\nIt returns a value between 0 and 1,\nwhere 1\
-      \ shows that all of the isolated label cells and no others are captured in\n\
-      the cluster. For the isolated label ASW score, we compute the ASW of isolated\n\
-      versus nonisolated labels on the PCA embedding (ASW metric above) and scale\
-      \ this\nscore to be between 0 and 1. The final score for each metric version\
-      \ consists of\nthe mean isolated score of all isolated labels.\n"
+      \ mean of precision and recall given by the equation:\n𝐹1=2×(precision×recall)/(precision+recall).\n\
+      \nIt returns a value between 0 and 1,\nwhere 1 shows that all of the isolated\
+      \ label cells and no others are captured in\nthe cluster. For the isolated label\
+      \ ASW score, we compute the ASW of isolated\nversus nonisolated labels on the\
+      \ PCA embedding (ASW metric above) and scale this\nscore to be between 0 and\
+      \ 1. The final score for each metric version consists of\nthe mean isolated\
+      \ score of all isolated labels.\n"
     references:
       doi: "10.1038/s41592-021-01336-8"
     links:
@@ -286,6 +286,9 @@ info:
     summary: "A metric for evaluating batch integration methods."
     description: "A metric for evaluating batch integration methods.\n"
 status: "enabled"
+scope:
+  image: "public"
+  target: "public"
 repositories:
 - type: "github"
   name: "openproblems"
@@ -345,8 +348,8 @@ build_info:
   engine: "docker"
   output: "target/executable/metrics/isolated_label_f1"
   executable: "target/executable/metrics/isolated_label_f1/isolated_label_f1"
-  viash_version: "0.9.0"
-  git_commit: "06b679fe236e8de372fba4d27afff0ddfbc03fdc"
+  viash_version: "0.9.4"
+  git_commit: "5407bcf0942b644ba5bfaed013ff20bbb90cd2b2"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
 package_config:
   name: "task_batch_integration"
@@ -392,7 +395,7 @@ package_config:
     name: "openproblems"
     repo: "openproblems-bio/openproblems"
     tag: "build/main"
-  viash_version: "0.9.0"
+  viash_version: "0.9.4"
   source: "src"
   target: "target"
   config_mods:

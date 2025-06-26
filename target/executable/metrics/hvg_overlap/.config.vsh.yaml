@@ -243,9 +243,9 @@ info:
       \ flavor).\nIf available, we computed 500 HVGs per batch. If fewer than 500\n\
       genes were present in the integrated object for a batch,\nthe number of HVGs\
       \ was set to half the total genes in that batch.\nThe overlap coefficient is\
-      \ as follows:\noverlap(\U0001d44b,\U0001d44c)=|\U0001d44b∩\U0001d44c|/min(|\U0001d44b\
-      |,|\U0001d44c|),\n\nwhere X and Y denote the fraction of preserved informative\
-      \ genes.\nThe overall HVG score is the mean of the per-batch HVG overlap\ncoefficients.\n"
+      \ as follows:\noverlap(𝑋,𝑌)=|𝑋∩𝑌|/min(|𝑋|,|𝑌|),\n\nwhere X and Y denote\
+      \ the fraction of preserved informative genes.\nThe overall HVG score is the\
+      \ mean of the per-batch HVG overlap\ncoefficients.\n"
     references:
       doi: "10.1038/s41592-021-01336-8"
     links:
@@ -261,6 +261,9 @@ info:
     summary: "A metric for evaluating batch integration methods."
     description: "A metric for evaluating batch integration methods.\n"
 status: "enabled"
+scope:
+  image: "public"
+  target: "public"
 repositories:
 - type: "github"
   name: "openproblems"
@@ -320,8 +323,8 @@ build_info:
   engine: "docker"
   output: "target/executable/metrics/hvg_overlap"
   executable: "target/executable/metrics/hvg_overlap/hvg_overlap"
-  viash_version: "0.9.0"
-  git_commit: "06b679fe236e8de372fba4d27afff0ddfbc03fdc"
+  viash_version: "0.9.4"
+  git_commit: "5407bcf0942b644ba5bfaed013ff20bbb90cd2b2"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
 package_config:
   name: "task_batch_integration"
@@ -367,7 +370,7 @@ package_config:
     name: "openproblems"
     repo: "openproblems-bio/openproblems"
     tag: "build/main"
-  viash_version: "0.9.0"
+  viash_version: "0.9.4"
   source: "src"
   target: "target"
   config_mods:
