@@ -34,7 +34,6 @@ adata = read_anndata(
     var='var',
     uns='uns'
 )
-# Remove dataset with non-count values
 counts = adata.X
 import scipy.sparse
 
@@ -58,40 +57,24 @@ print('Train model with DRVI', flush=True)
 # Setup data
 DRVI.setup_anndata(
     adata,
-    # DRVI accepts count data by default.
-    # Do not forget to change gene_likelihood if you provide a non-count data.
     layer="counts",
-    # Always provide a list. DRVI can accept multiple covariates.
     categorical_covariate_keys=["batch"],
-    # DRVI accepts count data by default.
-    # Set to false if you provide log-normalized data and use normal distribution (mse loss).
     is_count_data=False,
 )
 
-# construct the model
 model = DRVI(
     adata,
-    # Provide categorical covariates keys once again. Refer to advanced usages for more options.
     categorical_covariates=["batch"],
     n_latent=128,
-    # For encoder and decoder dims, provide a list of integers.
     encoder_dims=[128, 128],
     decoder_dims=[128, 128],
 )
 model
 
-# train the model
 model.train(
     max_epochs=par["n_epochs"],
     early_stopping=False,
     early_stopping_patience=20,
-    # mps
-    # accelerator="mps", devices=1,
-    # cpu
-    # accelerator="cpu", devices=1,
-    # gpu: no additional parameter
-    #
-    # No need to provide `plan_kwargs` if n_epochs >= 400.
     plan_kwargs={
         "n_epochs_kl_warmup": par["n_epochs"],
     },
