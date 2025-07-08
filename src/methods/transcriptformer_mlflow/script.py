@@ -39,7 +39,7 @@ input_adata = ad.AnnData(X = adata.X.copy(), var = adata.var.filter(items=["feat
 input_adata.obs["assay"] = "unknown" # Avoid error if assay is missing
 print(input_adata, flush=True)
 h5ad_file = NamedTemporaryFile(suffix=".h5ad", delete=False)
-print(f"Temporary H5AD file: '{h5ad_file}'", flush=True)
+print(f"Temporary H5AD file: '{h5ad_file.name}'", flush=True)
 input_adata.write(h5ad_file.name)
 del input_adata
 
@@ -48,15 +48,15 @@ model = mlflow.pyfunc.load_model(par["model"])
 
 print("\n>>> Running model...", flush=True)
 input_df = pd.DataFrame({"input_uri": [h5ad_file.name]})
-model.predict(input_df)
+embedding = model.predict(input_df)
 
 print("\n>>> Storing output...", flush=True)
 output = ad.AnnData(
     obs=adata.obs[[]],
     var=adata.var[[]],
-    # obsm={
-    #     "X_emb": embedded.X,
-    # },
+    obsm={
+        "X_emb": embedding,
+    },
     uns={
         "dataset_id": adata.uns["dataset_id"],
         "normalization_id": adata.uns["normalization_id"],
