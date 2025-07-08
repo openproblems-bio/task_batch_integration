@@ -45,6 +45,7 @@ del input_adata
 
 print("\n>>> Loading model...", flush=True)
 model = mlflow.pyfunc.load_model(par["model"])
+print(model, flush=True)
 
 print("\n>>> Running model...", flush=True)
 input_df = pd.DataFrame({"input_uri": [h5ad_file.name]})

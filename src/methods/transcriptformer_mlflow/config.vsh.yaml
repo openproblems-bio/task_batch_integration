@@ -36,6 +36,7 @@ resources:
     path: script.py
   - path: /src/utils/read_anndata_partial.py
   - path: /src/utils/exit_codes.py
+  - path: requirements.txt
 
 engines:
   - type: docker
@@ -51,7 +52,10 @@ engines:
         env:
           - VIRTUAL_ENV=/opt/venv
           - PATH="/opt/venv/bin:$PATH"
-        run: uv pip install mlflow==3.1.0 pandas==2.3.0 scanpy==1.11.2 scipy==1.16.0 "transcriptformer>=0.3.0"
+        add: requirements.txt /requirements.txt
+        run: uv pip install -r /requirements.txt
+      - type: docker
+        run: uv pip install mlflow==3.1.0
 
 runners:
   - type: executable
