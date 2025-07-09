@@ -57,6 +57,8 @@ engines:
         run: uv pip install -r /requirements.txt
       - type: docker
         run: uv pip install mlflow==3.1.0
+      - type: docker
+        run: uv pip install git+https://github.com/openproblems-bio/core#subdirectory=packages/python/openproblems
 
 runners:
   - type: executable

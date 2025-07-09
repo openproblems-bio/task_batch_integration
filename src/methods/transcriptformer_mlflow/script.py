@@ -38,6 +38,7 @@ print(adata, flush=True)
 
 if os.path.isdir(par["model"]):
     print("\n>>> Using model directory...", flush=True)
+    print(f"Directory path: '{par['model']}'", flush=True)
     model_temp = None
     model_dir = par["model"]
 else:
