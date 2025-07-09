@@ -28,7 +28,8 @@ arguments:
   - name: --model
     type: file
     description: |
-      An MLflow model URL for the transcriptformer model
+      An MLflow model URI for the transcriptformer model. If it is a .zip or
+      .tar.gz file it will be extracted to a temporary directory.
     required: true
 
 resources:
