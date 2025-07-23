@@ -1,29 +1,10 @@
-# The API specifies which type of component this is.
-# It contains specifications for:
-#   - The input/output files
-#   - Common parameters
-#   - A unit test
 __merge__: ../../api/comp_metric.yaml
-
-# A unique identifier for your component (required).
-# Can contain only lowercase letters or underscores.
 name: bras
-
-
-
-# Metadata for your component
 info:
   metrics:
-      # A unique identifier for your metric (required).
-      # Can contain only lowercase letters or underscores.
     - name: bras
-      # A relatively short label, used when rendering visualisarions (required)
       label: BRAS
-      # A one sentence summary of how this metric works (required). Used when 
-      # rendering summary tables.
       summary: "Modified ASW metric for batch removal"
-      # A multi-line description of how this component works (required). Used
-      # when rendering reference documentation.
       description: |
         The BRAS (Batch Removal Adapted Silhouette) metric modifies the standard silhouette score to account for batch effects in single-cell data integration benchmarking.
         Instead of measuring how well a cell matches its biological label cluster compared to other clusters (as in regular silhouette), BRAS compares how well it matches its biological cluster in its own batch versus the same biological cluster in other batches.
@@ -32,45 +13,18 @@ info:
       references:
         doi: 
           - 10.1101/2025.01.21.634098
-      #   bibtex:
-      #     - |
-      #       @article{foo,
-      #         title={Foo},
-      #         author={Bar},
-      #         journal={Baz},
-      #         year={2024}
-      #       }
       links:
-        # URL to the documentation for this metric (required).
         documentation: https://github.com/ohlerlab/metrics_matter_manuscript_reproducibility/tree/master
-        # URL to the code repository for this metric (required).
         repository: https://github.com/ohlerlab/metrics_matter_manuscript_reproducibility/tree/master
-      # The minimum possible value for this metric (required)
       min: 0
-      # The maximum possible value for this metric (required)
       max: 1
-      # Whether a higher value represents a 'better' solution (required)
       maximize: true
-
-# Component-specific parameters (optional)
-# arguments:
-#   - name: "--n_neighbors"
-#     type: "integer"
-#     default: 5
-#     description: Number of neighbors to use.
-
-# Resources required to run the component
 resources:
-  # The script of your component (required)
   - type: python_script
     path: script.py
-  # Additional resources your script needs (optional)
-  # - type: file
-  #   path: weights.pt
   - path: /src/utils/read_anndata_partial.py
 
 engines:
-  # Specifications for the Docker image for this component.
   - type: docker
     image: openproblems/base_python:1.0.0
     setup:
@@ -79,9 +33,7 @@ engines:
         - scib-metrics==0.5.5
 
 runners:
-  # This platform allows running the component natively
   - type: executable
-  # Allows turning the component into a Nextflow module / pipeline.
   - type: nextflow
     directives:
       label: [midtime,midmem,midcpu]
