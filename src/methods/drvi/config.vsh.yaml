@@ -1,20 +1,7 @@
-# The API specifies which type of component this is.
-# It contains specifications for:
-#   - The input/output files
-#   - Common parameters
-#   - A unit test
 __merge__: ../../api/comp_method.yaml
-
-# A unique identifier for your component (required).
-# Can contain only lowercase letters or underscores.
 name: drvi
-# A relatively short label, used when rendering visualisations (required)
 label: DRVI
-# A one sentence summary of how this method works (required). Used when 
-# rendering summary tables.
 summary: "DrVI is an unsupervised generative model capable of learning non-linear interpretable disentangled latent representations from single-cell count data."
-# A multi-line description of how this component works (required). Used
-# when rendering reference documentation.
 description: |
   Disentangled Representation Variational Inference (DRVI) is an unsupervised deep generative model designed for integrating single-cell RNA sequencing (scRNA-seq) data across different batches.
   It extends the variational autoencoder (VAE) framework by learning a latent representation that captures biological variation while disentangling and correcting for batch effects.
@@ -23,28 +10,11 @@ description: |
 references:
   doi: 
     - 10.1101/2024.11.06.622266
-#   bibtex:
-#     - |
-#       @article{foo,
-#         title={Foo},
-#         author={Bar},
-#         journal={Baz},
-#         year={2024}
-#       }
 links:
-  # URL to the documentation for this method (required).
   documentation: https://drvi.readthedocs.io/latest/index.html
-  # URL to the code repository for this method (required).
   repository: https://github.com/theislab/DRVI?tab=readme-ov-file
-
-
-
-# Metadata for your component
 info:
-  # Which normalisation method this component prefers to use (required).
   preferred_normalization: counts
-
-# Component-specific parameters (optional)
 arguments:
   - name: --n_hvg
     type: integer
@@ -54,36 +24,21 @@ arguments:
     type: integer
     default: 400
     description: Number of epochs
-
-# Resources required to run the component
 resources:
-  # The script of your component (required)
   - type: python_script
     path: script.py
   - path: /src/utils/read_anndata_partial.py
-
-  # Additional resources your script needs (optional)
-  # - type: file
-  #   path: weights.pt
-
 engines:
-  # Specifications for the Docker image for this component.
   - type: docker
     image: openproblems/base_pytorch_nvidia:1.0.0 
-    # Add custom dependencies here (optional). For more information, see
-    # https://viash.io/reference/config/engines/docker/#setup .
     setup:
       - type: python
         pypi:
         - drvi-py==0.1.7
         - torch==2.3.0
         - torchvision==0.18.0
-        # packages:
-
 runners:
-  # This platform allows running the component natively
   - type: executable
-  # Allows turning the component into a Nextflow module / pipeline.
   - type: nextflow
     directives:
       label: [midtime,midmem,lowcpu,gpu]
