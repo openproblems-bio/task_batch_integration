@@ -22,7 +22,7 @@ arguments:
     description: Number of highly variable genes to use.
   - name: --n_epochs
     type: integer
-    default: 400
+    default: 100
     description: Number of epochs
 resources:
   - type: python_script
