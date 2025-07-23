@@ -1,31 +1,12 @@
-# The API specifies which type of component this is.
-# It contains specifications for:
-#   - The input/output files
-#   - Common parameters
-#   - A unit test
 __merge__: ../../api/comp_metric.yaml
-
-# A unique identifier for your component (required).
-# Can contain only lowercase letters or underscores.
 name: cilisi
-
-
-
-# Metadata for your component
 info:
   metrics:
-      # A unique identifier for your metric (required).
-      # Can contain only lowercase letters or underscores.
     - name: cilisi
-      # A relatively short label, used when rendering visualisations (required)
       label: CiLISI
-      # A one sentence summary of how this metric works (required). Used when 
-      # rendering summary tables.
       summary: Cell-type aware version of iLISI (Local inverse Simpson's Index).
                 iLISI is computed separately for each cell type or cluster, normalized between 0 and 1, and averaged across all cells (global mean).
                 By default, CiLISI is calculated only for groups with at least 10 cells and 2 distinct batch labels (configurable).
-      # A multi-line description of how this component works (required). Used
-      # when rendering reference documentation.
       description: |
         ciLISI measures batch mixing in a cell type-aware manner by computing iLISI within each cell type and normalizing
         the scores between 0 and 1. Unlike iLISI, ciLISI preserves sensitivity to biological variance and avoids favoring
@@ -33,25 +14,15 @@ info:
       references:
         doi: 10.1038/s41467-024-45240-z
       links:
-        # URL to the documentation for this metric (required).
         documentation: https://github.com/carmonalab/scIntegrationMetrics
-        # URL to the code repository for this metric (required).
         repository: https://github.com/carmonalab/scIntegrationMetrics
-      # The minimum possible value for this metric (required)
       min: 0
-      # The maximum possible value for this metric (required)
       max: 1
-      # Whether a higher value represents a 'better' solution (required)
       maximize: true
 
     - name: cilisi_means
-      # A relatively short label, used when rendering visualisations (required)
       label: CiLISI_means
-      # A one sentence summary of how this metric works (required). Used when 
-      # rendering summary tables.
       summary: As CiLISI, but returns mean of per-group CiLISI values (i.e., average of the means per group). instead of a global average.
-      # A multi-line description of how this component works (required). Used
-      # when rendering reference documentation.
       description: |
         ciLISI measures batch mixing in a cell type-aware manner by computing iLISI within each cell type and normalizing
         the scores between 0 and 1. Unlike iLISI, ciLISI preserves sensitivity to biological variance and avoids favoring
@@ -59,47 +30,22 @@ info:
       references:
         doi: 10.1038/s41467-024-45240-z
       links:
-        # URL to the documentation for this metric (required).
         documentation: https://github.com/carmonalab/scIntegrationMetrics
-        # URL to the code repository for this metric (required).
         repository: https://github.com/carmonalab/scIntegrationMetrics
-      # The minimum possible value for this metric (required)
       min: 0
-      # The maximum possible value for this metric (required)
       max: 1
-      # Whether a higher value represents a 'better' solution (required)
       maximize: true
-
-# Component-specific parameters (optional)
-# arguments:
-#   - name: "--n_neighbors"
-#     type: "integer"
-#     default: 5
-#     description: Number of neighbors to use.
-
-# Resources required to run the component
 resources:
-  # The script of your component (required)
   - type: r_script
     path: script.R
-  # Additional resources your script needs (optional)
-  # - type: file
-  #   path: weights.pt
-
 engines:
-  # Specifications for the Docker image for this component.
   - type: docker
     image: openproblems/base_r:1.0.0
-    # Add custom dependencies here (optional). For more information, see
-    # https://viash.io/reference/config/engines/docker/#setup .
     setup:
        - type: r
          github: https://github.com/carmonalab/scIntegrationMetrics.git@1.2.0
-
 runners:
-  # This platform allows running the component natively
   - type: executable
-  # Allows turning the component into a Nextflow module / pipeline.
   - type: nextflow
     directives:
       label: [midtime,midmem,midcpu]
