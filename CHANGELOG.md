@@ -3,6 +3,7 @@
 ## New functionality
 
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
+* Added `method/drvi` component (PR #61).
 
 ## Minor changes
 
