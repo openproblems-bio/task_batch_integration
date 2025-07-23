@@ -64,8 +64,6 @@ model.train(
     },
 )
 
-embed = ad.AnnData(model.get_latent_representation(), obs=adata.obs)
-
 print("Store outputs", flush=True)
 output = ad.AnnData(
     obs=adata.obs.copy(),
