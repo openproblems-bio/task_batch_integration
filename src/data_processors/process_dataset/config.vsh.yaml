@@ -1,0 +1,19 @@
+__merge__: /src/api/comp_process_dataset.yaml
+name: process_dataset
+description: Preprocess adata object for data integration
+resources:
+  - type: python_script
+    path: script.py
+  - path: /common/helper_functions/subset_h5ad_by_format.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1
+    setup:
+      - type: python
+        pypi:
+          - scib==1.1.7
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [highmem, midcpu, midtime]

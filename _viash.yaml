@@ -1,0 +1,99 @@
+viash_version: 0.9.4
+name: task_batch_integration
+organization: openproblems-bio
+version: build_feat_transcriptformer_mlflow
+license: MIT
+keywords: ["batch integration", "scRNA-seq"]
+links:
+  issue_tracker: https://github.com/openproblems-bio/task_batch_integration/issues
+  repository: https://github.com/openproblems-bio/task_batch_integration
+  docker_registry: ghcr.io
+label: Batch Integration
+summary: Remove unwanted batch effects from scRNA-seq data while retaining biologically meaningful variation.
+description: |
+  As single-cell technologies advance, single-cell datasets are growing both in size and complexity.
+  Especially in consortia such as the Human Cell Atlas, individual studies combine data from multiple labs, each sequencing multiple individuals possibly with different technologies.
+  This gives rise to complex batch effects in the data that must be computationally removed to perform a joint analysis.
+  These batch integration methods must remove the batch effect while not removing relevant biological information.
+  Currently, over 200 tools exist that aim to remove batch effects scRNA-seq datasets [@zappia2018exploring].
+  These methods balance the removal of batch effects with the conservation of nuanced biological information in different ways.
+  This abundance of tools has complicated batch integration method choice, leading to several benchmarks on this topic [@luecken2022benchmarking; @tran2020benchmark; @chazarragil2021flexible; @mereu2020benchmarking].
+  Yet, benchmarks use different metrics, method implementations and datasets. Here we build a living benchmarking task for batch integration methods with the vision of improving the consistency of method evaluation.
+
+  In this task we evaluate batch integration methods on their ability to remove batch effects in the data while conserving variation attributed to biological effects.
+  As input, methods require either normalised or unnormalised data with multiple batches and consistent cell type labels.
+  The batch integrated output can be a feature matrix, a low dimensional embedding and/or a neighbourhood graph.
+  The respective batch-integrated representation is then evaluated using sets of metrics that capture how well batch effects are removed and whether biological variance is conserved.
+  We have based this particular task on the latest, and most extensive benchmark of single-cell data integration methods.
+references:
+  doi:
+    # Luecken, M.D., Büttner, M., Chaichoompu, K. et al.
+    # Benchmarking atlas-level data integration in single-cell genomics. Nat Methods 19, 41–50 (2022).
+    - 10.1038/s41592-021-01336-8
+info:
+  image: thumbnail.svg
+  test_resources:
+    - type: s3
+      path: s3://openproblems-data/resources_test/common/cxg_immune_cell_atlas/
+      dest: resources_test/common/cxg_immune_cell_atlas
+    - type: s3
+      path: s3://openproblems-data/resources_test/task_batch_integration/
+      dest: resources_test/task_batch_integration
+authors:
+  - name: Michaela Mueller
+    roles: [maintainer, author]
+    info:
+      github: mumichae
+      orcid: 0000-0002-1401-1785
+  - name: Malte Luecken
+    roles: [author]
+    info:
+      github: LuckyMD
+      orcid: 0000-0001-7464-7921
+  - name: Daniel Strobl
+    roles: [author]
+    info:
+      github: danielStrobl
+      orcid: 0000-0002-5516-7057
+  - name: Robrecht Cannoodt
+    roles: [author]
+    info:
+      github: rcannood
+      orcid: "0000-0003-3641-729X"
+  - name: Luke Zappia
+    roles: [author]
+    info:
+      github: lazappi
+      orcid: 0000-0001-7744-8565
+  - name: "Scott Gigante"
+    roles: [contributor]
+    info:
+      github: scottgigante
+      orcid: "0000-0002-4544-2764"
+  - name: Kai Waldrant
+    roles: [contributor]
+    info:
+      github: KaiWaldrant
+      orcid: "0009-0003-8555-1361"
+  - name: Martin Kim
+    roles: [contributor]
+    info:
+      github: martinkim0
+      orcid: "0009-0003-8555-1361"
+  - name: Sai Nirmayi Yasa
+    roles: [contributor]
+    info:
+      github: sainirmayi
+      orcid: 0009-0003-6319-9803
+  - name: Jeremie Kalfon
+    roles: [contributor]
+    info:
+      github: jkobject
+      orcid: 0000-0002-2818-9728
+config_mods: |
+  .runners[.type == "nextflow"].config.labels := { lowmem : "memory = 20.Gb", midmem : "memory = 50.Gb", highmem : "memory = 100.Gb", lowcpu : "cpus = 5", midcpu : "cpus = 15", highcpu : "cpus = 30", lowtime : "time = 1.h", midtime : "time = 4.h", hightime : "time = 8.h", veryhightime : "time = 24.h" }
+repositories:
+  - name: openproblems
+    type: github
+    repo: openproblems-bio/openproblems
+    tag: build/main

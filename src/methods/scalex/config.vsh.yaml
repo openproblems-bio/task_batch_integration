@@ -1,0 +1,37 @@
+__merge__: /src/api/comp_method.yaml
+name: scalex
+label: SCALEX
+summary: Online single-cell data integration through projecting heterogeneous datasets
+  into a common cell-embedding space
+description: |
+  SCALEX is a method for integrating heterogeneous single-cell data online using a VAE framework. Its generalised encoder disentangles batch-related components from batch-invariant biological components, which are then projected into a common cell-embedding space.
+references:
+  doi: 10.1038/s41467-022-33758-z
+links:
+  repository: https://github.com/jsxlei/SCALEX
+  documentation: https://scalex.readthedocs.io
+info:
+  method_types: [feature, embedding]
+  preferred_normalization: log_cp10k
+  variants:
+    scalex_feature_unscaled:
+    scanorama_feature_scaled:
+      preferred_normalization: log_cp10k_scaled
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1
+    setup:
+      - type: python
+        pypi:
+          - scalex
+          - numpy<1.24
+          - torch<2.1
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [lowmem, lowcpu, hightime]
