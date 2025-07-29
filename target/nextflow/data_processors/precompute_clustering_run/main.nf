@@ -3424,7 +3424,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/data_processors/precompute_clustering_run",
     "viash_version" : "0.9.4",
-    "git_commit" : "8693f35176d8245b61ae18c76c1fc5b8181ee51a",
+    "git_commit" : "b7dae0b4b7b98a17a3966ded2ffaaa8335379a20",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
