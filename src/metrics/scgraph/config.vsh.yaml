@@ -1,0 +1,56 @@
+__merge__: ../../api/comp_metric.yaml
+name: scgraph
+info:
+  metrics:
+    - name: scgraph
+      label: scGraph
+      summary: "scGraph quantifies the similarity between two graphs that each represent the closeness between cell types."
+      description: |
+        scGraph quantifies the similarity between two graphs that each represent the closeness between cell types. In these graphs, each entry (x, y) denotes the proximity of cell type x to cell type y. The goal is to align the neighborhood graphs from the embeddings with the reference graph derived from the data, indicating that cells with similar profiles are appropriately clustered in the embedding space. The first graph is derived from the provided embeddings, while the second, serving as a reference, is based on batch-wise PCA loadings from each batch. For the reference, proximity graphs are initially computed from each batch using normalized Euclidean distances between centroids of the cell type profiles. These batch-specific graphs are then amalgamated into a single consensus graph through averaging. The similarity of neighborhoods for each cell type is assessed using weighted Pearson correlation, where the weights are inversely proportional to the distances. This modification provides a ranking similar to simple correlation but with greater emphasis on closer neighbors (capturing finer structure) while reducing the influence of more distant cell types. The final score, reflecting the overall similarity and ranging from −1 to 1 (with higher values indicating greater similarity), is the average across all cell types. Notably, computing scGraph scores does not require every cell type to be present in each batch nor does it require the graphs to be fully connected. Lastly, as scGraph constructs its reference using PCA-based loadings, it may favor embeddings that resemble PCA or those where the authors made annotations.
+      references:
+        doi: 
+          - 10.1038/s41587-025-02702-z
+      links:
+        documentation: https://github.com/Genentech/Islander?tab=readme-ov-file
+        repository: https://github.com/Genentech/Islander?tab=readme-ov-file
+      min: -1
+      max: 1
+      maximize: true
+
+arguments:
+  - name: "--trim_rate"
+    type: "long"
+    default: 0.05
+    description: Trim rate for robust mean calculation
+  - name: "--thres_batch"
+    type: "integer"
+    default: 100
+    description: Minimum number of cells per batcch
+  - name: "--thres_celltype"
+    type: "integer"
+    default: 10
+    description: Minimum number of cells per cell type
+  - name: "--only_umap"
+    type: "boolean"
+    default: True
+    description: Only evaluate 2D embeddings (mostly umaps)
+
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        packages: scgraph-eval==0.1.2
+
+runners:
+  # This platform allows running the component natively
+  - type: executable
+  # Allows turning the component into a Nextflow module / pipeline.
+  - type: nextflow
+    directives:
+      label: [midtime,midmem,midcpu]
