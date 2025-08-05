@@ -1,0 +1,45 @@
+__merge__: ../../api/comp_metric.yaml
+name: cellmixs
+info:
+  metrics:
+    - name: cellmixs
+      label: CellMixS
+      summary: "CellMixS provides metrics and functions to evaluate batch effects, data integration and batch effect correction in single cell trancriptome data with single cell resolution."
+      description: |
+        The cell-specific mixing score compares batch-wise distance distributions according to each cell’s knn. Euclidean distances within principal component space (top 10 components) are used.
+        The k-sample test uses the Anderson–Darling criterion to test the hypothesis that k independent samples with sample sizes n1,…,nk arose from a (potentially unspecified) common continuous distribution F. 
+      references:
+        doi: 
+          - 10.26508/lsa.202001004
+      links:
+        documentation: https://www.bioconductor.org/packages/devel/bioc/html/CellMixS.html
+        repository: https://github.com/almutlue/CellMixS
+      min: 0
+      max: 1
+      maximize: true
+
+arguments:
+  - name: "--k"
+    type: "integer"
+    default: 70
+    description: Neighborhood size.
+
+resources:
+  - type: r_script
+    path: script.R
+engines:
+  - type: docker
+    image: openproblems/base_r:1.0.0
+    setup:
+      - type: r
+        cran:
+          - anndata
+        bioc:
+          - CellMixS
+          - zellkonverter
+          - SingleCellExperiment
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime,midmem,midcpu]
