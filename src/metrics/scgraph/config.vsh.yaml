@@ -19,7 +19,7 @@ info:
 
 arguments:
   - name: "--trim_rate"
-    type: "long"
+    type: "double"
     default: 0.05
     description: Trim rate for robust mean calculation
   - name: "--thres_batch"
