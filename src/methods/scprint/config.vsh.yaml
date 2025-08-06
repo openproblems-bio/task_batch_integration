@@ -1,0 +1,93 @@
+__merge__: /src/api/comp_method.yaml
+
+name: scprint
+label: scPRINT
+summary: scPRINT is a large transformer model built for the inference of gene networks
+description: |
+  scPRINT is a large transformer model built for the inference of gene networks
+  (connections between genes explaining the cell's expression profile) from
+  scRNAseq data.
+
+  It uses novel encoding and decoding of the cell expression profile and new
+  pre-training methodologies to learn a cell model.
+
+  scPRINT can be used to perform the following analyses:
+
+  - expression denoising: increase the resolution of your scRNAseq data
+  - cell embedding: generate a low-dimensional representation of your dataset
+  - label prediction: predict the cell type, disease, sequencer, sex, and
+    ethnicity of your cells
+  - gene network inference: generate a gene network from any cell or cell
+    cluster in your scRNAseq dataset
+
+references:
+  doi:
+    - 10.1101/2024.07.29.605556
+
+links:
+  documentation: https://cantinilab.github.io/scPRINT/
+  repository: https://github.com/cantinilab/scPRINT
+
+info:
+  preferred_normalization: counts
+  method_types: [embedding]
+  variants:
+    scprint_large:
+      model_name: "large"
+    scprint_medium:
+      model_name: "v2-medium"
+    scprint_small:
+      model_name: "small"
+  test_setup:
+    run:
+      model_name: small
+      batch_size: 16
+      max_len: 100
+
+arguments:
+  - name: "--model_name"
+    type: "string"
+    description: Which model to use. Not used if --model is provided.
+    choices: ["large", "v2-medium", "small"]
+    default: "v2-medium"
+  - name: --model
+    type: file
+    description: Path to the scPRINT model.
+    required: false
+  - name: --batch_size
+    type: integer
+    description: The size of the batches to be used in the DataLoader.
+    default: 32
+  - name: --max_len
+    type: integer
+    description: The maximum length of the gene sequence.
+    default: 4000
+
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+  - path: /src/utils/exit_codes.py
+
+engines:
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1
+    setup:
+      - type: python
+        pip:
+          - git+https://github.com/cantinilab/scPRINT.git@d8cc270b099c8d5dacf6913acc26f2b696685b2b
+          - gseapy==1.1.2
+          - git+https://github.com/jkobject/scDataLoader.git@c67c24a2e5c62399912be39169aae76e29e108aa
+      - type: docker
+        run: lamin init --storage ./main --name main --schema bionty
+      - type: docker
+        run: lamin load anonymous/main
+      - type: python
+        script: import bionty as bt; bt.core.sync_all_sources_to_latest()
+      - type: python
+        script: from scdataloader.utils import populate_my_ontology; populate_my_ontology()
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [hightime, highmem, midcpu, gpu, highsharedmem]

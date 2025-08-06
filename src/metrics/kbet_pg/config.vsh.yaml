@@ -1,0 +1,49 @@
+__merge__: /src/api/comp_metric.yaml
+name: kbet_pg
+info:
+  metric_type: embedding
+  metrics:
+    - name: kbet_pg
+      label: kBET pegasus
+      summary: kBET algorithm to determine how well batches are mixed within a cell
+        type
+      # TODO: transform into more readable markdown with proper formulae formatting
+      description: |
+        The kBET algorithm (v.0.99.6, release 4c9dafa) determines whether the label composition
+        of a k nearest neighborhood of a cell is similar to the expected (global) label
+        composition (Buettner et al., Nat Meth 2019). The test is repeated for a random subset
+        of cells, and the results are summarized as a rejection rate over all tested
+        neighborhoods.
+
+        This implementation uses the `pegasus.calc_kBET` function.
+
+        In Open Problems we do not run kBET on graph outputs to avoid computation-intensive
+        diffusion processes being run.
+      references:
+        doi: 10.1038/s41592-021-01336-8
+      links:
+        homepage: https://pegasus.readthedocs.io/en/stable/
+        documentation: https://pegasus.readthedocs.io/en/stable/api/pegasus.calc_kBET.html
+        repository: https://github.com/lilab-bcb/pegasus
+      min: 0
+      max: 1
+      maximize: true
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1
+    setup:
+      - type: python
+        pypi:
+          - pegasuspy
+          - zarr<3.0
+          - pandas<2.0
+          - numpy<2.0
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [hightime, veryhighmem, lowcpu]
