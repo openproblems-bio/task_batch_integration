@@ -26,8 +26,9 @@ print('Reading input files', flush=True)
 adata = read_anndata(par['input_integrated'], obs='obs', obsm='obsm', obsp='obsp', uns='uns')
 adata.obs = read_anndata(par['input_solution'], obs='obs').obs
 adata.uns |= read_anndata(par['input_solution'], uns='uns').uns
-print('cell type:')
-adata.obs['cell_type']
+
+print(adata.obs.columns)
+print(adata.obs['cell_type']) # gives nothing, why?? other metrics use the same input data and cell_type
 
 print('Compute metrics', flush=True)
 uns_metric_ids = [ 'scgraph' ]
@@ -37,7 +38,7 @@ from scgraph import scGraph
 
 # Initialize the graph analyzer
 scgraph = scGraph(
-    adata_path=par["input_integrated"],
+    adata_path=par["input_integrated"], # can't read from memory since it requires the PATH ?
     batch_key="batch",
     label_key="cell_type", # why doesn't this work!!
     trim_rate=par["trim_rate"],
