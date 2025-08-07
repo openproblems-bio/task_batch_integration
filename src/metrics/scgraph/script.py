@@ -26,6 +26,8 @@ print('Reading input files', flush=True)
 adata = read_anndata(par['input_integrated'], obs='obs', obsm='obsm', obsp='obsp', uns='uns')
 adata.obs = read_anndata(par['input_solution'], obs='obs').obs
 adata.uns |= read_anndata(par['input_solution'], uns='uns').uns
+print('cell type:')
+adata.obs['cell_type']
 
 print('Compute metrics', flush=True)
 uns_metric_ids = [ 'scgraph' ]
