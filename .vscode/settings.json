@@ -5,6 +5,14 @@
     "common/schemas/task_config.yaml": "_viash.yaml",
     "common/schemas/task_method.yaml": "**/methods/**/config.vsh.yaml",
     "common/schemas/task_control_method.yaml": "**/control_methods/**/config.vsh.yaml",
-    "common/schemas/task_metric.yaml": "**/metrics/**/config.vsh.yaml"
+    "common/schemas/task_metric.yaml": "**/metrics/**/config.vsh.yaml",
+    "https://raw.githubusercontent.com/viash-io/viash-schemas/refs/heads/main/json_schemas/unknown/config.schema.json": [
+      "*.vsh.yaml",
+      "*.vsh.yml"
+    ],
+    "https://raw.githubusercontent.com/viash-io/viash-schemas/refs/heads/main/json_schemas/unknown/package.schema.json": [
+      "_viash.yaml",
+      "_viash.yml"
+    ]
   }
 }
