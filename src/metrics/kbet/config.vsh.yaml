@@ -44,7 +44,7 @@ resources:
   - path: /src/utils/read_anndata_partial.py
 engines:
   - type: docker
-    image: openproblems/base_r:1.0.0
+    image: openproblems/base_r:1
     setup:
       - type: r
         github: theislab/kBET
