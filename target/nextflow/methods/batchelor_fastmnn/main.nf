@@ -3373,7 +3373,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/batchelor_fastmnn",
     "viash_version" : "0.9.4",
-    "git_commit" : "ab0064c33200fd9d507658de008f20796dc8ff91",
+    "git_commit" : "f73881082deaac2c0f88ce112df80fc2c6cb5d99",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
