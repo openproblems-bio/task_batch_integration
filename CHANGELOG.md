@@ -9,6 +9,10 @@
 * Un-pin the scPRINT version and update parameters (PR #51)
 * Update scPRINT to better handle large datasets, including a new default model (PR #54)
 
+## Bug fixes
+
+* Update scPRINT to use latest stable version (PR #xx)
+
 # task_batch_integration 2.0.0
 
 A major update to the OpenProblems framework, switching from a Python-based framework to a Viash + Nextflow-based framework. This update features the same concepts as the previous version, but with a new implementation that is more flexible, scalable, and maintainable.
