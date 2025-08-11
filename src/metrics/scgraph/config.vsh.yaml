@@ -44,9 +44,11 @@ engines:
   - type: docker
     image: openproblems/base_python:1.0.0
     setup:
-      - type: python
-        packages: scgraph-eval==0.1.2
-
+      run: |
+        git clone --depth 1 --single-branch -b your-branch-name https://github.com/Genentech/Islander.git /Islander
+        export PYTHONPATH="$PYTHONPATH:/Islander/src"
+    environment:
+      PYTHONPATH: "${PYTHONPATH}:/Islander/src"
 runners:
   # This platform allows running the component natively
   - type: executable

@@ -4,19 +4,6 @@ from scgraph import scGraph
 import pandas
 import numpy
 
-## VIASH START
-par = {
-  'input_integrated': 'resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_full.h5ad',
-  'output': 'output.h5ad',
-  "trim_rate": 0.05,
-  "thres_batch": 100,
-  "thres_celltype": 10,
-  "only_umap": True
-}
-meta = {
-  'name': 'scgraph'
-}
-## VIASH END
 
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
@@ -38,7 +25,7 @@ from scgraph import scGraph
 
 # Initialize the graph analyzer
 scgraph = scGraph(
-    adata_path=par["input_integrated"], # can't read from memory since it requires the PATH ?
+    adata=adata, # can't read from memory since it requires the PATH ?
     batch_key="batch",
     label_key="cell_type", # why doesn't this work!!
     trim_rate=par["trim_rate"],
@@ -59,6 +46,8 @@ output = ad.AnnData(
         'metric_values': [ results ]
     }
 )
+
+# TODO scaling to 0-1?
 
 print("Write output AnnData to file", flush=True)
 output.write_h5ad(par['output'], compression='gzip')
