@@ -457,9 +457,9 @@ RUN pip install --upgrade pip && \
   python -c 'from scdataloader.utils import populate_my_ontology; populate_my_ontology()'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scprint"
-LABEL org.opencontainers.image.created="2025-08-06T09:25:00Z"
+LABEL org.opencontainers.image.created="2025-08-11T13:08:57Z"
 LABEL org.opencontainers.image.source="https://github.com/cantinilab/scPRINT"
-LABEL org.opencontainers.image.revision="de5b9c2838768de2c86fa0f524a3507f98eb4094"
+LABEL org.opencontainers.image.revision="515e781b521d2afb7279f3309510f918140df865"
 LABEL org.opencontainers.image.version="build_test_python_package"
 
 VIASHDOCKER

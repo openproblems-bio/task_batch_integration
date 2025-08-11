@@ -449,9 +449,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "pegasuspy" "zarr<3.0" "pandas<2.0" "numpy<2.0"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics kbet_pg"
-LABEL org.opencontainers.image.created="2025-08-06T09:25:00Z"
+LABEL org.opencontainers.image.created="2025-08-11T13:08:58Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="de5b9c2838768de2c86fa0f524a3507f98eb4094"
+LABEL org.opencontainers.image.revision="515e781b521d2afb7279f3309510f918140df865"
 LABEL org.opencontainers.image.version="build_test_python_package"
 
 VIASHDOCKER
