@@ -56,6 +56,8 @@ metrics = [
   isolated_label_asw,
   isolated_label_f1,
   kbet,
+  kbet_pg,
+  kbet_pg_label,
   lisi,
   pcr
 ]
