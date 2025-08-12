@@ -19,10 +19,6 @@ info:
       maximize: true
 
 arguments:
-  - name: "--rep"
-    type: "string"
-    default: "pca"
-    description: The embedding representation to consider.
   - name: "--K"
     type: "integer"
     default: 24
