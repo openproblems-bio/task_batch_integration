@@ -66,10 +66,12 @@ if model_checkpoint_file is None:
 if torch.cuda.is_available():
     print("CUDA is available, using GPU", flush=True)
     precision = "16"
+    dtype = torch.float16
     transformer = "flash"
 else:
     print("CUDA is not available, using CPU", flush=True)
     precision = "32"
+    dtype = torch.float32
     transformer = "normal"
 
 print(f"Model checkpoint file: '{model_checkpoint_file}'", flush=True)
@@ -108,6 +110,7 @@ embedder = Embedder(
     keep_all_cls_pred=False,
     output_expression="none",
     save_every=30_000,
+    dtype=dtype,
 )
 embedded, _ = embedder(model, adata, cache=False)
 

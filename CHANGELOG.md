@@ -1,9 +1,18 @@
 # task_batch_integration devel
 
+## New functionality
+
+* Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
+* Added `method/drvi` component (PR #61).
+
 ## Minor changes
 
 * Un-pin the scPRINT version and update parameters (PR #51)
 * Update scPRINT to better handle large datasets, including a new default model (PR #54)
+
+## Bug fixes
+
+* Update scPRINT to use latest stable version (PR #xx)
 
 # task_batch_integration 2.0.0
 
