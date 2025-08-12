@@ -26,8 +26,9 @@ import tempfile
 import subprocess
 from pathlib import Path
 from typing import List, Optional, Union
-from collections import namedtuple
 from dataclasses import dataclass
+import anndata as ad
+import shutil
 
 @dataclass
 class Argument:
@@ -127,7 +128,7 @@ def __process_argument(argument: dict) -> dict:
 
 
 # dynamically create function which has the same signature as the arguments in arguments
-def __check_type_of_argument_value(value: any, argument: Argument) -> any:
+def __check_type_of_argument_value(value: any, argument: Argument, temp_dir: Path) -> any:
   """
   Check the type of an argument and convert it if necessary.
 
@@ -143,6 +144,10 @@ def __check_type_of_argument_value(value: any, argument: Argument) -> any:
   """
 
   if argument.type == "file" and argument.direction == "input":
+    if isinstance(value, ad.AnnData):
+      new_value = temp_dir / f"{argument.clean_name}.h5ad"
+      value.write_h5ad(new_value, compression="gzip")
+      value = new_value
     if isinstance(value, str):
       value = Path(value)
     if not isinstance(value, Path):
@@ -171,7 +176,7 @@ def __check_type_of_argument_value(value: any, argument: Argument) -> any:
   return value
 
 
-def __get_argument_value(argument: Argument, arg_values: dict) -> Optional[List[any]]:
+def __get_argument_value(argument: Argument, arg_values: dict, temp_dir: Path) -> Optional[List[any]]:
   """
   Check if an argument is present and of the correct type.
 
@@ -211,7 +216,7 @@ def __get_argument_value(argument: Argument, arg_values: dict) -> Optional[List[
       raise ValueError(f"Argument {argument.clean_name} does not accept multiple values")
 
   # check types do some type conversion
-  return [__check_type_of_argument_value(v, argument) for v in value]
+  return [__check_type_of_argument_value(v, argument, temp_dir) for v in value]
 
 def __argument_value_to_flag(value: Optional[List[any]], argument: Argument) -> List[str]:
   """
@@ -247,6 +252,16 @@ def __argument_value_to_flag(value: Optional[List[any]], argument: Argument) -> 
 
   return out
 
+def __process_output_item(path: str, argument: Argument) -> Union[Path, ad.AnnData]:
+  if path.endswith(".h5ad"):
+    # if the output is an AnnData, we need to convert it to a Path
+    return ad.read_h5ad(path)
+  elif path.endswith(".zarr"):
+    return ad.read_zarr(path)
+  else:
+    # otherwise, we can just return the path as a Path object
+    return Path(path)
+
 def __process_output_value(output_path: str, argument: Argument) -> Optional[Union[Path, List[Path]]]:
   """
   Process an output value and return the path(s).
@@ -271,15 +286,15 @@ def __process_output_value(output_path: str, argument: Argument) -> Optional[Uni
     raise FileNotFoundError(f"Output{s} for argument {argument.clean_name} not found at '{output_path}'")
 
   # convert types
-  paths = [Path(v) for v in value]
+  if argument.type == "file" and argument.direction == "output":
+    paths = [__process_output_item(v) for v in value]
 
   if argument.multiple:
     return paths
   else:
     return paths[0] if len(paths) > 0 else None
 
-
-def __run(arg_values: dict, config: dict, publish_dir: Path, verbose: bool = False) -> dict:
+def __run(arg_values: dict, config: dict, publish_dir: Path, verbose: bool = False, _temp_dir: Optional[Path] = None) -> dict:
   """
   Run the executable with the provided arguments.
 
@@ -300,35 +315,45 @@ def __run(arg_values: dict, config: dict, publish_dir: Path, verbose: bool = Fal
   # create publish directory if it doesn't exist
   if not os.path.exists(publish_dir):
     os.makedirs(publish_dir)
+  if _temp_dir is None:
+    _temp_dir = tempfile.mkdtemp()
+    created_temp_dir = _temp_dir is None
+    if created_temp_dir:
+      _temp_dir = Path(tempfile.mkdtemp())
 
-  for argument in config["all_arguments"]:
-    value = __get_argument_value(argument, arg_values)
+  try:
+    for argument in config["all_arguments"]:
+      value = __get_argument_value(argument, arg_values, _temp_dir)
+      if verbose:
+        print(f"Argument {argument.clean_name}: {value}", flush=True)
+
+      if value is not None:
+        # use publish dir to write output files to based on the provided template
+        if argument.type == "file" and argument.direction == "output":
+          value = [os.path.join(publish_dir, v) for v in value]
+          outputs[argument.clean_name] = value[0] # should always be a single file
+
+        cmd.extend(__argument_value_to_flag(value, argument))
+
+    # run the command
     if verbose:
-      print(f"Argument {argument.clean_name}: {value}", flush=True)
+      print(f"Running command: {' '.join(cmd)}", flush=True)
+    out = subprocess.run(cmd)
 
-    if value is not None:
-      # use publish dir to write output files to based on the provided template
-      if argument.type == "file" and argument.direction == "output":
-        value = [os.path.join(publish_dir, v) for v in value]
-        outputs[argument.clean_name] = value[0] # should always be a single file
+    assert out.returncode == 0, f"Command failed with return code {out.returncode}"
 
-      cmd.extend(__argument_value_to_flag(value, argument))
+    resolved_outputs = {
+      argument.clean_name: __process_output_value(outputs[argument.clean_name], argument)
+      for argument in config["all_arguments"]
+      if argument.type == "file" and argument.direction == "output"
+    }
 
-  # run the command
-  if verbose:
-    print(f"Running command: {' '.join(cmd)}", flush=True)
-  out = subprocess.run(cmd)
+    return resolved_outputs
 
-  assert out.returncode == 0, f"Command failed with return code {out.returncode}"
-
-  resolved_outputs = {
-    argument.clean_name: __process_output_value(outputs[argument.clean_name], argument)
-    for argument in config["all_arguments"]
-    if argument.type == "file" and argument.direction == "output"
-  }
-
-  return resolved_outputs
-
+  finally:
+    if created_temp_dir:
+      # remove the temporary directory
+      shutil.rmtree(_temp_dir, ignore_errors=True)
 
 def __generate_function_argument_signature(argument: Argument, direction_input: bool = True) -> str:
   """
