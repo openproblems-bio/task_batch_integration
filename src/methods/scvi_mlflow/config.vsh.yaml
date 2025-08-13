@@ -1,0 +1,62 @@
+__merge__: ../../api/base_method.yaml
+
+name: scvi_mlflow
+label: scVI (MLflow model)
+summary: scVI combines a variational autoencoder with a hierarchical Bayesian model (MLflow model)
+description: |
+   scVI combines a variational autoencoder with a hierarchical Bayesian model.
+   It uses the negative binomial distribution to describe gene expression of
+   each cell, conditioned on unobserved factors and the batch variable.
+
+   This version uses a pre-trained MLflow model.
+references:
+  doi:
+    - 10.1038/s41592-018-0229-2
+links:
+  repository: https://github.com/scverse/scvi-tools
+  documentation: https://docs.scvi-tools.org/en/stable/user_guide/models/scvi.html
+
+info:
+  method_types: [embedding]
+  preferred_normalization: counts
+
+arguments:
+  - name: --model
+    type: file
+    description: |
+      An MLflow model URI for the scVI model. If it is a .zip or
+      .tar.gz file it will be extracted to a temporary directory.
+    required: true
+
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+  - path: /src/utils/exit_codes.py
+  - path: /src/utils/unpack.py
+  - path: requirements.txt
+
+engines:
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1
+    setup:
+      - type: docker
+        add: https://astral.sh/uv/0.7.19/install.sh /uv-installer.sh
+        run: sh /uv-installer.sh && rm /uv-installer.sh
+        env: PATH="/root/.local/bin/:$PATH"
+      - type: docker
+        run: uv venv --python 3.11 /opt/venv
+      - type: docker
+        env:
+          - VIRTUAL_ENV=/opt/venv
+          - PATH="/opt/venv/bin:$PATH"
+        add: requirements.txt /requirements.txt
+        run: uv pip install -r /requirements.txt && uv pip install mlflow==3.1.0
+      - type: docker
+        run: uv pip install git+https://github.com/openproblems-bio/core#subdirectory=packages/python/openproblems
+
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [hightime, highmem, midcpu, gpu]

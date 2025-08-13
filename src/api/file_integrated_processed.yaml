@@ -1,0 +1,59 @@
+type: file
+example: "resources_test/task_batch_integration/cxg_immune_cell_atlas/integrated_processed.h5ad"
+label: Processed integration output
+summary: An integrated AnnData dataset with additional outputs.
+description: |
+  Must contain at least one of:
+
+    - Feature: the corrected_counts layer
+    - Embedding: the X_emb obsm
+    - Graph: the connectivities and distances obsp
+
+  The Graph should always be present, but the Feature and Embedding are optional.
+info:
+  format:
+    type: h5ad
+    layers:
+      - type: double
+        name: corrected_counts
+        description: Feature output - corrected counts
+        required: false
+    obsm:
+      - type: double
+        name: X_emb
+        description: Embedding output - 2D coordinate matrix
+        required: false
+      - type: integer
+        name: clustering
+        description: Leiden clustering results at different resolutions.
+        required: true
+    obsp:
+      - type: double
+        name: connectivities
+        description: "Graph output - neighbor connectivities matrix"
+        required: true
+      - type: double
+        name: distances
+        description: "Graph output - neighbor distances matrix"
+        required: true
+    uns:
+      - type: string
+        name: dataset_id
+        description: "A unique identifier for the dataset"
+        required: true
+      - type: string
+        name: normalization_id
+        description: "Which normalization was used"
+        required: true
+      - name: dataset_organism
+        type: string
+        description: The organism of the sample in the dataset.
+        required: false
+      - type: string
+        name: method_id
+        description: "A unique identifier for the method"
+        required: true
+      - type: object
+        name: neighbors
+        description: Supplementary K nearest neighbors data.
+        required: true
