@@ -3383,7 +3383,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/pyliger",
     "viash_version" : "0.9.4",
-    "git_commit" : "814365192de61894effe76b2918e7321ee9b48c8",
+    "git_commit" : "f179613dc91091293231754132a1aaf781265fbd",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

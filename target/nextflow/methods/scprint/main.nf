@@ -3440,22 +3440,15 @@ meta = [
           "type" : "python",
           "user" : false,
           "pip" : [
-            "git+https://github.com/cantinilab/scPRINT.git@d8cc270b099c8d5dacf6913acc26f2b696685b2b",
-            "gseapy==1.1.2",
-            "git+https://github.com/jkobject/scDataLoader.git@c67c24a2e5c62399912be39169aae76e29e108aa"
+            "scprint>=2.3.0",
+            "gseapy>=1.1.8"
           ],
           "upgrade" : true
         },
         {
           "type" : "docker",
           "run" : [
-            "lamin init --storage ./main --name main --schema bionty"
-          ]
-        },
-        {
-          "type" : "docker",
-          "run" : [
-            "lamin load anonymous/main"
+            "lamin init --storage ./main --name main --schema bionty && \\\\\nlamin load anonymous/main\n"
           ]
         },
         {
@@ -3483,7 +3476,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scprint",
     "viash_version" : "0.9.4",
-    "git_commit" : "814365192de61894effe76b2918e7321ee9b48c8",
+    "git_commit" : "f179613dc91091293231754132a1aaf781265fbd",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

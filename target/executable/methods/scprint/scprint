@@ -446,10 +446,11 @@ function ViashDockerfile {
 FROM openproblems/base_pytorch_nvidia:1
 ENTRYPOINT []
 RUN pip install --upgrade pip && \
-  pip install --upgrade --no-cache-dir "git+https://github.com/cantinilab/scPRINT.git@d8cc270b099c8d5dacf6913acc26f2b696685b2b" "gseapy==1.1.2" "git+https://github.com/jkobject/scDataLoader.git@c67c24a2e5c62399912be39169aae76e29e108aa"
+  pip install --upgrade --no-cache-dir "scprint>=2.3.0" "gseapy>=1.1.8"
 
-RUN lamin init --storage ./main --name main --schema bionty
-RUN lamin load anonymous/main
+RUN lamin init --storage ./main --name main --schema bionty && \
+lamin load anonymous/main
+
 RUN pip install --upgrade pip && \
   python -c 'import bionty as bt; bt.core.sync_all_sources_to_latest()'
 
@@ -457,9 +458,9 @@ RUN pip install --upgrade pip && \
   python -c 'from scdataloader.utils import populate_my_ontology; populate_my_ontology()'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scprint"
-LABEL org.opencontainers.image.created="2025-08-13T13:20:26Z"
+LABEL org.opencontainers.image.created="2025-08-13T14:53:36Z"
 LABEL org.opencontainers.image.source="https://github.com/cantinilab/scPRINT"
-LABEL org.opencontainers.image.revision="814365192de61894effe76b2918e7321ee9b48c8"
+LABEL org.opencontainers.image.revision="f179613dc91091293231754132a1aaf781265fbd"
 LABEL org.opencontainers.image.version="build_feature_no_ref_add_mlflow_models"
 
 VIASHDOCKER
