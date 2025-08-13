@@ -35,6 +35,9 @@ methods = [
   scgpt_finetuned.run(
     args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
   ),
+  scgpt_mlflow.run(
+    args: [model: file("s3://openproblems-work/cache/scgpt-mlflow-model.zip")]
+  ),
   scgpt_zeroshot.run(
     args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
   ),

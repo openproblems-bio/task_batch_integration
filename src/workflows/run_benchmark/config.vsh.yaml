@@ -103,6 +103,7 @@ dependencies:
   - name: methods/scanorama
   - name: methods/scanvi
   - name: methods/scgpt_finetuned
+  - name: methods/scgpt_mlflow
   - name: methods/scgpt_zeroshot
   - name: methods/scimilarity
   - name: methods/scprint
