@@ -22,6 +22,7 @@ meta = {"name": "geneformer_mlflow"}
 sys.path.append(meta["resources_dir"])
 from exit_codes import exit_non_applicable
 from read_anndata_partial import read_anndata
+from unpack import unpack_directory
 
 print("====== Geneformer (MLflow model) ======", flush=True)
 
@@ -37,30 +38,8 @@ if adata.uns["dataset_organism"] != "homo_sapiens":
 
 print(adata, flush=True)
 
-if os.path.isdir(par["model"]):
-    print("\n>>> Using model directory...", flush=True)
-    print(f"Directory path: '{par['model']}'", flush=True)
-    model_temp = None
-    model_dir = par["model"]
-else:
-    model_temp = tempfile.TemporaryDirectory()
-    model_dir = model_temp.name
-
-    if zipfile.is_zipfile(par["model"]):
-        print("\n>>> Extracting model from .zip...", flush=True)
-        print(f".zip path: '{par['model']}'", flush=True)
-        with zipfile.ZipFile(par["model"], "r") as zip_file:
-            zip_file.extractall(model_dir)
-    elif tarfile.is_tarfile(par["model"]) and par["model"].endswith(".tar.gz"):
-        print("\n>>> Extracting model from .tar.gz...", flush=True)
-        print(f".tar.gz path: '{par['model']}'", flush=True)
-        with tarfile.open(par["model"], "r:gz") as tar_file:
-            tar_file.extractall(model_dir)
-            model_dir = os.path.join(model_dir, os.listdir(model_dir)[0])
-    else:
-        raise ValueError(
-            "The 'model' argument should be a directory a .zip file or a .tar.gz file"
-        )
+print("\n>>> Unpacking model...", flush=True)
+model_dir, model_temp = unpack_directory(par["model"])
 
 print("\n>>> Loading model...", flush=True)
 model = mlflow.pyfunc.load_model(model_dir)
