@@ -5,6 +5,8 @@
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
 * Added `method/drvi` component (PR #61).
 
+* Added `ARI_batch` and `NMI_batch` to `metrics/clustering_overlap` (PR #68).
+
 ## Minor changes
 
 * Un-pin the scPRINT version and update parameters (PR #51)
