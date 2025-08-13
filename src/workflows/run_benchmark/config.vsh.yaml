@@ -106,6 +106,7 @@ dependencies:
   - name: methods/scimilarity
   - name: methods/scprint
   - name: methods/scvi
+  - name: methods/scvi_mlflow
   - name: methods/transcriptformer_mlflow
   - name: methods/uce
   # metrics

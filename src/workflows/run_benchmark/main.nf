@@ -40,6 +40,9 @@ methods = [
   ),
   scprint,
   scvi,
+  scvi_mlflow.run(
+    args: [model: file("s3://openproblems-work/cache/scvi-mlflow-model.zip")]
+  ),
   transcriptformer_mlflow.run(
     args: [model: file("s3://openproblems-work/cache/transcriptformer-mlflow-model.zip")]
   ),
