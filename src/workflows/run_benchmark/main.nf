@@ -21,6 +21,9 @@ methods = [
   bbknn,
   combat,
   geneformer,
+  geneformer_mlflow.run(
+    args: [model: file("s3://openproblems-work/cache/geneformer-mlflow-model.zip")]
+  ),
   harmony,
   harmonypy,
   liger,
@@ -61,7 +64,7 @@ metrics = [
   hvg_overlap,
   isolated_label_asw,
   isolated_label_f1,
-  kbet,
+  // kbet,
   kbet_pg,
   kbet_pg_label,
   lisi,

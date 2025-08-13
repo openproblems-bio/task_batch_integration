@@ -93,6 +93,7 @@ dependencies:
   - name: methods/bbknn
   - name: methods/combat
   - name: methods/geneformer
+  - name: methods/geneformer_mlflow
   - name: methods/harmony
   - name: methods/harmonypy
   - name: methods/liger
