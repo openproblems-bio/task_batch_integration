@@ -111,6 +111,7 @@ dependencies:
   - name: methods/scvi_mlflow
   - name: methods/transcriptformer_mlflow
   - name: methods/uce
+  - name: methods/uce_mlflow
   # metrics
   - name: metrics/asw_batch
   - name: metrics/asw_label

@@ -54,6 +54,9 @@ methods = [
   ),
   uce.run(
     args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
+  ),
+  uce_mlflow.run(
+    args: [model: file("s3://openproblems-work/cache/uce-mlflow-model.zip")]
   )
 ]
 
