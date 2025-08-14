@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "task_batch_integration"
+authors = [{name = "Robrecht Cannoodt", email = "robrecht@data-intuitive.com"}]
+readme = "README.md"
+version = "0.1.0"
+description = "A test python wrapper for viash"
+
+[tool.setuptools.package-data]
+"*" = ["*", ".*"]
+
+[tool.setuptools.package-dir]
+task_batch_integration = "target/executable"
