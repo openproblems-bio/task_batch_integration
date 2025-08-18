@@ -3,6 +3,6 @@
 set -e
 
 common/scripts/create_component \
-  --name my_python_metric \
+  --name ksim \
   --language python \
   --type metric
