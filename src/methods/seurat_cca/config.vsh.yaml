@@ -1,0 +1,58 @@
+__merge__: /src/api/comp_method.yaml
+name: seurat_cca
+label: Seurat CCA
+summary: Integration using Seurat's anchor-based CCA integration
+description: |
+  Seurat's Canonical Correlation Analysis (CCA) integration method identifies shared 
+  correlation structures across datasets to perform batch correction. This method is 
+  effective for datasets with shared cell types across conditions/batches.
+  
+  The method works by:
+  1. Finding highly variable features for each dataset
+  2. Identifying integration anchors using CCA 
+  3. Using anchors to harmonize datasets
+  4. Generating integrated low-dimensional embedding
+references:
+  # Stuart, T., Butler, A., Hoffman, P. et al.
+  # Comprehensive Integration of Single-Cell Data.
+  # Cell 177, 1888-1902.e21 (2019). https://doi.org/10.1016/j.cell.2019.05.031
+  doi: 10.1016/j.cell.2019.05.031
+links:
+  repository: https://github.com/satijalab/seurat
+  documentation: https://satijalab.org/seurat/articles/seurat5_integration.html
+info:
+  method_types: [embedding]
+  preferred_normalization: log_cp10k
+arguments:
+  - name: --dims
+    type: integer
+    description: Number of dimensions to use for integration.
+    default: 30
+  - name: --k_anchor
+    type: integer
+    description: Number of neighbors to use when picking anchors.
+    default: 5
+  - name: --k_filter
+    type: integer
+    description: Number of neighbors to use when filtering anchors.
+    default: 200
+  - name: --k_score
+    type: integer  
+    description: Number of neighbors to use when scoring anchors.
+    default: 30
+resources:
+  - type: r_script
+    path: script.R
+engines:
+  - type: docker
+    image: openproblems/base_r:1
+    setup:
+      - type: r
+        cran:
+          - Seurat
+          - SeuratObject
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [lowcpu, highmem, hightime]
