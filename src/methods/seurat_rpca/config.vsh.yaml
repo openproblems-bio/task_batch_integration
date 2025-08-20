@@ -1,0 +1,59 @@
+__merge__: /src/api/comp_method.yaml
+name: seurat_rpca
+label: Seurat RPCA
+summary: Integration using Seurat's anchor-based RPCA integration
+description: |
+  Seurat's Reciprocal PCA (RPCA) integration method represents a faster and more 
+  conservative (less correction) approach compared to CCA integration. This method 
+  is especially useful for large datasets or datasets with similar biological 
+  composition across batches.
+  
+  The method works by:
+  1. Finding highly variable features for each dataset
+  2. Running PCA on each dataset
+  3. Identifying integration anchors using RPCA
+  4. Using anchors to harmonize datasets with more conservative correction
+references:
+  # Stuart, T., Butler, A., Hoffman, P. et al.
+  # Comprehensive Integration of Single-Cell Data.
+  # Cell 177, 1888-1902.e21 (2019). https://doi.org/10.1016/j.cell.2019.05.031
+  doi: 10.1016/j.cell.2019.05.031
+links:
+  repository: https://github.com/satijalab/seurat
+  documentation: https://satijalab.org/seurat/articles/seurat5_integration.html
+info:
+  method_types: [embedding]
+  preferred_normalization: log_cp10k
+arguments:
+  - name: --dims
+    type: integer
+    description: Number of dimensions to use for integration.
+    default: 30
+  - name: --k_anchor
+    type: integer
+    description: Number of neighbors to use when picking anchors.
+    default: 5
+  - name: --k_filter
+    type: integer
+    description: Number of neighbors to use when filtering anchors.
+    default: 200
+  - name: --k_score
+    type: integer  
+    description: Number of neighbors to use when scoring anchors.
+    default: 30
+resources:
+  - type: r_script
+    path: script.R
+engines:
+  - type: docker
+    image: openproblems/base_r:1
+    setup:
+      - type: r
+        cran:
+          - Seurat
+          - SeuratObject
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [lowcpu, highmem, hightime]
