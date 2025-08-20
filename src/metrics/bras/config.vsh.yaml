@@ -1,6 +1,7 @@
 __merge__: ../../api/comp_metric.yaml
 name: bras
 info:
+  metric_type: embedding
   metrics:
     - name: bras
       label: BRAS
