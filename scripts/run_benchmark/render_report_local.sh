@@ -21,6 +21,12 @@ TASK_STRIP_PREFIX=$(echo $TASK | sed 's/task_//')
 echo "Processing $DATE -> $OUTPUT_DIR"
 
 # start the run
+extra_filters=()
+# extra_filters=(
+#   --datasets_exclude "cellxgene_census/hypomap;cellxgene_census/mouse_pancreas_atlas"
+#   --metrics_exclude "hvg_overlap"
+# )
+
 nextflow run openproblems-bio/openproblems \
   -r build/main \
   -main-script target/nextflow/reporting/process_task_results/main.nf \
@@ -43,4 +49,6 @@ nextflow run openproblems-bio/openproblems \
   --output_metric_info '$id/metric_info.json' \
   --output_results '$id/results.json' \
   --output_quality_control '$id/quality_control.json' \
-  --publish_dir "$OUTPUT_DIR"
+  --publish_dir "$OUTPUT_DIR" \
+  "${extra_filters[@]}"
+
