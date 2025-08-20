@@ -13,6 +13,7 @@
 ## Bug fixes
 
 * Update scPRINT to use latest stable version (PR #xx)
+* Fix kbet dependencies to numpy<2 and scipy<=1.13 (PR #78).
 
 # task_batch_integration 2.0.0
 
