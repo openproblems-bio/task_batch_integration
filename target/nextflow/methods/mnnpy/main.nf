@@ -3406,7 +3406,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/mnnpy",
     "viash_version" : "0.9.4",
-    "git_commit" : "c6bb27afe24a03a6c59b3206665e0f2d6a8069a6",
+    "git_commit" : "e4f0b7c40335fa472254a54f5d5bd392704097be",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

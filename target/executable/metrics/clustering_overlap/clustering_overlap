@@ -449,9 +449,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scib==1.1.7"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics clustering_overlap"
-LABEL org.opencontainers.image.created="2025-08-11T17:48:57Z"
+LABEL org.opencontainers.image.created="2025-08-28T14:26:19Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="c6bb27afe24a03a6c59b3206665e0f2d6a8069a6"
+LABEL org.opencontainers.image.revision="e4f0b7c40335fa472254a54f5d5bd392704097be"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -1166,14 +1166,20 @@ ari_score = ari(adata, cluster_key=cluster_key, label_key="cell_type")
 print('Compute NMI score', flush=True)
 nmi_score = nmi(adata, cluster_key=cluster_key, label_key="cell_type")
 
+print('Compute ARI score with batches', flush=True)
+ari_batch_score = 1 - ari(adata, cluster_key=cluster_key, label_key="batch")
+
+print('Compute NMI score with batches', flush=True)
+nmi_batch_score = 1 - nmi(adata, cluster_key=cluster_key, label_key="batch")
+
 print("Create output AnnData object", flush=True)
 output = ad.AnnData(
     uns={
         "dataset_id": adata.uns['dataset_id'],
         'normalization_id': adata.uns['normalization_id'],
         "method_id": adata.uns['method_id'],
-        "metric_ids": [ "ari", "nmi" ],
-        "metric_values": [ ari_score, nmi_score ]
+        "metric_ids": [ "ari", "nmi", "ari_batch", "nmi_batch" ],
+        "metric_values": [ ari_score, nmi_score, ari_batch_score, nmi_batch_score ]
     }
 )
 
