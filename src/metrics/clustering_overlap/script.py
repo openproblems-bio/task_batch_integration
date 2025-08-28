@@ -47,14 +47,20 @@ ari_score = ari(adata, cluster_key=cluster_key, label_key="cell_type")
 print('Compute NMI score', flush=True)
 nmi_score = nmi(adata, cluster_key=cluster_key, label_key="cell_type")
 
+print('Compute ARI score with batches', flush=True)
+ari_batch_score = 1 - ari(adata, cluster_key=cluster_key, label_key="batch")
+
+print('Compute NMI score with batches', flush=True)
+nmi_batch_score = 1 - nmi(adata, cluster_key=cluster_key, label_key="batch")
+
 print("Create output AnnData object", flush=True)
 output = ad.AnnData(
     uns={
         "dataset_id": adata.uns['dataset_id'],
         'normalization_id': adata.uns['normalization_id'],
         "method_id": adata.uns['method_id'],
-        "metric_ids": [ "ari", "nmi" ],
-        "metric_values": [ ari_score, nmi_score ]
+        "metric_ids": [ "ari", "nmi", "ari_batch", "nmi_batch" ],
+        "metric_values": [ ari_score, nmi_score, ari_batch_score, nmi_batch_score ]
     }
 )
 
