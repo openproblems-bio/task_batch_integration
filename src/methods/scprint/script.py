@@ -105,7 +105,7 @@ if len(missing) > 0:
     )
     model._rm_genes(missing)
 
-# again if not on GPU you need to convert the model to float64
+# again if not on GPU you need to convert the model to float32
 if not torch.cuda.is_available():
     model = model.to(torch.float32)
 
