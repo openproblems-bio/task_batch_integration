@@ -3418,7 +3418,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/bbknn",
     "viash_version" : "0.9.4",
-    "git_commit" : "1d821fda1e4ab9bb41d1761a48864dc0bc57ee0f",
+    "git_commit" : "4e9ebb65fca55d68c92b00d8946e3e44fa63a8b1",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
