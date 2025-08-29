@@ -7,6 +7,12 @@
 
 * Added `ARI_batch` and `NMI_batch` to `metrics/clustering_overlap` (PR #68).
 
+* Added `metrics/cilisi` new metric component (PR #57).
+    - ciLISI measures batch mixing in a cell type-aware manner by computing iLISI within each cell type and normalizing
+        the scores between 0 and 1. Unlike iLISI, ciLISI preserves sensitivity to biological variance and avoids favoring
+        overcorrected datasets with removed cell type signals.
+        We propose adding this metric to substitute iLISI.
+
 ## Minor changes
 
 * Un-pin the scPRINT version and update parameters (PR #51)
