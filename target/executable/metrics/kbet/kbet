@@ -452,9 +452,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scib==1.1.7" "rpy2>=3" "anndata2ri" "scipy<=1.13"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics kbet"
-LABEL org.opencontainers.image.created="2025-08-28T14:26:18Z"
+LABEL org.opencontainers.image.created="2025-08-29T09:20:37Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="e4f0b7c40335fa472254a54f5d5bd392704097be"
+LABEL org.opencontainers.image.revision="1d821fda1e4ab9bb41d1761a48864dc0bc57ee0f"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

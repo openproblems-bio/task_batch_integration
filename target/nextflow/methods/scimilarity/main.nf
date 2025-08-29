@@ -3382,7 +3382,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scimilarity",
     "viash_version" : "0.9.4",
-    "git_commit" : "e4f0b7c40335fa472254a54f5d5bd392704097be",
+    "git_commit" : "1d821fda1e4ab9bb41d1761a48864dc0bc57ee0f",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
