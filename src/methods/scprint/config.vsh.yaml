@@ -75,8 +75,7 @@ engines:
     setup:
       - type: python
         pip:
-          - scprint>=2.3.0
-          - gseapy>=1.1.8
+          - scprint==2.3.5
       - type: docker
         run: |
           lamin init --storage ./main --name main --schema bionty && \
@@ -87,6 +86,7 @@ engines:
         script: from scdataloader.utils import populate_my_ontology; populate_my_ontology()
 runners:
   - type: executable
+   # docker_run_args: --gpus all
   - type: nextflow
     directives:
       label: [hightime, highmem, midcpu, gpu, highsharedmem]
