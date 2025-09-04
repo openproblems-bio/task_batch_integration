@@ -73,7 +73,6 @@ else:
     print("CUDA is not available, using CPU", flush=True)
     transformer = "normal"
 
-# make sure that you check if you have a GPU with flashattention or not (see README)
 try:
     m = torch.load(model_checkpoint_file)
 # if not use this instead since the model weights are by default mapped to GPU types
