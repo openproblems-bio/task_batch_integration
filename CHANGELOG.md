@@ -6,7 +6,7 @@
 * Added `method/drvi` component (PR #61).
 
 * Added `ARI_batch` and `NMI_batch` to `metrics/clustering_overlap` (PR #68).
-* Added `method/condo` component (PR #80).
+* Added `method/condo` component (PR #83).
 
 ## Minor changes
 

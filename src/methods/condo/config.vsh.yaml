@@ -9,7 +9,7 @@ description: |
 references:
   # McCarter C.
   # Towards Backwards-Compatible Data with Confounded Domain Adaptation.
-  # Transactions on Machine Learning Research. 2024;2835-8856.
+  # Transactions on Machine Learning Research. 2024.
   doi: 
     - 10.5281/zenodo.17066563
 links:
