@@ -15,6 +15,7 @@ links:
   documentation: https://sydneybiox.github.io/scMerge/articles/scMerge2.html
   repository: https://github.com/SydneyBioX/scMerge
 info:
+  method_types: [feature]
   preferred_normalization: log_cpm
 resources:
   - type: r_script
