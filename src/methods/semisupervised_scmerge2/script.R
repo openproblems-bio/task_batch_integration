@@ -1,5 +1,7 @@
 library(anndata)
 library(scMerge)
+library(Matrix)
+library(stats)
 
 ## VIASH START
 par <- list(
@@ -13,42 +15,22 @@ meta <- list(
 
 cat("Reading input files\n")
 adata <- anndata::read_h5ad(par$input)
-adata$obs["batch"] <- sub("\\+", "plus", adata$obs[["batch"]]) # Replace "+"" characters in batch names
 
-anndataToSemiSupervisedScMerge2 <- function(adata, seg_list, layer = "normalized", verbose = FALSE) {
-  exprsMat_all <- t(as.matrix(adata$layers[[layer]]))
-  batch_all <- as.character(adata$obs$batch)
-  celltypes_all <- as.character(adata$obs$cell_type)
+anndataToSemiSupervisedScMerge2 <- function(adata, top_n = 1000, verbose = TRUE) {
+  counts <- t(as.matrix(adata$layers[["counts"]]))
+  rownames(counts) <- as.character(adata$var_names)
+  colnames(counts) <- as.character(adata$obs_names)
 
-  valid_cells <- !is.na(batch_all)
-  exprsMat <- exprsMat_all[, valid_cells, drop = FALSE]
-  batch <- batch_all[valid_cells]
-  cellTypes <- celltypes_all[valid_cells]
+  seg_df <- scSEGIndex(exprs_mat = counts)
+  seg_df <- seg_df[order(seg_df$segIdx, decreasing = TRUE), , drop = FALSE]
+  ctl <- rownames(seg_df)[seq_len(min(top_n, nrow(seg_df)))]
 
-  # Check overlap with human/mouse scSEG lists
-  gene_ids <- rownames(exprsMat)
-  species <- NULL
-  best_match <- 0
+  exprsMat <- t(as.matrix(adata$layers[["normalized"]]))
+  rownames(exprsMat) <- as.character(adata$var_names)
+  colnames(exprsMat) <- as.character(adata$obs_names)
 
-  for (organism in names(seg_list)) {
-    scseg_name <- paste0(organism, "_scSEG")
-    seg_genes <- seg_list[[organism]][[scseg_name]]
-    overlap <- length(intersect(gene_ids, seg_genes))
-
-    if (overlap > best_match) {
-      best_match <- overlap
-      species <- organism
-    }
-  }
-
-  if (is.null(species) || best_match == 0) {
-    stop("No match found between gene IDs in exprsMat and scSEG lists for human or mouse. ",
-         "Please ensure you're using Ensembl IDs for human or mouse, or provide a custom SEG list.")
-  }
-
-  message("Detected species: ", species, " (matched ", best_match, " genes)")
-
-  ctl <- seg_list[[species]][[paste0(species, "_scSEG")]]
+  batch     <- as.character(adata$obs$batch)
+  cellTypes <- as.character(adata$obs$cell_type)
 
   scMerge2_res <- scMerge2(
     exprsMat = exprsMat,
@@ -61,23 +43,15 @@ anndataToSemiSupervisedScMerge2 <- function(adata, seg_list, layer = "normalized
   return(scMerge2_res)
 }
 
-data("segList_ensemblGeneID")
 
 cat("Run semi-supervised scMerge2\n")
 
-scMerge2_res <- anndataToSemiSupervisedScMerge2(
-  adata = adata,
-  seg_list = segList_ensemblGeneID,
-  layer = "normalized",
-  verbose = TRUE
-)
+scMerge2_res <- anndataToSemiSupervisedScMerge2(adata, top_n = 1000, verbose = TRUE)
 
 
 cat("Store output\n")
 corrected_mat <- scMerge2_res$newY
-
-embedding <- prcomp(t(corrected_mat))$x[, 1:10]
-
+embedding <- prcomp(t(corrected_mat))$x[, 1:10, drop = FALSE]
 rownames(embedding) <- colnames(corrected_mat)
 
 output <- anndata::AnnData(
@@ -85,7 +59,7 @@ output <- anndata::AnnData(
   obs = adata$obs[, c()],
   var = NULL,
   obsm = list(
-    X_emb = embedding[rownames(adata), , drop = FALSE]  # match input cells
+    X_emb = embedding[as.character(adata$obs_names), , drop = FALSE]  # match input cells
   ),
   uns = list(
     dataset_id = adata$uns[["dataset_id"]],

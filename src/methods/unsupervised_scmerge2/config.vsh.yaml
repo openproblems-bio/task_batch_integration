@@ -26,6 +26,8 @@ engines:
       - type: apt
         packages: cmake
       - type: r
+        cran:
+        - Matrix
         bioc: 
         - scmerge
 runners:
