@@ -3,6 +3,7 @@
 ## New functionality
 
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
+* Added `methods/semisupervised_scmerge2` and `methods/unsupervised_scmerge2` components (PR #63).
 
 ## Minor changes
 
