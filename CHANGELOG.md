@@ -7,6 +7,8 @@
 
 * Added `ARI_batch` and `NMI_batch` to `metrics/clustering_overlap` (PR #68).
 
+* Added `metircs/ksim` component (PR #75).
+
 ## Minor changes
 
 * Un-pin the scPRINT version and update parameters (PR #51)
