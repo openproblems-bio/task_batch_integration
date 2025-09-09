@@ -4,6 +4,8 @@
 
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
 
+* Added `metircs/ksim` component (PR #75).
+
 ## Minor changes
 
 * Un-pin the scPRINT version and update parameters (PR #51)
