@@ -62,15 +62,7 @@ engines:
     # https://viash.io/reference/config/engines/docker/#setup .
     setup:
       - type: r
-        #github: https://github.com/carmonalab/STACAS.git@2.2.0
-        cran:
-          - Seurat
-          - SeuratObject
-          - R.utils
-        bioc:
-          - BiocNeighbors
-          - BiocParallel
-        script: remotes::install_github("carmonalab/STACAS@2.2.0", dependencies = FALSE)
+        github: carmonalab/STACAS@2.3.0
 
 runners:
   # This platform allows running the component natively
