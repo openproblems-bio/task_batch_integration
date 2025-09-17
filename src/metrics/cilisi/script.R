@@ -21,14 +21,15 @@ metadata <- solution$obs
 cat("Compute CiLISI metrics...\n")
 lisisplit <-
   scIntegrationMetrics::compute_lisi_splitBy(
-                                            X = embeddings,
-                                            meta_data = metadata,
-                                            label_colnames = "batch",
-                                            perplexity = 30,
-                                            split_by_colname = "cell_type",
-                                            normalize = TRUE,
-                                            min.cells.split = 10,
-                                            min.vars.label = 2)
+    X = embeddings,
+    meta_data = metadata,
+    label_colnames = "batch",
+    perplexity = 30,
+    split_by_colname = "cell_type",
+    normalize = TRUE,
+    min.cells.split = 10,
+    min.vars.label = 2
+)
 # average CiLISI
 cilisi <- mean(unlist(lisisplit))
 # Mean per cell type
