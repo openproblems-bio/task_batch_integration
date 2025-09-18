@@ -1,0 +1,51 @@
+__merge__: ../../api/comp_metric.yaml
+name: cilisi
+info:
+  metrics:
+    - name: cilisi
+      label: CiLISI
+      summary: Cell-type aware version of iLISI (Local inverse Simpson's Index).
+                iLISI is computed separately for each cell type or cluster, normalized between 0 and 1, and averaged across all cells (global mean).
+                By default, CiLISI is calculated only for groups with at least 10 cells and 2 distinct batch labels (configurable).
+      description: |
+        ciLISI measures batch mixing in a cell type-aware manner by computing iLISI within each cell type and normalizing
+        the scores between 0 and 1. Unlike iLISI, ciLISI preserves sensitivity to biological variance and avoids favoring
+        overcorrected datasets with removed cell type signals.
+      references:
+        doi: 10.1038/s41467-024-45240-z
+      links:
+        documentation: https://github.com/carmonalab/scIntegrationMetrics
+        repository: https://github.com/carmonalab/scIntegrationMetrics
+      min: 0
+      max: 1
+      maximize: true
+
+    - name: cilisi_means
+      label: CiLISI_means
+      summary: As CiLISI, but returns mean of per-group CiLISI values (i.e., average of the means per group). instead of a global average.
+      description: |
+        ciLISI measures batch mixing in a cell type-aware manner by computing iLISI within each cell type and normalizing
+        the scores between 0 and 1. Unlike iLISI, ciLISI preserves sensitivity to biological variance and avoids favoring
+        overcorrected datasets with removed cell type signals.
+      references:
+        doi: 10.1038/s41467-024-45240-z
+      links:
+        documentation: https://github.com/carmonalab/scIntegrationMetrics
+        repository: https://github.com/carmonalab/scIntegrationMetrics
+      min: 0
+      max: 1
+      maximize: true
+resources:
+  - type: r_script
+    path: script.R
+engines:
+  - type: docker
+    image: openproblems/base_r:1
+    setup:
+       - type: r
+         github: https://github.com/carmonalab/scIntegrationMetrics.git@1.2.0
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime,midmem,midcpu]
