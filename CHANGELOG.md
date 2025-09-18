@@ -3,13 +3,20 @@
 ## New functionality
 
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
-* Added `methods/stacas` new method.
+* Added `methods/stacas` new method (PR #58).
     - Add non-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality enables correction of batch effects while preserving biological variability without requiring prior cell type annotations.
+* Added `method/drvi` component (PR #61).
+* Added `ARI_batch` and `NMI_batch` to `metrics/clustering_overlap` (PR #68).
 
 ## Minor changes
 
 * Un-pin the scPRINT version and update parameters (PR #51)
 * Update scPRINT to better handle large datasets, including a new default model (PR #54)
+
+## Bug fixes
+
+* Update scPRINT to use latest stable version (PR #70)
+* Fix kbet dependencies to numpy<2 and scipy<=1.13 (PR #78).
 
 # task_batch_integration 2.0.0
 
