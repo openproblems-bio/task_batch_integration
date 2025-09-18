@@ -37,6 +37,7 @@ links:
 info:
   # Which normalisation method this component prefers to use (required).
   preferred_normalization: log_cp10k
+  method_types: [embedding]
 
 # Component-specific parameters (optional)
 # arguments:
