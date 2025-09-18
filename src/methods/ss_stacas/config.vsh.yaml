@@ -1,0 +1,37 @@
+__merge__: ../../api/comp_method.yaml
+name: ss_stacas
+label: ssSTACAS
+summary: Accurate semi-supervised integration of single-cell transcriptomics data
+description: |
+  STACAS is a method for scRNA-seq integration,
+  especially suited to accurately integrate datasets with large cell type imbalance
+  (e.g. in terms of proportions of distinct cell populations).
+  Prior cell type knowledge, given as cell type labels, can be provided to the algorithm to perform
+  semi-supervised integration, leading to increased preservation of biological variability
+  in the resulting integrated space.
+  STACAS is robust to incomplete cell type labels and can be applied to large-scale integration tasks.
+references:
+  doi: 10.1038/s41467-024-45240-z
+  # Andreatta M, Hérault L, Gueguen P, Gfeller D, Berenstein AJ, Carmona SJ.
+  # Semi-supervised integration of single-cell transcriptomics data.
+  # Nature Communications*. 2024;15(1):1-13. doi:10.1038/s41467-024-45240-z
+links:
+  documentation: https://carmonalab.github.io/STACAS.demo/STACAS.demo.html
+  repository: https://github.com/carmonalab/STACAS
+info:
+  preferred_normalization: log_cp10k
+  method_types: [embedding]
+resources:
+  - type: r_script
+    path: script.R
+engines:
+  - type: docker
+    image: openproblems/base_r:1
+    setup:
+      - type: r
+        github: carmonalab/STACAS@2.3.0
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime,midmem,midcpu]
