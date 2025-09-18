@@ -20,6 +20,7 @@ links:
   repository: https://github.com/carmonalab/STACAS
 info:
   preferred_normalization: log_cp10k
+  method_types: [embedding]
 resources:
   - type: r_script
     path: script.R
