@@ -1,0 +1,40 @@
+__merge__: ../../api/comp_metric.yaml
+name: bras
+info:
+  metric_type: embedding
+  metrics:
+    - name: bras
+      label: BRAS
+      summary: "Modified ASW metric for batch removal"
+      description: |
+        The BRAS (Batch Removal Adapted Silhouette) metric modifies the standard silhouette score to account for batch effects in single-cell data integration benchmarking.
+        Instead of measuring how well a cell matches its biological label cluster compared to other clusters (as in regular silhouette), BRAS compares how well it matches its biological cluster in its own batch versus the same biological cluster in other batches.
+        For each cells, BRAS computes the ai = average distance to cells with the same label in the same batch, and bi = the average distance to cells with the same label in different batches.
+        It then uses ai and bi for the standard silhoueette formula.
+      references:
+        doi: 
+          - 10.1101/2025.01.21.634098
+      links:
+        documentation: https://github.com/ohlerlab/metrics_matter_manuscript_reproducibility/tree/master
+        repository: https://github.com/ohlerlab/metrics_matter_manuscript_reproducibility/tree/master
+      min: 0
+      max: 1
+      maximize: true
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+      - type: python
+        pypi:
+        - scib-metrics==0.5.5
+
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime,midmem,midcpu]
