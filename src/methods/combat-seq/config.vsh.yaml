@@ -25,6 +25,7 @@ links:
 info:
   # Which normalisation method this component prefers to use (required).
   preferred_normalization: counts
+  method_types: [feature]
 
 # Resources required to run the component
 resources:
