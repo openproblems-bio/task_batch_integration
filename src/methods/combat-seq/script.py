@@ -22,7 +22,7 @@ adata = read_anndata(
 
 print("Run Combat-Seq", flush=True)
 counts = adata.T.to_df().astype(np.double).values
-corrected_counts = pycombat_seq(adata.X, adata.obs["batch"])
+corrected_counts = pycombat_seq(counts, adata.obs["batch"])
 
 print("Store output", flush=True)
 output = ad.AnnData(
