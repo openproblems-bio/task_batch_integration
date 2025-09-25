@@ -5,9 +5,11 @@ info:
 
     - name: ksim
       label: kSIM
-      summary: "The kSIM acceptance rate measures whether cells of the same pre-annotated cell type are still close to each other in the local neighborhoods after batch correction."
+      summary: "The kSIM acceptance rate evaluates whether cells of the same known cell type remain grouped together in their neighborhoods after batch correction."
       description: |
-        The kSIM acceptance rate requires ground truth cell type information and measures whether the neighbors of a cell have the same cell type as it does. If a method overcorrects the batch effects, it will have a low kSIM acceptance rate. We use the HNSW algorithm to find k-NNs (including the cell itself) for each cell i and denote the number of neighbors that have the same cell type as i as . In addition, we require at least β fraction of neighbors of cell i to have the same cell type as i in order to say cell i has a consistent neighborhood. 
+        The kSIM acceptance rate uses prior knowledge of cell type labels to assess local neighborhood consistency. For each cell, we look at its nearest neighbors (including itself) and check how many share the same cell type. 
+        A cell is considered to have a consistent neighborhood if the majority of its neighbors still belong to its own type. The acceptance rate is the overall fraction of such cells in the dataset.
+        A high kSIM value means that cells of the same type remain locally clustered after correction, while a low value suggests that the correction has disrupted true biological structure—for example, by overcorrecting batch effects. 
       references:
         doi: 
           - 10.1038/s41592-020-0905-x
