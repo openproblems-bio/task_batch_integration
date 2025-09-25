@@ -3,9 +3,12 @@
 ## New functionality
 
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
+
 * Added `methods/stacas` new method (PR #58).
     - Add non-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality enables correction of batch effects while preserving biological variability without requiring prior cell type annotations.
+
 * Added `method/drvi` component (PR #61).
+
 * Added `ARI_batch` and `NMI_batch` to `metrics/clustering_overlap` (PR #68).
 
 * Added `metrics/cilisi` new metric component (PR #57).
@@ -13,6 +16,8 @@
         the scores between 0 and 1. Unlike iLISI, ciLISI preserves sensitivity to biological variance and avoids favoring
         overcorrected datasets with removed cell type signals.
         We propose adding this metric to substitute iLISI.
+
+* Added `methods/semisupervised_scmerge2` and `methods/unsupervised_scmerge2` components (PR #63).
 
 ## Minor changes
 
