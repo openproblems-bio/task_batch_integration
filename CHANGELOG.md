@@ -14,6 +14,8 @@
         overcorrected datasets with removed cell type signals.
         We propose adding this metric to substitute iLISI.
 
+* Added `metircs/ksim` component (PR #75).
+
 ## Minor changes
 
 * Un-pin the scPRINT version and update parameters (PR #51)
