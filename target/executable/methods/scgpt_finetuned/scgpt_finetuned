@@ -450,9 +450,9 @@ RUN pip install --upgrade pip && \
 
 RUN pip install --upgrade --no-deps --force-reinstall git+https://github.com/bowang-lab/scGPT.git
 LABEL org.opencontainers.image.description="Companion container for running component methods scgpt_finetuned"
-LABEL org.opencontainers.image.created="2025-09-25T08:21:32Z"
+LABEL org.opencontainers.image.created="2025-09-29T11:58:40Z"
 LABEL org.opencontainers.image.source="https://github.com/bowang-lab/scGPT"
-LABEL org.opencontainers.image.revision="9539ab4f9e3eda81c257a7e9b072d7dcac41d1c9"
+LABEL org.opencontainers.image.revision="37df0e7dad0a31dbc45d9fbc6a49450bc4d05dfe"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
