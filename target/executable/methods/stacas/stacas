@@ -449,9 +449,9 @@ RUN Rscript -e 'options(warn = 2); if (!requireNamespace("remotes", quietly = TR
   Rscript -e 'options(warn = 2); remotes::install_github(c("carmonalab/STACAS@2.3.0"), repos = "https://cran.rstudio.com")'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods stacas"
-LABEL org.opencontainers.image.created="2025-09-29T11:58:40Z"
+LABEL org.opencontainers.image.created="2025-09-29T15:19:45Z"
 LABEL org.opencontainers.image.source="https://github.com/carmonalab/STACAS"
-LABEL org.opencontainers.image.revision="37df0e7dad0a31dbc45d9fbc6a49450bc4d05dfe"
+LABEL org.opencontainers.image.revision="1c34b59def003fae330a053f6178b92e859f6ba1"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
