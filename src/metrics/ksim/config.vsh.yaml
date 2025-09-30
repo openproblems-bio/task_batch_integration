@@ -1,0 +1,63 @@
+__merge__: ../../api/comp_metric.yaml
+name: ksim
+info:
+  metrics:
+
+    - name: ksim
+      label: kSIM
+      summary: "The kSIM acceptance rate evaluates whether cells of the same known cell type remain grouped together in their neighborhoods after batch correction."
+      description: |
+        The kSIM acceptance rate uses prior knowledge of cell type labels to assess local neighborhood consistency. For each cell, we look at its nearest neighbors (including itself) and check how many share the same cell type. 
+        A cell is considered to have a consistent neighborhood if the majority of its neighbors still belong to its own type. The acceptance rate is the overall fraction of such cells in the dataset.
+        A high kSIM value means that cells of the same type remain locally clustered after correction, while a low value suggests that the correction has disrupted true biological structure—for example, by overcorrecting batch effects. 
+      references:
+        doi: 
+          - 10.1038/s41592-020-0905-x
+      links:
+        documentation: https://pegasus.readthedocs.io/en/stable/api/pegasus.calc_kSIM.html#pegasus.calc_kSIM
+        repository: https://github.com/lilab-bcb/pegasus
+      min: 0
+      max: 1
+      maximize: true
+
+arguments:
+  - name: "--K"
+    type: "integer"
+    default: 24
+    description: The number of nearest neighbors to be considered.
+  - name: "--min_rate"
+    type: "double"
+    default: 0.9
+    description: Acceptance rate threshold. A cell is accepted if its kSIM rate is larger than or equal to min_rate.
+  - name: "--n_jobs"
+    type: "integer"
+    default: -1
+    description: Number of threads used. If -1, use all physical CPU cores.
+  - name: "--random_state"
+    type: "integer"
+    default: 0
+    description: Random seed set for reproducing results.
+  - name: "--use_cache"
+    type: "boolean"
+    default: True
+    description: If use cache results for kNN.
+
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+    setup:
+        - type: python
+          pypi:
+          - pegasuspy==1.10.2
+
+
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime,midmem,midcpu]
