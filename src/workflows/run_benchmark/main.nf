@@ -19,6 +19,7 @@ methods = [
   batchelor_fastmnn,
   batchelor_mnn_correct,
   bbknn,
+  bbknn_ts,
   combat,
   geneformer,
   harmony,
