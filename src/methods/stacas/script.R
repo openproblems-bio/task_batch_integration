@@ -43,6 +43,7 @@ object_integrated <- seurat_obj |>
       Seurat::SplitObject(split.by = "batch") |>
       STACAS::Run.STACAS(anchor.features = anchor.features) 
 
+
 cat("Store outputs\n")
 output <- anndata::AnnData(
     uns = list(
