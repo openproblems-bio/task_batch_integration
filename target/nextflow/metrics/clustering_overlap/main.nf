@@ -3429,6 +3429,46 @@ meta = [
         "min" : 0,
         "max" : 1,
         "maximize" : true
+      },
+      {
+        "name" : "ari_batch",
+        "label" : "ARI_batch",
+        "summary" : "This version of Adjusted Rand Index compares clustering overlap, correcting for batches and considering correct overlaps and disagreements.",
+        "description" : "The Adjusted Rand Index (ARI) compares the overlap of two clusterings;\nit considers both correct clustering overlaps while also counting correct\ndisagreements between two clusterings. We compared the batches with the \nNMI-optimized Louvain clustering computed on the integrated dataset.\nThe adjustment of the Rand index corrects for randomly correct labels.\nAn ARI_batch of 0 or 1 corresponds to no batch correction or well corrected batches,\nrespectively.\n",
+        "references" : {
+          "doi" : [
+            "10.1038/s41592-021-01336-8",
+            "10.1007/bf01908075"
+          ]
+        },
+        "links" : {
+          "homepage" : "https://scib.readthedocs.io/en/latest/",
+          "documentation" : "https://scib.readthedocs.io/en/latest/api/scib.metrics.silhouette_batch.html",
+          "repository" : "https://github.com/theislab/scib"
+        },
+        "min" : 0,
+        "max" : 1,
+        "maximize" : true
+      },
+      {
+        "name" : "nmi_batch",
+        "label" : "NMI_batch",
+        "summary" : "This version of NMI compares overlap by scaling using mean entropy terms and optimizing Louvain clustering to obtain the best outcome of batch correction.",
+        "description" : "Normalized Mutual Information (NMI) compares the overlap of two clusterings.\nWe used NMI to compare the batches with Louvain clusters computed on\nthe integrated dataset. The overlap was scaled using the mean of the entropy terms\nfor cell-type and cluster labels, then subracted from 1. Thus, NMI_batch scores of 0 or 1 correspond to no batch correction \nor well corrected batches, respectively. We performed optimized Louvain clustering\nfor this metric to obtain the best outcome of batch correction.\n",
+        "references" : {
+          "doi" : [
+            "10.1145/2808797.2809344",
+            "10.1038/s41592-021-01336-8"
+          ]
+        },
+        "links" : {
+          "homepage" : "https://scib.readthedocs.io/en/latest/",
+          "documentation" : "https://scib.readthedocs.io/en/latest/api/scib.metrics.silhouette_batch.html",
+          "repository" : "https://github.com/theislab/scib"
+        },
+        "min" : 0,
+        "max" : 1,
+        "maximize" : true
       }
     ],
     "type" : "metric",
@@ -3521,7 +3561,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/clustering_overlap",
     "viash_version" : "0.9.4",
-    "git_commit" : "f179613dc91091293231754132a1aaf781265fbd",
+    "git_commit" : "374d45565e4e773503e7115d45971d648109fa07",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3762,14 +3802,20 @@ ari_score = ari(adata, cluster_key=cluster_key, label_key="cell_type")
 print('Compute NMI score', flush=True)
 nmi_score = nmi(adata, cluster_key=cluster_key, label_key="cell_type")
 
+print('Compute ARI score with batches', flush=True)
+ari_batch_score = 1 - ari(adata, cluster_key=cluster_key, label_key="batch")
+
+print('Compute NMI score with batches', flush=True)
+nmi_batch_score = 1 - nmi(adata, cluster_key=cluster_key, label_key="batch")
+
 print("Create output AnnData object", flush=True)
 output = ad.AnnData(
     uns={
         "dataset_id": adata.uns['dataset_id'],
         'normalization_id': adata.uns['normalization_id'],
         "method_id": adata.uns['method_id'],
-        "metric_ids": [ "ari", "nmi" ],
-        "metric_values": [ ari_score, nmi_score ]
+        "metric_ids": [ "ari", "nmi", "ari_batch", "nmi_batch" ],
+        "metric_values": [ ari_score, nmi_score, ari_batch_score, nmi_batch_score ]
     }
 )
 

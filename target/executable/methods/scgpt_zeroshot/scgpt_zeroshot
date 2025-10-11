@@ -445,14 +445,16 @@ function ViashDockerfile {
     cat << 'VIASHDOCKER'
 FROM openproblems/base_pytorch_nvidia:1
 ENTRYPOINT []
-RUN pip install --upgrade pip && \
-  pip install --upgrade --no-cache-dir "gdown" "scgpt"
+RUN git clone https://github.com/bowang-lab/scGPT && \
+pip install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 --index-url https://download.pytorch.org/whl/cu121 && \
+pip install "flash-attn<1.0.5" --no-build-isolation && \
+pip install ipykernel pandas scanpy numba "numpy<1.24" torchtext==0.17.0 scib "scvi-tools<1.0" datasets==2.14.5 transformers==4.33.2 wandb "cell-gears<0.0.3" torch_geometric pyarrow==15.0.0 gdown && \
+cd scGPT && pip install -e . --no-deps
 
-RUN pip install --upgrade --no-deps --force-reinstall git+https://github.com/bowang-lab/scGPT.git
 LABEL org.opencontainers.image.description="Companion container for running component methods scgpt_zeroshot"
-LABEL org.opencontainers.image.created="2025-08-13T14:53:35Z"
+LABEL org.opencontainers.image.created="2025-10-11T10:58:07Z"
 LABEL org.opencontainers.image.source="https://github.com/bowang-lab/scGPT"
-LABEL org.opencontainers.image.revision="f179613dc91091293231754132a1aaf781265fbd"
+LABEL org.opencontainers.image.revision="374d45565e4e773503e7115d45971d648109fa07"
 LABEL org.opencontainers.image.version="build_feature_no_ref_add_mlflow_models"
 
 VIASHDOCKER

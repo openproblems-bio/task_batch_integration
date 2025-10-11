@@ -3370,6 +3370,7 @@ meta = [
     }
   ],
   "info" : {
+    "metric_type" : "embedding",
     "metrics" : [
       {
         "name" : "bras",
@@ -3480,7 +3481,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/bras",
     "viash_version" : "0.9.4",
-    "git_commit" : "f179613dc91091293231754132a1aaf781265fbd",
+    "git_commit" : "374d45565e4e773503e7115d45971d648109fa07",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

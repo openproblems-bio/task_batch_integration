@@ -456,9 +456,9 @@ RUN uv pip install -r /requirements.txt
 RUN uv pip install mlflow==3.1.0
 RUN uv pip install git+https://github.com/openproblems-bio/core#subdirectory=packages/python/openproblems
 LABEL org.opencontainers.image.description="Companion container for running component methods uce_mlflow"
-LABEL org.opencontainers.image.created="2025-08-13T14:53:36Z"
+LABEL org.opencontainers.image.created="2025-10-11T10:58:06Z"
 LABEL org.opencontainers.image.source="https://github.com/snap-stanford/UCE"
-LABEL org.opencontainers.image.revision="f179613dc91091293231754132a1aaf781265fbd"
+LABEL org.opencontainers.image.revision="374d45565e4e773503e7115d45971d648109fa07"
 LABEL org.opencontainers.image.version="build_feature_no_ref_add_mlflow_models"
 
 VIASHDOCKER

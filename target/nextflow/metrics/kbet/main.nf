@@ -3477,8 +3477,9 @@ meta = [
           "pypi" : [
             "scib==1.1.7",
             "rpy2>=3",
-            "anndata2ri",
-            "scipy<=1.13"
+            "anndata2ri==1.3.1",
+            "scipy<=1.13",
+            "numpy<2"
           ],
           "upgrade" : true
         }
@@ -3491,7 +3492,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/kbet",
     "viash_version" : "0.9.4",
-    "git_commit" : "f179613dc91091293231754132a1aaf781265fbd",
+    "git_commit" : "374d45565e4e773503e7115d45971d648109fa07",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

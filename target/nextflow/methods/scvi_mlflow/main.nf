@@ -3420,7 +3420,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scvi_mlflow",
     "viash_version" : "0.9.4",
-    "git_commit" : "f179613dc91091293231754132a1aaf781265fbd",
+    "git_commit" : "374d45565e4e773503e7115d45971d648109fa07",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3659,8 +3659,8 @@ print(adata, flush=True)
 print("\\\\n>>> Unpacking model...", flush=True)
 model_dir, model_temp = unpack_directory(par["model"])
 
-print("\\\\n>>> Loading model...", flush=True)
-model = mlflow.pyfunc.load_model(model_dir)
+print(f"\\\\n>>> Loading {organism} model...", flush=True)
+model = mlflow.pyfunc.load_model(model_dir, model_config={"organism": organism})
 print(model, flush=True)
 
 print("\\\\n>>> Writing temporary input H5AD file...", flush=True)
@@ -3676,8 +3676,7 @@ del input_adata
 
 print("\\\\n>>> Running model...", flush=True)
 input_df = pd.DataFrame({"input_uri": [h5ad_file.name]})
-input_params = {"organism": organism, "return_dist": True, "batch_keys": "batch"}
-embedding = model.predict(input_df, params=input_params)
+embedding = model.predict(input_df)
 
 print("\\\\n>>> Storing output...", flush=True)
 output = ad.AnnData(
