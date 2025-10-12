@@ -449,9 +449,9 @@ RUN Rscript -e 'options(warn = 2); if (!requireNamespace("remotes", quietly = TR
   Rscript -e 'options(warn = 2); remotes::install_cran(c("harmony"), repos = "https://cran.rstudio.com")'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods harmony"
-LABEL org.opencontainers.image.created="2025-10-11T10:58:08Z"
+LABEL org.opencontainers.image.created="2025-10-12T06:52:03Z"
 LABEL org.opencontainers.image.source="https://github.com/immunogenomics/harmony"
-LABEL org.opencontainers.image.revision="374d45565e4e773503e7115d45971d648109fa07"
+LABEL org.opencontainers.image.revision="1884f811b6a49e9b7f13171003053def96252ab5"
 LABEL org.opencontainers.image.version="build_feature_no_ref_add_mlflow_models"
 
 VIASHDOCKER

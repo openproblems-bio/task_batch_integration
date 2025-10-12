@@ -3483,7 +3483,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/kbet_pg",
     "viash_version" : "0.9.4",
-    "git_commit" : "374d45565e4e773503e7115d45971d648109fa07",
+    "git_commit" : "1884f811b6a49e9b7f13171003053def96252ab5",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
