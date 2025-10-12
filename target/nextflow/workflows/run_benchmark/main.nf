@@ -3535,12 +3535,6 @@ meta = [
       }
     },
     {
-      "name" : "methods/geneformer",
-      "repository" : {
-        "type" : "local"
-      }
-    },
-    {
       "name" : "methods/geneformer_mlflow",
       "repository" : {
         "type" : "local"
@@ -3595,19 +3589,7 @@ meta = [
       }
     },
     {
-      "name" : "methods/scgpt_finetuned",
-      "repository" : {
-        "type" : "local"
-      }
-    },
-    {
       "name" : "methods/scgpt_mlflow",
-      "repository" : {
-        "type" : "local"
-      }
-    },
-    {
-      "name" : "methods/scgpt_zeroshot",
       "repository" : {
         "type" : "local"
       }
@@ -3795,7 +3777,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "1884f811b6a49e9b7f13171003053def96252ab5",
+    "git_commit" : "e480211b78b00ec84c167cbbe9783e24f165a66b",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3970,7 +3952,6 @@ include { batchelor_fastmnn } from "${meta.resources_dir}/../../../nextflow/meth
 include { batchelor_mnn_correct } from "${meta.resources_dir}/../../../nextflow/methods/batchelor_mnn_correct/main.nf"
 include { bbknn } from "${meta.resources_dir}/../../../nextflow/methods/bbknn/main.nf"
 include { combat } from "${meta.resources_dir}/../../../nextflow/methods/combat/main.nf"
-include { geneformer } from "${meta.resources_dir}/../../../nextflow/methods/geneformer/main.nf"
 include { geneformer_mlflow } from "${meta.resources_dir}/../../../nextflow/methods/geneformer_mlflow/main.nf"
 include { harmony } from "${meta.resources_dir}/../../../nextflow/methods/harmony/main.nf"
 include { harmonypy } from "${meta.resources_dir}/../../../nextflow/methods/harmonypy/main.nf"
@@ -3980,9 +3961,7 @@ include { pyliger } from "${meta.resources_dir}/../../../nextflow/methods/pylige
 include { scalex } from "${meta.resources_dir}/../../../nextflow/methods/scalex/main.nf"
 include { scanorama } from "${meta.resources_dir}/../../../nextflow/methods/scanorama/main.nf"
 include { scanvi } from "${meta.resources_dir}/../../../nextflow/methods/scanvi/main.nf"
-include { scgpt_finetuned } from "${meta.resources_dir}/../../../nextflow/methods/scgpt_finetuned/main.nf"
 include { scgpt_mlflow } from "${meta.resources_dir}/../../../nextflow/methods/scgpt_mlflow/main.nf"
-include { scgpt_zeroshot } from "${meta.resources_dir}/../../../nextflow/methods/scgpt_zeroshot/main.nf"
 include { scimilarity } from "${meta.resources_dir}/../../../nextflow/methods/scimilarity/main.nf"
 include { scprint } from "${meta.resources_dir}/../../../nextflow/methods/scprint/main.nf"
 include { scvi } from "${meta.resources_dir}/../../../nextflow/methods/scvi/main.nf"

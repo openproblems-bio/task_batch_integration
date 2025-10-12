@@ -449,9 +449,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scvi-tools>=1.1.0"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scvi"
-LABEL org.opencontainers.image.created="2025-10-12T06:52:01Z"
+LABEL org.opencontainers.image.created="2025-10-12T07:00:40Z"
 LABEL org.opencontainers.image.source="https://github.com/scverse/scvi-tools"
-LABEL org.opencontainers.image.revision="1884f811b6a49e9b7f13171003053def96252ab5"
+LABEL org.opencontainers.image.revision="e480211b78b00ec84c167cbbe9783e24f165a66b"
 LABEL org.opencontainers.image.version="build_feature_no_ref_add_mlflow_models"
 
 VIASHDOCKER
