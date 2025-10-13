@@ -51,7 +51,6 @@ resources:
 engines:
   - type: docker
     image: openproblems/base_pytorch_nvidia:1
-    setup:
       - type: docker
         run: |
           git clone https://github.com/bowang-lab/scGPT && \
