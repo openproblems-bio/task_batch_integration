@@ -61,7 +61,7 @@ arguments:
   - name: --max_len
     type: integer
     description: The maximum length of the gene sequence.
-    default: 4000
+    default: 2300
 
 resources:
   - type: python_script
@@ -86,7 +86,7 @@ engines:
         script: from scdataloader.utils import populate_my_ontology; populate_my_ontology()
 runners:
   - type: executable
-   # docker_run_args: --gpus all
+    # docker_run_args: --gpus all
   - type: nextflow
     directives:
       label: [hightime, highmem, midcpu, gpu, highsharedmem]
