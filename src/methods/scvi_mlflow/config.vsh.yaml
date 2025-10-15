@@ -1,0 +1,49 @@
+__merge__: ../../api/base_method.yaml
+
+name: scvi_mlflow
+label: scVI (MLflow model)
+summary: scVI combines a variational autoencoder with a hierarchical Bayesian model (MLflow model)
+description: |
+   scVI combines a variational autoencoder with a hierarchical Bayesian model.
+   It uses the negative binomial distribution to describe gene expression of
+   each cell, conditioned on unobserved factors and the batch variable.
+
+   This version uses a pre-trained MLflow model.
+references:
+  doi:
+    - 10.1038/s41592-018-0229-2
+links:
+  repository: https://github.com/scverse/scvi-tools
+  documentation: https://docs.scvi-tools.org/en/stable/user_guide/models/scvi.html
+
+info:
+  method_types: [embedding]
+  preferred_normalization: counts
+
+arguments:
+  - name: --model
+    type: file
+    description: |
+      An MLflow model URI for the scVI model. If it is a .zip or
+      .tar.gz file it will be extracted to a temporary directory.
+    required: true
+
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+  - path: /src/utils/exit_codes.py
+  - path: /src/utils/unpack.py
+  - path: /src/utils/mlflow.py
+  - path: requirements.txt
+
+engines:
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1
+    __merge__: /src/utils/mlflow_docker_setup.yaml
+
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [hightime, highmem, midcpu, gpu]

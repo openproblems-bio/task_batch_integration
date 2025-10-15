@@ -1,0 +1,48 @@
+__merge__: ../../api/base_method.yaml
+
+name: scgpt_mlflow
+label: scGPT (MLflow model)
+summary: A foundation model for single-cell biology
+description: |
+  scGPT is a foundation model for single-cell biology based on a generative
+  pre-trained transformer and trained on a repository of over 33 million cells.
+
+  Here, we use a version packaged as an MLflow model.
+references:
+  doi:
+    - 10.1038/s41592-024-02201-0
+links:
+  documentation: https://scgpt.readthedocs.io/en/latest/
+  repository: https://github.com/bowang-lab/scGPT
+
+info:
+  method_types: [embedding]
+  preferred_normalization: counts
+
+arguments:
+  - name: --model
+    type: file
+    description: |
+      An MLflow model URI for the transcriptformer model. If it is a .zip or
+      .tar.gz file it will be extracted to a temporary directory.
+    required: true
+
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+  - path: /src/utils/exit_codes.py
+  - path: /src/utils/unpack.py
+  - path: /src/utils/mlflow.py
+  - path: requirements.txt
+
+engines:
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1
+    __merge__: /src/utils/mlflow_docker_setup.yaml
+
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [hightime, highmem, midcpu, gpu]
