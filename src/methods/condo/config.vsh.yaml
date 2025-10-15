@@ -1,0 +1,63 @@
+__merge__: ../../api/comp_method.yaml
+name: condo
+label: condo
+summary: "ConDo is a feature transformation method for batch correction based on matching conditional distributions."
+description: |
+  Confounded Domain Adaptation (ConDo) is a batch correction method that performs a linear transformation to features, to match their conditional distribution given biological variables of interest.
+  It will first learn (nonlinear) a conditional generative model for each batch, of the features given biological variables.
+  Then, it finds a linear feature transformation, either affine or location-scale, that minimizes the expected divergence between the conditional distributions.
+references:
+  # McCarter C.
+  # Towards Backwards-Compatible Data with Confounded Domain Adaptation.
+  # Transactions on Machine Learning Research. 2024.
+  doi: 
+    - 10.5281/zenodo.17066563
+links:
+  documentation: https://github.com/calvinmccarter/condo-adapter?tab=readme-ov-file#usage
+  repository: https://github.com/calvinmccarter/condo-adapter
+info:
+  preferred_normalization: log_cp10k
+arguments:
+  - name: --divergence
+    type: string
+    default: kld
+    description: Distributional divergence to use.
+  - name: --transform_type
+    type: string
+    default: affine
+    description: Type of linear transformation to apply
+  - name: --bootstrap_fraction
+    type: float
+    default: 1.0
+    description: Optional random subsample of data for constrained memory settings; only applies when divergence is mmd.
+  - name: --n_epochs
+    type: integer
+    default: 5
+    description: Number of epochs to run; only applies when divergence is mmd.
+  - name: --learning_rate
+    type: float
+    default: 0.001
+    description: Learning rate; only applies when divergence is mmd.
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1.0.0 
+    setup:
+      - type: python
+        pypi:
+        - condo==1.0.0
+        - miceforest==5.7.0
+        - numpy<2
+        - pandas
+        - pytorch-minimize==0.0.2
+        - scikit-learn
+        - scipy>=1.6
+        - torch==1.9.0
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime,midmem,midcpu,gpu]
