@@ -51,15 +51,6 @@ resources:
 engines:
   - type: docker
     image: openproblems/base_pytorch_nvidia:1
-    # TODO: Try to find working installation of flash attention (flash-attn<1.0.5)
-    setup:
-      #- type: python
-      #  pypi:
-      #    - gdown
-      #    - scgpt # Install from PyPI to get dependencies
-      #- type: docker
-      #  # Force re-installing from GitHub to get bug fixes
-      #  run: pip install --upgrade --no-deps --force-reinstall git+https://github.com/bowang-lab/scGPT.git
       - type: docker
         run: |
           git clone https://github.com/bowang-lab/scGPT && \
