@@ -61,7 +61,7 @@ arguments:
   - name: --max_len
     type: integer
     description: The maximum length of the gene sequence.
-    default: 4000
+    default: 2300
 
 resources:
   - type: python_script
