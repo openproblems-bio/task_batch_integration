@@ -3,10 +3,15 @@
 ## New functionality
 
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
+
 * Added `methods/stacas` new method (PR #58).
     - Add non-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality enables correction of batch effects while preserving biological variability without requiring prior cell type annotations.
-* Added `method/drvi` component (PR #61).
+
+* Added `methods/drvi` component (PR #61).
+
 * Added `ARI_batch` and `NMI_batch` to `metrics/clustering_overlap` (PR #68).
+
+* Added `methods/bbknn_ts` component (PR #84).
 
 * Added `metrics/cilisi` new metric component (PR #57).
     - ciLISI measures batch mixing in a cell type-aware manner by computing iLISI within each cell type and normalizing

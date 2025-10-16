@@ -91,6 +91,7 @@ dependencies:
   - name: methods/batchelor_fastmnn
   - name: methods/batchelor_mnn_correct
   - name: methods/bbknn
+  - name: methods/bbknn_ts
   - name: methods/combat
   - name: methods/geneformer
   - name: methods/harmony

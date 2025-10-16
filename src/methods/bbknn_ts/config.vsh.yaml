@@ -1,0 +1,54 @@
+__merge__: ../../api/comp_method.yaml
+
+name: bbknn_ts
+label: BBKNN (TS)
+summary: "A combination of ComBat and BBKNN discovered and implemented by Gemini."
+description: |
+  "The BBKNN (TS) solution applies standard scRNA-seq preprocessing steps, including total count normalization, log-transformation, and scaling of gene expression data. Batch effect correction is performed using scanpy.pp.combat directly on the gene expression matrix (before dimensionality reduction). Dimensionality reduction is then applied using PCA on the ComBat-corrected data, and this PCA embedding (adata.obsm['X_pca']) is designated as the integrated embedding (adata.obsm['X_emb']). A custom batch-aware nearest neighbors graph is constructed based on this integrated embedding; for each cell, neighbors are independently identified within its own batch and other batches, up to n_neighbors_per_batch. These candidate neighbors are merged, keeping the minimum distance for duplicate entries, and the top total_k_neighbors are selected for each cell. Finally, a symmetric sparse distance matrix and a binary connectivities matrix are generated to represent the integrated neighborhood graph. This code was entirely written by the AI system described in the associated publication."
+references:
+  bibtex: |
+    @misc{GoogleScienceAI2025,
+      title={An {AI} system to help scientists write expert-level empirical software},
+      author={Eser Ayg\"un and Anastasiya Belyaeva and Gheorghe Comanici and Marc Coram and Hao Cui and Jake Garrison and Renee Johnston and Anton Kast and Cory Y. McLean and Peter Norgaard and Zahra Shamsi and David Smalling and James Thompson and Subhashini Venugopalan and Brian P. Williams and Chujun He and Sarah Martinson and Martyna Plomecka and Lai Wei and Yuchen Zhou and Qian-Ze Zhu and Matthew Abraham and Erica Brand and Anna Bulanova and Jeffrey A. Cardille and Chris Co and Scott Ellsworth and Grace Joseph and Malcolm Kane and Ryan Krueger and Johan Kartiwa and Dan Liebling and Jan-Matthis Lueckmann and Paul Raccuglia and Xuefei (Julie) Wang and Katherine Chou and James Manyika and Yossi Matias and John C. Platt and Lizzie Dorfman and Shibl Mourad and Michael P. Brenner},
+      year={2025},
+      eprint={2509.06503},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2509.06503}
+    }
+links:
+  documentation: https://google-research.github.io/score/
+  repository: https://github.com/google-research/score
+
+info:
+  method_types: [embedding]  
+  preferred_normalization: log_cp10k
+
+arguments:
+  - name: "--n_pca_components"
+    type: "integer"
+    default: 100
+    description: "Number of PCA components."
+  - name: "--n_neighbors_per_batch"
+    type: "integer"
+    default: 10
+    description: "Number of neighbors to use within each batch."
+  - name: "--total_k_neighbors"
+    type: "integer"
+    default: 50
+    description: "Total number of nearest neighbors to retain for the final graph."
+
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+
+engines:
+  - type: docker
+    image: openproblems/base_python:1.0.0
+
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime,midmem,midcpu]
