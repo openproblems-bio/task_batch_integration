@@ -20,7 +20,10 @@ methods = [
   batchelor_mnn_correct,
   bbknn,
   combat,
-  geneformer,
+  // geneformer,
+  geneformer_mlflow.run(
+    args: [model: file("s3://openproblems-work/cache/geneformer-mlflow-model.zip")]
+  ),
   harmony,
   harmonypy,
   liger,
@@ -32,6 +35,9 @@ methods = [
   scgpt_finetuned.run(
     args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
   ),
+  scgpt_mlflow.run(
+    args: [model: file("s3://openproblems-work/cache/scgpt-mlflow-model.zip")]
+  ),
   scgpt_zeroshot.run(
     args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
   ),
@@ -40,8 +46,17 @@ methods = [
   ),
   scprint,
   scvi,
+  scvi_mlflow.run(
+    args: [model: file("s3://openproblems-work/cache/scvi-mlflow-model.zip")]
+  ),
+  transcriptformer_mlflow.run(
+    args: [model: file("s3://openproblems-work/cache/transcriptformer-mlflow-model.zip")]
+  ),
   uce.run(
     args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
+  ),
+  uce_mlflow.run(
+    args: [model: file("s3://openproblems-work/cache/uce-mlflow-model.zip")]
   )
 ]
 
@@ -55,7 +70,7 @@ metrics = [
   hvg_overlap,
   isolated_label_asw,
   isolated_label_f1,
-  kbet,
+  // kbet,
   kbet_pg,
   kbet_pg_label,
   lisi,

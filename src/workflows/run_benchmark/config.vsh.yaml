@@ -92,7 +92,7 @@ dependencies:
   - name: methods/batchelor_mnn_correct
   - name: methods/bbknn
   - name: methods/combat
-  - name: methods/geneformer
+  - name: methods/geneformer_mlflow
   - name: methods/harmony
   - name: methods/harmonypy
   - name: methods/liger
@@ -101,12 +101,18 @@ dependencies:
   - name: methods/scalex
   - name: methods/scanorama
   - name: methods/scanvi
+  - name: methods/scgpt_mlflow
   - name: methods/scgpt_finetuned
   - name: methods/scgpt_zeroshot
   - name: methods/scimilarity
   - name: methods/scprint
   - name: methods/scvi
+  - name: methods/scvi_mlflow
+  - name: methods/transcriptformer_mlflow
   - name: methods/uce
+  - name: methods/uce_mlflow
+  # outdated methods
+  # - name: methods/geneformer
   # metrics
   - name: metrics/asw_batch
   - name: metrics/asw_label
