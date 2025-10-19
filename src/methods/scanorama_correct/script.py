@@ -8,8 +8,7 @@ par = {
     'output': 'output.h5ad',
 }
 meta = {
-    'name': 'foo',
-    'config': 'bar'
+    'name': 'scanorama-correct',
 }
 ## VIASH END
 
@@ -57,7 +56,7 @@ split = []
 batch_categories = adata.obs['batch'].cat.categories
 for i in batch_categories:
     split.append(adata[adata.obs['batch'] == i].copy())
-corrected = scanorama.correct_scanpy(split, return_dimred=True)
+corrected = scanorama.correct_scanpy(split, return_dimred=False)
 corrected = merge_adata(*corrected, batch_key='batch', batch_categories=batch_categories, index_unique=None)
 
 print("Store output", flush=True)
@@ -71,9 +70,6 @@ output = ad.AnnData(
     },
     layers={
         'corrected_counts': corrected.X,
-    },
-    obsm={
-        'X_emb': corrected.obsm["X_scanorama"],
     }
 )
 

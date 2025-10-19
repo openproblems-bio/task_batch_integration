@@ -27,7 +27,8 @@ methods = [
   mnnpy,
   pyliger,
   scalex,
-  scanorama,
+  scanorama_correct,
+  scanorama_integrate,
   scanvi,
   scgpt_finetuned.run(
     args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
