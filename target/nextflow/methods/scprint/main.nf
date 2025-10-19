@@ -3287,7 +3287,7 @@ meta = [
           "name" : "--max_len",
           "description" : "The maximum length of the gene sequence.",
           "default" : [
-            4000
+            2300
           ],
           "required" : false,
           "direction" : "input",
@@ -3475,7 +3475,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scprint",
     "viash_version" : "0.9.4",
-    "git_commit" : "e480211b78b00ec84c167cbbe9783e24f165a66b",
+    "git_commit" : "b4e2ec839f0636e850970f919e42174e6826069f",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

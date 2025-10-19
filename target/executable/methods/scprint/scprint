@@ -458,9 +458,9 @@ RUN pip install --upgrade pip && \
   python -c 'from scdataloader.utils import populate_my_ontology; populate_my_ontology()'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scprint"
-LABEL org.opencontainers.image.created="2025-10-12T07:00:42Z"
+LABEL org.opencontainers.image.created="2025-10-19T17:07:13Z"
 LABEL org.opencontainers.image.source="https://github.com/cantinilab/scPRINT"
-LABEL org.opencontainers.image.revision="e480211b78b00ec84c167cbbe9783e24f165a66b"
+LABEL org.opencontainers.image.revision="b4e2ec839f0636e850970f919e42174e6826069f"
 LABEL org.opencontainers.image.version="build_feature_no_ref_add_mlflow_models"
 
 VIASHDOCKER
@@ -628,7 +628,7 @@ function ViashHelp {
   echo ""
   echo "    --max_len"
   echo "        type: integer"
-  echo "        default: 4000"
+  echo "        default: 2300"
   echo "        The maximum length of the gene sequence."
   echo ""
   echo "Viash built in Computational Requirements:"
@@ -958,7 +958,7 @@ if [ -z ${VIASH_PAR_BATCH_SIZE+x} ]; then
   VIASH_PAR_BATCH_SIZE="32"
 fi
 if [ -z ${VIASH_PAR_MAX_LEN+x} ]; then
-  VIASH_PAR_MAX_LEN="4000"
+  VIASH_PAR_MAX_LEN="2300"
 fi
 
 # check whether required files exist
