@@ -3595,6 +3595,18 @@ meta = [
       }
     },
     {
+      "name" : "methods/scgpt_finetuned",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
+      "name" : "methods/scgpt_zeroshot",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/scimilarity",
       "repository" : {
         "type" : "local"
@@ -3777,7 +3789,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "b4e2ec839f0636e850970f919e42174e6826069f",
+    "git_commit" : "329d25e2b182636234d82ee00a9948e997af75d7",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3962,6 +3974,8 @@ include { scalex } from "${meta.resources_dir}/../../../nextflow/methods/scalex/
 include { scanorama } from "${meta.resources_dir}/../../../nextflow/methods/scanorama/main.nf"
 include { scanvi } from "${meta.resources_dir}/../../../nextflow/methods/scanvi/main.nf"
 include { scgpt_mlflow } from "${meta.resources_dir}/../../../nextflow/methods/scgpt_mlflow/main.nf"
+include { scgpt_finetuned } from "${meta.resources_dir}/../../../nextflow/methods/scgpt_finetuned/main.nf"
+include { scgpt_zeroshot } from "${meta.resources_dir}/../../../nextflow/methods/scgpt_zeroshot/main.nf"
 include { scimilarity } from "${meta.resources_dir}/../../../nextflow/methods/scimilarity/main.nf"
 include { scprint } from "${meta.resources_dir}/../../../nextflow/methods/scprint/main.nf"
 include { scvi } from "${meta.resources_dir}/../../../nextflow/methods/scvi/main.nf"
@@ -4008,7 +4022,7 @@ methods = [
   batchelor_mnn_correct,
   bbknn,
   combat,
-  geneformer,
+  // geneformer,
   geneformer_mlflow.run(
     args: [model: file("s3://openproblems-work/cache/geneformer-mlflow-model.zip")]
   ),

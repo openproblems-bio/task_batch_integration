@@ -20,7 +20,7 @@ methods = [
   batchelor_mnn_correct,
   bbknn,
   combat,
-  geneformer,
+  // geneformer,
   geneformer_mlflow.run(
     args: [model: file("s3://openproblems-work/cache/geneformer-mlflow-model.zip")]
   ),

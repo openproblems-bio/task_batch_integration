@@ -102,6 +102,8 @@ dependencies:
   - name: methods/scanorama
   - name: methods/scanvi
   - name: methods/scgpt_mlflow
+  - name: methods/scgpt_finetuned
+  - name: methods/scgpt_zeroshot
   - name: methods/scimilarity
   - name: methods/scprint
   - name: methods/scvi
@@ -111,8 +113,6 @@ dependencies:
   - name: methods/uce_mlflow
   # outdated methods
   # - name: methods/geneformer
-  # - name: methods/scgpt_finetuned
-  # - name: methods/scgpt_zeroshot
   # metrics
   - name: metrics/asw_batch
   - name: metrics/asw_label
