@@ -25,10 +25,10 @@
 * Fix kbet dependencies to numpy<2 and scipy<=1.13 (PR #78).
 
 * Split Scanorama into two methods/scores
-    - Split scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
+    - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
         This makes clear what the reported score(s) are describing, and also corrects the misleadingly low score that 
-        the combined method receives. The scores for each componenet are in line with their scores from v1, where the modes 
-        were seperated.  
+        the combined method receives. The scores for each component  are in line with their scores from v1, where the modes 
+        were separated.  
 
 # task_batch_integration 2.0.0
 
