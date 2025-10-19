@@ -99,7 +99,8 @@ dependencies:
   - name: methods/mnnpy
   - name: methods/pyliger
   - name: methods/scalex
-  - name: methods/scanorama
+  - name: methods/scanorama_correct
+  - name: methods/scanorama_integrate
   - name: methods/scanvi
   - name: methods/scgpt_finetuned
   - name: methods/scgpt_zeroshot

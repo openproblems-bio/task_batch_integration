@@ -1,0 +1,37 @@
+__merge__: /src/api/comp_method.yaml
+name: scanorama_correct
+label: Scanorama-Corrrect
+summary: Efficient integration of heterogeneous single-cell transcriptomes using Scanorama
+description: |
+  Scanorama enables batch-correction and integration of heterogeneous scRNA-seq datasets.
+  It is designed to be used in scRNA-seq pipelines downstream of noise-reduction methods,
+  including those for imputation and highly-variable gene filtering. The results from
+  Scanorama integration and batch correction can then be used as input to other tools
+  for scRNA-seq clustering, visualization, and analysis.
+references:
+  # Hie, B., Bryson, B. & Berger, B. Efficient integration of heterogeneous single-cell
+  # transcriptomes using Scanorama. Nat Biotechnol 37, 685–691 (2019).
+  # https://doi.org/10.1038/s41587-019-0113-3
+  doi: 10.1038/s41587-019-0113-3
+links:
+  repository: https://github.com/brianhie/scanorama
+  documentation: https://github.com/brianhie/scanorama#readme
+info:
+  method_types: [feature]
+  preferred_normalization: log_cp10k
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1
+    setup:
+      - type: python
+        pypi:
+          - scanorama
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [hightime, highmem, lowcpu]
