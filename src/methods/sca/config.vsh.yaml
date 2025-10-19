@@ -1,0 +1,45 @@
+__merge__: /src/api/comp_method.yaml
+name: sca
+label: SCA
+summary: "SCA: recovering single-cell heterogeneity through information-based dimensionality reduction"
+description: |
+  Surprisal Component Analysis (SCA) is a dimensionality reduction technique 
+  for single-cell data which leverages mathematical information theory to 
+  identify biologically informative axes of variation in single-cell
+  transcriptomic data, enabling recovery of rare and common cell types 
+references:
+  # DeMeo B & Berger B. 
+  # SCA: recovering single-cell heterogeneity through information-based dimensionality reduction
+  # Genome Biol 24, 195 (2023). https://doi.org/10.1186/s13059-023-02998-7
+  doi: 10.1186/s13059-023-02998-7
+links:
+  repository: https://github.com/bendemeo/shannonca
+  documentation: https://shannonca.readthedocs.io/en/latest/index.html
+info:
+  method_types: [embedding]
+  preferred_normalization: log_cp10k
+arguments:
+  - name: --iters
+    type: integer
+    default: 5
+    description: Number of iterations of SCA.
+  - name: --n_comps
+    type: integer
+    default: 100
+    description: Embedding dimension
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1
+    setup:
+      - type: python
+        pypi:
+          - shannonca
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [lowcpu, highmem, midtime]

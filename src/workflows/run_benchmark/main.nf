@@ -26,6 +26,7 @@ methods = [
   liger,
   mnnpy,
   pyliger,
+  sca,
   scalex,
   scanorama,
   scanvi,
