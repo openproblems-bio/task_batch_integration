@@ -24,6 +24,12 @@
 * Update scPRINT to use latest stable version (PR #70)
 * Fix kbet dependencies to numpy<2 and scipy<=1.13 (PR #78).
 
+* Split Scanorama into two methods/scores
+    - Split scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
+        This makes clear what the reported score(s) are describing, and also corrects the misleadingly low score that 
+        the combined method receives. The scores for each componenet are in line with their scores from v1, where the modes 
+        were seperated.  
+
 # task_batch_integration 2.0.0
 
 A major update to the OpenProblems framework, switching from a Python-based framework to a Viash + Nextflow-based framework. This update features the same concepts as the previous version, but with a new implementation that is more flexible, scalable, and maintainable.
