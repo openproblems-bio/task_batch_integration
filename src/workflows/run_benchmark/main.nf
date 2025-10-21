@@ -19,6 +19,9 @@ methods = [
   batchelor_fastmnn,
   batchelor_mnn_correct,
   bbknn,
+  cellplm.run(
+    args: [model: file("s3://openproblems-work/cache/cellplm-ckpt.zip")]
+  ),
   combat,
   geneformer,
   harmony,
