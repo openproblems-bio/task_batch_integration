@@ -1,0 +1,38 @@
+__merge__: ../../api/comp_method.yaml
+name: unsupervised_scmerge2
+label: unsupervised Scmerge2
+summary: "scMerge2 is an algorithm that integrates multiple single-cell RNA-seq datasets by leveraging factor analysis of stably expressed genes and pseudoreplication."
+description: |
+  scMerge works by integrating multiple single-cell RNA-seq datasets while correcting for batch effects and preserving biological signals.
+  It first identifies a set of stably expressed genes (SEGs) that are assumed to remain consistent across datasets.
+  Then, it uses a factor analysis model on these SEGs to estimate and remove unwanted variation.
+  To improve accuracy, scMerge creates pseudo-replicates which serve as anchors for alignment.
+  Finally, it corrects the data using these estimates, producing a harmonized expression matrix suitable for downstream analysis.
+references:
+  doi: 
+    - 10.1073/pnas.1820006116
+links:
+  documentation: https://sydneybiox.github.io/scMerge/articles/scMerge2.html
+  repository: https://github.com/SydneyBioX/scMerge
+info:
+  method_types: [feature]
+  preferred_normalization: log_cpm
+resources:
+  - type: r_script
+    path: script.R
+engines:
+  - type: docker
+    image: openproblems/base_r:1
+    setup:
+      - type: apt
+        packages: cmake
+      - type: r
+        cran:
+        - Matrix
+        bioc: 
+        - scmerge
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime,midmem,midcpu]
