@@ -31,7 +31,7 @@ HERE
 
 # run the benchmark
 nextflow run openproblems-bio/task_batch_integration \
-  --revision build/main \
+  -revision build/main \
   -main-script target/nextflow/workflows/run_benchmark/main.nf \
   -profile docker \
   -resume \
