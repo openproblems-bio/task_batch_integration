@@ -26,6 +26,7 @@ links:
   repository: https://github.com/dualverse-ai/station
 
 info:
+  method_types: [embedding, graph]
   preferred_normalization: counts
 
 arguments:
