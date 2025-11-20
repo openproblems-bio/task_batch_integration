@@ -1,4 +1,5 @@
 import sys
+import warnings
 import numpy as np
 import scipy.sparse as sp
 import scanpy as sc
@@ -125,6 +126,9 @@ def build_density_adaptive_bbsg(Zcorr, batches, k_total=48, metric='cosine', del
     dvals = np.asarray(dvals, dtype=np.float32)
     C_sym, D_sym = _symmetrize_binary_with_distances(rows, cols, dvals, n)
     return C_sym, D_sym
+
+# Silence seurat_v3 warning (AI workflow utilizes log-data for variance stabilization)
+warnings.filterwarnings("ignore", message=".*expects raw count data.*")
 
 # ============================================================================
 # Main integration pipeline
