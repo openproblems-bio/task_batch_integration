@@ -2,6 +2,7 @@
 
 ## New functionality
 
+* Added `metrics/sbee` component (PR #97)
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
 * Added `methods/stacas` new method (PR #58).
     - Add non-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality enables correction of batch effects while preserving biological variability without requiring prior cell type annotations.
