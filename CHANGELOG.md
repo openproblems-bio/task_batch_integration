@@ -63,6 +63,8 @@ A major update to the OpenProblems framework, switching from a Python-based fram
 
 * Added scGPT fine-tuned (PR #17).
 
+* Added Density-Adaptive BBSG method.
+
 
 ## Major changes
 

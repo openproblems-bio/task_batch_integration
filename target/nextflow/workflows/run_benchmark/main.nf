@@ -3535,6 +3535,12 @@ meta = [
       }
     },
     {
+      "name" : "methods/density_adaptive",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/fadvi",
       "repository" : {
         "type" : "local"
@@ -3771,7 +3777,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "1fad8628b526e011417c546e1b7838adec37a59e",
+    "git_commit" : "c780240a91cbda0e1c21efc32628bcaf062ff0ce",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3946,6 +3952,7 @@ include { batchelor_fastmnn } from "${meta.resources_dir}/../../../nextflow/meth
 include { batchelor_mnn_correct } from "${meta.resources_dir}/../../../nextflow/methods/batchelor_mnn_correct/main.nf"
 include { bbknn } from "${meta.resources_dir}/../../../nextflow/methods/bbknn/main.nf"
 include { combat } from "${meta.resources_dir}/../../../nextflow/methods/combat/main.nf"
+include { density_adaptive } from "${meta.resources_dir}/../../../nextflow/methods/density_adaptive/main.nf"
 include { fadvi } from "${meta.resources_dir}/../../../nextflow/methods/fadvi/main.nf"
 include { geneformer } from "${meta.resources_dir}/../../../nextflow/methods/geneformer/main.nf"
 include { harmony } from "${meta.resources_dir}/../../../nextflow/methods/harmony/main.nf"
@@ -4001,6 +4008,7 @@ methods = [
   batchelor_mnn_correct,
   bbknn,
   combat,
+  density_adaptive,
   fadvi,
   geneformer,
   harmony,

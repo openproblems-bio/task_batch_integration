@@ -3480,7 +3480,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/pcr",
     "viash_version" : "0.9.4",
-    "git_commit" : "1fad8628b526e011417c546e1b7838adec37a59e",
+    "git_commit" : "c780240a91cbda0e1c21efc32628bcaf062ff0ce",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
