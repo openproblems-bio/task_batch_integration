@@ -92,6 +92,7 @@ dependencies:
   - name: methods/batchelor_mnn_correct
   - name: methods/bbknn
   - name: methods/combat
+  - name: methods/fadvi
   - name: methods/geneformer
   - name: methods/harmony
   - name: methods/harmonypy

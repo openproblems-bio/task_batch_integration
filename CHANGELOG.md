@@ -6,7 +6,8 @@
 * Added `methods/stacas` new method (PR #58).
     - Add non-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality enables correction of batch effects while preserving biological variability without requiring prior cell type annotations.
 * Added `method/drvi` component (PR #61).
-
+* Added `method/fadvi` component.
+    - Add FActor Disentangled Variantional Inference (FADVI) for dimentionality reduction
 * Added `ARI_batch` and `NMI_batch` to `metrics/clustering_overlap` (PR #68).
 * Added `methods/condo` new method (PR #83).
     - ConDo (Confounded Domain Adaptation) is a feature-space batch correction
