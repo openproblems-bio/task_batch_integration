@@ -3450,7 +3450,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scanvi",
     "viash_version" : "0.9.4",
-    "git_commit" : "b9c29569d45f2e8b3b359e40440119ec650b4a5e",
+    "git_commit" : "c01dff40e81c45ea01e65646d793d010215a3441",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
