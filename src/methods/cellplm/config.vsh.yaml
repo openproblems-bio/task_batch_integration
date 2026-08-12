@@ -1,0 +1,51 @@
+__merge__: ../../api/base_method.yaml
+
+name: cellplm
+
+label: CellPLM
+
+summary: "A foundation model pre-trained with cells as tokens."
+
+description: |
+  CellPLM is a pre-trained language model specifically designed for single-cell analysis that leverages the principles of natural language processing (NLP) to understand and process single-cell gene expression data.
+references:
+  doi:
+    - 10.1101/2023.10.03.560734
+links:
+  documentation: https://github.com/OmicsML/CellPLM/tree/main/tutorials
+  repository: https://github.com/OmicsML/CellPLM
+
+info:
+  method_types: [embedding]
+  preferred_normalization: counts
+
+arguments:
+  - name: --model_name
+    type: string
+    description: String giving the CellPLM model to use
+    choices: ["20231027_85M", "20230926_85M"]
+    default: "20231027_85M"
+  - name: --model
+    type: file
+    description: Path to the directory containing CellPLM model files or a .zip/.tar.gz archive
+    required: true
+
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+  - path: /src/utils/exit_codes.py
+
+engines:
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - cellplm
+
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, midcpu, gpu]

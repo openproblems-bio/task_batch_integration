@@ -3529,6 +3529,12 @@ meta = [
       }
     },
     {
+      "name" : "methods/cellplm",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/combat",
       "repository" : {
         "type" : "local"
@@ -3783,7 +3789,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "00ac66f98f7dea0251f1e3bbb17ba66624d648ae",
+    "git_commit" : "8a7772e4eac3c6b1687f269e0d467286ddba3d0c",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3957,6 +3963,7 @@ include { shuffle_integration_by_cell_type } from "${meta.resources_dir}/../../.
 include { batchelor_fastmnn } from "${meta.resources_dir}/../../../nextflow/methods/batchelor_fastmnn/main.nf"
 include { batchelor_mnn_correct } from "${meta.resources_dir}/../../../nextflow/methods/batchelor_mnn_correct/main.nf"
 include { bbknn } from "${meta.resources_dir}/../../../nextflow/methods/bbknn/main.nf"
+include { cellplm } from "${meta.resources_dir}/../../../nextflow/methods/cellplm/main.nf"
 include { combat } from "${meta.resources_dir}/../../../nextflow/methods/combat/main.nf"
 include { density_adaptive } from "${meta.resources_dir}/../../../nextflow/methods/density_adaptive/main.nf"
 include { fadvi } from "${meta.resources_dir}/../../../nextflow/methods/fadvi/main.nf"
@@ -4014,6 +4021,9 @@ methods = [
   batchelor_fastmnn,
   batchelor_mnn_correct,
   bbknn,
+  cellplm.run(
+    args: [model: file("s3://openproblems-work/cache/cellplm-ckpt.zip")]
+  ),
   combat,
   density_adaptive,
   fadvi,

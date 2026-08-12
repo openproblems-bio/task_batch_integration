@@ -449,9 +449,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "pyliger" "dask-expr<2"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods pyliger"
-LABEL org.opencontainers.image.created="2026-08-12T18:55:14Z"
+LABEL org.opencontainers.image.created="2026-08-12T18:58:10Z"
 LABEL org.opencontainers.image.source="https://github.com/welch-lab/pyliger"
-LABEL org.opencontainers.image.revision="00ac66f98f7dea0251f1e3bbb17ba66624d648ae"
+LABEL org.opencontainers.image.revision="8a7772e4eac3c6b1687f269e0d467286ddba3d0c"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
