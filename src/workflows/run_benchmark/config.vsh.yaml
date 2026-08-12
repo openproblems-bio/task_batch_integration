@@ -91,7 +91,10 @@ dependencies:
   - name: methods/batchelor_fastmnn
   - name: methods/batchelor_mnn_correct
   - name: methods/bbknn
+  - name: methods/cellplm
   - name: methods/combat
+  - name: methods/density_adaptive
+  - name: methods/fadvi
   - name: methods/geneformer
   - name: methods/harmony
   - name: methods/harmonypy
@@ -100,7 +103,8 @@ dependencies:
   - name: methods/pyliger
   - name: methods/sca
   - name: methods/scalex
-  - name: methods/scanorama
+  - name: methods/scanorama_correct
+  - name: methods/scanorama_integrate
   - name: methods/scanvi
   - name: methods/scgpt_finetuned
   - name: methods/scgpt_zeroshot
