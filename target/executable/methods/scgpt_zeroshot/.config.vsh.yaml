@@ -281,7 +281,7 @@ build_info:
   output: "target/executable/methods/scgpt_zeroshot"
   executable: "target/executable/methods/scgpt_zeroshot/scgpt_zeroshot"
   viash_version: "0.9.4"
-  git_commit: "c780240a91cbda0e1c21efc32628bcaf062ff0ce"
+  git_commit: "00ac66f98f7dea0251f1e3bbb17ba66624d648ae"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
 package_config:
   name: "task_batch_integration"
