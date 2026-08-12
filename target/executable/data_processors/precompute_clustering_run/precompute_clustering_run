@@ -449,9 +449,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scanpy" "igraph" "leidenalg"
 
 LABEL org.opencontainers.image.description="Companion container for running component data_processors precompute_clustering_run"
-LABEL org.opencontainers.image.created="2025-10-15T12:19:49Z"
+LABEL org.opencontainers.image.created="2026-08-12T18:50:01Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="68eb2ecc52990617dbb6d1bb5c7158d9893796bb"
+LABEL org.opencontainers.image.revision="265c3a7950e1edfc3f577e14cd628cdb01567fb4"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
