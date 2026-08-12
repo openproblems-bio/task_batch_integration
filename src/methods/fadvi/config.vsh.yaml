@@ -1,0 +1,100 @@
+# The API specifies which type of component this is.
+# It contains specifications for:
+#   - The input/output files
+#   - Common parameters
+#   - A unit test
+__merge__: /src/api/comp_method.yaml
+
+# A unique identifier for your component (required).
+# Can contain only lowercase letters or underscores.
+name: fadvi
+# A relatively short label, used when rendering visualisations (required)
+label: FADVI
+# A one sentence summary of how this method works (required). Used when 
+# rendering summary tables.
+summary: "FADVI is a disentangled representation learning VAE method for batch integration."
+# A multi-line description of how this component works (required). Used
+# when rendering reference documentation.
+description: |
+  FADVI (Factor Disentanglement Variational Inference) is a deep learning method for single-cell omics and spatial transcriptomics analysis that disentangles batch-related variation, label-related variation, and residual variation using adversarial training and cross-correlation penalties.
+references:
+  doi: 
+    - 10.1101/2025.11.03.683998
+  bibtex:
+    - |
+      @article{fadvi2025,
+        title={FADVI: disentangled representation learning for robust integration of single-cell and spatial omics data},
+        author={Wendao Liu, Gang Qu, Lukas M. Simon, Fabian J. Theis, Zhongming Zhao},
+        journal={bioRxiv},
+        year={2025}
+      }
+links:
+  # URL to the documentation for this method (required).
+  documentation: https://fadvi.readthedocs.io/en/latest/
+  # URL to the code repository for this method (required).
+  repository: https://github.com/liuwd15/fadvi
+
+
+
+# Metadata for your component
+info:
+  method_types: [embedding]
+  # Which normalisation method this component prefers to use (required).
+  preferred_normalization: counts
+
+# Component-specific parameters (optional)
+arguments:
+  - name: --n_hvg
+    type: integer
+    default: 2000
+    description: Number of highly variable genes to use.
+  - name: --n_latent_l
+    type: integer
+    default: 30
+    description: Number of latent dimensions for labels.
+  - name: --n_latent_b
+    type: integer
+    default: 30
+    description: Number of latent dimensions for batches.
+  - name: --lambda_l
+    type: integer
+    default: 10
+    description: weight for label classification loss.
+  - name: --n_layers
+    type: integer
+    default: 2
+    description: Number of layers.
+  - name: --max_epochs
+    type: integer
+    default: 30
+    description: Maximum number of training epochs for FADVI.
+
+# Resources required to run the component
+resources:
+  # The script of your component (required)
+  - type: python_script
+    path: script.py
+
+  # Additional resources your script needs (optional)
+  # - type: file
+  #   path: weights.pt
+
+engines:
+  # Specifications for the Docker image for this component.
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1
+    # Add custom dependencies here (optional). For more information, see
+    # https://viash.io/reference/config/engines/docker/#setup .
+    setup:
+      - type: python
+        pypi:
+          - scvi-tools>=1.3.0
+          - fadvi>=0.2.0
+
+runners:
+  # This platform allows running the component natively
+  - type: executable
+  # Allows turning the component into a Nextflow module / pipeline.
+  - type: nextflow
+    directives:
+      label: [midtime,midmem,midcpu]

@@ -3,9 +3,29 @@
 ## New functionality
 
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
+* Added `methods/stacas` new method (PR #58).
+    - Add non-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality enables correction of batch effects while preserving biological variability without requiring prior cell type annotations.
 * Added `method/drvi` component (PR #61).
-
+* Added `method/fadvi` component.
+    - Add FActor Disentangled Variantional Inference (FADVI) for dimentionality reduction
 * Added `ARI_batch` and `NMI_batch` to `metrics/clustering_overlap` (PR #68).
+* Added `methods/condo` new method (PR #83).
+    - ConDo (Confounded Domain Adaptation) is a feature-space batch correction
+        method that fits a linear transform to match the conditional distribution
+        of each batch's features given cell type. Batches are integrated by walking
+        a compatibility graph (batches sharing at least one cell type are connected)
+        and iteratively merging each best-scoring neighbour into a growing target
+        pool. Affine and location-scale variants are provided.
+
+* Added `metrics/cilisi` new metric component (PR #57).
+    - ciLISI measures batch mixing in a cell type-aware manner by computing iLISI within each cell type and normalizing
+        the scores between 0 and 1. Unlike iLISI, ciLISI preserves sensitivity to biological variance and avoids favoring
+        overcorrected datasets with removed cell type signals.
+        We propose adding this metric to substitute iLISI.
+
+* Added `method/limma_removebatcheffect` component (PR #79).
+
+* Added ComBat-Seq method (PR #55).
 
 ## Minor changes
 
@@ -16,6 +36,12 @@
 
 * Update scPRINT to use latest stable version (PR #70)
 * Fix kbet dependencies to numpy<2 and scipy<=1.13 (PR #78).
+
+* Split Scanorama into two methods/scores
+    - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
+        This makes clear what the reported score(s) are describing, and also corrects the misleadingly low score that 
+        the combined method receives. The scores for each component  are in line with their scores from v1, where the modes 
+        were separated.  
 
 # task_batch_integration 2.0.0
 
@@ -45,7 +71,7 @@ A major update to the OpenProblems framework, switching from a Python-based fram
 
 * Added scGPT fine-tuned (PR #17).
 
-* Added ComBat-Seq method (PR #55).
+* Added Density-Adaptive BBSG method.
 
 
 ## Major changes
