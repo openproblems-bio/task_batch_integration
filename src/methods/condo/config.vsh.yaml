@@ -1,0 +1,120 @@
+__merge__: ../../api/comp_method.yaml
+name: condo
+label: ConDo
+summary: "ConDo is a feature transformation method for batch correction based on matching conditional distributions."
+description: |
+  Confounded Domain Adaptation (ConDo) is a batch correction method that
+  performs a linear transformation of the features to match their
+  conditional distribution given biological variables of interest. The
+  integrator walks a compatibility graph (batches sharing at least one
+  cell type are connected), seeding at the batch with the highest
+  pre-integration silhouette of cell_type, and iteratively merges each
+  best-scoring neighbour by fitting one ConDo adapter conditioned on
+  cell_type. Batches in disconnected components are passed through.
+references:
+  # McCarter C.
+  # Towards Backwards-Compatible Data with Confounded Domain Adaptation.
+  # Transactions on Machine Learning Research. 2024.
+  doi:
+    - 10.5281/zenodo.17066563
+links:
+  documentation: https://github.com/calvinmccarter/condo-adapter?tab=readme-ov-file#usage
+  repository: https://github.com/calvinmccarter/condo-adapter
+info:
+  method_types: [feature]
+  preferred_normalization: log_cp10k
+  variants:
+    condo_mmd_affine:
+      transform_type: affine
+      weight_decay: 1.0e-4
+    condo_mmd_location_scale:
+      transform_type: location-scale
+      weight_decay: 1.0e-5
+arguments:
+  - name: --transform_type
+    type: string
+    choices: [location-scale, affine]
+    default: location-scale
+    description: Type of linear transformation to apply.
+  - name: --rep
+    type: string
+    choices: [features, pca]
+    default: features
+    description: |
+      Representation to fit on. 'features' fits on the normalized expression
+      matrix and writes corrected_counts (feature method). 'pca' fits on
+      obsm['X_pca'] and writes obsm['X_emb'] (embedding output).
+  - name: --hvg_only
+    type: boolean
+    default: false
+    description: |
+      Restrict the feature-space fit to var['hvg'] columns; pass through
+      non-HVG genes at the source's normalized value. Only applies when
+      --rep=features.
+  - name: --bootstrap_fraction
+    type: double
+    default: 1.0
+    description: Optional random subsample of data for constrained memory settings.
+  - name: --n_epochs
+    type: integer
+    default: 5
+    description: Number of epochs to run.
+  - name: --learning_rate
+    type: double
+    default: 0.001
+    description: Learning rate.
+  - name: --mmd_size
+    type: integer
+    default: 40
+    description: Number of samples used in each MMD evaluation (K_X in the paper).
+  - name: --batch_size
+    type: integer
+    default: 8
+    description: Number of MMD-loss evaluations per gradient step (K_Z in the paper).
+  - name: --weight_decay
+    type: double
+    default: 1.0e-5
+    description: |
+      AdamW weight decay applied to all model parameters (matrix/scale and
+      bias/location).
+  - name: --patience
+    type: integer
+    default: 3
+    description: |
+      Early-stopping patience (epochs without train-loss improvement
+      before stopping).
+  - name: --random_state
+    type: integer
+    default: 42
+    description: Random seed for the adapter.
+  - name: --device
+    type: string
+    default: cpu
+    description: |
+      Torch device for the MMD training loop. Use 'cuda' or e.g. 'cuda:0'
+      to run on GPU. Numpy preprocessing stays on CPU regardless.
+resources:
+  - type: python_script
+    path: script.py
+  - path: condo_runner.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1.0.0
+    setup:
+      - type: python
+        pypi:
+          - condo==1.1.0
+          - miceforest==5.7.0
+          - numpy<2
+          - pandas
+          - pytorch-minimize==0.0.2
+          - scib
+          - scikit-learn
+          - scipy>=1.6
+          - torch>=2.12.0
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, midcpu, gpu]

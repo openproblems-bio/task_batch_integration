@@ -21,6 +21,7 @@ methods = [
   bbknn,
   combat,
   density_adaptive,
+  fadvi,
   geneformer,
   harmony,
   harmonypy,

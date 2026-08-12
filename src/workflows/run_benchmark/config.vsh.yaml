@@ -93,6 +93,7 @@ dependencies:
   - name: methods/bbknn
   - name: methods/combat
   - name: methods/density_adaptive
+  - name: methods/fadvi
   - name: methods/geneformer
   - name: methods/harmony
   - name: methods/harmonypy
