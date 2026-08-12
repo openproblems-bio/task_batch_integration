@@ -3519,7 +3519,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/control_methods/no_integration_batch",
     "viash_version" : "0.9.4",
-    "git_commit" : "78db69476084ccaf752dbbc20f720e8518951817",
+    "git_commit" : "1fad8628b526e011417c546e1b7838adec37a59e",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

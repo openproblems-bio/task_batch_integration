@@ -3535,6 +3535,12 @@ meta = [
       }
     },
     {
+      "name" : "methods/fadvi",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/geneformer",
       "repository" : {
         "type" : "local"
@@ -3765,7 +3771,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "78db69476084ccaf752dbbc20f720e8518951817",
+    "git_commit" : "1fad8628b526e011417c546e1b7838adec37a59e",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3940,6 +3946,7 @@ include { batchelor_fastmnn } from "${meta.resources_dir}/../../../nextflow/meth
 include { batchelor_mnn_correct } from "${meta.resources_dir}/../../../nextflow/methods/batchelor_mnn_correct/main.nf"
 include { bbknn } from "${meta.resources_dir}/../../../nextflow/methods/bbknn/main.nf"
 include { combat } from "${meta.resources_dir}/../../../nextflow/methods/combat/main.nf"
+include { fadvi } from "${meta.resources_dir}/../../../nextflow/methods/fadvi/main.nf"
 include { geneformer } from "${meta.resources_dir}/../../../nextflow/methods/geneformer/main.nf"
 include { harmony } from "${meta.resources_dir}/../../../nextflow/methods/harmony/main.nf"
 include { harmonypy } from "${meta.resources_dir}/../../../nextflow/methods/harmonypy/main.nf"
@@ -3994,6 +4001,7 @@ methods = [
   batchelor_mnn_correct,
   bbknn,
   combat,
+  fadvi,
   geneformer,
   harmony,
   harmonypy,
