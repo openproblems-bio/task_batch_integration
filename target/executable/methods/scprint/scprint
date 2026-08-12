@@ -458,9 +458,9 @@ RUN pip install --upgrade pip && \
   python -c 'from scdataloader.utils import populate_my_ontology; populate_my_ontology()'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scprint"
-LABEL org.opencontainers.image.created="2026-08-12T18:50:03Z"
+LABEL org.opencontainers.image.created="2026-08-12T18:52:46Z"
 LABEL org.opencontainers.image.source="https://github.com/cantinilab/scPRINT"
-LABEL org.opencontainers.image.revision="265c3a7950e1edfc3f577e14cd628cdb01567fb4"
+LABEL org.opencontainers.image.revision="78db69476084ccaf752dbbc20f720e8518951817"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
@@ -613,8 +613,8 @@ function ViashHelp {
   echo ""
   echo "    --model_name"
   echo "        type: string"
-  echo "        default: v2-medium"
-  echo "        choices: [ large, v2-medium, small ]"
+  echo "        default: medium-v1.5"
+  echo "        choices: [ large-v1, medium-v1.5, small-v1 ]"
   echo "        Which model to use. Not used if --model is provided."
   echo ""
   echo "    --model"
@@ -952,7 +952,7 @@ fi
 
 # filling in defaults
 if [ -z ${VIASH_PAR_MODEL_NAME+x} ]; then
-  VIASH_PAR_MODEL_NAME="v2-medium"
+  VIASH_PAR_MODEL_NAME="medium-v1.5"
 fi
 if [ -z ${VIASH_PAR_BATCH_SIZE+x} ]; then
   VIASH_PAR_BATCH_SIZE="32"
@@ -1059,7 +1059,7 @@ fi
 
 # check whether value is belongs to a set of choices
 if [ ! -z "$VIASH_PAR_MODEL_NAME" ]; then
-  VIASH_PAR_MODEL_NAME_CHOICES=("large;v2-medium;small")
+  VIASH_PAR_MODEL_NAME_CHOICES=("large-v1;medium-v1.5;small-v1")
   IFS=';'
   set -f
   if ! [[ ";${VIASH_PAR_MODEL_NAME_CHOICES[*]};" =~ ";$VIASH_PAR_MODEL_NAME;" ]]; then
