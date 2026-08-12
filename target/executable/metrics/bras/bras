@@ -449,9 +449,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scib-metrics==0.5.5"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics bras"
-LABEL org.opencontainers.image.created="2026-08-12T18:58:11Z"
+LABEL org.opencontainers.image.created="2026-08-12T19:08:16Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="8a7772e4eac3c6b1687f269e0d467286ddba3d0c"
+LABEL org.opencontainers.image.revision="b9c29569d45f2e8b3b359e40440119ec650b4a5e"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

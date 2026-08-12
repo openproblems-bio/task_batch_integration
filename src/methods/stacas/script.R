@@ -20,23 +20,29 @@ cat("Reading input file\n")
 adata <- anndata::read_h5ad(par[["input"]])
 
 cat("Create Seurat object\n")
-# Transpose because Seurat expects genes in rows, cells in columns
-counts_r <- Matrix::t(adata$layers[["counts"]])
-normalized_r <- Matrix::t(adata$layers[["normalized"]])
-# Convert to a regular sparse matrix first and then to dgCMatrix
-counts_c <- as(as(counts_r, "CsparseMatrix"), "dgCMatrix")
-normalized_c <- as(as(normalized_r, "CsparseMatrix"), "dgCMatrix")
+# Only loading normalized values, as raw counts are not needed
 
-# Create Seurat object with raw counts, these are needed to compute Variable Genes
-seurat_obj <- Seurat::CreateSeuratObject(counts = counts_c,
+# Transpose because Seurat expects genes in rows, cells in columns
+normalized <- Matrix::t(adata$layers[["normalized"]])
+# Convert to a regular sparse matrix first and then to dgCMatrix
+normalized <- as(as(normalized, "CsparseMatrix"), "dgCMatrix")
+
+# Create Seurat object
+seurat_obj <- Seurat::CreateSeuratObject(counts = normalized,
                                          meta.data = adata$obs)
 # Manually assign pre-normalized values to the "data" slot
-seurat_obj@assays$RNA$data <- normalized_c
+seurat_obj@assays$RNA$data   <- normalized
+seurat_obj@assays$RNA$counts <- NULL # remove counts
+
+
+# Obtain anchor features from the preprocessing pipeline
+anchor.features <- head(adata$var[order(adata$var$hvg_score, decreasing = T), "feature_id"], 2000)
 
 cat("Run STACAS\n")
 object_integrated <- seurat_obj |>
       Seurat::SplitObject(split.by = "batch") |>
-      STACAS::Run.STACAS() 
+      STACAS::Run.STACAS(anchor.features = anchor.features) 
+
 
 cat("Store outputs\n")
 output <- anndata::AnnData(
