@@ -34,9 +34,7 @@ engines:
     setup:
       - type: python
         pypi:
-        - drvi-py==0.1.7
-        - torch==2.3.0
-        - torchvision==0.18.0
+        - drvi-py==0.2.7
 runners:
   - type: executable
   - type: nextflow
