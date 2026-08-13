@@ -29,12 +29,12 @@
 
 * Un-pin the scPRINT version and update parameters (PR #51)
 * Update scPRINT to better handle large datasets, including a new default model (PR #54)
+* Credit contributors missing from the authors list, and fix Martin Kim's orcid.
 
 ## Bug fixes
 
 * Update scPRINT to use latest stable version (PR #70)
 * Fix kbet dependencies to numpy<2 and scipy<=1.13 (PR #78).
-* Fix `render_readme` crashing on `comp_process_integration.yaml`'s absolute `__merge__` paths.
 
 * Split Scanorama into two methods/scores
     - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
