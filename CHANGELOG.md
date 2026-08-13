@@ -6,6 +6,8 @@
 * Added `methods/stacas` new method (PR #58).
     - Add non-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality enables correction of batch effects while preserving biological variability without requiring prior cell type annotations.
 * Added `method/drvi` component (PR #61).
+* Added `method/sca` component (PR #89).
+    - Add Surprisal Causal Analysis (SCA) for dimensionality reduction
 * Added `method/fadvi` component.
     - Add FActor Disentangled Variantional Inference (FADVI) for dimentionality reduction
 * Added `ARI_batch` and `NMI_batch` to `metrics/clustering_overlap` (PR #68).
@@ -35,6 +37,7 @@
 
 * Update scPRINT to use latest stable version (PR #70)
 * Fix kbet dependencies to numpy<2 and scipy<=1.13 (PR #78).
+* Fix `render_readme` crashing on `comp_process_integration.yaml`'s absolute `__merge__` paths.
 
 * Split Scanorama into two methods/scores
     - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
