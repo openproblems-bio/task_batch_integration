@@ -3449,7 +3449,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/fadvi",
     "viash_version" : "0.9.4",
-    "git_commit" : "c01dff40e81c45ea01e65646d793d010215a3441",
+    "git_commit" : "5fadc374b46b42c1a5f1fdc72b916635c39f739c",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
