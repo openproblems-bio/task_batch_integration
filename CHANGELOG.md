@@ -47,6 +47,13 @@
 * Fix `methods/pyliger` failing to build: louvain has no python 3.12 wheel and needs cmake to build igraph from source.
 * Bump `methods/cellplm`, `methods/condo`, `methods/drvi` and `metrics/bras` from base image `:1.0.0` to `:1`, so their
     `openproblems` is new enough for the component tests in `common`.
+* Fix `methods/geneformer` failing to build: pip's `--filter=blob:none` clone of the huggingface repo no longer works,
+    so clone it ourselves. Also needs `transformers<5`, which still has `SpecialTokensMixin`.
+* Fix `methods/cellplm` failing to build: drop the pytorch base image's broken `/usr/local/bin/cmake` shim, which
+    shadowed the apt cmake that louvain needs.
+* Fix `methods/scgpt_zeroshot` and `methods/scgpt_finetuned` failing to build: stop installing `flash-attn`. Both
+    scripts pass `use_fast_transformer=False`, so it was never used. Behind it sat three more pins with no python 3.12
+    wheels, now `numpy<2`, `torchtext==0.17.2` and `transformers==4.36.2`.
 
 * Split Scanorama into two methods/scores
     - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
