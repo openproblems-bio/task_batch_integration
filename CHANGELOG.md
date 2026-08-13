@@ -37,6 +37,13 @@
 * Update scPRINT to use latest stable version (PR #70)
 * Fix kbet dependencies to numpy<2 and scipy<=1.13 (PR #78).
 * Fix `render_readme` crashing on `comp_process_integration.yaml`'s absolute `__merge__` paths.
+* Fix `metrics/kbet_pg` and `metrics/kbet_pg_label` failing to build: drop the zarr, pandas and numpy bounds pegasuspy
+    doesn't ask for, and pin `setuptools<81` so `pkg_resources` is still there.
+* Fix `methods/harmonypy` writing a transposed embedding: harmonypy 2.0 returns `Z_corr` as cells x pcs.
+* Fix `methods/stacas` erroring on `GetAssayData(slot = )`, defunct since SeuratObject 5.0.0. Tracks STACAS master
+    until upstream cuts a release containing the fix.
+* Fix `methods/scalex` failing to build: its numpy and torch bounds contradicted what scalex asks for. Keeps
+    `numpy<2`, since scalex still calls `np.Inf`.
 
 * Split Scanorama into two methods/scores
     - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
