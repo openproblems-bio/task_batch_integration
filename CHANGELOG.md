@@ -29,7 +29,7 @@
 
 * Un-pin the scPRINT version and update parameters (PR #51)
 * Update scPRINT to better handle large datasets, including a new default model (PR #54)
-* Credit contributors missing from the authors list, and fix Martin Kim's orcid.
+* Credit contributors missing from the authors list, and fix Martin Kim's orcid (PR #100).
 
 ## Bug fixes
 
