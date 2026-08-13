@@ -31,6 +31,7 @@ methods = [
   liger,
   mnnpy,
   pyliger,
+  sca,
   scalex,
   scanorama_correct,
   scanorama_integrate,
