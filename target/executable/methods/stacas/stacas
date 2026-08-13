@@ -446,12 +446,12 @@ function ViashDockerfile {
 FROM openproblems/base_r:1
 ENTRYPOINT []
 RUN Rscript -e 'options(warn = 2); if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")' && \
-  Rscript -e 'options(warn = 2); remotes::install_github(c("carmonalab/STACAS@2.3.0"), repos = "https://cran.rstudio.com")'
+  Rscript -e 'options(warn = 2); remotes::install_github(c("carmonalab/STACAS"), repos = "https://cran.rstudio.com")'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods stacas"
-LABEL org.opencontainers.image.created="2026-08-13T09:32:37Z"
+LABEL org.opencontainers.image.created="2026-08-13T11:26:03Z"
 LABEL org.opencontainers.image.source="https://github.com/carmonalab/STACAS"
-LABEL org.opencontainers.image.revision="0711826fa438f6f6819e03632b5656b8f5effb12"
+LABEL org.opencontainers.image.revision="de1310e9d450a1aa561fe75bcad9ee30f6b0ecad"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

@@ -445,13 +445,17 @@ function ViashDockerfile {
     cat << 'VIASHDOCKER'
 FROM openproblems/base_python:1
 ENTRYPOINT []
+RUN apt-get update && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y cmake && \
+  rm -rf /var/lib/apt/lists/*
+
 RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "pyliger" "dask-expr<2"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods pyliger"
-LABEL org.opencontainers.image.created="2026-08-13T09:32:37Z"
+LABEL org.opencontainers.image.created="2026-08-13T11:26:03Z"
 LABEL org.opencontainers.image.source="https://github.com/welch-lab/pyliger"
-LABEL org.opencontainers.image.revision="0711826fa438f6f6819e03632b5656b8f5effb12"
+LABEL org.opencontainers.image.revision="de1310e9d450a1aa561fe75bcad9ee30f6b0ecad"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

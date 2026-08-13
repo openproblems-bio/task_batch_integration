@@ -3401,7 +3401,7 @@ meta = [
         {
           "type" : "docker",
           "run" : [
-            "git clone https://github.com/bowang-lab/scGPT && \\\\\npip install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 --index-url https://download.pytorch.org/whl/cu121 && \\\\\npip install \\"flash-attn<1.0.5\\" --no-build-isolation && \\\\\npip install ipykernel pandas scanpy numba \\"numpy<1.24\\" torchtext==0.17.0 scib \\"scvi-tools<1.0\\" datasets==2.14.5 transformers==4.33.2 wandb \\"cell-gears<0.0.3\\" torch_geometric pyarrow==15.0.0 gdown && \\\\\ncd scGPT && pip install -e . --no-deps\n"
+            "git clone https://github.com/bowang-lab/scGPT && \\\\\npip install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 --index-url https://download.pytorch.org/whl/cu121 && \\\\\npip install ipykernel pandas scanpy numba \\"numpy<2\\" torchtext==0.17.2 scib \\"scvi-tools<1.0\\" datasets==2.14.5 transformers==4.36.2 wandb \\"cell-gears<0.0.3\\" torch_geometric pyarrow==15.0.0 gdown && \\\\\ncd scGPT && pip install -e . --no-deps\n"
           ]
         }
       ]
@@ -3413,7 +3413,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scgpt_finetuned",
     "viash_version" : "0.9.4",
-    "git_commit" : "0711826fa438f6f6819e03632b5656b8f5effb12",
+    "git_commit" : "de1310e9d450a1aa561fe75bcad9ee30f6b0ecad",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3834,7 +3834,7 @@ hyperparameters = {
     "dropout": 0.2,
     "schedule_ratio": 0.9,  # Learning rate decay
     "log_interval": 100,
-    "fast_transformer": False,  # TODO: Set True if flash-attn is installed
+    "fast_transformer": False,  # requires flash-attn
     "pre_norm": False,
     "amp": True,  # Automatic Mixed Precision
 }

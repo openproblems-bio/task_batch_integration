@@ -3393,10 +3393,15 @@ meta = [
           "user" : false,
           "pip" : [
             "pyarrow<15.0.0a0,>=14.0.1",
-            "huggingface_hub",
-            "git+https://huggingface.co/ctheodoris/Geneformer.git"
+            "huggingface_hub"
           ],
           "upgrade" : true
+        },
+        {
+          "type" : "docker",
+          "run" : [
+            "git clone --depth 1 https://huggingface.co/ctheodoris/Geneformer.git /opt/Geneformer && \\\\\n  pip install --no-cache-dir /opt/Geneformer \\"transformers<5\\"\n"
+          ]
         }
       ]
     }
@@ -3407,7 +3412,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/geneformer",
     "viash_version" : "0.9.4",
-    "git_commit" : "0711826fa438f6f6819e03632b5656b8f5effb12",
+    "git_commit" : "de1310e9d450a1aa561fe75bcad9ee30f6b0ecad",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

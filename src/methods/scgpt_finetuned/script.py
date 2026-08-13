@@ -227,7 +227,7 @@ hyperparameters = {
     "dropout": 0.2,
     "schedule_ratio": 0.9,  # Learning rate decay
     "log_interval": 100,
-    "fast_transformer": False,  # TODO: Set True if flash-attn is installed
+    "fast_transformer": False,  # requires flash-attn
     "pre_norm": False,
     "amp": True,  # Automatic Mixed Precision
 }

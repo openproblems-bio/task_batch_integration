@@ -38,8 +38,12 @@ resources:
 
 engines:
   - type: docker
-    image: openproblems/base_pytorch_nvidia:1.0.0
+    image: openproblems/base_pytorch_nvidia:1
     setup:
+      - type: apt
+        packages: [cmake]
+      - type: docker
+        run: rm -f /usr/local/bin/cmake
       - type: python
         pypi:
           - cellplm

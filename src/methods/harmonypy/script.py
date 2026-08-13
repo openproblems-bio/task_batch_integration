@@ -38,7 +38,7 @@ output = ad.AnnData(
     obs=adata.obs[[]],
     var=adata.var[[]],
     obsm={
-        "X_emb": out.Z_corr.transpose()
+        "X_emb": out.Z_corr
     },
     shape=adata.shape,
     uns={
