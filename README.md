@@ -46,25 +46,25 @@ extensive benchmark of single-cell data integration methods.
 
 ## Authors & contributors
 
-| Name              | Roles              | Orcid               | Github           |
-|:------------------|:-------------------|:--------------------|:-----------------|
-| Michaela Mueller  | maintainer, author | 0000-0002-1401-1785 | mumichae         |
-| Malte Luecken     | author             | 0000-0001-7464-7921 | LuckyMD          |
-| Daniel Strobl     | author             | 0000-0002-5516-7057 | danielStrobl     |
-| Robrecht Cannoodt | author             | 0000-0003-3641-729X | rcannood         |
-| Luke Zappia       | author             | 0000-0001-7744-8565 | lazappi          |
-| Jeremie Kalfon    | author             | 0000-0002-2818-9728 | jkobject         |
-| Seohyon Kim       | author             |                     | seohyonkim       |
-| Josep Garnica     | author             | 0000-0001-9493-1321 | JGarnica22       |
-| Scott Gigante     | contributor        | 0000-0002-4544-2764 | scottgigante     |
-| Kai Waldrant      | contributor        | 0009-0003-8555-1361 | KaiWaldrant      |
-| Martin Kim        | contributor        |                     | martinkim0       |
-| Sai Nirmayi Yasa  | contributor        | 0009-0003-6319-9803 | sainirmayi       |
-| Tianyu Liu        | contributor        | 0000-0002-9412-6573 | HelloWorldLTY    |
-| Calvin McCarter   | contributor        | 0000-0002-7257-1350 | calvinmccarter   |
-| Daniel Schaffer   | contributor        |                     | schafferde       |
-| Stephen Chung     | contributor        |                     | stephen-chung-mh |
-| Wendao Liu        | contributor        |                     | liuwd15          |
+| Name              | Roles              | Github           | Orcid               |
+|:------------------|:-------------------|:-----------------|:--------------------|
+| Michaela Mueller  | maintainer, author | mumichae         | 0000-0002-1401-1785 |
+| Malte Luecken     | author             | LuckyMD          | 0000-0001-7464-7921 |
+| Daniel Strobl     | author             | danielStrobl     | 0000-0002-5516-7057 |
+| Robrecht Cannoodt | author             | rcannood         | 0000-0003-3641-729X |
+| Luke Zappia       | author             | lazappi          | 0000-0001-7744-8565 |
+| Jeremie Kalfon    | author             | jkobject         | 0000-0002-2818-9728 |
+| Seo Hyon Kim      | author             | seohyonkim       | 0009-0007-3062-4681 |
+| Josep Garnica     | author             | JGarnica22       | 0000-0001-9493-1321 |
+| Scott Gigante     | contributor        | scottgigante     | 0000-0002-4544-2764 |
+| Kai Waldrant      | contributor        | KaiWaldrant      | 0009-0003-8555-1361 |
+| Martin Kim        | contributor        | martinkim0       |                     |
+| Sai Nirmayi Yasa  | contributor        | sainirmayi       | 0009-0003-6319-9803 |
+| Tianyu Liu        | contributor        | HelloWorldLTY    | 0000-0002-9412-6573 |
+| Calvin McCarter   | contributor        | calvinmccarter   | 0000-0002-7257-1350 |
+| Daniel Schaffer   | contributor        | schafferde       |                     |
+| Stephen Chung     | contributor        | stephen-chung-mh |                     |
+| Wendao Liu        | contributor        | liuwd15          |                     |
 
 ## API
 

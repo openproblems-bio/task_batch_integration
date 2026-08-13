@@ -76,10 +76,11 @@ authors:
     info:
       github: jkobject
       orcid: 0000-0002-2818-9728
-  - name: Seohyon Kim
+  - name: Seo Hyon Kim
     roles: [author]
-    info:
+    info: 
       github: seohyonkim
+      orcid: 0009-0007-3062-4681
   - name: Josep Garnica
     roles: [author]
     info:
