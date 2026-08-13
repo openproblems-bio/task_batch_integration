@@ -28,8 +28,7 @@ engines:
       - type: python
         pypi:
           - scalex
-          - numpy<1.24
-          - torch<2.1
+          - numpy<2
 runners:
   - type: executable
   - type: nextflow
