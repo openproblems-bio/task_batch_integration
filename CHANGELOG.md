@@ -44,6 +44,7 @@
     until upstream cuts a release containing the fix.
 * Fix `methods/scalex` failing to build: its numpy and torch bounds contradicted what scalex asks for. Keeps
     `numpy<2`, since scalex still calls `np.Inf`.
+* Fix `methods/pyliger` failing to build: louvain has no python 3.12 wheel and needs cmake to build igraph from source.
 
 * Split Scanorama into two methods/scores
     - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
