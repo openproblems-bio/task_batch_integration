@@ -3589,6 +3589,12 @@ meta = [
       }
     },
     {
+      "name" : "methods/sca",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/scalex",
       "repository" : {
         "type" : "local"
@@ -3789,7 +3795,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "5fadc374b46b42c1a5f1fdc72b916635c39f739c",
+    "git_commit" : "30d29ff1bfa9c13cef60c4412eef8ee05f5c1554",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3973,6 +3979,7 @@ include { harmonypy } from "${meta.resources_dir}/../../../nextflow/methods/harm
 include { liger } from "${meta.resources_dir}/../../../nextflow/methods/liger/main.nf"
 include { mnnpy } from "${meta.resources_dir}/../../../nextflow/methods/mnnpy/main.nf"
 include { pyliger } from "${meta.resources_dir}/../../../nextflow/methods/pyliger/main.nf"
+include { sca } from "${meta.resources_dir}/../../../nextflow/methods/sca/main.nf"
 include { scalex } from "${meta.resources_dir}/../../../nextflow/methods/scalex/main.nf"
 include { scanorama_correct } from "${meta.resources_dir}/../../../nextflow/methods/scanorama_correct/main.nf"
 include { scanorama_integrate } from "${meta.resources_dir}/../../../nextflow/methods/scanorama_integrate/main.nf"
@@ -4033,6 +4040,7 @@ methods = [
   liger,
   mnnpy,
   pyliger,
+  sca,
   scalex,
   scanorama_correct,
   scanorama_integrate,
