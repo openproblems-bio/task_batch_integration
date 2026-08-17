@@ -86,6 +86,11 @@ authors:
     info:
       github: JGarnica22
       orcid: 0000-0001-9493-1321
+  - name: Daniel Schaffer
+    roles: [author]
+    info:
+      github: schafferde
+      orcid: 0000-0003-3608-152X
   - name: "Scott Gigante"
     roles: [ contributor ]
     info:
@@ -115,11 +120,6 @@ authors:
     info:
       github: calvinmccarter
       orcid: 0000-0002-7257-1350
-  - name: Daniel Schaffer
-    roles: [contributor]
-    info:
-      github: schafferde
-      orcid: 0000-0003-3608-152X
   - name: Stephen Chung
     roles: [contributor]
     info:
