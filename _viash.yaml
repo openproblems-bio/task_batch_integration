@@ -65,6 +65,26 @@ authors:
     info:
       github: lazappi
       orcid: 0000-0001-7744-8565
+  - name: Jeremie Kalfon
+    roles: [author]
+    info:
+      github: jkobject
+      orcid: 0000-0002-2818-9728
+  - name: Seo Hyon Kim
+    roles: [author]
+    info:
+      github: seohyonkim
+      orcid: 0009-0007-3062-4681
+  - name: Josep Garnica
+    roles: [author]
+    info:
+      github: JGarnica22
+      orcid: 0000-0001-9493-1321
+  - name: Daniel Schaffer
+    roles: [author]
+    info:
+      github: schafferde
+      orcid: 0000-0003-3608-152X
   - name: "Scott Gigante"
     roles: [contributor]
     info:
@@ -79,17 +99,31 @@ authors:
     roles: [contributor]
     info:
       github: martinkim0
-      orcid: "0009-0003-8555-1361"
   - name: Sai Nirmayi Yasa
     roles: [contributor]
     info:
       github: sainirmayi
       orcid: 0009-0003-6319-9803
-  - name: Jeremie Kalfon
+  - name: Tianyu Liu
     roles: [contributor]
     info:
-      github: jkobject
-      orcid: 0000-0002-2818-9728
+      github: HelloWorldLTY
+      orcid: 0000-0002-9412-6573
+  - name: Calvin McCarter
+    roles: [contributor]
+    info:
+      github: calvinmccarter
+      orcid: 0000-0002-7257-1350
+  - name: Stephen Chung
+    roles: [contributor]
+    info:
+      github: stephen-chung-mh
+      orcid: 0009-0009-5833-9721
+  - name: Wendao Liu
+    roles: [contributor]
+    info:
+      github: liuwd15
+      orcid: 0000-0002-5124-9338
 config_mods: |
   .runners[.type == "nextflow"].config.labels := { lowmem : "memory = 20.Gb", midmem : "memory = 50.Gb", highmem : "memory = 100.Gb", lowcpu : "cpus = 5", midcpu : "cpus = 15", highcpu : "cpus = 30", lowtime : "time = 1.h", midtime : "time = 4.h", hightime : "time = 8.h", veryhightime : "time = 24.h" }
 repositories:

@@ -449,9 +449,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scib==1.1.7"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics cell_cycle_conservation"
-LABEL org.opencontainers.image.created="2026-08-13T11:26:03Z"
+LABEL org.opencontainers.image.created="2026-08-19T14:00:14Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="de1310e9d450a1aa561fe75bcad9ee30f6b0ecad"
+LABEL org.opencontainers.image.revision="2664dd1f1cd385adf8482ef9ccd8da3ddccb730f"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
