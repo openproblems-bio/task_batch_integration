@@ -14,7 +14,7 @@ from scprint.tasks import Embedder
 par = {
     "input": "resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad",
     "output": "output.h5ad",
-    "model_name": "v2-medium",
+    "model_name": "medium-v1.5",
     "model": None,
 }
 meta = {"name": "scprint"}

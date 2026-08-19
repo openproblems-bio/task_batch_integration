@@ -30,13 +30,11 @@ resources:
   - path: /src/utils/read_anndata_partial.py
 engines:
   - type: docker
-    image: openproblems/base_pytorch_nvidia:1.0.0 
+    image: openproblems/base_pytorch_nvidia:1
     setup:
       - type: python
         pypi:
-        - drvi-py==0.1.7
-        - torch==2.3.0
-        - torchvision==0.18.0
+        - drvi-py==0.2.7
 runners:
   - type: executable
   - type: nextflow
