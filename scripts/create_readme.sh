@@ -2,4 +2,4 @@
 
 set -e
 
-common/scripts/create_task_readme --input src/api
+common/scripts/create_task_readme

@@ -29,7 +29,7 @@ engines:
     image: openproblems/base_r:1
     setup:
       - type: r
-        github: carmonalab/STACAS@2.3.0
+        github: carmonalab/STACAS
 runners:
   - type: executable
   - type: nextflow

@@ -14,12 +14,12 @@ argument_groups:
   - name: Inputs
     arguments:
       - name: "--input_dataset"
-        __merge__: /src/api/file_dataset.yaml
+        __merge__: file_dataset.yaml
         type: file
         direction: input
         required: true
       - name: "--input_integrated"
-        __merge__: /src/api/file_integrated.yaml
+        __merge__: file_integrated.yaml
         type: file
         direction: input
         required: true
