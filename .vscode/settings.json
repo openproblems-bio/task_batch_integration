@@ -1,21 +1,10 @@
 {
   "yaml.schemas": {
-    "file:///home/rcannood/.vscode/extensions/continue.continue-1.2.22-linux-x64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
     "common/schemas/api_component_spec.yaml": "**/api/comp_*.yaml",
     "common/schemas/api_file_format.yaml": "**/api/file_*.yaml",
     "common/schemas/task_config.yaml": "_viash.yaml",
     "common/schemas/task_method.yaml": "**/methods/**/config.vsh.yaml",
     "common/schemas/task_control_method.yaml": "**/control_methods/**/config.vsh.yaml",
-    "common/schemas/task_metric.yaml": "**/metrics/**/config.vsh.yaml",
-    "https://raw.githubusercontent.com/viash-io/viash-schemas/refs/heads/main/json_schemas/0.9.4/config.schema.json": [
-      "**/*.vsh.yaml",
-      "**/*.vsh.yml"
-    ],
-    "https://raw.githubusercontent.com/viash-io/viash-schemas/refs/heads/main/json_schemas/0.9.4/package.schema.json": [
-      "_viash.yaml",
-      "_viash.yml"
-    ]
+    "common/schemas/task_metric.yaml": "**/metrics/**/config.vsh.yaml"
   }
 }
