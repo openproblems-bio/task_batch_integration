@@ -8,3 +8,7 @@
 trace-*
 .ipynb_checkpoints
 __pycache__
+.Rproj.user
+.Rhistory
+*.Rproj
+.vscode/

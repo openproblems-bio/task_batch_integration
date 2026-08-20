@@ -452,9 +452,9 @@ RUN git clone --depth 1 https://huggingface.co/ctheodoris/Geneformer.git /opt/Ge
   pip install --no-cache-dir /opt/Geneformer "transformers<5"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods geneformer"
-LABEL org.opencontainers.image.created="2026-08-19T14:00:14Z"
+LABEL org.opencontainers.image.created="2026-08-20T15:29:58Z"
 LABEL org.opencontainers.image.source="https://huggingface.co/ctheodoris/Geneformer"
-LABEL org.opencontainers.image.revision="2664dd1f1cd385adf8482ef9ccd8da3ddccb730f"
+LABEL org.opencontainers.image.revision="a62ed1ddc1b39646baa9b22eb9fec6124dd424f5"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

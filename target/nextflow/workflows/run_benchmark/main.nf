@@ -3649,6 +3649,12 @@ meta = [
       }
     },
     {
+      "name" : "methods/ss_stacas",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/uce",
       "repository" : {
         "type" : "local"
@@ -3795,7 +3801,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "2664dd1f1cd385adf8482ef9ccd8da3ddccb730f",
+    "git_commit" : "a62ed1ddc1b39646baa9b22eb9fec6124dd424f5",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -4058,6 +4064,7 @@ include { scgpt_zeroshot } from "${meta.resources_dir}/../../../nextflow/methods
 include { scimilarity } from "${meta.resources_dir}/../../../nextflow/methods/scimilarity/main.nf"
 include { scprint } from "${meta.resources_dir}/../../../nextflow/methods/scprint/main.nf"
 include { scvi } from "${meta.resources_dir}/../../../nextflow/methods/scvi/main.nf"
+include { ss_stacas } from "${meta.resources_dir}/../../../nextflow/methods/ss_stacas/main.nf"
 include { uce } from "${meta.resources_dir}/../../../nextflow/methods/uce/main.nf"
 include { asw_batch } from "${meta.resources_dir}/../../../nextflow/metrics/asw_batch/main.nf"
 include { asw_label } from "${meta.resources_dir}/../../../nextflow/metrics/asw_label/main.nf"
@@ -4125,6 +4132,7 @@ methods = [
   ),
   scprint,
   scvi,
+  ss_stacas,
   uce.run(
     args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
   )

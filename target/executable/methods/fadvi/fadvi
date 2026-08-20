@@ -449,9 +449,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scvi-tools>=1.3.0" "fadvi>=0.2.0"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods fadvi"
-LABEL org.opencontainers.image.created="2026-08-19T14:00:12Z"
+LABEL org.opencontainers.image.created="2026-08-20T15:29:54Z"
 LABEL org.opencontainers.image.source="https://github.com/liuwd15/fadvi"
-LABEL org.opencontainers.image.revision="2664dd1f1cd385adf8482ef9ccd8da3ddccb730f"
+LABEL org.opencontainers.image.revision="a62ed1ddc1b39646baa9b22eb9fec6124dd424f5"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

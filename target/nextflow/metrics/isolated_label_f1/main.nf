@@ -3498,7 +3498,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/isolated_label_f1",
     "viash_version" : "0.9.4",
-    "git_commit" : "2664dd1f1cd385adf8482ef9ccd8da3ddccb730f",
+    "git_commit" : "a62ed1ddc1b39646baa9b22eb9fec6124dd424f5",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

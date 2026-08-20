@@ -111,6 +111,7 @@ dependencies:
   - name: methods/scimilarity
   - name: methods/scprint
   - name: methods/scvi
+  - name: methods/ss_stacas
   - name: methods/uce
   # metrics
   - name: metrics/asw_batch
