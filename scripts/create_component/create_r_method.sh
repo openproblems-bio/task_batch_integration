@@ -3,6 +3,6 @@
 set -e
 
 common/scripts/create_component \
-  --name ss_stacas \
+  --name my_r_method \
   --language r \
   --type method
