@@ -3,6 +3,8 @@
 ## New functionality
 
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
+* Add `methods/ss_stacas` new method (PR #59).
+    - Add semi-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality leverages partial or imperfect knowledge of cell identity to improve integration quality by preserving biological variation while correcting for batch effects.
 * Added `methods/stacas` new method (PR #58).
     - Add non-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality enables correction of batch effects while preserving biological variability without requiring prior cell type annotations.
 * Added `method/drvi` component (PR #61).
