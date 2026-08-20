@@ -12,3 +12,4 @@ __pycache__
 .Rproj.user
 .Rhistory
 *.Rproj
+.vscode/
