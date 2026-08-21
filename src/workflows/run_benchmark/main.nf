@@ -23,6 +23,7 @@ methods = [
     args: [model: file("s3://openproblems-work/cache/cellplm-ckpt.zip")]
   ),
   combat,
+  combat_seq,
   density_adaptive,
   fadvi,
   geneformer,
