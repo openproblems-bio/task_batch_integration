@@ -104,8 +104,7 @@ dependencies:
   - name: methods/pyliger
   - name: methods/sca
   - name: methods/scalex
-  - name: methods/scanorama_correct
-  - name: methods/scanorama_integrate
+  - name: methods/scanorama
   - name: methods/scanvi
   - name: methods/scmerge2
   - name: methods/scgpt_finetuned

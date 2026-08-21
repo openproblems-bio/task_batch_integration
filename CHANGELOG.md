@@ -37,6 +37,9 @@
 * Un-pin the scPRINT version and update parameters (PR #51)
 * Update scPRINT to better handle large datasets, including a new default model (PR #54)
 * Credit contributors missing from the authors list, and fix Martin Kim's orcid (PR #100).
+* Merge `methods/scanorama_correct` and `methods/scanorama_integrate` back into a single `methods/scanorama`
+    component, reverting the split from PR #88. A single `correct_scanpy()` run returns both the corrected counts and
+    the embedding.
 
 ## Bug fixes
 
@@ -53,6 +56,9 @@
 * Fix `methods/pyliger` failing to build: louvain has no python 3.12 wheel and needs cmake to build igraph from source.
 * Bump `methods/cellplm`, `methods/condo`, `methods/drvi` and `metrics/bras` from base image `:1.0.0` to `:1`, so their
     `openproblems` is new enough for the component tests in `common`.
+* Fix `methods/scanorama` scrambling its output: scanorama returns one object per batch with the genes sorted by
+    name, so both axes ended up permuted with respect to the `obs` and `var` they were labelled with. This affected
+    every metric, not just `hvg_overlap`.
 * Fix `methods/geneformer` failing to build: pip's `--filter=blob:none` clone of the huggingface repo no longer works,
     so clone it ourselves. Also needs `transformers<5`, which still has `SpecialTokensMixin`.
 * Fix `methods/cellplm` failing to build: drop the pytorch base image's broken `/usr/local/bin/cmake` shim, which

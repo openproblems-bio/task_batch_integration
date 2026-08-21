@@ -1,6 +1,6 @@
 __merge__: /src/api/comp_method.yaml
-name: scanorama_integrate
-label: Scanorama-Integrate
+name: scanorama
+label: Scanorama
 summary: Efficient integration of heterogeneous single-cell transcriptomes using Scanorama
 description: |
   Scanorama enables batch-correction and integration of heterogeneous scRNA-seq datasets.
@@ -8,6 +8,9 @@ description: |
   including those for imputation and highly-variable gene filtering. The results from
   Scanorama integration and batch correction can then be used as input to other tools
   for scRNA-seq clustering, visualization, and analysis.
+
+  A single run returns both the batch-corrected expression matrix and the integrated
+  embedding it is assembled from.
 references:
   # Hie, B., Bryson, B. & Berger, B. Efficient integration of heterogeneous single-cell
   # transcriptomes using Scanorama. Nat Biotechnol 37, 685–691 (2019).
@@ -17,7 +20,7 @@ links:
   repository: https://github.com/brianhie/scanorama
   documentation: https://github.com/brianhie/scanorama#readme
 info:
-  method_types: [embedding]
+  method_types: [feature, embedding]
   preferred_normalization: log_cp10k
 arguments:
   - name: --dimred
