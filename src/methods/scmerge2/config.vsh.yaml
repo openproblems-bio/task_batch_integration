@@ -1,0 +1,59 @@
+__merge__: /src/api/comp_method.yaml
+name: scmerge2
+label: scMerge2
+summary: "scMerge2 integrates single-cell RNA-seq datasets by removing unwanted variation estimated from stably expressed genes and pseudo-replicates."
+description: |
+  scMerge2 corrects batch effects while preserving biological signal. It identifies a set of stably
+  expressed genes (SEGs), which are assumed to remain consistent across datasets, and uses them as
+  negative controls in a factor analysis model that estimates and removes unwanted variation.
+  Pseudo-replicates, constructed from pseudo-bulk profiles of cells grouped within each batch, serve
+  as anchors for the alignment.
+
+  Cell type labels are optional. When they are supplied the pseudo-replicates are built per cell
+  type; when they are not, scMerge2 identifies the groupings itself with a mutual nearest cluster
+  procedure. Both modes are exposed through `--cell_type_aware`.
+references:
+  doi:
+    - 10.1073/pnas.1820006116
+links:
+  documentation: https://sydneybiox.github.io/scMerge/articles/scMerge2.html
+  repository: https://github.com/SydneyBioX/scMerge
+info:
+  method_types: [embedding]
+  preferred_normalization: log_cp10k
+  variants:
+    scmerge2_unsupervised:
+    scmerge2_semisupervised:
+      cell_type_aware: true
+arguments:
+  - name: --cell_type_aware
+    type: boolean
+    default: false
+    description: |
+      Build the pseudo-replicates per cell type, using obs['cell_type']. When false, scMerge2
+      identifies the cell groupings itself.
+  - name: --n_control_genes
+    type: integer
+    default: 1000
+    description: Number of top-ranked stably expressed genes to use as negative controls.
+  - name: --n_dim
+    type: integer
+    default: 50
+    description: Number of principal components in the output embedding.
+resources:
+  - type: r_script
+    path: script.R
+engines:
+  - type: docker
+    image: openproblems/base_r:1
+    setup:
+      - type: apt
+        packages: cmake
+      - type: r
+        bioc:
+          - scMerge
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [hightime, highmem, midcpu]

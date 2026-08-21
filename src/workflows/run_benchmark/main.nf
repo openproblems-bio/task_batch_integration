@@ -19,16 +19,24 @@ methods = [
   batchelor_fastmnn,
   batchelor_mnn_correct,
   bbknn,
+  cellplm.run(
+    args: [model: file("s3://openproblems-work/cache/cellplm-ckpt.zip")]
+  ),
   combat,
+  combat_seq,
+  density_adaptive,
+  fadvi,
   geneformer,
   harmony,
   harmonypy,
   liger,
   mnnpy,
   pyliger,
+  sca,
   scalex,
   scanorama,
   scanvi,
+  scmerge2,
   scgpt_finetuned.run(
     args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
   ),
@@ -40,6 +48,7 @@ methods = [
   ),
   scprint,
   scvi,
+  ss_stacas,
   uce.run(
     args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
   )
