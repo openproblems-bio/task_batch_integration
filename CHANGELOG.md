@@ -29,7 +29,7 @@
 
 * Added `method/limma_removebatcheffect` component (PR #79).
 
-* Added `methods/semisupervised_scmerge2` and `methods/unsupervised_scmerge2` components (PR #63).
+* Added `methods/scmerge2` component (PR #63).
 
 ## Minor changes
 
