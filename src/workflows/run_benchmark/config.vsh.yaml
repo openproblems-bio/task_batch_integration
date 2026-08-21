@@ -119,6 +119,7 @@ dependencies:
   - name: metrics/kbet
   - name: metrics/kbet_pg
   - name: metrics/kbet_pg_label
+  - name: metrics/ksim
   - name: metrics/lisi
   - name: metrics/pcr
   # data processors
