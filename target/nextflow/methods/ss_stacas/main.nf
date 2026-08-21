@@ -3373,7 +3373,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/ss_stacas",
     "viash_version" : "0.9.4",
-    "git_commit" : "c0988181f5f771578df7c4048e3e25ee1664413b",
+    "git_commit" : "9187c604ba4642ac3d50333811351be02728f531",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

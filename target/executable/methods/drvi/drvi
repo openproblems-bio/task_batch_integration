@@ -449,9 +449,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "drvi-py==0.2.7"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods drvi"
-LABEL org.opencontainers.image.created="2026-08-21T07:19:29Z"
+LABEL org.opencontainers.image.created="2026-08-21T07:22:07Z"
 LABEL org.opencontainers.image.source="https://github.com/theislab/DRVI?tab=readme-ov-file"
-LABEL org.opencontainers.image.revision="c0988181f5f771578df7c4048e3e25ee1664413b"
+LABEL org.opencontainers.image.revision="9187c604ba4642ac3d50333811351be02728f531"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
