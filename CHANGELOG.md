@@ -28,6 +28,8 @@
         We propose adding this metric to substitute iLISI.
 
 * Added `method/limma_removebatcheffect` component (PR #79).
+* Added `methods/seurat_cca` and `methods/seurat_rpca` components (PR #77).
+    - Seurat v5 anchor-based integration (`IntegrateLayers` with `CCAIntegration` / `RPCAIntegration`).
 
 * Added ComBat-Seq method (PR #55).
 * Added `methods/scmerge2` component (PR #63).

@@ -453,9 +453,9 @@ RUN Rscript -e 'options(warn = 2); if (!requireNamespace("BiocManager", quietly 
   Rscript -e 'options(warn = 2); if (!requireNamespace("scMerge", quietly = TRUE)) BiocManager::install("scMerge")'
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scmerge2"
-LABEL org.opencontainers.image.created="2026-08-21T15:07:33Z"
+LABEL org.opencontainers.image.created="2026-08-21T15:08:36Z"
 LABEL org.opencontainers.image.source="https://github.com/SydneyBioX/scMerge"
-LABEL org.opencontainers.image.revision="d6d7c5f8e22f19b6d468eb2fd4819d94a521f310"
+LABEL org.opencontainers.image.revision="7a905cde0ccf8b7f649e7994bafcf8fee39c395b"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
