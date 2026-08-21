@@ -61,6 +61,9 @@
     scipy sparse matrices in scipy 1.14.
 * Fix `methods/geneformer` erroring with a 404 on every dictionary and model file: upstream reorganised the repo for
     Geneformer V2 and dropped the gc95M assets from `main`, so pin the downloads to the last revision that has them.
+* Give `methods/fadvi` a `gpu` label. Without one it was scheduled on the CPU partition with no GPU attached, so it
+    trained on the CPU and hit its walltime on every dataset.
+* Give `methods/scalex` a `midcpu` label instead of `lowcpu`. It is CPU-bound only because its engine has no CUDA.
 
 * Split Scanorama into two methods/scores
     - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
