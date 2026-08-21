@@ -14,13 +14,13 @@ description: |
   A custom batch-aware nearest neighbors graph is constructed based on this integrated
   embedding: for each cell, neighbors are independently identified within its own batch
   and other batches, up to `n_neighbors_per_batch`. These candidate neighbors are
-  merged, keeping the minimum distance for duplicate entries, and the top
-  `total_k_neighbors` are selected for each cell. Finally, a symmetric sparse distance
-  matrix and a binary connectivities matrix are generated to represent the integrated
-  neighborhood graph.
+  merged and the top `total_k_neighbors` are selected for each cell. Finally, a
+  symmetric sparse distance matrix and a binary connectivities matrix are generated to
+  represent the integrated neighborhood graph.
 
-  The integration code was entirely written by the AI system described in the
-  associated publication, and is included here unmodified.
+  The integration was devised by the AI system described in the associated
+  publication. The original implementation was rewritten to fit the component
+  structure, but produces the same embedding and graph.
 references:
   # Aygün, E., Belyaeva, A., Comanici, G. et al.
   # An AI system to help scientists write expert-level empirical software.
