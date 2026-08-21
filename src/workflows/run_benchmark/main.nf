@@ -34,8 +34,7 @@ methods = [
   pyliger,
   sca,
   scalex,
-  scanorama_correct,
-  scanorama_integrate,
+  scanorama,
   scanvi,
   scmerge2,
   scgpt_finetuned.run(

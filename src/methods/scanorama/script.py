@@ -1,7 +1,7 @@
 import sys
+
 import anndata as ad
 import scanorama
-import numpy as np
 
 ## VIASH START
 par = {
@@ -10,13 +10,13 @@ par = {
     'dimred': 100
 }
 meta = {
-    'name': 'scanorama-integrate',
+    'name': 'scanorama',
+    'resources_dir': 'src/utils'
 }
 ## VIASH END
 
 sys.path.append(meta["resources_dir"])
 from read_anndata_partial import read_anndata
-
 
 print('Read input', flush=True)
 adata = read_anndata(
@@ -28,32 +28,30 @@ adata = read_anndata(
 )
 
 print('Run scanorama', flush=True)
-split = []
-batch_categories = adata.obs['batch'].cat.categories
-for b in batch_categories:
-    split.append(adata[adata.obs['batch'] == b].copy())
-scanorama.integrate_scanpy(split, dimred=par["dimred"])
+split = [adata[adata.obs['batch'] == batch].copy() for batch in adata.obs['batch'].cat.categories]
+corrected = scanorama.correct_scanpy(split, return_dimred=True, dimred=par['dimred'])
 
-#From https://colab.research.google.com/drive/1CebA3Ow4jXITK0dW5el320KVTX_szhxG
-result = np.zeros((adata.shape[0], split[0].obsm["X_scanorama"].shape[1]))
-for i, b in enumerate(batch_categories):
-    result[adata.obs['batch'] == b] = split[i].obsm["X_scanorama"]
-
+# scanorama returns one object per batch, with the genes sorted by name -- put the
+# cells and genes back in the order of the input before storing the output
+corrected = ad.concat(corrected)
+corrected = corrected[adata.obs_names, adata.var_names]
 
 print("Store output", flush=True)
 output = ad.AnnData(
     obs=adata.obs[[]],
     var=adata.var[[]],
+    layers={
+        'corrected_counts': corrected.X,
+    },
+    obsm={
+        'X_emb': corrected.obsm['X_scanorama'],
+    },
     uns={
         'dataset_id': adata.uns['dataset_id'],
         'normalization_id': adata.uns['normalization_id'],
         'method_id': meta['name'],
-    },
-    obsm={
-        'X_emb': result
-    },
-    shape=adata.shape,
+    }
 )
 
 print("Write output to file", flush=True)
-output.write(par['output'], compression='gzip')
+output.write_h5ad(par['output'], compression='gzip')
