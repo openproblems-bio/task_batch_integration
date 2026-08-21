@@ -59,6 +59,8 @@
     wheels, now `numpy<2`, `torchtext==0.17.2` and `transformers==4.36.2`.
 * Fix `methods/scgpt_finetuned` erroring on `'csr_matrix' object has no attribute 'A'`: `.A` was removed from
     scipy sparse matrices in scipy 1.14.
+* Fix `methods/geneformer` erroring with a 404 on every dictionary and model file: upstream reorganised the repo for
+    Geneformer V2 and dropped the gc95M assets from `main`, so pin the downloads to the last revision that has them.
 
 * Split Scanorama into two methods/scores
     - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
