@@ -59,8 +59,7 @@
     wheels, now `numpy<2`, `torchtext==0.17.2` and `transformers==4.36.2`.
 * Give `methods/fadvi` a `gpu` label. Without one it was scheduled on the CPU partition with no GPU attached, so it
     trained on the CPU and hit its walltime on every dataset.
-* Raise `methods/uce`, `methods/mnnpy`, `methods/batchelor_mnn_correct` and `methods/scalex` to `veryhightime`.
-    All four completed on the smallest dataset and were killed at exactly 8 h on the rest.
+* Give `methods/scalex` a `midcpu` label instead of `lowcpu`. It is CPU-bound only because its engine has no CUDA.
 
 * Split Scanorama into two methods/scores
     - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
