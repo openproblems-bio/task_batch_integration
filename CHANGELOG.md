@@ -3,6 +3,8 @@
 ## New functionality
 
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
+* Add `methods/ss_stacas` new method (PR #59).
+    - Add semi-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality leverages partial or imperfect knowledge of cell identity to improve integration quality by preserving biological variation while correcting for batch effects.
 * Added `methods/stacas` new method (PR #58).
     - Add non-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality enables correction of batch effects while preserving biological variability without requiring prior cell type annotations.
 * Added `method/drvi` component (PR #61).
@@ -27,10 +29,17 @@
 
 * Added `method/limma_removebatcheffect` component (PR #79).
 
+* Added ComBat-Seq method (PR #55).
+* Added `methods/scmerge2` component (PR #63).
+
 ## Minor changes
 
 * Un-pin the scPRINT version and update parameters (PR #51)
 * Update scPRINT to better handle large datasets, including a new default model (PR #54)
+* Credit contributors missing from the authors list, and fix Martin Kim's orcid (PR #100).
+* Merge `methods/scanorama_correct` and `methods/scanorama_integrate` back into a single `methods/scanorama`
+    component, reverting the split from PR #88. A single `correct_scanpy()` run returns both the corrected counts and
+    the embedding.
 
 ## Bug fixes
 
@@ -47,6 +56,9 @@
 * Fix `methods/pyliger` failing to build: louvain has no python 3.12 wheel and needs cmake to build igraph from source.
 * Bump `methods/cellplm`, `methods/condo`, `methods/drvi` and `metrics/bras` from base image `:1.0.0` to `:1`, so their
     `openproblems` is new enough for the component tests in `common`.
+* Fix `methods/scanorama` scrambling its output: scanorama returns one object per batch with the genes sorted by
+    name, so both axes ended up permuted with respect to the `obs` and `var` they were labelled with. This affected
+    every metric, not just `hvg_overlap`.
 * Fix `methods/geneformer` failing to build: pip's `--filter=blob:none` clone of the huggingface repo no longer works,
     so clone it ourselves. Also needs `transformers<5`, which still has `SpecialTokensMixin`.
 * Fix `methods/cellplm` failing to build: drop the pytorch base image's broken `/usr/local/bin/cmake` shim, which
@@ -54,12 +66,22 @@
 * Fix `methods/scgpt_zeroshot` and `methods/scgpt_finetuned` failing to build: stop installing `flash-attn`. Both
     scripts pass `use_fast_transformer=False`, so it was never used. Behind it sat three more pins with no python 3.12
     wheels, now `numpy<2`, `torchtext==0.17.2` and `transformers==4.36.2`.
+* Fix `methods/scprint` erroring with `Triton only support CUDA 10.0 or higher`: point triton at the ptxas it bundles,
+    since its version table stops at CUDA 12 and the base image now ships CUDA 13.
+* Fix `methods/scgpt_finetuned` erroring on `'csr_matrix' object has no attribute 'A'`: `.A` was removed from
+    scipy sparse matrices in scipy 1.14.
+* Fix `methods/geneformer` erroring with a 404 on every dictionary and model file: upstream reorganised the repo for
+    Geneformer V2 and dropped the gc95M assets from `main`, so pin the downloads to the last revision that has them.
+* Give `methods/fadvi` a `gpu` label. Without one it was scheduled on the CPU partition with no GPU attached, so it
+    trained on the CPU and hit its walltime on every dataset.
+* Give `methods/scalex` a `midcpu` label instead of `lowcpu`. It is CPU-bound only because its engine has no CUDA.
 * Split Scanorama into two methods/scores
-    - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
-        This makes clear what the reported score(s) are describing, and also corrects the misleadingly low score that 
-        the combined method receives. The scores for each component  are in line with their scores from v1, where the modes 
+    - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together.
+        This makes clear what the reported score(s) are describing, and also corrects the misleadingly low score that
+        the combined method receives. The scores for each component  are in line with their scores from v1, where the modes
         were separated.
-* Remove jitter from the `embed_cell_types` control method, distinguishing its behavior from `embed_cell_types_jittered`.
+* Remove jitter from the `embed_cell_types` control method, distinguishing its behavior from
+    `embed_cell_types_jittered` (PR #102).
 
 # task_batch_integration 2.0.0
 

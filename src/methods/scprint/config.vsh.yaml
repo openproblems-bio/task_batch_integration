@@ -73,6 +73,11 @@ engines:
   - type: docker
     image: openproblems/base_pytorch_nvidia:1
     setup:
+      # scprint pins torch 2.2 / triton 2.2, whose ptx version table stops at CUDA 12, while the base
+      # image now ships CUDA 13 at /usr/local/cuda. Point triton at the ptxas it bundles itself.
+      - type: docker
+        env:
+          - TRITON_PTXAS_PATH=/usr/local/lib/python3.12/dist-packages/triton/third_party/cuda/bin/ptxas
       - type: python
         pip:
           - scprint==2.3.5
@@ -86,7 +91,6 @@ engines:
         script: from scdataloader.utils import populate_my_ontology; populate_my_ontology()
 runners:
   - type: executable
-   # docker_run_args: --gpus all
   - type: nextflow
     directives:
       label: [hightime, highmem, midcpu, gpu, highsharedmem]
