@@ -26,7 +26,7 @@ aim to remove batch effects scRNA-seq datasets \[@zappia2018exploring\].
 These methods balance the removal of batch effects with the conservation
 of nuanced biological information in different ways. This abundance of
 tools has complicated batch integration method choice, leading to
-several benchmarks on this topic \[@luecken2020benchmarking;
+several benchmarks on this topic \[@luecken2022benchmarking;
 @tran2020benchmark; @chazarragil2021flexible; @mereu2020benchmarking\].
 Yet, benchmarks use different metrics, method implementations and
 datasets. Here we build a living benchmarking task for batch integration
@@ -46,15 +46,25 @@ extensive benchmark of single-cell data integration methods.
 
 ## Authors & contributors
 
-| name              | roles              |
-|:------------------|:-------------------|
-| Michaela Mueller  | maintainer, author |
-| Malte Luecken     | author             |
-| Daniel Strobl     | author             |
-| Robrecht Cannoodt | contributor        |
-| Scott Gigante     | contributor        |
-| Kai Waldrant      | contributor        |
-| Nartin Kim        | contributor        |
+| Name              | Roles              | Orcid               | Github           |
+|:------------------|:-------------------|:--------------------|:-----------------|
+| Michaela Mueller  | maintainer, author | 0000-0002-1401-1785 | mumichae         |
+| Malte Luecken     | author             | 0000-0001-7464-7921 | LuckyMD          |
+| Daniel Strobl     | author             | 0000-0002-5516-7057 | danielStrobl     |
+| Robrecht Cannoodt | author             | 0000-0003-3641-729X | rcannood         |
+| Luke Zappia       | author             | 0000-0001-7744-8565 | lazappi          |
+| Jeremie Kalfon    | author             | 0000-0002-2818-9728 | jkobject         |
+| Seo Hyon Kim      | author             | 0009-0007-3062-4681 | seohyonkim       |
+| Josep Garnica     | author             | 0000-0001-9493-1321 | JGarnica22       |
+| Daniel Schaffer   | author             | 0000-0003-3608-152X | schafferde       |
+| Scott Gigante     | contributor        | 0000-0002-4544-2764 | scottgigante     |
+| Kai Waldrant      | contributor        | 0009-0003-8555-1361 | KaiWaldrant      |
+| Martin Kim        | contributor        |                     | martinkim0       |
+| Sai Nirmayi Yasa  | contributor        | 0009-0003-6319-9803 | sainirmayi       |
+| Tianyu Liu        | contributor        | 0000-0002-9412-6573 | HelloWorldLTY    |
+| Calvin McCarter   | contributor        | 0000-0002-7257-1350 | calvinmccarter   |
+| Stephen Chung     | contributor        | 0009-0009-5833-9721 | stephen-chung-mh |
+| Wendao Liu        | contributor        | 0000-0002-5124-9338 | liuwd15          |
 
 ## API
 
@@ -64,27 +74,27 @@ flowchart TB
   comp_process_dataset[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-data-processor'>Data processor</a>"/]
   file_dataset("<a href='https://github.com/openproblems-bio/task_batch_integration#file-format-dataset'>Dataset</a>")
   file_solution("<a href='https://github.com/openproblems-bio/task_batch_integration#file-format-solution'>Solution</a>")
-  comp_control_method[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-control-method'>Control method</a>"/]
   comp_method[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-method'>Method</a>"/]
-  comp_process_integration[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-process-integration'>Process integration</a>"/]
-  comp_metric[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-metric'>Metric</a>"/]
+  comp_control_method[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-control-method'>Control method</a>"/]
   file_integrated("<a href='https://github.com/openproblems-bio/task_batch_integration#file-format-integration'>Integration</a>")
+  comp_process_integration[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-process-integration'>Process integration</a>"/]
   file_integrated_processed("<a href='https://github.com/openproblems-bio/task_batch_integration#file-format-processed-integration-output'>Processed integration output</a>")
+  comp_metric[/"<a href='https://github.com/openproblems-bio/task_batch_integration#component-type-metric'>Metric</a>"/]
   file_score("<a href='https://github.com/openproblems-bio/task_batch_integration#file-format-score'>Score</a>")
   file_common_dataset---comp_process_dataset
   comp_process_dataset-->file_dataset
   comp_process_dataset-->file_solution
-  file_dataset---comp_control_method
   file_dataset---comp_method
+  file_dataset---comp_control_method
   file_dataset---comp_process_integration
   file_solution---comp_control_method
   file_solution---comp_metric
-  comp_control_method-->file_integrated
   comp_method-->file_integrated
-  comp_process_integration-->file_integrated_processed
-  comp_metric-->file_score
+  comp_control_method-->file_integrated
   file_integrated---comp_process_integration
+  comp_process_integration-->file_integrated_processed
   file_integrated_processed---comp_metric
+  comp_metric-->file_score
 ```
 
 ## File format: Common Dataset
@@ -149,7 +159,7 @@ Arguments:
 | `--input` | `file` | A subset of the common dataset. |
 | `--output_dataset` | `file` | (*Output*) Unintegrated AnnData HDF5 file. |
 | `--output_solution` | `file` | (*Output*) Uncensored dataset containing the true labels. |
-| `--hvgs` | `integer` | (*Optional*) NA. Default: `2000`. |
+| `--hvgs` | `integer` | (*Optional*) Subset the count matrix to this number of HVGs. Default: `2000`. |
 
 </div>
 
@@ -249,22 +259,6 @@ Data structure:
 
 </div>
 
-## Component type: Control method
-
-A control method for the batch integration task.
-
-Arguments:
-
-<div class="small">
-
-| Name               | Type   | Description                                    |
-|:-------------------|:-------|:-----------------------------------------------|
-| `--input_dataset`  | `file` | Unintegrated AnnData HDF5 file.                |
-| `--input_solution` | `file` | Uncensored dataset containing the true labels. |
-| `--output`         | `file` | (*Output*) An integrated AnnData dataset.      |
-
-</div>
-
 ## Component type: Method
 
 A method for the batch integration task.
@@ -280,39 +274,19 @@ Arguments:
 
 </div>
 
-## Component type: Process integration
+## Component type: Control method
 
-Process output from an integration method to the format expected by
-metrics
-
-Arguments:
-
-<div class="small">
-
-| Name | Type | Description |
-|:---|:---|:---|
-| `--input_dataset` | `file` | Unintegrated AnnData HDF5 file. |
-| `--input_integrated` | `file` | An integrated AnnData dataset. |
-| `--expected_method_types` | `string` | NA. |
-| `--expected_method_types` | `string` | NA. |
-| `--expected_method_types` | `string` | NA. |
-| `--output` | `file` | (*Output*) An integrated AnnData dataset with additional outputs. |
-
-</div>
-
-## Component type: Metric
-
-A metric for evaluating batch integration methods.
+A control method for the batch integration task.
 
 Arguments:
 
 <div class="small">
 
-| Name | Type | Description |
-|:---|:---|:---|
-| `--input_integrated` | `file` | An integrated AnnData dataset with additional outputs. |
+| Name               | Type   | Description                                    |
+|:-------------------|:-------|:-----------------------------------------------|
+| `--input_dataset`  | `file` | Unintegrated AnnData HDF5 file.                |
 | `--input_solution` | `file` | Uncensored dataset containing the true labels. |
-| `--output` | `file` | (*Output*) Metric score file. |
+| `--output`         | `file` | (*Output*) An integrated AnnData dataset.      |
 
 </div>
 
@@ -358,6 +332,24 @@ Data structure:
 | `uns["dataset_organism"]` | `string` | (*Optional*) The organism of the sample in the dataset. |
 | `uns["method_id"]` | `string` | A unique identifier for the method. |
 | `uns["neighbors"]` | `object` | (*Optional*) Supplementary K nearest neighbors data. |
+
+</div>
+
+## Component type: Process integration
+
+Process output from an integration method to the format expected by
+metrics
+
+Arguments:
+
+<div class="small">
+
+| Name | Type | Description |
+|:---|:---|:---|
+| `--input_dataset` | `file` | Unintegrated AnnData HDF5 file. |
+| `--input_integrated` | `file` | An integrated AnnData dataset. |
+| `--expected_method_types` | `string` | The expected output types of the batch integration method. |
+| `--output` | `file` | (*Output*) An integrated AnnData dataset with additional outputs. |
 
 </div>
 
@@ -410,6 +402,22 @@ Data structure:
 
 </div>
 
+## Component type: Metric
+
+A metric for evaluating batch integration methods.
+
+Arguments:
+
+<div class="small">
+
+| Name | Type | Description |
+|:---|:---|:---|
+| `--input_integrated` | `file` | An integrated AnnData dataset with additional outputs. |
+| `--input_solution` | `file` | Uncensored dataset containing the true labels. |
+| `--output` | `file` | (*Output*) Metric score file. |
+
+</div>
+
 ## File format: Score
 
 Metric score file
@@ -438,4 +446,3 @@ Data structure:
 | `uns["metric_values"]` | `double` | The metric values obtained for the given prediction. Must be of same length as ‘metric_ids’. |
 
 </div>
-

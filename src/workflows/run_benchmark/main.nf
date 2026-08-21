@@ -19,6 +19,9 @@ methods = [
   batchelor_fastmnn,
   batchelor_mnn_correct,
   bbknn,
+  cellplm.run(
+    args: [model: file("s3://openproblems-work/cache/cellplm-ckpt.zip")]
+  ),
   combat,
   combat_seq,
   density_adaptive,
@@ -29,6 +32,7 @@ methods = [
   liger,
   mnnpy,
   pyliger,
+  sca,
   scalex,
   scanorama_correct,
   scanorama_integrate,
@@ -44,6 +48,7 @@ methods = [
   ),
   scprint,
   scvi,
+  ss_stacas,
   uce.run(
     args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
   )

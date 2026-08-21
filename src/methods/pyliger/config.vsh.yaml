@@ -28,6 +28,8 @@ engines:
   - type: docker
     image: openproblems/base_python:1
     setup:
+      - type: apt
+        packages: [cmake]
       - type: python
         pypi:
           - pyliger

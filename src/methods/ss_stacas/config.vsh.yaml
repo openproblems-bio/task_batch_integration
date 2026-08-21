@@ -1,6 +1,6 @@
 __merge__: ../../api/comp_method.yaml
-name: stacas
-label: STACAS
+name: ss_stacas
+label: ssSTACAS
 summary: Accurate semi-supervised integration of single-cell transcriptomics data
 description: |
   STACAS is a method for scRNA-seq integration,

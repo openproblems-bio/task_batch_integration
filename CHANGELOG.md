@@ -3,9 +3,13 @@
 ## New functionality
 
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
+* Add `methods/ss_stacas` new method (PR #59).
+    - Add semi-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality leverages partial or imperfect knowledge of cell identity to improve integration quality by preserving biological variation while correcting for batch effects.
 * Added `methods/stacas` new method (PR #58).
     - Add non-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality enables correction of batch effects while preserving biological variability without requiring prior cell type annotations.
 * Added `method/drvi` component (PR #61).
+* Added `method/sca` component (PR #89).
+    - Add Surprisal Causal Analysis (SCA) for dimensionality reduction
 * Added `method/fadvi` component.
     - Add FActor Disentangled Variantional Inference (FADVI) for dimentionality reduction
 * Added `ARI_batch` and `NMI_batch` to `metrics/clustering_overlap` (PR #68).
@@ -31,11 +35,39 @@
 
 * Un-pin the scPRINT version and update parameters (PR #51)
 * Update scPRINT to better handle large datasets, including a new default model (PR #54)
+* Credit contributors missing from the authors list, and fix Martin Kim's orcid (PR #100).
 
 ## Bug fixes
 
 * Update scPRINT to use latest stable version (PR #70)
 * Fix kbet dependencies to numpy<2 and scipy<=1.13 (PR #78).
+* Fix `render_readme` crashing on `comp_process_integration.yaml`'s absolute `__merge__` paths.
+* Fix `metrics/kbet_pg` and `metrics/kbet_pg_label` failing to build: drop the zarr, pandas and numpy bounds pegasuspy
+    doesn't ask for, and pin `setuptools<81` so `pkg_resources` is still there.
+* Fix `methods/harmonypy` writing a transposed embedding: harmonypy 2.0 returns `Z_corr` as cells x pcs.
+* Fix `methods/stacas` erroring on `GetAssayData(slot = )`, defunct since SeuratObject 5.0.0. Tracks STACAS master
+    until upstream cuts a release containing the fix.
+* Fix `methods/scalex` failing to build: its numpy and torch bounds contradicted what scalex asks for. Keeps
+    `numpy<2`, since scalex still calls `np.Inf`.
+* Fix `methods/pyliger` failing to build: louvain has no python 3.12 wheel and needs cmake to build igraph from source.
+* Bump `methods/cellplm`, `methods/condo`, `methods/drvi` and `metrics/bras` from base image `:1.0.0` to `:1`, so their
+    `openproblems` is new enough for the component tests in `common`.
+* Fix `methods/geneformer` failing to build: pip's `--filter=blob:none` clone of the huggingface repo no longer works,
+    so clone it ourselves. Also needs `transformers<5`, which still has `SpecialTokensMixin`.
+* Fix `methods/cellplm` failing to build: drop the pytorch base image's broken `/usr/local/bin/cmake` shim, which
+    shadowed the apt cmake that louvain needs.
+* Fix `methods/scgpt_zeroshot` and `methods/scgpt_finetuned` failing to build: stop installing `flash-attn`. Both
+    scripts pass `use_fast_transformer=False`, so it was never used. Behind it sat three more pins with no python 3.12
+    wheels, now `numpy<2`, `torchtext==0.17.2` and `transformers==4.36.2`.
+* Fix `methods/scprint` erroring with `Triton only support CUDA 10.0 or higher`: point triton at the ptxas it bundles,
+    since its version table stops at CUDA 12 and the base image now ships CUDA 13.
+* Fix `methods/scgpt_finetuned` erroring on `'csr_matrix' object has no attribute 'A'`: `.A` was removed from
+    scipy sparse matrices in scipy 1.14.
+* Fix `methods/geneformer` erroring with a 404 on every dictionary and model file: upstream reorganised the repo for
+    Geneformer V2 and dropped the gc95M assets from `main`, so pin the downloads to the last revision that has them.
+* Give `methods/fadvi` a `gpu` label. Without one it was scheduled on the CPU partition with no GPU attached, so it
+    trained on the CPU and hit its walltime on every dataset.
+* Give `methods/scalex` a `midcpu` label instead of `lowcpu`. It is CPU-bound only because its engine has no CUDA.
 
 * Split Scanorama into two methods/scores
     - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 

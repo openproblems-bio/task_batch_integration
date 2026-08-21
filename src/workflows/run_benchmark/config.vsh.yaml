@@ -91,6 +91,7 @@ dependencies:
   - name: methods/batchelor_fastmnn
   - name: methods/batchelor_mnn_correct
   - name: methods/bbknn
+  - name: methods/cellplm
   - name: methods/combat
   - name: methods/combat_seq
   - name: methods/density_adaptive
@@ -101,6 +102,7 @@ dependencies:
   - name: methods/liger
   - name: methods/mnnpy
   - name: methods/pyliger
+  - name: methods/sca
   - name: methods/scalex
   - name: methods/scanorama_correct
   - name: methods/scanorama_integrate
@@ -110,6 +112,7 @@ dependencies:
   - name: methods/scimilarity
   - name: methods/scprint
   - name: methods/scvi
+  - name: methods/ss_stacas
   - name: methods/uce
   # metrics
   - name: metrics/asw_batch

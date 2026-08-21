@@ -12,7 +12,7 @@ par <- list(
   output = "output.h5ad"
 )
 meta <- list(
-  name = "stacas"
+  name = "ss_stacas"
 )
 ## VIASH END
 
@@ -41,8 +41,8 @@ anchor.features <- head(adata$var[order(adata$var$hvg_score, decreasing = T), "f
 cat("Run STACAS\n")
 object_integrated <- seurat_obj |>
       Seurat::SplitObject(split.by = "batch") |>
-      STACAS::Run.STACAS(anchor.features = anchor.features) 
-
+      STACAS::Run.STACAS(cell.labels = "cell_type",
+                        anchor.features = anchor.features) 
 
 cat("Store outputs\n")
 output <- anndata::AnnData(
