@@ -75,12 +75,13 @@
 * Give `methods/fadvi` a `gpu` label. Without one it was scheduled on the CPU partition with no GPU attached, so it
     trained on the CPU and hit its walltime on every dataset.
 * Give `methods/scalex` a `midcpu` label instead of `lowcpu`. It is CPU-bound only because its engine has no CUDA.
-
 * Split Scanorama into two methods/scores
-    - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
-        This makes clear what the reported score(s) are describing, and also corrects the misleadingly low score that 
-        the combined method receives. The scores for each component  are in line with their scores from v1, where the modes 
-        were separated.  
+    - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together.
+        This makes clear what the reported score(s) are describing, and also corrects the misleadingly low score that
+        the combined method receives. The scores for each component  are in line with their scores from v1, where the modes
+        were separated.
+* Remove jitter from the `embed_cell_types` control method, distinguishing its behavior from
+    `embed_cell_types_jittered` (PR #102).
 
 # task_batch_integration 2.0.0
 
