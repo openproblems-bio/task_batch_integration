@@ -3390,7 +3390,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/pyliger",
     "viash_version" : "0.9.4",
-    "git_commit" : "75b79da307c19e5f786138ac75bb3adc491ff056",
+    "git_commit" : "0a6fc8576b4203b2aca98c027c6fe46c3ba591bb",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3597,6 +3597,16 @@ meta = [
         "info" : {
           "github" : "liuwd15",
           "orcid" : "0000-0002-5124-9338"
+        }
+      },
+      {
+        "name" : "Maximilien Colange",
+        "roles" : [
+          "contributor"
+        ],
+        "info" : {
+          "github" : "EpigeneMax",
+          "orcid" : "0000-0003-4769-3302"
         }
       }
     ],

@@ -93,6 +93,7 @@ dependencies:
   - name: methods/bbknn
   - name: methods/cellplm
   - name: methods/combat
+  - name: methods/combat_seq
   - name: methods/density_adaptive
   - name: methods/fadvi
   - name: methods/geneformer

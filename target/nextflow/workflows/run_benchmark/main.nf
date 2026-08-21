@@ -3541,6 +3541,12 @@ meta = [
       }
     },
     {
+      "name" : "methods/combat_seq",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/density_adaptive",
       "repository" : {
         "type" : "local"
@@ -3807,7 +3813,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "75b79da307c19e5f786138ac75bb3adc491ff056",
+    "git_commit" : "0a6fc8576b4203b2aca98c027c6fe46c3ba591bb",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -4015,6 +4021,16 @@ meta = [
           "github" : "liuwd15",
           "orcid" : "0000-0002-5124-9338"
         }
+      },
+      {
+        "name" : "Maximilien Colange",
+        "roles" : [
+          "contributor"
+        ],
+        "info" : {
+          "github" : "EpigeneMax",
+          "orcid" : "0000-0003-4769-3302"
+        }
       }
     ],
     "keywords" : [
@@ -4052,6 +4068,7 @@ include { batchelor_mnn_correct } from "${meta.resources_dir}/../../../nextflow/
 include { bbknn } from "${meta.resources_dir}/../../../nextflow/methods/bbknn/main.nf"
 include { cellplm } from "${meta.resources_dir}/../../../nextflow/methods/cellplm/main.nf"
 include { combat } from "${meta.resources_dir}/../../../nextflow/methods/combat/main.nf"
+include { combat_seq } from "${meta.resources_dir}/../../../nextflow/methods/combat_seq/main.nf"
 include { density_adaptive } from "${meta.resources_dir}/../../../nextflow/methods/density_adaptive/main.nf"
 include { fadvi } from "${meta.resources_dir}/../../../nextflow/methods/fadvi/main.nf"
 include { geneformer } from "${meta.resources_dir}/../../../nextflow/methods/geneformer/main.nf"
@@ -4115,6 +4132,7 @@ methods = [
     args: [model: file("s3://openproblems-work/cache/cellplm-ckpt.zip")]
   ),
   combat,
+  combat_seq,
   density_adaptive,
   fadvi,
   geneformer,
