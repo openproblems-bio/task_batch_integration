@@ -450,9 +450,9 @@ RUN pip install --upgrade pip && \
 
 RUN git clone https://github.com/snap-stanford/UCE.git
 LABEL org.opencontainers.image.description="Companion container for running component methods uce"
-LABEL org.opencontainers.image.created="2026-08-21T14:43:43Z"
+LABEL org.opencontainers.image.created="2026-08-21T15:07:36Z"
 LABEL org.opencontainers.image.source="https://github.com/snap-stanford/UCE"
-LABEL org.opencontainers.image.revision="42d089a38aef775f3cd3d69c1df02d671b1a68c9"
+LABEL org.opencontainers.image.revision="d6d7c5f8e22f19b6d468eb2fd4819d94a521f310"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
