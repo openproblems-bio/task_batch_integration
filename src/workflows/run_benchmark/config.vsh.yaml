@@ -107,6 +107,7 @@ dependencies:
   - name: methods/scanorama_correct
   - name: methods/scanorama_integrate
   - name: methods/scanvi
+  - name: methods/scmerge2
   - name: methods/scgpt_finetuned
   - name: methods/scgpt_zeroshot
   - name: methods/scimilarity

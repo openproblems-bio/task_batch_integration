@@ -30,6 +30,7 @@
 * Added `method/limma_removebatcheffect` component (PR #79).
 
 * Added ComBat-Seq method (PR #55).
+* Added `methods/scmerge2` component (PR #63).
 
 ## Minor changes
 
