@@ -46,25 +46,26 @@ extensive benchmark of single-cell data integration methods.
 
 ## Authors & contributors
 
-| Name              | Roles              | Orcid               | Github           |
-|:------------------|:-------------------|:--------------------|:-----------------|
-| Michaela Mueller  | maintainer, author | 0000-0002-1401-1785 | mumichae         |
-| Malte Luecken     | author             | 0000-0001-7464-7921 | LuckyMD          |
-| Daniel Strobl     | author             | 0000-0002-5516-7057 | danielStrobl     |
-| Robrecht Cannoodt | author             | 0000-0003-3641-729X | rcannood         |
-| Luke Zappia       | author             | 0000-0001-7744-8565 | lazappi          |
-| Jeremie Kalfon    | author             | 0000-0002-2818-9728 | jkobject         |
-| Seo Hyon Kim      | author             | 0009-0007-3062-4681 | seohyonkim       |
-| Josep Garnica     | author             | 0000-0001-9493-1321 | JGarnica22       |
-| Daniel Schaffer   | author             | 0000-0003-3608-152X | schafferde       |
-| Scott Gigante     | contributor        | 0000-0002-4544-2764 | scottgigante     |
-| Kai Waldrant      | contributor        | 0009-0003-8555-1361 | KaiWaldrant      |
-| Martin Kim        | contributor        |                     | martinkim0       |
-| Sai Nirmayi Yasa  | contributor        | 0009-0003-6319-9803 | sainirmayi       |
-| Tianyu Liu        | contributor        | 0000-0002-9412-6573 | HelloWorldLTY    |
-| Calvin McCarter   | contributor        | 0000-0002-7257-1350 | calvinmccarter   |
-| Stephen Chung     | contributor        | 0009-0009-5833-9721 | stephen-chung-mh |
-| Wendao Liu        | contributor        | 0000-0002-5124-9338 | liuwd15          |
+| Name               | Roles              | Orcid               | Github           |
+|:-------------------|:-------------------|:--------------------|:-----------------|
+| Michaela Mueller   | maintainer, author | 0000-0002-1401-1785 | mumichae         |
+| Malte Luecken      | author             | 0000-0001-7464-7921 | LuckyMD          |
+| Daniel Strobl      | author             | 0000-0002-5516-7057 | danielStrobl     |
+| Robrecht Cannoodt  | author             | 0000-0003-3641-729X | rcannood         |
+| Luke Zappia        | author             | 0000-0001-7744-8565 | lazappi          |
+| Jeremie Kalfon     | author             | 0000-0002-2818-9728 | jkobject         |
+| Seo Hyon Kim       | author             | 0009-0007-3062-4681 | seohyonkim       |
+| Josep Garnica      | author             | 0000-0001-9493-1321 | JGarnica22       |
+| Daniel Schaffer    | author             | 0000-0003-3608-152X | schafferde       |
+| Scott Gigante      | contributor        | 0000-0002-4544-2764 | scottgigante     |
+| Kai Waldrant       | contributor        | 0009-0003-8555-1361 | KaiWaldrant      |
+| Martin Kim         | contributor        | 0009-0000-2115-6213 | martinkim0       |
+| Sai Nirmayi Yasa   | contributor        | 0009-0003-6319-9803 | sainirmayi       |
+| Tianyu Liu         | contributor        | 0000-0002-9412-6573 | HelloWorldLTY    |
+| Calvin McCarter    | contributor        | 0000-0002-7257-1350 | calvinmccarter   |
+| Stephen Chung      | contributor        | 0009-0009-5833-9721 | stephen-chung-mh |
+| Wendao Liu         | contributor        | 0000-0002-5124-9338 | liuwd15          |
+| Maximilien Colange | contributor        | 0000-0003-4769-3302 | EpigeneMax       |
 
 ## API
 
