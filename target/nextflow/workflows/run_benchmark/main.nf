@@ -3619,6 +3619,12 @@ meta = [
       }
     },
     {
+      "name" : "methods/scmerge2",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/scgpt_finetuned",
       "repository" : {
         "type" : "local"
@@ -3801,7 +3807,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "f3a152ce7ce755d14a19d9bb0c344f3dd556ffb8",
+    "git_commit" : "75b79da307c19e5f786138ac75bb3adc491ff056",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -4059,6 +4065,7 @@ include { scalex } from "${meta.resources_dir}/../../../nextflow/methods/scalex/
 include { scanorama_correct } from "${meta.resources_dir}/../../../nextflow/methods/scanorama_correct/main.nf"
 include { scanorama_integrate } from "${meta.resources_dir}/../../../nextflow/methods/scanorama_integrate/main.nf"
 include { scanvi } from "${meta.resources_dir}/../../../nextflow/methods/scanvi/main.nf"
+include { scmerge2 } from "${meta.resources_dir}/../../../nextflow/methods/scmerge2/main.nf"
 include { scgpt_finetuned } from "${meta.resources_dir}/../../../nextflow/methods/scgpt_finetuned/main.nf"
 include { scgpt_zeroshot } from "${meta.resources_dir}/../../../nextflow/methods/scgpt_zeroshot/main.nf"
 include { scimilarity } from "${meta.resources_dir}/../../../nextflow/methods/scimilarity/main.nf"
@@ -4121,6 +4128,7 @@ methods = [
   scanorama_correct,
   scanorama_integrate,
   scanvi,
+  scmerge2,
   scgpt_finetuned.run(
     args: [model: file("s3://openproblems-work/cache/scGPT_human.zip")]
   ),

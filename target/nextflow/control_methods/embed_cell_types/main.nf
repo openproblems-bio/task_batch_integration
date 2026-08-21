@@ -3523,7 +3523,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/control_methods/embed_cell_types",
     "viash_version" : "0.9.4",
-    "git_commit" : "f3a152ce7ce755d14a19d9bb0c344f3dd556ffb8",
+    "git_commit" : "75b79da307c19e5f786138ac75bb3adc491ff056",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
