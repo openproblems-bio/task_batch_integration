@@ -173,7 +173,7 @@ celltype_labels = np.array(adata.obs["cell_type"].to_list())
     train_batch_labels,
     valid_batch_labels,
 ) = train_test_split(
-    adata.X.A,
+    adata.X.toarray(),
     celltype_labels,
     np.array(adata.obs["batch_id"].tolist()),
     test_size=0.1,
@@ -227,7 +227,7 @@ hyperparameters = {
     "dropout": 0.2,
     "schedule_ratio": 0.9,  # Learning rate decay
     "log_interval": 100,
-    "fast_transformer": False,  # TODO: Set True if flash-attn is installed
+    "fast_transformer": False,  # requires flash-attn
     "pre_norm": False,
     "amp": True,  # Automatic Mixed Precision
 }
