@@ -1,136 +1,79 @@
-cat("Loading dependencies\n")
+requireNamespace("anndata", quietly = TRUE)
 suppressPackageStartupMessages({
-  requireNamespace("anndata", quietly = TRUE)
-  library(Matrix, warn.conflicts = FALSE)
-  library(Seurat, warn.conflicts = FALSE)
-  library(SeuratObject, warn.conflicts = FALSE)
+  library(Matrix)
+  library(SeuratObject)
+  library(Seurat)
 })
 
 ## VIASH START
 par <- list(
-  input = 'resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad',
-  output = 'output.h5ad',
-  dims = 30L,
-  k_anchor = 5L,
-  k_filter = 200L,
-  k_score = 30L
+  input = "resources_test/task_batch_integration/cxg_immune_cell_atlas/dataset.h5ad",
+  output = "output.h5ad",
+  dims = NULL,
+  k_anchor = NULL,
+  k_filter = NULL,
+  k_score = NULL
 )
 meta <- list(
   name = "seurat_rpca"
 )
 ## VIASH END
 
-cat("Read input\n")
-adata <- anndata::read_h5ad(par$input)
+cat("Reading input file\n")
+adata <- anndata::read_h5ad(par[["input"]])
 
 cat("Create Seurat object\n")
-# Extract preprocessed data
-counts_data <- t(adata$layers[["counts"]])
-norm_data <- t(adata$layers[["normalized"]])
-obs <- adata$obs
-var <- adata$var
+# Seurat expects genes in rows, cells in columns, as a dgCMatrix
+normalized <- Matrix::t(adata$layers[["normalized"]])
+normalized <- as(as(normalized, "CsparseMatrix"), "dgCMatrix")
 
-# Convert to dgCMatrix if needed (Seurat v5 compatibility)
-if (inherits(counts_data, "dgRMatrix")) {
-  dense_temp <- as.matrix(counts_data)
-  counts_data <- as(dense_temp, "dgCMatrix")
-}
+seurat_obj <- Seurat::CreateSeuratObject(counts = normalized, meta.data = adata$obs)
+# The benchmark's log_cp10k normalization is Seurat's LogNormalize, so assign it to
+# the "data" layer instead of calling NormalizeData().
+seurat_obj[["RNA"]]$data <- normalized
+seurat_obj[["RNA"]]$counts <- NULL
 
-if (inherits(norm_data, "dgRMatrix")) {
-  dense_temp <- as.matrix(norm_data)
-  norm_data <- as(dense_temp, "dgCMatrix")
-}
+# Use the benchmark's HVGs instead of FindVariableFeatures() so that feature
+# selection is the same across methods.
+VariableFeatures(seurat_obj) <- rownames(adata$var)[adata$var$hvg]
 
-# Ensure proper dimnames
-rownames(counts_data) <- rownames(var)
-colnames(counts_data) <- rownames(obs)
-rownames(norm_data) <- rownames(var)
-colnames(norm_data) <- rownames(obs)
+cat("Split layers by batch, scale and run PCA\n")
+# Seurat v5 integration workflow, see
+# https://satijalab.org/seurat/articles/seurat5_integration
+seurat_obj[["RNA"]] <- split(seurat_obj[["RNA"]], f = seurat_obj$batch)
+seurat_obj <- ScaleData(seurat_obj, verbose = FALSE)
+pca_args <- list(object = seurat_obj, verbose = FALSE)
+if (!is.null(par$dims)) pca_args$npcs <- par$dims
+seurat_obj <- do.call(RunPCA, pca_args)
 
-# Create Seurat object from counts
-seurat_obj <- CreateSeuratObject(
-  counts = counts_data,
-  meta.data = obs,
-  assay = "RNA"
-)
-
-# Add normalized data layer
-LayerData(seurat_obj, layer = "data") <- norm_data
-
-# Use existing HVGs from the dataset
-hvg_genes <- rownames(adata$var)[adata$var$hvg]
-cat("Using", length(hvg_genes), "HVGs from input dataset\n")
-VariableFeatures(seurat_obj) <- hvg_genes
-
-# Use existing PCA from input dataset
-pca_embeddings <- adata$obsm[["X_pca"]]
-rownames(pca_embeddings) <- colnames(seurat_obj)
-colnames(pca_embeddings) <- paste0("PC_", seq_len(ncol(pca_embeddings)))
-
-seurat_obj[["pca"]] <- CreateDimReducObject(
-  embeddings = pca_embeddings,
-  key = "PC_",
-  assay = "RNA"
-)
-
-cat("Split object by batch\n")
-# Split the object by batch for traditional integration
-seurat_list <- SplitObject(seurat_obj, split.by = "batch")
-
-# For RPCA, we need to scale and run PCA on each dataset
-cat("Scale data and run PCA for RPCA integration\n")
-seurat_list <- lapply(seurat_list, function(x) {
-  x <- ScaleData(x, features = hvg_genes, verbose = FALSE)
-  x <- RunPCA(x, features = hvg_genes, npcs = par$dims, verbose = FALSE)
-  return(x)
-})
-
-cat("Perform RPCA integration\n")
-# Find integration anchors using RPCA
-anchors <- FindIntegrationAnchors(
-  object.list = seurat_list,
-  anchor.features = hvg_genes,
-  reduction = "rpca",
-  dims = seq_len(par$dims),
-  k.anchor = par$k_anchor,
-  k.filter = par$k_filter,
-  k.score = par$k_score,
+cat("Run RPCAIntegration\n")
+# Only forward arguments that were set so Seurat's own defaults apply otherwise
+integrate_args <- list(
+  object = seurat_obj,
+  method = RPCAIntegration,
+  orig.reduction = "pca",
+  new.reduction = "integrated.rpca",
   verbose = FALSE
 )
-
-# Integrate the data
-integrated <- IntegrateData(
-  anchorset = anchors,
-  dims = seq_len(par$dims),
-  verbose = FALSE
-)
-
-cat("Scale and run PCA on integrated data\n")
-DefaultAssay(integrated) <- "integrated"
-integrated <- ScaleData(integrated, verbose = FALSE)
-integrated <- RunPCA(integrated, npcs = par$dims, verbose = FALSE)
-
-cat("Generate UMAP embedding\n")
-integrated <- RunUMAP(integrated, reduction = "pca", dims = seq_len(par$dims), verbose = FALSE)
-
-cat("Extract embedding\n")
-embedding <- Embeddings(integrated, reduction = "umap")
+if (!is.null(par$dims)) integrate_args$dims <- seq_len(par$dims)
+if (!is.null(par$k_anchor)) integrate_args$k.anchor <- par$k_anchor
+if (!is.null(par$k_filter)) integrate_args$k.filter <- par$k_filter
+if (!is.null(par$k_score)) integrate_args$k.score <- par$k_score
+seurat_obj <- do.call(IntegrateLayers, integrate_args)
 
 cat("Store outputs\n")
 output <- anndata::AnnData(
-  obs = adata$obs[, c()],
-  var = adata$var[, c()],
-  obsm = list(
-    X_emb = embedding
-  ),
   uns = list(
     dataset_id = adata$uns[["dataset_id"]],
     normalization_id = adata$uns[["normalization_id"]],
     method_id = meta$name
+  ),
+  obs = adata$obs,
+  var = adata$var,
+  obsm = list(
+    X_emb = Embeddings(seurat_obj, reduction = "integrated.rpca")
   )
 )
 
-cat("Write output to file\n")
-zzz <- output$write_h5ad(par$output, compression = "gzip")
-
-cat("Finished\n")
+cat("Write output AnnData to file\n")
+output$write_h5ad(par[["output"]], compression = "gzip")

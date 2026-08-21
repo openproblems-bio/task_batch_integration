@@ -1,17 +1,18 @@
 __merge__: /src/api/comp_method.yaml
 name: seurat_cca
 label: Seurat CCA
-summary: Integration using Seurat's anchor-based CCA integration
+summary: Seurat v5 anchor-based integration using canonical correlation analysis
 description: |
-  Seurat's Canonical Correlation Analysis (CCA) integration method identifies shared 
-  correlation structures across datasets to perform batch correction. This method is 
-  effective for datasets with shared cell types across conditions/batches.
-  
-  The method works by:
-  1. Finding highly variable features for each dataset
-  2. Identifying integration anchors using CCA 
-  3. Using anchors to harmonize datasets
-  4. Generating integrated low-dimensional embedding
+  Seurat's anchor-based integration identifies pairs of mutual nearest neighbours
+  ("anchors") between batches in a shared low-dimensional space and uses them to
+  correct the PCA embedding. Here the shared space is found with canonical
+  correlation analysis (CCA), which is recommended when cell types are largely
+  shared across batches but there are strong batch effects.
+
+  This component runs the Seurat v5 workflow: the expression matrix is split
+  into one layer per batch, scaled and reduced with PCA, and then integrated
+  with `IntegrateLayers(method = CCAIntegration)`. The corrected embedding
+  (`integrated.cca`) is returned.
 references:
   # Stuart, T., Butler, A., Hoffman, P. et al.
   # Comprehensive Integration of Single-Cell Data.
@@ -19,27 +20,27 @@ references:
   doi: 10.1016/j.cell.2019.05.031
 links:
   repository: https://github.com/satijalab/seurat
-  documentation: https://satijalab.org/seurat/articles/seurat5_integration.html
+  documentation: https://satijalab.org/seurat/articles/seurat5_integration
 info:
   method_types: [embedding]
   preferred_normalization: log_cp10k
 arguments:
   - name: --dims
     type: integer
-    description: Number of dimensions to use for integration.
-    default: 30
+    description: Number of dimensions to use for integration. Defaults to Seurat's default (30).
+    example: 30
   - name: --k_anchor
     type: integer
-    description: Number of neighbors to use when picking anchors.
-    default: 5
+    description: Number of neighbors to use when picking anchors. Defaults to Seurat's default (5).
+    example: 5
   - name: --k_filter
     type: integer
-    description: Number of neighbors to use when filtering anchors.
-    default: 200
+    description: Number of neighbors to use when filtering anchors. Defaults to Seurat's default (no filtering).
+    example: 200
   - name: --k_score
-    type: integer  
-    description: Number of neighbors to use when scoring anchors.
-    default: 30
+    type: integer
+    description: Number of neighbors to use when scoring anchors. Defaults to Seurat's default (30).
+    example: 30
 resources:
   - type: r_script
     path: script.R
@@ -50,9 +51,8 @@ engines:
       - type: r
         cran:
           - Seurat
-          - SeuratObject
 runners:
   - type: executable
   - type: nextflow
     directives:
-      label: [lowcpu, highmem, hightime]
+      label: [midcpu, highmem, hightime]
