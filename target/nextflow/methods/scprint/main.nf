@@ -3437,6 +3437,12 @@ meta = [
       "namespace_separator" : "/",
       "setup" : [
         {
+          "type" : "docker",
+          "env" : [
+            "TRITON_PTXAS_PATH=/usr/local/lib/python3.12/dist-packages/triton/third_party/cuda/bin/ptxas"
+          ]
+        },
+        {
           "type" : "python",
           "user" : false,
           "pip" : [
@@ -3475,7 +3481,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scprint",
     "viash_version" : "0.9.4",
-    "git_commit" : "9187c604ba4642ac3d50333811351be02728f531",
+    "git_commit" : "f3a152ce7ce755d14a19d9bb0c344f3dd556ffb8",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {

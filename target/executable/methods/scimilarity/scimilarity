@@ -449,9 +449,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "git+https://github.com/Genentech/scimilarity"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scimilarity"
-LABEL org.opencontainers.image.created="2026-08-21T07:22:06Z"
+LABEL org.opencontainers.image.created="2026-08-21T07:23:30Z"
 LABEL org.opencontainers.image.source="https://github.com/Genentech/scimilarity"
-LABEL org.opencontainers.image.revision="9187c604ba4642ac3d50333811351be02728f531"
+LABEL org.opencontainers.image.revision="f3a152ce7ce755d14a19d9bb0c344f3dd556ffb8"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
