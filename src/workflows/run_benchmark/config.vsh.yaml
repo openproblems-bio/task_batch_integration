@@ -95,6 +95,7 @@ dependencies:
   - name: methods/combat
   - name: methods/combat_seq
   - name: methods/density_adaptive
+  - name: methods/era_combat_bbknn
   - name: methods/fadvi
   - name: methods/geneformer
   - name: methods/harmony

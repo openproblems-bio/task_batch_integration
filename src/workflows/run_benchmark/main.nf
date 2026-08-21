@@ -25,6 +25,7 @@ methods = [
   combat,
   combat_seq,
   density_adaptive,
+  era_combat_bbknn,
   fadvi,
   geneformer,
   harmony,
