@@ -33,6 +33,7 @@
 
 * Added ComBat-Seq method (PR #55).
 * Added `methods/scmerge2` component (PR #63).
+* Added `metrics/ksim` component, reporting the `ksim_mean` and `ksim_accept_rate` metrics (PR #75).
 
 ## Minor changes
 

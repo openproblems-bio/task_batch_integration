@@ -1,0 +1,80 @@
+__merge__: /src/api/comp_metric.yaml
+name: ksim
+info:
+  metric_type: embedding
+  metrics:
+    - name: ksim_mean
+      label: kSIM mean
+      summary: Mean fraction of each cell's nearest neighbours that share its cell type
+        after batch correction.
+      description: |
+        The kSIM metric uses prior knowledge of cell type labels to assess whether local
+        neighbourhoods remain biologically consistent after batch correction (Li et al.,
+        Nat Methods 2020). For each cell, its K nearest neighbours in the integrated
+        embedding are retrieved (the cell itself counts as its own first neighbour) and the
+        fraction of those neighbours that carry the same cell type label is recorded.
+        kSIM mean is the average of these per-cell fractions over the whole dataset.
+
+        A high value means that cells of the same type stay locally grouped after
+        correction, whereas a low value indicates that the correction has disrupted true
+        biological structure, for example by overcorrecting batch effects. This variant is
+        continuous and therefore separates methods across the whole range of the scale.
+
+        This implementation uses the `pegasus.calc_kSIM` function with its default
+        neighbourhood size of K=25.
+      references:
+        doi:
+          - 10.1038/s41592-020-0905-x
+      links:
+        homepage: https://pegasus.readthedocs.io/en/stable/
+        documentation: https://pegasus.readthedocs.io/en/stable/api/pegasus.calc_kSIM.html
+        repository: https://github.com/lilab-bcb/pegasus
+      min: 0
+      max: 1
+      maximize: true
+    - name: ksim_accept_rate
+      label: kSIM acceptance rate
+      summary: Fraction of cells whose neighbourhood is almost entirely made up of their
+        own cell type after batch correction.
+      description: |
+        The kSIM acceptance rate is the thresholded companion of kSIM mean (Li et al.,
+        Nat Methods 2020). The same per-cell fractions of same-cell-type nearest neighbours
+        are computed, but a cell is then counted as accepted only if that fraction reaches
+        at least `min_rate`. The acceptance rate is the proportion of accepted cells in the
+        dataset.
+
+        Because it is a thresholded quantity, this variant is more stringent than kSIM mean:
+        it reports how many cells retain an essentially pure neighbourhood rather than how
+        pure neighbourhoods are on average. It can saturate near 0 for poorly separated
+        integrations, so it is best read alongside kSIM mean.
+
+        This implementation uses the `pegasus.calc_kSIM` function with its defaults of
+        K=25 and min_rate=0.9, meaning that at least 23 of a cell's 25 neighbours must
+        share its cell type.
+      references:
+        doi:
+          - 10.1038/s41592-020-0905-x
+      links:
+        homepage: https://pegasus.readthedocs.io/en/stable/
+        documentation: https://pegasus.readthedocs.io/en/stable/api/pegasus.calc_kSIM.html
+        repository: https://github.com/lilab-bcb/pegasus
+      min: 0
+      max: 1
+      maximize: true
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_python:1
+    setup:
+      - type: python
+        pypi:
+          - pegasuspy
+          - setuptools<81
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midtime, midmem, midcpu]

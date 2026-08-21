@@ -67,6 +67,7 @@ metrics = [
   kbet,
   kbet_pg,
   kbet_pg_label,
+  ksim,
   lisi,
   pcr
 ]
