@@ -3413,7 +3413,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/scgpt_finetuned",
     "viash_version" : "0.9.4",
-    "git_commit" : "a62ed1ddc1b39646baa9b22eb9fec6124dd424f5",
+    "git_commit" : "cadbe7fa0b08dc2cf21b7bee12faac3d38b163ad",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3849,7 +3849,7 @@ celltype_labels = np.array(adata.obs["cell_type"].to_list())
     train_batch_labels,
     valid_batch_labels,
 ) = train_test_split(
-    adata.X.A,
+    adata.X.toarray(),
     celltype_labels,
     np.array(adata.obs["batch_id"].tolist()),
     test_size=0.1,

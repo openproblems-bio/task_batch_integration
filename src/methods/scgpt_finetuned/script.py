@@ -173,7 +173,7 @@ celltype_labels = np.array(adata.obs["cell_type"].to_list())
     train_batch_labels,
     valid_batch_labels,
 ) = train_test_split(
-    adata.X.A,
+    adata.X.toarray(),
     celltype_labels,
     np.array(adata.obs["batch_id"].tolist()),
     test_size=0.1,

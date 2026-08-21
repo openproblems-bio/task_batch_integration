@@ -3412,7 +3412,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/geneformer",
     "viash_version" : "0.9.4",
-    "git_commit" : "a62ed1ddc1b39646baa9b22eb9fec6124dd424f5",
+    "git_commit" : "cadbe7fa0b08dc2cf21b7bee12faac3d38b163ad",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3694,6 +3694,10 @@ dep = {
 
 ## VIASH END
 
+# upstream reorganised the repo for Geneformer V2 and dropped the gc95M dictionaries and the
+# gf-*-i4096 model directories from main -- pin the last revision that still has them
+GENEFORMER_REVISION = "42dbf0ae41244b93f1c3735fa393a966ffe64dfa"
+
 n_processors = os.cpu_count()
 
 print(">>> Reading input...", flush=True)
@@ -3740,21 +3744,25 @@ dictionary_files = {
         repo_id="ctheodoris/Geneformer",
         subfolder=dictionaries_subfolder,
         filename=f"ensembl_mapping_dict_gc{model_details['dataset']}.pkl",
+        revision=GENEFORMER_REVISION,
     ),
     "gene_median": hf_hub_download(
         repo_id="ctheodoris/Geneformer",
         subfolder=dictionaries_subfolder,
         filename=f"gene_median_dictionary_gc{model_details['dataset']}.pkl",
+        revision=GENEFORMER_REVISION,
     ),
     "gene_name_id": hf_hub_download(
         repo_id="ctheodoris/Geneformer",
         subfolder=dictionaries_subfolder,
         filename=f"gene_name_id_dict_gc{model_details['dataset']}.pkl",
+        revision=GENEFORMER_REVISION,
     ),
     "token": hf_hub_download(
         repo_id="ctheodoris/Geneformer",
         subfolder=dictionaries_subfolder,
         filename=f"token_dictionary_gc{model_details['dataset']}.pkl",
+        revision=GENEFORMER_REVISION,
     ),
 }
 
@@ -3817,11 +3825,13 @@ model_files = {
         repo_id="ctheodoris/Geneformer",
         subfolder=par["model"],
         filename="model.safetensors",
+        revision=GENEFORMER_REVISION,
     ),
     "config": hf_hub_download(
         repo_id="ctheodoris/Geneformer",
         subfolder=par["model"],
         filename="config.json",
+        revision=GENEFORMER_REVISION,
     ),
 }
 model_dir = os.path.dirname(model_files["model"])

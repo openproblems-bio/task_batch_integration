@@ -449,9 +449,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "condo==1.1.0" "miceforest==5.7.0" "numpy<2" "pandas" "pytorch-minimize==0.0.2" "scib" "scikit-learn" "scipy>=1.6" "torch>=2.12.0"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods condo"
-LABEL org.opencontainers.image.created="2026-08-20T15:29:56Z"
+LABEL org.opencontainers.image.created="2026-08-21T07:06:23Z"
 LABEL org.opencontainers.image.source="https://github.com/calvinmccarter/condo-adapter"
-LABEL org.opencontainers.image.revision="a62ed1ddc1b39646baa9b22eb9fec6124dd424f5"
+LABEL org.opencontainers.image.revision="cadbe7fa0b08dc2cf21b7bee12faac3d38b163ad"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
