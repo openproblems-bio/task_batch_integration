@@ -20,6 +20,7 @@ methods = [
   batchelor_mnn_correct,
   bbknn,
   combat,
+  combat_seq,
   density_adaptive,
   fadvi,
   geneformer,
