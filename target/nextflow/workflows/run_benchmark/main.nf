@@ -3807,7 +3807,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "7a905cde0ccf8b7f649e7994bafcf8fee39c395b",
+    "git_commit" : "6c0053a58d3dbb8beb31e9201b9782de9c58e9db",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3963,7 +3963,8 @@ meta = [
           "contributor"
         ],
         "info" : {
-          "github" : "martinkim0"
+          "github" : "martinkim0",
+          "orcid" : "0009-0000-2115-6213"
         }
       },
       {

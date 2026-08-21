@@ -39,6 +39,7 @@
 * Un-pin the scPRINT version and update parameters (PR #51)
 * Update scPRINT to better handle large datasets, including a new default model (PR #54)
 * Credit contributors missing from the authors list, and fix Martin Kim's orcid (PR #100).
+* Set Martin Kim's orcid, which was dropped in PR #100 because the value there was a copy of Kai Waldrant's (PR #114).
 * Merge `methods/scanorama_correct` and `methods/scanorama_integrate` back into a single `methods/scanorama`
     component, reverting the split from PR #88. A single `correct_scanpy()` run returns both the corrected counts and
     the embedding.
