@@ -3733,6 +3733,12 @@ meta = [
       }
     },
     {
+      "name" : "metrics/ksim",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "metrics/lisi",
       "repository" : {
         "type" : "local"
@@ -3807,7 +3813,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "6c0053a58d3dbb8beb31e9201b9782de9c58e9db",
+    "git_commit" : "982fed508d49dd2a3d94ace8cd7811d9938de8a9",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -4095,6 +4101,7 @@ include { isolated_label_f1 } from "${meta.resources_dir}/../../../nextflow/metr
 include { kbet } from "${meta.resources_dir}/../../../nextflow/metrics/kbet/main.nf"
 include { kbet_pg } from "${meta.resources_dir}/../../../nextflow/metrics/kbet_pg/main.nf"
 include { kbet_pg_label } from "${meta.resources_dir}/../../../nextflow/metrics/kbet_pg_label/main.nf"
+include { ksim } from "${meta.resources_dir}/../../../nextflow/metrics/ksim/main.nf"
 include { lisi } from "${meta.resources_dir}/../../../nextflow/metrics/lisi/main.nf"
 include { pcr } from "${meta.resources_dir}/../../../nextflow/metrics/pcr/main.nf"
 include { process_integration } from "${meta.resources_dir}/../../../nextflow/data_processors/process_integration/main.nf"
@@ -4170,6 +4177,7 @@ metrics = [
   kbet,
   kbet_pg,
   kbet_pg_label,
+  ksim,
   lisi,
   pcr
 ]
