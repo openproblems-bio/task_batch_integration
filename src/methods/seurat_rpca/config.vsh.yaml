@@ -1,0 +1,64 @@
+__merge__: /src/api/comp_method.yaml
+name: seurat_rpca
+label: Seurat RPCA
+summary: Seurat v5 anchor-based integration using reciprocal PCA
+description: |
+  Seurat's anchor-based integration identifies pairs of mutual nearest neighbours
+  ("anchors") between batches in a shared low-dimensional space and uses them to
+  correct the PCA embedding. Here the shared space is found with reciprocal PCA
+  (RPCA), where each batch is projected into the others' PCA space. RPCA is faster
+  and more conservative than CCA, and is recommended for large datasets or when
+  a substantial fraction of cells in one batch has no match in another.
+
+  This component runs the Seurat v5 workflow: the expression matrix is split
+  into one layer per batch, scaled and reduced with PCA, and then integrated
+  with `IntegrateLayers(method = RPCAIntegration)`. The corrected embedding
+  (`integrated.rpca`) is returned.
+references:
+  # Hao, Y., Hao, S., Andersen-Nissen, E. et al.
+  # Integrated analysis of multimodal single-cell data.
+  # Cell 184, 3573-3587.e29 (2021). https://doi.org/10.1016/j.cell.2021.04.048
+  # Stuart, T., Butler, A., Hoffman, P. et al.
+  # Comprehensive Integration of Single-Cell Data.
+  # Cell 177, 1888-1902.e21 (2019). https://doi.org/10.1016/j.cell.2019.05.031
+  doi:
+    - 10.1016/j.cell.2021.04.048
+    - 10.1016/j.cell.2019.05.031
+links:
+  repository: https://github.com/satijalab/seurat
+  documentation: https://satijalab.org/seurat/articles/seurat5_integration
+info:
+  method_types: [embedding]
+  preferred_normalization: log_cp10k
+arguments:
+  - name: --dims
+    type: integer
+    description: Number of dimensions to use for integration. Defaults to Seurat's default (30).
+    example: 30
+  - name: --k_anchor
+    type: integer
+    description: Number of neighbors to use when picking anchors. Defaults to Seurat's default (5).
+    example: 5
+  - name: --k_filter
+    type: integer
+    description: Number of neighbors to use when filtering anchors. Defaults to Seurat's default (no filtering).
+    example: 200
+  - name: --k_score
+    type: integer
+    description: Number of neighbors to use when scoring anchors. Defaults to Seurat's default (30).
+    example: 30
+resources:
+  - type: r_script
+    path: script.R
+engines:
+  - type: docker
+    image: openproblems/base_r:1
+    setup:
+      - type: r
+        cran:
+          - Seurat
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [midcpu, midmem, midtime]
