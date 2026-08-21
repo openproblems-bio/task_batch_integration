@@ -449,9 +449,9 @@ RUN Rscript -e 'options(warn = 2); if (!requireNamespace("remotes", quietly = TR
   Rscript -e 'options(warn = 2); remotes::install_github(c("https://github.com/carmonalab/scIntegrationMetrics.git@1.2.0"), repos = "https://cran.rstudio.com")'
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics cilisi"
-LABEL org.opencontainers.image.created="2026-08-21T15:47:27Z"
+LABEL org.opencontainers.image.created="2026-08-21T19:08:23Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="982fed508d49dd2a3d94ace8cd7811d9938de8a9"
+LABEL org.opencontainers.image.revision="8aa04725030d8006e7b86e8ec4f3a2a39bbbf020"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

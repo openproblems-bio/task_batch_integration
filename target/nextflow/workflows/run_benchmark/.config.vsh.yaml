@@ -355,7 +355,13 @@ dependencies:
 - name: "methods/combat_seq"
   repository:
     type: "local"
+- name: "methods/condo"
+  repository:
+    type: "local"
 - name: "methods/density_adaptive"
+  repository:
+    type: "local"
+- name: "methods/drvi"
   repository:
     type: "local"
 - name: "methods/fadvi"
@@ -371,6 +377,9 @@ dependencies:
   repository:
     type: "local"
 - name: "methods/liger"
+  repository:
+    type: "local"
+- name: "methods/limma_removebatcheffect"
   repository:
     type: "local"
 - name: "methods/mnnpy"
@@ -409,7 +418,16 @@ dependencies:
 - name: "methods/scvi"
   repository:
     type: "local"
+- name: "methods/seurat_cca"
+  repository:
+    type: "local"
+- name: "methods/seurat_rpca"
+  repository:
+    type: "local"
 - name: "methods/ss_stacas"
+  repository:
+    type: "local"
+- name: "methods/stacas"
   repository:
     type: "local"
 - name: "methods/uce"
@@ -421,7 +439,13 @@ dependencies:
 - name: "metrics/asw_label"
   repository:
     type: "local"
+- name: "metrics/bras"
+  repository:
+    type: "local"
 - name: "metrics/cell_cycle_conservation"
+  repository:
+    type: "local"
+- name: "metrics/cilisi"
   repository:
     type: "local"
 - name: "metrics/clustering_overlap"
@@ -500,7 +524,7 @@ build_info:
   output: "target/nextflow/workflows/run_benchmark"
   executable: "target/nextflow/workflows/run_benchmark/main.nf"
   viash_version: "0.9.4"
-  git_commit: "982fed508d49dd2a3d94ace8cd7811d9938de8a9"
+  git_commit: "8aa04725030d8006e7b86e8ec4f3a2a39bbbf020"
   git_remote: "https://github.com/openproblems-bio/task_batch_integration"
   dependencies:
   - "target/dependencies/github/openproblems-bio/openproblems/build/main/nextflow/utils/extract_uns_metadata"
@@ -517,12 +541,15 @@ build_info:
   - "target/nextflow/methods/cellplm"
   - "target/nextflow/methods/combat"
   - "target/nextflow/methods/combat_seq"
+  - "target/nextflow/methods/condo"
   - "target/nextflow/methods/density_adaptive"
+  - "target/nextflow/methods/drvi"
   - "target/nextflow/methods/fadvi"
   - "target/nextflow/methods/geneformer"
   - "target/nextflow/methods/harmony"
   - "target/nextflow/methods/harmonypy"
   - "target/nextflow/methods/liger"
+  - "target/nextflow/methods/limma_removebatcheffect"
   - "target/nextflow/methods/mnnpy"
   - "target/nextflow/methods/pyliger"
   - "target/nextflow/methods/sca"
@@ -535,11 +562,16 @@ build_info:
   - "target/nextflow/methods/scimilarity"
   - "target/nextflow/methods/scprint"
   - "target/nextflow/methods/scvi"
+  - "target/nextflow/methods/seurat_cca"
+  - "target/nextflow/methods/seurat_rpca"
   - "target/nextflow/methods/ss_stacas"
+  - "target/nextflow/methods/stacas"
   - "target/nextflow/methods/uce"
   - "target/nextflow/metrics/asw_batch"
   - "target/nextflow/metrics/asw_label"
+  - "target/nextflow/metrics/bras"
   - "target/nextflow/metrics/cell_cycle_conservation"
+  - "target/nextflow/metrics/cilisi"
   - "target/nextflow/metrics/clustering_overlap"
   - "target/nextflow/metrics/graph_connectivity"
   - "target/nextflow/metrics/hvg_overlap"

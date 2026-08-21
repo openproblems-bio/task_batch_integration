@@ -26,7 +26,6 @@ engines:
         packages: cmake
       - type: r
         cran: rliger
-        github: welch-lab/RcppPlanc
 runners:
   - type: executable
   - type: nextflow

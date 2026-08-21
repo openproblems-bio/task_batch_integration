@@ -3547,7 +3547,19 @@ meta = [
       }
     },
     {
+      "name" : "methods/condo",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/density_adaptive",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
+      "name" : "methods/drvi",
       "repository" : {
         "type" : "local"
       }
@@ -3578,6 +3590,12 @@ meta = [
     },
     {
       "name" : "methods/liger",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
+      "name" : "methods/limma_removebatcheffect",
       "repository" : {
         "type" : "local"
       }
@@ -3655,7 +3673,25 @@ meta = [
       }
     },
     {
+      "name" : "methods/seurat_cca",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
+      "name" : "methods/seurat_rpca",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/ss_stacas",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
+      "name" : "methods/stacas",
       "repository" : {
         "type" : "local"
       }
@@ -3679,7 +3715,19 @@ meta = [
       }
     },
     {
+      "name" : "metrics/bras",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "metrics/cell_cycle_conservation",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
+      "name" : "metrics/cilisi",
       "repository" : {
         "type" : "local"
       }
@@ -3813,7 +3861,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "982fed508d49dd2a3d94ace8cd7811d9938de8a9",
+    "git_commit" : "8aa04725030d8006e7b86e8ec4f3a2a39bbbf020",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -4070,12 +4118,15 @@ include { bbknn } from "${meta.resources_dir}/../../../nextflow/methods/bbknn/ma
 include { cellplm } from "${meta.resources_dir}/../../../nextflow/methods/cellplm/main.nf"
 include { combat } from "${meta.resources_dir}/../../../nextflow/methods/combat/main.nf"
 include { combat_seq } from "${meta.resources_dir}/../../../nextflow/methods/combat_seq/main.nf"
+include { condo } from "${meta.resources_dir}/../../../nextflow/methods/condo/main.nf"
 include { density_adaptive } from "${meta.resources_dir}/../../../nextflow/methods/density_adaptive/main.nf"
+include { drvi } from "${meta.resources_dir}/../../../nextflow/methods/drvi/main.nf"
 include { fadvi } from "${meta.resources_dir}/../../../nextflow/methods/fadvi/main.nf"
 include { geneformer } from "${meta.resources_dir}/../../../nextflow/methods/geneformer/main.nf"
 include { harmony } from "${meta.resources_dir}/../../../nextflow/methods/harmony/main.nf"
 include { harmonypy } from "${meta.resources_dir}/../../../nextflow/methods/harmonypy/main.nf"
 include { liger } from "${meta.resources_dir}/../../../nextflow/methods/liger/main.nf"
+include { limma_removebatcheffect } from "${meta.resources_dir}/../../../nextflow/methods/limma_removebatcheffect/main.nf"
 include { mnnpy } from "${meta.resources_dir}/../../../nextflow/methods/mnnpy/main.nf"
 include { pyliger } from "${meta.resources_dir}/../../../nextflow/methods/pyliger/main.nf"
 include { sca } from "${meta.resources_dir}/../../../nextflow/methods/sca/main.nf"
@@ -4088,11 +4139,16 @@ include { scgpt_zeroshot } from "${meta.resources_dir}/../../../nextflow/methods
 include { scimilarity } from "${meta.resources_dir}/../../../nextflow/methods/scimilarity/main.nf"
 include { scprint } from "${meta.resources_dir}/../../../nextflow/methods/scprint/main.nf"
 include { scvi } from "${meta.resources_dir}/../../../nextflow/methods/scvi/main.nf"
+include { seurat_cca } from "${meta.resources_dir}/../../../nextflow/methods/seurat_cca/main.nf"
+include { seurat_rpca } from "${meta.resources_dir}/../../../nextflow/methods/seurat_rpca/main.nf"
 include { ss_stacas } from "${meta.resources_dir}/../../../nextflow/methods/ss_stacas/main.nf"
+include { stacas } from "${meta.resources_dir}/../../../nextflow/methods/stacas/main.nf"
 include { uce } from "${meta.resources_dir}/../../../nextflow/methods/uce/main.nf"
 include { asw_batch } from "${meta.resources_dir}/../../../nextflow/metrics/asw_batch/main.nf"
 include { asw_label } from "${meta.resources_dir}/../../../nextflow/metrics/asw_label/main.nf"
+include { bras } from "${meta.resources_dir}/../../../nextflow/metrics/bras/main.nf"
 include { cell_cycle_conservation } from "${meta.resources_dir}/../../../nextflow/metrics/cell_cycle_conservation/main.nf"
+include { cilisi } from "${meta.resources_dir}/../../../nextflow/metrics/cilisi/main.nf"
 include { clustering_overlap } from "${meta.resources_dir}/../../../nextflow/metrics/clustering_overlap/main.nf"
 include { graph_connectivity } from "${meta.resources_dir}/../../../nextflow/metrics/graph_connectivity/main.nf"
 include { hvg_overlap } from "${meta.resources_dir}/../../../nextflow/metrics/hvg_overlap/main.nf"
@@ -4134,12 +4190,15 @@ methods = [
   ),
   combat,
   combat_seq,
+  condo,
   density_adaptive,
+  drvi,
   fadvi,
   geneformer,
   harmony,
   harmonypy,
   liger,
+  limma_removebatcheffect,
   mnnpy,
   pyliger,
   sca,
@@ -4158,7 +4217,10 @@ methods = [
   ),
   scprint,
   scvi,
+  seurat_cca,
+  seurat_rpca,
   ss_stacas,
+  stacas,
   uce.run(
     args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
   )
@@ -4168,7 +4230,9 @@ methods = [
 metrics = [
   asw_batch,
   asw_label,
+  bras,
   cell_cycle_conservation,
+  cilisi,
   clustering_overlap,
   graph_connectivity,
   hvg_overlap,
