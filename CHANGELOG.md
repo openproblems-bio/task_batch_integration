@@ -11,7 +11,7 @@
 
 * Added `ARI_batch` and `NMI_batch` to `metrics/clustering_overlap` (PR #68).
 
-* Added `methods/bbknn_ts` component (PR #84).
+* Added `methods/era_combat_bbknn` component (PR #84).
 
 * Added `metrics/cilisi` new metric component (PR #57).
     - ciLISI measures batch mixing in a cell type-aware manner by computing iLISI within each cell type and normalizing
