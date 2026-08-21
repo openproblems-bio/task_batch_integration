@@ -29,6 +29,8 @@
 
 * Added `method/limma_removebatcheffect` component (PR #79).
 
+* Added `methods/scmerge2` component (PR #63).
+
 ## Minor changes
 
 * Un-pin the scPRINT version and update parameters (PR #51)
