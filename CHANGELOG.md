@@ -57,6 +57,8 @@
 * Fix `methods/scgpt_zeroshot` and `methods/scgpt_finetuned` failing to build: stop installing `flash-attn`. Both
     scripts pass `use_fast_transformer=False`, so it was never used. Behind it sat three more pins with no python 3.12
     wheels, now `numpy<2`, `torchtext==0.17.2` and `transformers==4.36.2`.
+* Fix `methods/scgpt_finetuned` erroring on `'csr_matrix' object has no attribute 'A'`: `.A` was removed from
+    scipy sparse matrices in scipy 1.14.
 
 * Split Scanorama into two methods/scores
     - Split Scanorama into embedding (integrate) and count-correction (correct) modes, instead of running both together. 
