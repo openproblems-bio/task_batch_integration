@@ -3607,13 +3607,7 @@ meta = [
       }
     },
     {
-      "name" : "methods/scanorama_correct",
-      "repository" : {
-        "type" : "local"
-      }
-    },
-    {
-      "name" : "methods/scanorama_integrate",
+      "name" : "methods/scanorama",
       "repository" : {
         "type" : "local"
       }
@@ -3813,7 +3807,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "0a6fc8576b4203b2aca98c027c6fe46c3ba591bb",
+    "git_commit" : "42d089a38aef775f3cd3d69c1df02d671b1a68c9",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -4079,8 +4073,7 @@ include { mnnpy } from "${meta.resources_dir}/../../../nextflow/methods/mnnpy/ma
 include { pyliger } from "${meta.resources_dir}/../../../nextflow/methods/pyliger/main.nf"
 include { sca } from "${meta.resources_dir}/../../../nextflow/methods/sca/main.nf"
 include { scalex } from "${meta.resources_dir}/../../../nextflow/methods/scalex/main.nf"
-include { scanorama_correct } from "${meta.resources_dir}/../../../nextflow/methods/scanorama_correct/main.nf"
-include { scanorama_integrate } from "${meta.resources_dir}/../../../nextflow/methods/scanorama_integrate/main.nf"
+include { scanorama } from "${meta.resources_dir}/../../../nextflow/methods/scanorama/main.nf"
 include { scanvi } from "${meta.resources_dir}/../../../nextflow/methods/scanvi/main.nf"
 include { scmerge2 } from "${meta.resources_dir}/../../../nextflow/methods/scmerge2/main.nf"
 include { scgpt_finetuned } from "${meta.resources_dir}/../../../nextflow/methods/scgpt_finetuned/main.nf"
@@ -4143,8 +4136,7 @@ methods = [
   pyliger,
   sca,
   scalex,
-  scanorama_correct,
-  scanorama_integrate,
+  scanorama,
   scanvi,
   scmerge2,
   scgpt_finetuned.run(

@@ -449,9 +449,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "git+https://github.com/theislab/scib.git@v1.1.5"
 
 LABEL org.opencontainers.image.description="Companion container for running component metrics lisi"
-LABEL org.opencontainers.image.created="2026-08-21T12:15:01Z"
+LABEL org.opencontainers.image.created="2026-08-21T14:43:42Z"
 LABEL org.opencontainers.image.source="https://github.com/openproblems-bio/task_batch_integration"
-LABEL org.opencontainers.image.revision="0a6fc8576b4203b2aca98c027c6fe46c3ba591bb"
+LABEL org.opencontainers.image.revision="42d089a38aef775f3cd3d69c1df02d671b1a68c9"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER
