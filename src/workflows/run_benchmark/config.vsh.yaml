@@ -94,12 +94,15 @@ dependencies:
   - name: methods/cellplm
   - name: methods/combat
   - name: methods/combat_seq
+  - name: methods/condo
   - name: methods/density_adaptive
+  - name: methods/drvi
   - name: methods/fadvi
   - name: methods/geneformer
   - name: methods/harmony
   - name: methods/harmonypy
   - name: methods/liger
+  - name: methods/limma_removebatcheffect
   - name: methods/mnnpy
   - name: methods/pyliger
   - name: methods/sca
@@ -112,12 +115,17 @@ dependencies:
   - name: methods/scimilarity
   - name: methods/scprint
   - name: methods/scvi
+  - name: methods/seurat_cca
+  - name: methods/seurat_rpca
   - name: methods/ss_stacas
+  - name: methods/stacas
   - name: methods/uce
   # metrics
   - name: metrics/asw_batch
   - name: metrics/asw_label
+  - name: metrics/bras
   - name: metrics/cell_cycle_conservation
+  - name: metrics/cilisi
   - name: metrics/clustering_overlap
   - name: metrics/graph_connectivity
   - name: metrics/hvg_overlap

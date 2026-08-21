@@ -6,6 +6,7 @@ import tarfile
 
 import anndata as ad
 import scimilarity
+import torch
 
 ## VIASH START
 par = {
@@ -52,8 +53,12 @@ else:
             f"The 'model' argument should be a directory a .zip file or a .tar.gz file"
         )
 
-print("Load SCimilarity model", flush=True)
-scimilarity_embedding = scimilarity.cell_embedding.CellEmbedding(model_path=model_dir)
+use_gpu = torch.cuda.is_available()
+print(f"Load SCimilarity model (use_gpu={use_gpu})", flush=True)
+scimilarity_embedding = scimilarity.cell_embedding.CellEmbedding(
+    model_path=model_dir,
+    use_gpu=use_gpu,
+)
 print("SCimilarity version:", scimilarity.__version__)
 
 print("Create input data", flush=True)

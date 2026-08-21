@@ -24,12 +24,15 @@ methods = [
   ),
   combat,
   combat_seq,
+  condo,
   density_adaptive,
+  drvi,
   fadvi,
   geneformer,
   harmony,
   harmonypy,
   liger,
+  limma_removebatcheffect,
   mnnpy,
   pyliger,
   sca,
@@ -48,7 +51,10 @@ methods = [
   ),
   scprint,
   scvi,
+  seurat_cca,
+  seurat_rpca,
   ss_stacas,
+  stacas,
   uce.run(
     args: [model: file("s3://openproblems-work/cache/uce-model-v5.zip")]
   )
@@ -58,7 +64,9 @@ methods = [
 metrics = [
   asw_batch,
   asw_label,
+  bras,
   cell_cycle_conservation,
+  cilisi,
   clustering_overlap,
   graph_connectivity,
   hvg_overlap,
