@@ -1,6 +1,6 @@
 __merge__: /src/api/comp_method.yaml
-name: scanorama
-label: Scanorama
+name: scanorama_integrate
+label: Scanorama-Integrate
 summary: Efficient integration of heterogeneous single-cell transcriptomes using Scanorama
 description: |
   Scanorama enables batch-correction and integration of heterogeneous scRNA-seq datasets.
@@ -17,8 +17,13 @@ links:
   repository: https://github.com/brianhie/scanorama
   documentation: https://github.com/brianhie/scanorama#readme
 info:
-  method_types: [feature, embedding]
+  method_types: [embedding]
   preferred_normalization: log_cp10k
+arguments:
+  - name: --dimred
+    type: integer
+    default: 100
+    description: Embedding dimension
 resources:
   - type: python_script
     path: script.py

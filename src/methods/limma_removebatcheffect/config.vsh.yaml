@@ -1,0 +1,37 @@
+__merge__: /src/api/comp_method.yaml
+name: limma_removebatcheffect
+label: limma removeBatchEffect
+summary: Classical linear model-based batch correction from the limma package
+description: |
+  The removeBatchEffect function from the limma package performs linear model-based batch correction. 
+  It fits a linear model to remove batch effects while preserving the biological effects of interest.
+  This is a classical approach that works at the feature level to directly correct the expression values.
+  
+  The method fits a linear model with batch as a covariate and removes the batch effects from the data 
+  while preserving biological variation. It is particularly useful for microarray and bulk RNA-seq data,
+  and has been adapted for single-cell RNA-seq applications.
+references:
+  # Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK.
+  # limma powers differential expression analyses for RNA-sequencing and microarray studies.
+  # Nucleic Acids Res. 2015;43(7):e47.
+  doi: 10.1093/nar/gkv007
+links:
+  repository: https://bioconductor.org/packages/limma/
+  documentation: https://bioconductor.org/packages/limma/
+info:
+  method_types: [feature]
+  preferred_normalization: log_cp10k
+resources:
+  - type: r_script
+    path: script.R
+engines:
+  - type: docker
+    image: openproblems/base_r:1
+    setup:
+      - type: r
+        bioc: limma
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [lowcpu, midmem, midtime]
