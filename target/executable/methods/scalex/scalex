@@ -449,9 +449,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "scalex" "numpy<2"
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scalex"
-LABEL org.opencontainers.image.created="2026-08-21T07:06:22Z"
+LABEL org.opencontainers.image.created="2026-08-21T07:19:29Z"
 LABEL org.opencontainers.image.source="https://github.com/jsxlei/SCALEX"
-LABEL org.opencontainers.image.revision="cadbe7fa0b08dc2cf21b7bee12faac3d38b163ad"
+LABEL org.opencontainers.image.revision="c0988181f5f771578df7c4048e3e25ee1664413b"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

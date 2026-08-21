@@ -451,9 +451,9 @@ pip install ipykernel pandas scanpy numba "numpy<2" torchtext==0.17.2 scib "scvi
 cd scGPT && pip install -e . --no-deps
 
 LABEL org.opencontainers.image.description="Companion container for running component methods scgpt_zeroshot"
-LABEL org.opencontainers.image.created="2026-08-21T07:06:22Z"
+LABEL org.opencontainers.image.created="2026-08-21T07:19:28Z"
 LABEL org.opencontainers.image.source="https://github.com/bowang-lab/scGPT"
-LABEL org.opencontainers.image.revision="cadbe7fa0b08dc2cf21b7bee12faac3d38b163ad"
+LABEL org.opencontainers.image.revision="c0988181f5f771578df7c4048e3e25ee1664413b"
 LABEL org.opencontainers.image.version="build_main"
 
 VIASHDOCKER

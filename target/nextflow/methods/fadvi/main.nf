@@ -3394,9 +3394,10 @@ meta = [
       "id" : "nextflow",
       "directives" : {
         "label" : [
-          "midtime",
+          "hightime",
           "midmem",
-          "midcpu"
+          "midcpu",
+          "gpu"
         ],
         "tag" : "$id"
       },
@@ -3449,7 +3450,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/methods/fadvi",
     "viash_version" : "0.9.4",
-    "git_commit" : "cadbe7fa0b08dc2cf21b7bee12faac3d38b163ad",
+    "git_commit" : "c0988181f5f771578df7c4048e3e25ee1664413b",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -4150,9 +4151,10 @@ meta["defaults"] = [
     "tag" : "build_main"
   },
   "label" : [
-    "midtime",
+    "hightime",
     "midmem",
-    "midcpu"
+    "midcpu",
+    "gpu"
   ],
   "tag" : "$id"
 }'''),
