@@ -1,7 +1,5 @@
-requireNamespace("anndata", quietly = TRUE)
 suppressPackageStartupMessages({
-  library(Matrix)
-  library(SeuratObject)
+  library(anndataR)
   library(Seurat)
 })
 
@@ -20,22 +18,22 @@ meta <- list(
 ## VIASH END
 
 cat("Reading input file\n")
-adata <- anndata::read_h5ad(par[["input"]])
+adata <- read_h5ad(par[["input"]])
 
 cat("Create Seurat object\n")
-# Seurat expects genes in rows, cells in columns, as a dgCMatrix
-normalized <- Matrix::t(adata$layers[["normalized"]])
-normalized <- as(as(normalized, "CsparseMatrix"), "dgCMatrix")
-
-seurat_obj <- Seurat::CreateSeuratObject(counts = normalized, meta.data = adata$obs)
-# The benchmark's log_cp10k normalization is Seurat's LogNormalize, so assign it to
+# The benchmark's log_cp10k normalization is Seurat's LogNormalize, so map it to
 # the "data" layer instead of calling NormalizeData().
-seurat_obj[["RNA"]]$data <- normalized
-seurat_obj[["RNA"]]$counts <- NULL
-
+seurat_obj <- adata$as_Seurat(
+  x_mapping = NULL,
+  layers_mapping = c(data = "normalized"),
+  assay_metadata_mapping = FALSE,
+  reduction_mapping = FALSE,
+  graph_mapping = FALSE,
+  misc_mapping = FALSE
+)
 # Use the benchmark's HVGs instead of FindVariableFeatures() so that feature
 # selection is the same across methods.
-VariableFeatures(seurat_obj) <- rownames(adata$var)[adata$var$hvg]
+VariableFeatures(seurat_obj) <- adata$var_names[adata$var$hvg]
 
 cat("Split layers by batch, scale and run PCA\n")
 # Seurat v5 integration workflow, see
@@ -62,18 +60,18 @@ if (!is.null(par$k_score)) integrate_args$k.score <- par$k_score
 seurat_obj <- do.call(IntegrateLayers, integrate_args)
 
 cat("Store outputs\n")
-output <- anndata::AnnData(
+output <- AnnData(
+  obs = adata$obs[, character(0)],
+  var = adata$var[, character(0)],
+  obsm = list(
+    X_emb = Embeddings(seurat_obj, reduction = "integrated.rpca")
+  ),
   uns = list(
     dataset_id = adata$uns[["dataset_id"]],
     normalization_id = adata$uns[["normalization_id"]],
     method_id = meta$name
-  ),
-  obs = adata$obs,
-  var = adata$var,
-  obsm = list(
-    X_emb = Embeddings(seurat_obj, reduction = "integrated.rpca")
   )
 )
 
 cat("Write output AnnData to file\n")
-output$write_h5ad(par[["output"]], compression = "gzip")
+output$write_h5ad(par[["output"]])
