@@ -6,15 +6,10 @@ summary: "A combination of ComBat and BBKNN discovered and implemented by Gemini
 description: |
   The ERA ComBat BBKNN solution (named "BBKNN (TS)" in the associated publication) applies standard scRNA-seq preprocessing steps, including total count normalization, log-transformation, and scaling of gene expression data. Batch effect correction is performed using scanpy.pp.combat directly on the gene expression matrix (before dimensionality reduction). Dimensionality reduction is then applied using PCA on the ComBat-corrected data, and this PCA embedding (adata.obsm['X_pca']) is designated as the integrated embedding (adata.obsm['X_emb']). A custom batch-aware nearest neighbors graph is constructed based on this integrated embedding; for each cell, neighbors are independently identified within its own batch and other batches, up to n_neighbors_per_batch. These candidate neighbors are merged, keeping the minimum distance for duplicate entries, and the top total_k_neighbors are selected for each cell. Finally, a symmetric sparse distance matrix and a binary connectivities matrix are generated to represent the integrated neighborhood graph. This code was entirely written by the AI system described in the associated publication.
 references:
-  bibtex: |
-    @article{GoogleScienceAI2026,
-      title={An {AI} system to help scientists write expert-level empirical software},
-      author={Ayg{\"u}n, Eser and Belyaeva, Anastasiya and Comanici, Gheorghe and Coram, Marc and Cui, Hao and Garrison, Jake and Johnston, Renee and Kast, Anton and McLean, Cory Y and Norgaard, Peter and others},
-      journal={Nature},
-      volume={654},
-      pages={909-–916},
-      year={2026},
-    }
+  # Aygün, E., Belyaeva, A., Comanici, G. et al.
+  # An AI system to help scientists write expert-level empirical software.
+  # Nature 654, 909-916 (2026). https://doi.org/10.1038/s41586-026-10658-6
+  doi: 10.1038/s41586-026-10658-6
 links:
   documentation: https://google-research.github.io/era
   repository: https://github.com/google-research/era
