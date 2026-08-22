@@ -14,6 +14,7 @@ links:
   documentation: https://drvi.readthedocs.io/latest/index.html
   repository: https://github.com/theislab/DRVI?tab=readme-ov-file
 info:
+  method_types: [embedding]
   preferred_normalization: counts
 arguments:
   - name: --n_hvg

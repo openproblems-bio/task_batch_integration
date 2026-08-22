@@ -62,6 +62,13 @@
 * Fix `methods/pyliger` failing to build: louvain has no python 3.12 wheel and needs cmake to build igraph from source.
 * Bump `methods/cellplm`, `methods/condo`, `methods/drvi` and `metrics/bras` from base image `:1.0.0` to `:1`, so their
     `openproblems` is new enough for the component tests in `common`.
+* Fix `methods/liger` failing to build: drop the GitHub install of RcppPlanc, which no longer configures; rliger already
+    pulls it in from CRAN.
+* Register `methods/condo`, `methods/drvi`, `methods/limma_removebatcheffect`, `methods/seurat_cca`, `methods/seurat_rpca`,
+    `methods/stacas`, `metrics/bras` and `metrics/cilisi` in the `run_benchmark` workflow; they were never run.
+* Add the missing `metric_type` to `metrics/cilisi` and `method_types` to `methods/drvi`, without which the workflow
+    never schedules them.
+* Give `methods/scimilarity` a `gpu` label and let it use the GPU when one is available; it was running CPU-only.
 * Fix `methods/scanorama` scrambling its output: scanorama returns one object per batch with the genes sorted by
     name, so both axes ended up permuted with respect to the `obs` and `var` they were labelled with. This affected
     every metric, not just `hvg_overlap`.
