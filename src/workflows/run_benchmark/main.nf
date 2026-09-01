@@ -27,6 +27,7 @@ methods = [
   condo,
   density_adaptive,
   drvi,
+  era_combat_bbknn,
   fadvi,
   geneformer,
   harmony,

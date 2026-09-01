@@ -97,6 +97,7 @@ dependencies:
   - name: methods/condo
   - name: methods/density_adaptive
   - name: methods/drvi
+  - name: methods/era_combat_bbknn
   - name: methods/fadvi
   - name: methods/geneformer
   - name: methods/harmony
