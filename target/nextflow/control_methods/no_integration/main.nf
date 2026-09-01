@@ -3519,7 +3519,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/control_methods/no_integration",
     "viash_version" : "0.9.4",
-    "git_commit" : "8aa04725030d8006e7b86e8ec4f3a2a39bbbf020",
+    "git_commit" : "4c4f3d68bcbcb84cce8417d453509e18b580b941",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -3737,6 +3737,16 @@ meta = [
         "info" : {
           "github" : "EpigeneMax",
           "orcid" : "0000-0003-4769-3302"
+        }
+      },
+      {
+        "name" : "Cory McLean",
+        "roles" : [
+          "contributor"
+        ],
+        "info" : {
+          "github" : "cmclean",
+          "orcid" : "0000-0001-9928-8216"
         }
       }
     ],

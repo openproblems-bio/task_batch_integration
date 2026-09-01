@@ -3565,6 +3565,12 @@ meta = [
       }
     },
     {
+      "name" : "methods/era_combat_bbknn",
+      "repository" : {
+        "type" : "local"
+      }
+    },
+    {
       "name" : "methods/fadvi",
       "repository" : {
         "type" : "local"
@@ -3861,7 +3867,7 @@ meta = [
     "engine" : "native",
     "output" : "target/nextflow/workflows/run_benchmark",
     "viash_version" : "0.9.4",
-    "git_commit" : "8aa04725030d8006e7b86e8ec4f3a2a39bbbf020",
+    "git_commit" : "4c4f3d68bcbcb84cce8417d453509e18b580b941",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
@@ -4080,6 +4086,16 @@ meta = [
           "github" : "EpigeneMax",
           "orcid" : "0000-0003-4769-3302"
         }
+      },
+      {
+        "name" : "Cory McLean",
+        "roles" : [
+          "contributor"
+        ],
+        "info" : {
+          "github" : "cmclean",
+          "orcid" : "0000-0001-9928-8216"
+        }
       }
     ],
     "keywords" : [
@@ -4121,6 +4137,7 @@ include { combat_seq } from "${meta.resources_dir}/../../../nextflow/methods/com
 include { condo } from "${meta.resources_dir}/../../../nextflow/methods/condo/main.nf"
 include { density_adaptive } from "${meta.resources_dir}/../../../nextflow/methods/density_adaptive/main.nf"
 include { drvi } from "${meta.resources_dir}/../../../nextflow/methods/drvi/main.nf"
+include { era_combat_bbknn } from "${meta.resources_dir}/../../../nextflow/methods/era_combat_bbknn/main.nf"
 include { fadvi } from "${meta.resources_dir}/../../../nextflow/methods/fadvi/main.nf"
 include { geneformer } from "${meta.resources_dir}/../../../nextflow/methods/geneformer/main.nf"
 include { harmony } from "${meta.resources_dir}/../../../nextflow/methods/harmony/main.nf"
@@ -4193,6 +4210,7 @@ methods = [
   condo,
   density_adaptive,
   drvi,
+  era_combat_bbknn,
   fadvi,
   geneformer,
   harmony,
