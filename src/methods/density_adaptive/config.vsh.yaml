@@ -22,7 +22,7 @@ references:
         year={2025}
       }
 links:
-  documentation: https://github.com/dualverse-ai/station/tree/main/example/research_batch_integration/misc/station_sota
+  documentation: https://github.com/dualverse-ai/station/tree/cdbb4511239a33585e173715eec86def26688538/example/research_batch_integration/misc/station_sota
   repository: https://github.com/dualverse-ai/station
 
 info:

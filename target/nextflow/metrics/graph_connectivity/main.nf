@@ -3480,7 +3480,7 @@ meta = [
     "engine" : "docker",
     "output" : "target/nextflow/metrics/graph_connectivity",
     "viash_version" : "0.9.4",
-    "git_commit" : "4c4f3d68bcbcb84cce8417d453509e18b580b941",
+    "git_commit" : "e49dfa34cd0463ddb2be357502f3ad1d5c72edce",
     "git_remote" : "https://github.com/openproblems-bio/task_batch_integration"
   },
   "package_config" : {
