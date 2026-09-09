@@ -18,9 +18,9 @@ description: |
   Especially in consortia such as the Human Cell Atlas, individual studies combine data from multiple labs, each sequencing multiple individuals possibly with different technologies.
   This gives rise to complex batch effects in the data that must be computationally removed to perform a joint analysis.
   These batch integration methods must remove the batch effect while not removing relevant biological information.
-  Currently, over 200 tools exist that aim to remove batch effects scRNA-seq datasets [@zappia2018exploring].
+  Currently, over 200 tools exist that aim to remove batch effects scRNA-seq datasets [10.1371/journal.pcbi.1006245].
   These methods balance the removal of batch effects with the conservation of nuanced biological information in different ways.
-  This abundance of tools has complicated batch integration method choice, leading to several benchmarks on this topic [@luecken2022benchmarking; @tran2020benchmark; @chazarragil2021flexible; @mereu2020benchmarking].
+  This abundance of tools has complicated batch integration method choice, leading to several benchmarks on this topic [10.1038/s41592-021-01336-8; 10.1186/s13059-019-1850-9; 10.1093/nar/gkab004; 10.1038/s41587-020-0469-4].
   Yet, benchmarks use different metrics, method implementations and datasets. Here we build a living benchmarking task for batch integration methods with the vision of improving the consistency of method evaluation.
 
   In this task we evaluate batch integration methods on their ability to remove batch effects in the data while conserving variation attributed to biological effects.
