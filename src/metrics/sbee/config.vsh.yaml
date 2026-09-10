@@ -1,0 +1,76 @@
+# The API specifies which type of component this is.
+# It contains specifications for:
+#   - The input/output files
+#   - Common parameters
+#   - A unit test
+__merge__: ../../api/comp_metric.yaml
+
+# A unique identifier for your component (required).
+# Can contain only lowercase letters or underscores.
+name: sbee
+
+
+
+# Metadata for your component
+info:
+  metrics:
+      # A unique identifier for your metric (required).
+      # Can contain only lowercase letters or underscores.
+    - name: sbee
+      # A relatively short label, used when rendering visualisarions (required)
+      label: sBEE
+      # A one sentence summary of how this metric works (required). Used when 
+      # rendering summary tables.
+      summary: "A unified metric that jointly evaluates cross-batch distance relationships and local neighborhood batch composition."
+      # A multi-line description of how this component works (required). Used
+      # when rendering reference documentation.
+      description: |
+        sBEE (single-cell Batch Effect Evaluator) is a per-cell batch integration metric that produces scores in [0, 1], where higher values indicate better batch mixing.
+        It combines two components via their harmonic mean.
+        
+        Distance component checks whether a cell is geometrically closer to same-type cells from other batches than to same-type cells from its own batch.
+        When the ratio of intra-batch to inter-batch distance is 1 or above, the component is set to 1 (no penalty).
+        When the ratio is below 1, a penalty is applied that grows with the degree of separation.
+        Cells whose cell type appears in only one batch are assigned a perfect score, as batch correction is not applicable there.
+        
+        Neighborhood composition component checks whether the local batch composition around a cell matches the global batch distribution for that cell type.
+        It compares batch proportions among same-type cells in the k-nearest neighborhood against global proportions using Jensen-Shannon distance. Smaller divergence gives a higher score.
+        
+        The two components are combined via harmonic mean. A low score on either component pulls the overall score down.
+        Cell-type scores are computed by macro-averaging across batches so that each batch contributes equally regardless of its size.
+
+      references:
+        doi: 
+          - 10.64898/2026.04.22.720135
+          
+      links:
+        # URL to the documentation for this metric (required).
+        documentation: https://github.com/tastanlab/sBEE
+        # URL to the code repository for this metric (required).
+        repository: https://github.com/tastanlab/sBEE
+      # The minimum possible value for this metric (required)
+      min: 0
+      # The maximum possible value for this metric (required)
+      max: 1
+      # Whether a higher value represents a 'better' solution (required)
+      maximize: true
+
+# Resources required to run the component
+resources:
+  # The script of your component (required)
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+
+engines:
+  # Specifications for the Docker image for this component.
+  - type: docker
+    image: openproblems/base_python:1.0.0
+
+runners:
+  # This platform allows running the component natively
+  - type: executable
+  # Allows turning the component into a Nextflow module / pipeline.
+  - type: nextflow
+    directives:
+      label: [midtime,midmem,midcpu]
