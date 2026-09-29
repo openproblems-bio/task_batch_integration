@@ -1,0 +1,14 @@
+/resources
+/resources_test
+/work
+/.nextflow*
+
+.DS_Store
+/output
+trace-*
+.ipynb_checkpoints
+__pycache__
+.Rproj.user
+.Rhistory
+*.Rproj
+.vscode/
