@@ -49,6 +49,8 @@
 
 ## Bug fixes
 
+* Expose `methods/scgpt_finetuned`'s epochs and batch size as arguments, preserving defaults of 15 and 64.
+    Batch size also applies to validation and embedding (issue #111).
 * Update scPRINT to use latest stable version (PR #70)
 * Fix kbet dependencies to numpy<2 and scipy<=1.13 (PR #78).
 * Fix `render_readme` crashing on `comp_process_integration.yaml`'s absolute `__merge__` paths.

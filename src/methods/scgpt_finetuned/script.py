@@ -24,6 +24,8 @@ par = {
     "model_name": "scGPT_human",
     "model": "scGPT_human",
     "n_hvg": 3000,
+    "epochs": 15,
+    "batch_size": 64,
 }
 meta = {"name": "scgpt"}
 ## VIASH END
@@ -221,9 +223,9 @@ hyperparameters = {
     "ecs_thres": 0.8,  # Elastic cell similarity objective, 0.0 to 1.0, 0.0 to disable
     "dab_weight": 1.0,  # DAR objective weight for batch correction
     "mask_ratio": 0.4,
-    "epochs": 15,
+    "epochs": par["epochs"],
     "lr": 1e-4,
-    "batch_size": 64,
+    "batch_size": par["batch_size"],
     "dropout": 0.2,
     "schedule_ratio": 0.9,  # Learning rate decay
     "log_interval": 100,
@@ -364,7 +366,7 @@ embedded = scgpt.tasks.embed_data(
     adata,
     best_model_dir.name,
     gene_col="feature_name",
-    batch_size=64,
+    batch_size=par["batch_size"],
     use_fast_transformer=False,  # Disable fast-attn as not installed
     device=device,
     return_new_adata=True,
