@@ -39,6 +39,8 @@
 
 ## Minor changes
 
+* Expose `methods/scgpt_finetuned`'s epochs and batch size as arguments, preserving defaults of 15 and 64.
+    Batch size also applies to validation and embedding (issue #111).
 * Un-pin the scPRINT version and update parameters (PR #51)
 * Update scPRINT to better handle large datasets, including a new default model (PR #54)
 * Credit contributors missing from the authors list, and fix Martin Kim's orcid (PR #100).
@@ -49,8 +51,6 @@
 
 ## Bug fixes
 
-* Expose `methods/scgpt_finetuned`'s epochs and batch size as arguments, preserving defaults of 15 and 64.
-    Batch size also applies to validation and embedding (issue #111).
 * Update scPRINT to use latest stable version (PR #70)
 * Fix kbet dependencies to numpy<2 and scipy<=1.13 (PR #78).
 * Fix `render_readme` crashing on `comp_process_integration.yaml`'s absolute `__merge__` paths.
