@@ -38,6 +38,20 @@ arguments:
     type: integer
     default: 3000
     description: Number of highly variable genes to use.
+  - name: --epochs
+    type: integer
+    default: 15
+    min: 1
+    description: Number of fine-tuning epochs.
+    info:
+      test_default: 2
+  - name: --batch_size
+    type: integer
+    default: 64
+    min: 1
+    description: Batch size for fine-tuning, validation and embedding.
+    info:
+      test_default: 4
 
 resources:
   - type: python_script
