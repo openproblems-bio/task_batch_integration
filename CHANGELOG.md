@@ -2,6 +2,11 @@
 
 ## New functionality
 
+* Added `methods/bernn` (Batch Effect Removal Neural Network).
+    - Adds a neural-network-based integration method designed to reduce batch effects
+      while preserving biological information using cell type labels.
+    - Registers BERNN in the batch integration benchmark workflow.
+
 * Added `metrics/kbet_pg` and `metrics/kbet_pg_label` components (PR #52).
 * Add `methods/ss_stacas` new method (PR #59).
     - Add semi-supervised version of STACAS tool for integration of single-cell transcriptomics data. This functionality leverages partial or imperfect knowledge of cell identity to improve integration quality by preserving biological variation while correcting for batch effects.

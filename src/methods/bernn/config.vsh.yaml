@@ -1,0 +1,81 @@
+__merge__: /src/api/comp_method.yaml
+name: bernn
+label: BERNN
+summary: Batch Effect Removal Neural Network using supervised biological labels and batch domains.
+description: |
+  BERNN (Batch Effect Removal Neural Network) is a modality-agnostic
+  deep learning framework combining supervised classification with
+  unsupervised representation learning to reduce batch effects while
+  preserving predictive information. Originally developed using
+  LC-MS proteomics data, BERNN learns a low-dimensional representation
+  through autoencoder reconstruction and classification objectives.
+  It can be applied across data modalities when batch assignments
+  and classification targets are available. In this benchmark,
+  cell types serve as classification targets.
+references:
+  doi: 10.1038/s41467-024-48177-5
+links:
+  repository: https://github.com/spell00/BERNN_MSMS
+  documentation: https://pypi.org/project/bernn/
+info:
+  method_types: [embedding]
+  preferred_normalization: log_cp10k
+  variants:
+    bernn_default:
+arguments:
+  - name: --n_hvg
+    type: integer
+    default: 2000
+    description: Number of highly variable genes to use.
+  - name: --n_epochs
+    type: integer
+    default: 200
+    description: Maximum number of BERNN training epochs.
+    info:
+      test_default: 10
+  - name: --warmup
+    type: integer
+    default: 50
+    description: Number of unsupervised warmup epochs.
+    info:
+      test_default: 5
+  - name: --early_stop
+    type: integer
+    default: 5
+    description: Stop joint BERNN training after this many epochs without improvement.
+  - name: --early_warmup_stop
+    type: integer
+    default: 5
+    description: Stop BERNN warmup after this many epochs without improvement.
+  - name: --batch_size
+    type: integer
+    default: 1024
+    description: Training batch size used by the selected OpenProblems BERNN configuration.
+  - name: --n_layers
+    type: integer
+    default: 2
+    description: Number of hidden layers.
+  - name: --layer1
+    type: integer
+    default: 512
+    description: Width of the first hidden layer.
+  - name: --dloss
+    type: string
+    default: inverseTriplet
+    choices: [inverseTriplet, revTriplet, DANN, revDANN, normae, no]
+    description: Batch-effect loss used by BERNN.
+resources:
+  - type: python_script
+    path: script.py
+  - path: /src/utils/read_anndata_partial.py
+engines:
+  - type: docker
+    image: openproblems/base_pytorch_nvidia:1
+    setup:
+      - type: docker
+        run: pip install --no-cache-dir tensorboardX scikit-optimize shapely && pip install --no-cache-dir --no-deps git+https://github.com/spell00/BERNN_MSMS.git@897c194d3a58f6ab529cc0e6afd4117a813a2a65
+runners:
+  - type: executable
+  - type: nextflow
+    directives:
+      label: [veryhightime, midmem, lowcpu, gpu]

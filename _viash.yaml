@@ -46,6 +46,11 @@ info:
       dest: resources_test/task_batch_integration
 
 authors:
+  - name: Simon Pelletier
+    roles: [contributor]
+    info:
+      github: spell00
+      orcid: "0000-0003-2515-1633"
   - name: Michaela Mueller
     roles: [ maintainer, author ]
     info:

@@ -19,6 +19,7 @@ methods = [
   batchelor_fastmnn,
   batchelor_mnn_correct,
   bbknn,
+  bernn,
   cellplm.run(
     args: [model: file("s3://openproblems-work/cache/cellplm-ckpt.zip")]
   ),
