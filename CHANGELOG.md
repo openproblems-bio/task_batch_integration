@@ -49,6 +49,7 @@
 
 ## Bug fixes
 
+* Fixed broken documentation and repository links in `methods/combat` (#12).
 * Update scPRINT to use latest stable version (PR #70)
 * Fix kbet dependencies to numpy<2 and scipy<=1.13 (PR #78).
 * Fix `render_readme` crashing on `comp_process_integration.yaml`'s absolute `__merge__` paths.

@@ -13,8 +13,8 @@ description: |
 references:
   doi: 10.1093/biostatistics/kxj037
 links:
-  repository: https://scanpy.readthedocs.io/en/stable/api/scanpy.pp.combat.html
-  documentation: https://scanpy.readthedocs.io/en/stable/api/scanpy.pp.combat.html
+  repository: https://github.com/scverse/scanpy
+  documentation: https://scanpy.readthedocs.io/en/stable/api/generated/scanpy.pp.combat.html
 info:
   method_types: [feature]
   preferred_normalization: log_cp10k
